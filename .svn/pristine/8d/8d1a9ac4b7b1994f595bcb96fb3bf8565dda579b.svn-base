@@ -1,0 +1,127 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.funciones;
+
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import control.logica.clases.CGrupoLaboral;
+import control.logica.clases.CTipoAusencia;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CFGrupoLabora {
+
+    public static boolean insertar(CGrupoLaboral grupoLaboral) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_insert_grupo_laboral(?,?,?)";
+            lstP.add(new Parametro(1, grupoLaboral.getStrNombre()));
+            lstP.add(new Parametro(2, grupoLaboral.getStrDescripcion()));
+            lstP.add(new Parametro(3, 1));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true")) {
+                    eje = true;
+                }
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+
+    public static boolean actualizar(CGrupoLaboral grupoLaboral) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_update_grupo_laboral(?,?,?,?)";
+            lstP.add(new Parametro(1, grupoLaboral.getStrNombre()));
+            lstP.add(new Parametro(2, grupoLaboral.getStrDescripcion()));
+            lstP.add(new Parametro(3, grupoLaboral.getIntEstado()));
+            lstP.add(new Parametro(4, grupoLaboral.getIntCodigo()));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true")) {
+                    eje = true;
+                }
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+
+    public static boolean eliminar(int codigo) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_delete_grupo_laboral(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true")) {
+                    eje = true;
+                }
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+
+    public static ArrayList<CGrupoLaboral> llenarGrupoLaboral(ConjuntoResultado rs) throws Exception {
+        ArrayList<CGrupoLaboral> lst = new ArrayList<CGrupoLaboral>();
+        CGrupoLaboral grupoLaboral = null;
+        try {
+            while (rs.next()) {
+                grupoLaboral = new CGrupoLaboral(rs.getInt("pcodigo"),
+                        rs.getString("pnombre"),
+                        rs.getString("pdescripcion"),
+                        rs.getInt("pestado"));
+                lst.add(grupoLaboral);
+            }
+        } catch (Exception e) {
+            lst.clear();
+            throw e;
+        }
+        return lst;
+    }
+
+    public static CGrupoLaboral obtenerGrupoLaboralDadoCodigo(int codigo) throws Exception {
+        CGrupoLaboral lst;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_select_grupo_laboral_dado_codigo(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = new CGrupoLaboral();
+            lst = llenarGrupoLaboral(rs).get(0);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+
+    public static ArrayList<CGrupoLaboral> obtenerGruposLaborales() throws Exception {
+        ArrayList<CGrupoLaboral> lst = new ArrayList<CGrupoLaboral>();
+        try {
+            String sql = "select * from control.f_select_grupos_laborales()";
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
+            lst = llenarGrupoLaboral(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+}

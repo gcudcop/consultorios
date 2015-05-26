@@ -1,0 +1,94 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package control.logica.clases;
+
+import informacion.logica.clases.CRelacionDependencia;
+import java.sql.Date;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CAsignacionJornada {
+  private long lgCodigo;
+  private CRelacionDependencia objCodigoRelacionDependencia;
+  private CTipoJornada objCodigoTipoJornada;
+  private CCalendario objCodigoCalendario;
+  private int intEstado;
+  private String strObservacion;
+  private java.sql.Date dtfecha;
+
+    public CAsignacionJornada() {
+    }
+
+    public CAsignacionJornada(long lgCodigo, CRelacionDependencia objCodigoRelacionDependencia, CTipoJornada objCodigoTipoJornada, CCalendario objCodigoCalendario, int intEstado, String strObservacion, Date dtfecha) {
+        this.lgCodigo = lgCodigo;
+        this.objCodigoRelacionDependencia = objCodigoRelacionDependencia;
+        this.objCodigoTipoJornada = objCodigoTipoJornada;
+        this.objCodigoCalendario = objCodigoCalendario;
+        this.intEstado = intEstado;
+        this.strObservacion = strObservacion;
+        this.dtfecha = dtfecha;
+    }
+
+    public long getLgCodigo() {
+        return lgCodigo;
+    }
+
+    public void setLgCodigo(long lgCodigo) {
+        this.lgCodigo = lgCodigo;
+    }
+
+    public CRelacionDependencia getObjCodigoRelacionDependencia() {
+        return objCodigoRelacionDependencia;
+    }
+
+    public void setObjCodigoRelacionDependencia(CRelacionDependencia objCodigoRelacionDependencia) {
+        this.objCodigoRelacionDependencia = objCodigoRelacionDependencia;
+    }
+
+    public CTipoJornada getObjCodigoTipoJornada() {
+        return objCodigoTipoJornada;
+    }
+
+    public void setObjCodigoTipoJornada(CTipoJornada objCodigoTipoJornada) {
+        this.objCodigoTipoJornada = objCodigoTipoJornada;
+    }
+
+    public CCalendario getObjCodigoCalendario() {
+        return objCodigoCalendario;
+    }
+
+    public void setObjCodigoCalendario(CCalendario objCodigoCalendario) {
+        this.objCodigoCalendario = objCodigoCalendario;
+    }
+
+    public int getIntEstado() {
+        return intEstado;
+    }
+
+    public void setIntEstado(int intEstado) {
+        this.intEstado = intEstado;
+    }
+
+    public String getStrObservacion() {
+        return strObservacion;
+    }
+
+    public void setStrObservacion(String strObservacion) {
+        this.strObservacion = strObservacion;
+    }
+
+    public Date getDtfecha() {
+        return dtfecha;
+    }
+
+    public void setDtfecha(Date dtfecha) {
+        this.dtfecha = dtfecha;
+    }
+  
+}

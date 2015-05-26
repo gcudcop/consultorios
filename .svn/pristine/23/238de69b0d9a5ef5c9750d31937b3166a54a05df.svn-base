@@ -1,0 +1,26 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package informacion.logica.clases;
+
+import java.sql.Date;
+import master.logica.clases.Persona;
+
+
+/**
+ *
+ * @author Javier
+ */
+public class CRelacionDependencia {
+    
+    private int intEstado;
+    private String strCodigoBiometrico;
+    private Date dtFechaInicio;
+    private Date dtFechaFin;
+    private boolean blTieneFechaFin;
+    private Persona objCodigoPersona;
+//    private CDependencia objCodigoDepencia;
+    
+    //  codigo_tipo_relacion_dependencia integer, campo faltante
+}

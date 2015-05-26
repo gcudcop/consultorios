@@ -3,12 +3,12 @@
 
 # Standar para todas las BD
 driver = org.postgresql.Driver
+#user = radius
+#password = saweDesitel2010
 user = postgres
-password = Edison1803-
+password = postgres
 #Cadena conexion para cada BD
 #url= jdbc:postgresql://192.168.113.49:5432/gconv0_db
-#url= jdbc:postgresql://190.152.181.70:5432/candelaria_bd
-url= jdbc:postgresql://localhost:5433/candelaria_bd
+#url= jdbc:postgresql://190.15.135.169:5432/gconv0_db
+url= jdbc:postgresql://186.42.198.162:5432/nemesis
 #url= jdbc:postgresql://localhost:5445/nemesis
-#jdni = jdbc/nemesis
-jdni = jdbc/nemesis

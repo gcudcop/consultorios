@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>
+            <ui:define name="tituloNavegador">
+                Gestión de Personas
+            </ui:define>
+        </title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../../templates/plantillaInternaCenter.xhtml">
+            <ui:define name="top">
+                Gestión de Personas
+            </ui:define>
+            <ui:define name="contenido">
+                <p:growl id="mensajes" autoUpdate="true" showDetail="true"/>
+                <h:form id="frmTablaPersonas">
+                    
+                    <p:dataTable id="tblTablaPersonas" value="#{gestionPersonaC.lstPersonas}" var="persona" paginator="true" rows="10"
+                                 draggableColumns="false" rowKey="#{persona.lgCodigoPersona}" selectionMode="single" 
+                                 selection="#{gestionPersonaC.personaSel}">
+                        <p:column headerText="Apellido">
+                            <h:outputText value="#{persona.strApellidos}"/>
+                        </p:column>
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{persona.strNombres}"/>
+                        </p:column>
+                        <p:column headerText="Cédula">
+                            <h:outputText value="#{persona.strIdentificacion}"/>
+                        </p:column>
+                        <p:column headerText="Email">
+                            <h:outputText value="#{persona.strMail}"/>
+                        </p:column>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Nuevo" icon="ui-icon-newwin"
+                                             update=":frmAgregarPersona:pngAgregarPersona" oncomplete="wdlgAgregarPersona.show()"
+                                             title="Agregar Usuario"/> 
+                            <p:commandButton value="Editar" icon="ui-icon-pencil"
+                                             update=":frmEditarPersona:pngEditarPersona" oncomplete="wdlgEditarPersona.show()"
+                                             title="Editar Persona"/>
+                            <p:commandButton value="Eliminar" icon="ui-icon-trash"
+                                                 update=":frmEliminarPersona:pngEliminarPersona" oncomplete="wdlgEliminarPersona.show()"
+                                                 title="Eliminar Persona"/>
+
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+            </ui:define>
+            <ui:define name="dialogos">
+                <p:dialog id="dlgAgregarPersona" header="Agregar Persona" widgetVar="wdlgAgregarPersona" modal="true" closable="false" 
+                          resizable="false"
+                          showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmAgregarPersona">
+
+                        <p:panelGrid id="pngAgregarPersona" columns="4">
+                            
+                         <h:outputText value="Nombres:"/>
+                            <p:inputText value="#{gestionPersonaC.objPersona.strNombres}" />
+                           
+                            <h:outputText value="Apellidos:"/>
+                            <p:inputText value="#{gestionPersonaC.objPersona.strApellidos}" />
+                            
+                            <h:outputText value="Cédula:"/>
+                            <p:inputText value="#{gestionPersonaC.objPersona.strIdentificacion}" />
+                            
+                            <h:outputText value="Tipo Identificacion:"/>
+                            <p:inputText value="#{gestionPersonaC.objPersona.strIdentificacion}" />
+                            
+                            <h:outputText value="E-mail"/>
+                            <p:inputText value="#{gestionPersonaC.objPersona.strMail}" />
+                            
+                            <h:outputText value="Telefono Domicilio:"/>
+                             <p:inputText value="#{gestionPersonaC.objPersona.strTelefonoCasa}" />
+                            
+                             <h:outputText value="Telefono Oficina:"/>
+                             <p:inputText value="#{gestionPersonaC.objPersona.strTelefonoOficina}" />
+                             
+                             <h:outputText value="Celular:"/>
+                             <p:inputText value="#{gestionPersonaC.objPersona.strTelefonoCelular}" />
+                             
+                             <h:outputText value="Fecha Nacimiento:"/>
+                             <p:calendar id="dnn" value="#{gestionPersonaC.objPersona.dtFechaNacimiento}" mode="popup" pattern="yyyy/MM/dd" size="17">
+                                    <f:convertDateTime pattern="yyyy/MM/dd" timeZone="GMT+5" />
+                                </p:calendar>
+                             
+                             <h:outputText value="Capacidades:"/>
+                             <p:selectOneRadio  value="#{gestionPersonaC.objPersona.blCapacidadesDiferentes}" id="Capacidades">  
+                                       <f:selectItem itemLabel="Si" itemValue="true" />  
+                                <f:selectItem itemLabel="No" itemValue="false" />  
+                                
+                              </p:selectOneRadio>
+                             
+                             <h:outputText value="Dir. Calle Principal:"/>
+                             <p:inputText value="#{gestionPersonaC.objPersona.strDirCallePrincipal}" />
+                             
+                             <h:outputText value="Dir. Calle Trans:"/>
+                             <p:inputText value="#{gestionPersonaC.objPersona.strDirCalleTrans}" />
+                             
+                              <h:outputText value="Dir. Número:"/>
+                              <p:inputText value="#{gestionPersonaC.objPersona.strDirNumero}" />
+                             
+                              <h:outputText value="Dir. Referencia:"/>
+                              <p:inputText value="#{gestionPersonaC.objPersona.strDirReferencia}" />
+                            
+                                                            
+                             <h:outputText value="Pais:"/>
+                             <p:selectOneMenu id="cmbPais" value="#{gestionParroquiaC.parroquiaActual.paCodigo}" required="true" 
+                                        style="width:200px"
+                                         requiredMessage="Seleccione un pais" >  
+                                <f:selectItem itemLabel="Seleccione un pais " itemValue="#{null}" />  
+                                <f:selectItems value="#{gestionPaisC.lstPais}" var="pais" itemLabel="#{pais.nombre}" itemValue="#{pais.lgCodigo}" />                             
+                                <p:ajax event="change" listener="#{gestionParroquiaC.cargarProvincias()}" update="cbocanton"/>
+                            </p:selectOneMenu> 
+                             
+                              <h:outputText value="Provincia:"/>
+                              <p:selectOneMenu id="cbocanton" value="#{gestionParroquiaC.parroquiaActual.proCodigo}" required="true" 
+                                        style="width:200px"
+                                         requiredMessage="Seleccione provincia" >  
+                            <f:selectItem itemLabel="Seleccione una provincia " itemValue="#{null}" />  
+                            <f:selectItems value="#{gestionParroquiaC.provincias}" var="pro" itemLabel="#{pro.strNombre}" itemValue="#{pro.lgCodigo}" />                             
+                            <p:ajax event="change" listener="#{gestionParroquiaC.cargaCiudad()}" update="cboCiudad"/>
+                         </p:selectOneMenu> 
+                      
+                        
+                          <h:outputText value="Canton:"/>
+                          <p:selectOneMenu id="cboCiudad" value="#{gestionParroquiaC.parroquiaActual.ciuCodigo}" required="true" 
+                                        style="width:200px"
+                                         requiredMessage="Seleccione Cantón" >  
+                            <f:selectItem itemLabel="Seleccione un Cantón " itemValue="#{null}" />  
+                            <f:selectItems value="#{gestionParroquiaC.cantones}" var="can" itemLabel="#{can.strNombre}" itemValue="#{can.lgCodigo}" />                             
+                            <p:ajax event="change" listener="#{gestionParroquiaC.cargaParroquiasCiudad()}" update="cboParr"/>
+                         </p:selectOneMenu> 
+                       
+                        <h:outputText value="Parroquia:"/>
+                        <p:selectOneMenu id="cboParr" value="#{gestionPersonaC.objParroquia.lgCodigo}" required="true" 
+                                        style="width:200px"
+                                         requiredMessage="Seleccione Parroquia" >  
+                            <f:selectItem itemLabel="Seleccione una Parroquia " itemValue="#{null}" />  
+                            <f:selectItems value="#{gestionParroquiaC.lstParroquias1}" var="par" itemLabel="#{par.strNombre}" itemValue="#{par.lgCodigo}" />                             
+                            <!--<p:ajax event="change" listener="#gestionParroquiaC.cargarProvincias()}" update="cbocanton"/>-->
+                         </p:selectOneMenu> 
+                       
+                        <h:outputText value="Tipo Sangre:"/>
+                        <p:selectOneMenu id="cboTs" value="#{gestionPersonaC.objTipoSangre.lgCodigo}" required="true" 
+                                        style="width:200px"
+                                         requiredMessage="Seleccione Tipo Sangre" >  
+                            <f:selectItem itemLabel="Seleccione Tipo Sangre" itemValue="#{null}" />  
+                            <f:selectItems value="#{gestionTipoSangreC.lstTipoSangres}" var="tps" itemLabel="#{tps.strNombre}" itemValue="#{tps.lgCodigo}" />                             
+                           
+                         </p:selectOneMenu> 
+                        
+                        <h:outputText value="Estado Civil:"/>
+                        <p:selectOneMenu id="cboEc" value="#{gestionPersonaC.objEstCivil.lgCodigo}" required="true" 
+                                        style="width:200px"
+                                         requiredMessage="Seleccione Estado Civil" >  
+                            <f:selectItem itemLabel="Seleccione Estado Civil" itemValue="#{null}" />  
+                            <f:selectItems value="#{gestionEstadoCivilC.lstEstadoCivil}" var="ec" itemLabel="#{ec.strNombre}" itemValue="#{ec.lgCodigo}" />                             
+                           
+                         </p:selectOneMenu> 
+                        
+                        <h:outputText value="Etnia:"/>
+                        <p:selectOneMenu id="cboEt" value="#{gestionPersonaC.objEtnia.lgCodigo}" required="true" 
+                                        style="width:200px"
+                                         requiredMessage="Seleccione Etnia" >  
+                            <f:selectItem itemLabel="Seleccione Etnia" itemValue="#{null}" />  
+                            <f:selectItems value="#{gestionEtniaC.lsEtnia}" var="et" itemLabel="#{et.strNombre}" itemValue="#{et.lgCodigo}" />                             
+                           
+                         </p:selectOneMenu> 
+                        
+                        <h:outputText value="Genero:"/>
+                        <p:selectOneMenu id="cboGn" value="#{gestionPersonaC.objGenero.lgCodigo}" required="true" 
+                                        style="width:200px"
+                                         requiredMessage="Seleccione Etnia" >  
+                            <f:selectItem itemLabel="Seleccione Etnia" itemValue="#{null}" />  
+                            <f:selectItems value="#{gestionGeneroC.lstGenero}" var="gr" itemLabel="#{gr.strNombre}" itemValue="#{gr.lgCodigo}" />                             
+                           
+                         </p:selectOneMenu> 
+                                                                     
+                            
+                            <h:outputText value="Dependencia:"/>
+                            <p:selectOneMenu id="cboDp" value="#{gestionPersonaC.objDependenciaSel.lgCodigo}" required="true" 
+                                        style="width:200px"
+                                         requiredMessage="Seleccione Dependencia" >  
+                            <f:selectItem itemLabel="Seleccione Dependencia" itemValue="#{null}" />  
+                            <f:selectItems value="#{gestionDependenciaC.lstDependencia}" var="dp" itemLabel="#{dp.strNombre}" itemValue="#{dp.lgCodigo}" />                             
+                          </p:selectOneMenu> 
+                            
+                           
+                              <h:outputText value="Fecha Ingreso:"/>
+                              <p:calendar id="dIni" value="#{gestionPersonaC.objCRelacionDependencia.dtFechaInicio}" mode="popup" pattern="yyyy/MM/dd" size="17">
+                                    <f:convertDateTime pattern="yyyy/MM/dd" timeZone="GMT+5" />
+                                </p:calendar>
+                              
+                              <h:outputText value="Fecha Fin:"/>
+                              <p:calendar id="dfin" value="#{gestionPersonaC.objCRelacionDependencia.dtFechaFin}" mode="popup" pattern="yyyy/MM/dd" size="17">
+                                    <f:convertDateTime pattern="yyyy/MM/dd" timeZone="GMT+5" />
+                                </p:calendar>
+                              
+                              <h:outputText value="Tiene Fin:"/>
+                              <p:selectOneRadio id="options" value="#{gestionPersonaC.objCRelacionDependencia.blTieneFechaFin}">  
+                                 <f:selectItem itemLabel="Si" itemValue="true" />  
+                                <f:selectItem itemLabel="No" itemValue="false" />  
+                               
+                              </p:selectOneRadio>  
+                              
+                              <h:outputText value="Codigo Biometrico:"/>
+                              <p:inputText value="#{gestionPersonaC.objCRelacionDependencia.strCodigoBiometrico}" />
+                             
+                                                     
+                               <h:outputText value="Cargo Administrativo:"/>
+                                                                                  
+                               <p:selectOneMenu id="cboCar" value="#{gestionPersonaC.objCargoAdministrativoSel.lgCodigo}" required="true" 
+                                        style="width:200px"
+                                         requiredMessage="Seleccione Cargo Administrativo" >  
+                                <f:selectItem itemLabel="Seleccione Cargo Administrativo" itemValue="#{null}" />  
+                                <f:selectItems value="#{gestionCargoAdministrativoC.lstCargoAdministrativos}" var="ca" itemLabel="#{ca.strNombre}" itemValue="#{ca.lgCodigo}" />                             
+                            </p:selectOneMenu> 
+                            
+                        </p:panelGrid>
+                              
+                                                 
+                        <p:commandButton value="Aceptar" action="#{gestionPersonaC.insertarPersona()}" 
+                                         update=":frmTablaPersonas:tblTablaPersonas" process="@form"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgAgregarPersona.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+
+
+                <p:dialog id="dlgEditarPersona" header="Edita Usuario" widgetVar="wdlgEditarPersona" modal="true" closable="false" 
+                          resizable="false"
+                          showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEditarPersona">
+                        <p:panelGrid id="pngEditarPersona" columns="2">
+                           
+                        </p:panelGrid>
+                        <p:commandButton value="Aceptar" action="#{gestionPersonaC.actualizarPersona}" 
+                                         update=":frmTablaPersonas:tblTablaPersonas" process="@form"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgEditarPersona.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+                <p:dialog id="dlgEliminarPersona" header="Elimina Persona" widgetVar="wdlgEliminarPersona" modal="true" closable="false" 
+                          resizable="false"
+                          showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEliminarPersona">
+                        
+                        <h:outputText value="¿Desea Eliminar la Persona?"/>
+                        <p:panelGrid id="pngEliminarPersona" columns="2">
+                           
+                        </p:panelGrid>
+                        <p:commandButton value="Aceptar" action="#{gestionPersonaC.eliminarPersona()}" 
+                                         update=":frmTablaPersonas:tblTablaPersonas"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgEliminarPersona.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+            </ui:define>
+        </ui:composition>  
+    </h:body>
+>>>>>>> .r8
+   
+</html>

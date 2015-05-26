@@ -1,0 +1,150 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.funciones;
+
+import accesodatos.AccesoDatos;
+import accesodatos.Conexion;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import control.logica.clases.CAusenciaTemporal;
+import control.logica.clases.CDetalleAusenciasTemporales;
+import control.logica.clases.CDetalleHorasExtras;
+import informacion.logica.funciones.CFRelacionDependencia;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import recursos.Tools;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CFAusenciasTemporales {
+
+    public static ArrayList<CAusenciaTemporal> llenarAusenciasTemporales(ConjuntoResultado rs) throws Exception {
+        ArrayList<CAusenciaTemporal> lst = new ArrayList<CAusenciaTemporal>();
+        CAusenciaTemporal ausenciaTemporal = null;
+        try {
+            while (rs.next()) {
+                ausenciaTemporal = new CAusenciaTemporal(rs.getLong("pcodigo"),
+                        rs.getString("pjustificacion"),
+                        rs.getString("psolicitado_por"),
+                        rs.getTimeStamp("pfecha_solicitud"),
+                        rs.getString("pautorizado_por"),
+                        rs.getString("paprobado_por"),
+                        rs.getString("pobservacion"),
+                        rs.getInt("pestado"),
+                        CFTipoAusencia.obtenerTipoAusenciaDadoCodigo(rs.getInt("pcodigo_tipo_ausencia")),
+                        CFRelacionDependencia.obtenerRelacionDependenciaDadoCodigo(rs.getLong("pcodigo_relacion_dependencia")));
+                lst.add(ausenciaTemporal);
+            }
+        } catch (Exception e) {
+            lst.clear();
+            throw e;
+        }
+        return lst;
+    }
+
+    public static CAusenciaTemporal obtenerAusenciaTemporalDadoCodigo(long codigo) throws Exception {
+        CAusenciaTemporal lst;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_select_ausencia_temporal_dado_codigo(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = new CAusenciaTemporal();
+            lst = llenarAusenciasTemporales(rs).get(0);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+////////////////modificar
+    public static long insertar(CAusenciaTemporal ausenciaTemporal, ArrayList<CDetalleAusenciasTemporales> lstDetalleAusenciaTemporal) throws Exception {
+        long eje = -1;
+        long eje1 = -1;
+        long eje2 = -1;
+        Conexion con = new Conexion();
+        try {
+            if (con.getCon().getAutoCommit()) {
+                con.getCon().setAutoCommit(false);
+            }
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_insert_ausencia_temporal(?,?,?,?,?,?,?,?,?)";
+            lstP.add(new Parametro(1, ausenciaTemporal.getStrJustificacion()));
+            lstP.add(new Parametro(2, ausenciaTemporal.getStrSolicitadoPor()));
+            lstP.add(new Parametro(3, Tools.obtieneFechaActualSegundos()));
+            lstP.add(new Parametro(4, ausenciaTemporal.getStrAutorizadoPor()));
+            lstP.add(new Parametro(5, ausenciaTemporal.getStrAprobadoPor()));
+            lstP.add(new Parametro(6, ausenciaTemporal.getStrObservacion()));
+            lstP.add(new Parametro(7, 1));
+            lstP.add(new Parametro(8, ausenciaTemporal.getObjCodigoTipoAusencia().getIntCodigo()));
+            lstP.add(new Parametro(9, ausenciaTemporal.getObjCodigoRelacionDependencia().getLgCodigo()));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getLong(0) > 0) {
+                    eje = rs.getLong(0);
+                }
+            }
+            for (CDetalleAusenciasTemporales detalleAusencia : lstDetalleAusenciaTemporal) {
+                ArrayList<Parametro> lstP1 = new ArrayList<Parametro>();
+                String sql1 = "select * from control.f_insert_detalle_ausencia_temporal(?,?,?,?,?)";
+                lstP1.add(new Parametro(1, eje));
+                lstP1.add(new Parametro(2, detalleAusencia.getDtFecha_salida()));
+                lstP1.add(new Parametro(3, detalleAusencia.getTmHoraSalida()));
+                lstP1.add(new Parametro(4, detalleAusencia.getTmNumeroHoras()));
+                lstP1.add(new Parametro(5, detalleAusencia.getObjCodigoAsignacionJornada().getLgCodigo()));
+                ConjuntoResultado rs1 = AccesoDatos.ejecutaQuery(sql1, lstP1);
+                while (rs1.next()) {
+                    if (rs1.getLong(0) > 0) {
+                        eje1 = rs1.getLong(0);
+                    }
+                }
+            }
+            if ((eje > 0) && (eje1 == eje)) {
+                eje = eje1;
+            } else {
+                eje = -1;
+            }
+            con.getCon().commit();
+        } catch (SQLException exConec) {
+            con.getCon().rollback();
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+
+//    public static boolean actualizar(CAusenciaTemporal ausenciaTemporal) throws Exception {
+//        boolean eje = false;
+//        try {
+//            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+//            String sql = "select * from control.f_update_ausencia_temporal(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+//            lstP.add(new Parametro(1, ausenciaTemporal.getTmstmFechaSalida()));
+//            lstP.add(new Parametro(2, ausenciaTemporal.getTmstmFechaReintegro()));
+//            lstP.add(new Parametro(3, 0));
+//            lstP.add(new Parametro(4, ""));
+//            lstP.add(new Parametro(5, ausenciaTemporal.getStrJustificacion()));
+//            lstP.add(new Parametro(6, ausenciaTemporal.getStrSolicitadoPor()));
+//            lstP.add(new Parametro(7, Tools.obtieneFechaActualSegundos()));
+//            lstP.add(new Parametro(8, ausenciaTemporal.getStrAutorizadoPor()));
+//            lstP.add(new Parametro(9, ausenciaTemporal.getStrAprobadoPor()));
+//            lstP.add(new Parametro(10, ausenciaTemporal.getStrObservacion()));
+//            lstP.add(new Parametro(11, 1));
+//            lstP.add(new Parametro(12, ausenciaTemporal.getObjCodigoTipoAusencia().getIntCodigo()));
+//            lstP.add(new Parametro(13, ausenciaTemporal.getObjCodigoRelacionDependencia().getLgCodigo()));
+//            lstP.add(new Parametro(14, ausenciaTemporal.getLgCodigo()));
+//            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+//            while (rs.next()) {
+//                if (rs.getString(0).equals("true")) {
+//                    eje = true;
+//                }
+//            }
+//        } catch (SQLException exConec) {
+//            throw new Exception(exConec.getMessage());
+//        }
+//        return eje;
+//    }
+}

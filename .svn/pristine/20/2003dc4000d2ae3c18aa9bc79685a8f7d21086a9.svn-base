@@ -1,0 +1,71 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.clases;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CParametrizacion {
+
+    private int lgCodigo;
+    private String strNombre;
+    private String strDescripcion;
+    private double dblValor;
+    private String strValorCadena;
+
+    public CParametrizacion() {
+    }
+
+    public CParametrizacion(int lgCodigo, String strNombre, String strDescripcion, double dblValor, String strValorCadena) {
+        this.lgCodigo = lgCodigo;
+        this.strNombre = strNombre;
+        this.strDescripcion = strDescripcion;
+        this.dblValor = dblValor;
+        this.strValorCadena = strValorCadena;
+    }
+
+    public int getLgCodigo() {
+        return lgCodigo;
+    }
+
+    public void setLgCodigo(int lgCodigo) {
+        this.lgCodigo = lgCodigo;
+    }
+
+    public String getStrNombre() {
+        return strNombre;
+    }
+
+    public void setStrNombre(String strNombre) {
+        this.strNombre = strNombre;
+    }
+
+    public String getStrDescripcion() {
+        return strDescripcion;
+    }
+
+    public void setStrDescripcion(String strDescripcion) {
+        this.strDescripcion = strDescripcion;
+    }
+
+    public double getDblValor() {
+        return dblValor;
+    }
+
+    public void setDblValor(double dblValor) {
+        this.dblValor = dblValor;
+    }
+
+    public String getStrValorCadena() {
+        return strValorCadena;
+    }
+
+    public void setStrValorCadena(String strValorCadena) {
+        this.strValorCadena = strValorCadena;
+    }
+
+}

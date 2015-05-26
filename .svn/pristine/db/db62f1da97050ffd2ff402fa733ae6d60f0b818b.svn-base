@@ -1,0 +1,128 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.funciones;
+
+import accesodatos.AccesoDatos;
+import accesodatos.Conexion;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import control.logica.clases.CDetalleHorasExtras;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author Javier Romero
+ */
+public class CFDetalleHorasExtras {
+
+    public static ArrayList<CDetalleHorasExtras> llenarDetalleAusenciasTemporales(ConjuntoResultado rs) throws Exception {
+        ArrayList<CDetalleHorasExtras> lst = new ArrayList<CDetalleHorasExtras>();
+        CDetalleHorasExtras detalleHorasExtras = null;
+        try {
+            while (rs.next()) {
+                detalleHorasExtras = new CDetalleHorasExtras(rs.getLong(0),
+                        CFHorasExtras.obtenerHorasExtrasDadoCodigo(rs.getLong(1)),
+                        rs.getDate(2),
+                                rs.getTime(3),
+                        rs.getTime(4),
+                        rs.getTime(5),
+                        rs.getTime(6),
+                        rs.getString(7),
+                        rs.getInt(8));
+                
+                
+                lst.add(detalleHorasExtras);
+            }
+        } catch (Exception e) {
+            lst.clear();
+            throw e;
+        }
+        return lst;
+    }
+
+    public static CDetalleHorasExtras obtenerDetalleHorasExtrasDadoCodigo(long codigo) throws Exception {
+        CDetalleHorasExtras lst = new  CDetalleHorasExtras();
+         
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_select_detalle_horas_extras_dado_codigo(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+             lst = llenarDetalleAusenciasTemporales(rs).get(0);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+
+    public static ArrayList<CDetalleHorasExtras> obtenerDetalleHorasExtrasDadoCodigoHoraExtra(long codigo) throws Exception {
+        ArrayList<CDetalleHorasExtras> lst = new ArrayList<CDetalleHorasExtras>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_select_detalle_horas_extras_dado_codigo(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenarDetalleAusenciasTemporales(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+
+    public static boolean eliminar(long codigo) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_delete_detalle_horas_extras_por_codigo_hora_extra(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true")) {
+                    eje = true;
+                }
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+
+    public static long insertar(CDetalleHorasExtras detalleHorasExtras) throws Exception {
+        long eje1 = -1;
+        Conexion con = new Conexion();
+        try {
+            if (con.getCon().getAutoCommit()) {
+                con.getCon().setAutoCommit(false);
+            }
+
+            ArrayList<Parametro> lstP1 = new ArrayList<Parametro>();
+            String sql1 = "select * from control.f_insert_detalle_horas_extras(?,?,?,?,?,?,?,?)";
+            
+            lstP1.add(new Parametro(1, detalleHorasExtras.getObjCodigoHoraExtra().getLgCodigo()));
+            lstP1.add(new Parametro(2, detalleHorasExtras.getDtfecha()));
+            lstP1.add(new Parametro(3, detalleHorasExtras.getTmHoraEntrada()));
+            lstP1.add(new Parametro(4, detalleHorasExtras.getTmHoraSalida()));
+            lstP1.add(new Parametro(5, detalleHorasExtras.getTmHoraEntradaAlmuerzo()));
+            lstP1.add(new Parametro(6, detalleHorasExtras.getTmHoraSalidaAlmuerzo()));
+            lstP1.add(new Parametro(7, detalleHorasExtras.getStrObservacion()));
+            lstP1.add(new Parametro(7, detalleHorasExtras.getIntEstado()));
+            ConjuntoResultado rs1 = AccesoDatos.ejecutaQuery(sql1, lstP1);
+            while (rs1.next()) {
+                if (rs1.getLong(0) > 0) {
+                    eje1 = rs1.getLong(0);
+                }
+            }
+            con.getCon().commit();
+        } catch (SQLException exConec) {
+            con.getCon().rollback();
+            throw new Exception(exConec.getMessage());
+        }
+        return eje1;
+    }
+}

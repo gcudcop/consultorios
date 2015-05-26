@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <title>
+            <ui:define name="tituloNavegador">Gestión de Tipos de Ausencias</ui:define>
+        </title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../../templates/plantillaInternaCenter.xhtml">
+            <ui:define name="top">Gestión de Tipos de Ausencias</ui:define>
+            <ui:define name="contenido">
+                <p:growl id="grmensajes" autoUpdate="true"/>
+                <h:form id="frmTiposAusencia">
+                    <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                    <p:panel id="pnlTiposAusencia">
+                        <p:dataTable id="tblTipoAusencia" value="#{tiposAusenciaC.lstTiposAusencia}" var="tipoAusencia" paginator="true" rows="10"
+                                     rowKey="#{tipoAusencia.intCodigo}" selectionMode="single" selection="#{tiposAusenciaC.objTipoAusenciaSel}">
+                            <p:column filterBy="#{tipoAusencia.intCodigo}"  sortBy="#{tipoAusencia.intCodigo}" >
+                                <f:facet name="header">
+                                    <h:outputText value="Código"/>
+                                </f:facet>
+                                <h:outputText value="#{tipoAusencia.intCodigo}"/>
+                            </p:column>
+                            <p:column filterBy="#{tipoAusencia.strNombre}" filterMatchMode="startsWith" sortBy="#{tipoAusencia.strNombre}">
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre"/>
+                                </f:facet>
+                                <h:outputText value="#{tipoAusencia.strNombre}"/>
+                            </p:column>
+                            <p:column filterBy="#{tipoAusencia.strObservacion}" filterMatchMode="startsWith" sortBy="#{tipoAusencia.strObservacion}">
+                                <f:facet name="header">
+                                    <h:outputText value="Observación"/>
+                                </f:facet>
+                                <h:outputText value="#{tipoAusencia.strObservacion}"/>
+                            </p:column>                           
+                            <f:facet name="footer">  
+                                <p:commandButton id="btnNuevo" value="Nuevo" icon="ui-icon-newwin" 
+                                                 update=":frmTiposAusencia:pnlTiposAusencia" onclick="PF('wdgNuevo').show()" 
+                                                 title="Agregar Tipo de Ausencia" type="button" /> 
+                          <p:commandButton id="btnEliminar" value="Eliminar" icon="ui-icon-trash"
+                                                 update=":dlgEliminar" oncomplete="wdgEliminar.show()"
+                                                 title="Eliminar Acción"/>
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+            <ui:define name="dialogos">
+                <p:dialog id="dlgNuevo" header="Nuevo Tipo de Ausencia " widgetVar="wdgNuevo" modal="true" closable="false" resizable="false"
+                          showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmNuevo">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:panelGrid id="pngNuevo" columns="2">
+                            <h:outputText value="Nombre:"/>
+                            <p:inputText value="#{tiposAusenciaC.objTipoAusencia.strNombre}"/>
+                            <h:outputText value="Observación:"/>
+                            <p:inputText value="#{tiposAusenciaC.objTipoAusencia.strObservacion}"/>
+                        </p:panelGrid>
+                        <p:commandButton value="Aceptar" action="#{tiposAusenciaC.insertarTiposAusencia}" update=":frmTiposAusencia:pnlTiposAusencia"/>
+                        <p:commandButton value="Cancelar" onclick="wdgNuevo.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+
+
+                <p:dialog id="dlgEliminar" header="Alerta" widgetVar="wdgEliminar" modal="true" closable="false" resizable="false"
+                          showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEliminar">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <h:outputText value="¿Desea Eliminar el Tipo de Ausencia?"/>
+                        <p:panelGrid id="pngEliminar" columns="2">
+                            <h:outputText value="Código:"/>
+                            <h:outputText value="#{tiposAusenciaC.objTipoAusenciaSel.intCodigo}"/>
+                            <h:outputText value="Nombre:"/>
+                            <h:outputText value="#{tiposAusenciaC.objTipoAusenciaSel.strNombre}"/>
+                            <h:outputText value="Observación:"/>
+                            <h:outputText value="#{tiposAusenciaC.objTipoAusenciaSel.strObservacion}"/>
+                        </p:panelGrid>
+                        <p:commandButton value="Aceptar" action="#{tiposAusenciaC.eliminarTiposAusencia}" update=":frmTiposAusencia:pnlTiposAusencia"/>
+                        <p:commandButton value="Cancelar" onclick="wdgEliminar.hide()" type="reset"/>
+                    </h:form>
+                </p:dialog>
+
+                <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
+                          resizable="false"> 
+                    <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
+                </p:dialog>
+
+
+            </ui:define>
+
+        </ui:composition>
+    </h:body>
+</html>
+

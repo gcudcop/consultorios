@@ -1,0 +1,103 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.clases.consultas;
+
+import java.sql.Timestamp;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CAusenciasTemporalesConsulta {
+
+    private long lgCodigoAusenciaTemp;
+    private String strSolicitadoPor;
+    private String strAutorizadoPor;
+    private String strPersonaApellidos;
+    private String strPersonaNombres;
+    private String strNombreTipoAusencia;
+    private int intEstado;
+    private double dblDuracion;
+
+    public CAusenciasTemporalesConsulta() {
+    }
+
+    public CAusenciasTemporalesConsulta(long lgCodigoAusenciaTemp, String strSolicitadoPor, String strAutorizadoPor, String strPersonaApellidos, String strPersonaNombres, String strNombreTipoAusencia, int intEstado, double dblDuracion) {
+        this.lgCodigoAusenciaTemp = lgCodigoAusenciaTemp;
+        this.strSolicitadoPor = strSolicitadoPor;
+        this.strAutorizadoPor = strAutorizadoPor;
+        this.strPersonaApellidos = strPersonaApellidos;
+        this.strPersonaNombres = strPersonaNombres;
+        this.strNombreTipoAusencia = strNombreTipoAusencia;
+        this.intEstado = intEstado;
+        this.dblDuracion = dblDuracion;
+    }
+
+    public long getLgCodigoAusenciaTemp() {
+        return lgCodigoAusenciaTemp;
+    }
+
+    public void setLgCodigoAusenciaTemp(long lgCodigoAusenciaTemp) {
+        this.lgCodigoAusenciaTemp = lgCodigoAusenciaTemp;
+    }
+
+    public String getStrSolicitadoPor() {
+        return strSolicitadoPor;
+    }
+
+    public void setStrSolicitadoPor(String strSolicitadoPor) {
+        this.strSolicitadoPor = strSolicitadoPor;
+    }
+
+    public String getStrAutorizadoPor() {
+        return strAutorizadoPor;
+    }
+
+    public void setStrAutorizadoPor(String strAutorizadoPor) {
+        this.strAutorizadoPor = strAutorizadoPor;
+    }
+
+    public String getStrPersonaApellidos() {
+        return strPersonaApellidos;
+    }
+
+    public void setStrPersonaApellidos(String strPersonaApellidos) {
+        this.strPersonaApellidos = strPersonaApellidos;
+    }
+
+    public String getStrPersonaNombres() {
+        return strPersonaNombres;
+    }
+
+    public void setStrPersonaNombres(String strPersonaNombres) {
+        this.strPersonaNombres = strPersonaNombres;
+    }
+
+    public String getStrNombreTipoAusencia() {
+        return strNombreTipoAusencia;
+    }
+
+    public void setStrNombreTipoAusencia(String strNombreTipoAusencia) {
+        this.strNombreTipoAusencia = strNombreTipoAusencia;
+    }
+
+    public int getIntEstado() {
+        return intEstado;
+    }
+
+    public void setIntEstado(int intEstado) {
+        this.intEstado = intEstado;
+    }
+
+    public double getDblDuracion() {
+        return dblDuracion;
+    }
+
+    public void setDblDuracion(double dblDuracion) {
+        this.dblDuracion = dblDuracion;
+    }
+
+}

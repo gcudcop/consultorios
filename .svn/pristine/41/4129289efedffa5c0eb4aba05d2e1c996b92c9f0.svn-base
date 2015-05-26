@@ -1,0 +1,492 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h:head>
+        <title>
+            <ui:define name="tituloNavegador">Gestión de Grupos Laborales</ui:define>
+        </title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../../templates/plantillaInternaCenter.xhtml">
+            <ui:define name="top">Gestión Horas Extras</ui:define>
+            <ui:define name="contenido">
+
+                <p:growl id="grmensajes" autoUpdate="true"/>
+                <h:form rendered="true">
+                    <p:scrollPanel style="width:1px;height:1px" mode="native">
+                        <p:schedule id="schedule1" value="#{scheduleHorarioC.eventModel}"  locale="ES" widgetVar="myschedule1" rendered="true"/>   
+                    </p:scrollPanel>
+
+                </h:form>
+                <h:form id="frmAusenciaTemporal">
+                    <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+
+                    <p:panel id="pnlAusencias">
+                        <p:dataTable id="tblAusencias" value="#{cHorasExtrasC.lstHorasExtrasConsulta}" 
+                                     var="horas" paginator="true" rows="10"
+                                     rowKey="#{horas.lgCodigoHorasExtras}" selectionMode="single" 
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                     rowsPerPageTemplate="5,10,15">  
+                            <p:column style="width:2%">  
+                                <p:rowToggler />  
+                            </p:column>  
+                            <p:column filterBy="#{horas.lgCodigoHorasExtras}"  sortBy="#{horas.lgCodigoHorasExtras}" >
+                                <f:facet name="header">
+                                    <h:outputText value="Código"/>
+                                </f:facet>
+                                <h:outputText value="#{horas.lgCodigoHorasExtras}"/>
+                            </p:column>
+                            <p:column filterBy="#{horas.strPersonaApellidos}" filterMatchMode="startsWith" sortBy="#{horas.strPersonaApellidos}">
+                                <f:facet name="header">
+                                    <h:outputText value="Apellidos"/>
+                                </f:facet>
+                                <h:outputText value="#{horas.strPersonaApellidos}"/>
+                            </p:column>
+                            <p:column filterBy="#{horas.strPersonaNombres}" filterMatchMode="startsWith" sortBy="#{horas.strPersonaNombres}">
+                                <f:facet name="header">
+                                    <h:outputText value="Nombres"/>
+                                </f:facet>
+                                <h:outputText value="#{horas.strPersonaNombres}"/>
+                            </p:column>
+                            <p:column filterBy="#{horas.numHoras}" filterMatchMode="startsWith" sortBy="#{horas.numHoras}">
+                                <f:facet name="header">
+                                    <h:outputText value="# Horas"/>
+                                </f:facet>
+                                <h:outputText value="#{horas.numHoras}"/>
+                            </p:column> 
+                            <p:column>
+                                <p:commandButton id="btnEditar" icon="ui-icon-pencil"  title="Editar" oncomplete="PF('wdgEditar').show()" process="@this"
+                                                 action="#{cHorasExtrasC.preparaEditar()}" update=":dlgEditar">                                   
+                                    <f:setPropertyActionListener value="#{horas}" target="#{cHorasExtrasC.objHorasExtrasSelC}"/>
+                                </p:commandButton>
+                            </p:column>
+                            <p:rowExpansion>
+                                <h:panelGrid id="display" columns="2" cellpadding="4" style="width:300px;"  
+                                             styleClass=" ui-widget-content grid">
+                                    <h:outputText value="Solicitado por:" />  
+                                    <h:outputText  value="#{horas.strSolicitadoPor}" />  
+                                    <h:outputText value="Autorizado por:" />  
+                                    <h:outputText  value="#{horas.strAutorizadoPor}" />  
+                                    <h:outputText value="Aprobado por:" />  
+                                    <h:outputText  value="#{horas.strAprobadoPor}" />  
+                                </h:panelGrid>
+                            </p:rowExpansion>  
+                            <f:facet name="footer">  
+                                <p:commandButton id="btnNuevo" value="Nuevo" icon="ui-icon-newwin" onclick="PF('wdgNuevo').show()" 
+                                                 title="Agregar Horas Extras" type="button"/> 
+
+                            </f:facet>
+                        </p:dataTable>
+
+                    </p:panel>
+                </h:form>
+            </ui:define>
+            <ui:define name="dialogos">
+                <p:dialog id="dlgNuevo"  widgetVar="wdgNuevo" modal="true" closable="true" resizable="false"
+                          showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmNuevo">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:scrollPanel style="width:600px;height:500px" mode="native">
+                            <p:panelGrid id="pngNuevo" columns="2" style="width:550px">
+                                <f:facet name="header">  
+                                    <p:row>  
+                                        <p:column colspan="2">Agregar Horas Extras</p:column>  
+                                    </p:row>  
+                                </f:facet> 
+                                <h:outputText value="Busque una Empleado:"/>
+                                <p:commandButton value="Buscar" onclick="PF('wdialogoBusquedaPersonas').show()"
+                                                 action="#{cHorasExtrasC.preparaBusqueda()}"
+                                                 process="@this" update=":dialogoBusquedaPersonas" type="button"/>
+                                <h:outputText value="Nombres:"></h:outputText>
+                                <h:outputText id="txtNombresPersona" value="#{cHorasExtrasC.dm.objPersona.strApellidos} 
+                                              #{cHorasExtrasC.dm.objPersona.strNombres}"/>
+                                <h:outputText value="Cédula: "></h:outputText>
+                                <h:outputText id="txtCedulaPersona" value="#{cHorasExtrasC.dm.objPersona.strIdentificacion}"/>
+
+                                 <h:outputText value="Fecha Inicio:"/>
+                                 <p:calendar id="dIni" value="#{cHorasExtrasC.objHorasExtras.dtFechaInicio}" required="true" >
+
+                               </p:calendar>
+
+
+                                <h:outputText value="Fecha Fin:"/>
+                                <p:calendar id="dfin" value="#{cHorasExtrasC.objHorasExtras.dtFechaFin}" required="true">
+
+                               </p:calendar>
+                                
+                                <h:outputText value="Numero Horas:"/>
+                                <p:inputText value="#{cHorasExtrasC.objHorasExtras.dlNumeroHoras}" style="width: 100%;"/>
+                                
+                                <h:outputText value="Solicitado por:"/>
+                                <p:inputText value="#{cHorasExtrasC.objHorasExtras.strSolicitadoPor}" style="width: 100%;"/>
+                                <h:outputText value="Aprobado por:"/>
+                                <p:inputText value="#{cHorasExtrasC.objHorasExtras.strAprobadoPor}" style="width: 100%;"/>
+                                <h:outputText value="Autorizado por:"/>
+                                <p:inputText value="#{cHorasExtrasC.objHorasExtras.strAutorizadoPor}" style="width: 100%;"/>
+                                <h:outputText value="Observación:"/>
+                                <p:inputTextarea value="#{cHorasExtrasC.objHorasExtras.strObservacion}" style="width: 100%;"/>
+                                
+                                <h:outputText value="Justificación:"/>
+                                <p:inputTextarea value="#{cHorasExtrasC.objHorasExtras.strJustificacion}" style="width: 100%;"/>
+                                
+                            </p:panelGrid>
+                            <p:panelGrid columns="1" style="width:550px">
+                                <f:facet name="header">  
+                                    <p:row>  
+                                        <p:column colspan="2">Detalle de Horas extras</p:column>  
+                                    </p:row>  
+                                </f:facet> 
+                                <p:row>  
+                                    <p:column colspan="2"><p:commandButton value="Agregar" onclick="PF('wdgHorario').show()"
+                                                                           type="button" icon="ui-icon-circle-plus"/></p:column>
+                                </p:row>  
+                                <p:row>  
+                                    <p:column colspan="2"> <h:outputText value=""/></p:column>
+                                </p:row> 
+
+
+                                <p:outputPanel id="pnDetalleAusencias">
+                                    <p:dataTable id="booksTable" value="#{cHorasExtrasC.lstDetalleHorasExtras}" var="detalle">
+                                        <p:column>  
+                                            <f:facet name="header">  
+                                                <h:outputText value="Código" />  
+                                            </f:facet>  
+                                            <h:outputText value="#{detalle.objCodigoHoraExtra.lgCodigo}" />  
+                                        </p:column> 
+                                        <p:column>  
+                                            <f:facet name="header">  
+                                                <h:outputText value="Fecha Horas Extras" />  
+                                            </f:facet>  
+                                            <h:outputText value="#{detalle.dtfecha}" />  
+                                        </p:column> 
+                                        <p:column>  
+                                            <f:facet name="header">  
+                                                <h:outputText value="Hora de Entrada" />  
+                                            </f:facet>  
+                                            <h:outputText value="#{detalle.tmHoraEntrada}" />  
+                                        </p:column>
+                                        <p:column>  
+                                            <f:facet name="header">  
+                                                <h:outputText value="Hora de Salida" />  
+                                            </f:facet>  
+                                            <h:outputText value="#{detalle.tmHoraSalida}" />  
+                                        </p:column>
+                                        
+                                        <p:column>  
+                                            <f:facet name="header">  
+                                                <h:outputText value="Observacion" />  
+                                            </f:facet>  
+                                            <h:outputText value="#{detalle.strObservacion}" />  
+                                        </p:column>
+                                        <p:column>  
+                                            <f:facet name="header">  
+                                                <h:outputText value="x"  />  
+                                            </f:facet>  
+                                            <p:commandButton update=":frmNuevo:pnDetalleAusencias" process=":frmNuevo:pnDetalleAusencias"
+                                                             icon="ui-icon-circle-close">
+                                                <p:collector value="#{detalle}" removeFrom="#{cHorasExtrasC.lstDetalleHorasExtras}" unique="true" />  
+                                            </p:commandButton>  
+                                        </p:column> 
+
+                                    </p:dataTable>  
+
+                                </p:outputPanel>  
+                                <f:facet name="footer">  
+                                    <p:commandButton value="Aceptar" action="#{cHorasExtrasC.insertarHorasExtras()}" 
+                                                     update=":frmAusenciaTemporal:pnlAusencias"/>
+                                    <p:commandButton value="Cancelar" onclick="wdgNuevo.hide()" type="reset"/>
+                                </f:facet>  
+                            </p:panelGrid>
+
+                        </p:scrollPanel> 
+
+
+                    </h:form> 
+                </p:dialog>
+
+                <p:dialog header="Busqueda de Personas"  widgetVar="wdialogoBusquedaPersonas"  
+                          id="dialogoBusquedaPersonas" resizable="false" modal="true">
+                    <p:panel id="pnlContenedorBusquedaPersonas">
+                        <h:form id="formPersonas">  
+                            <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                            <p:panelGrid id="pngBusqueda" columns="4">
+                                <h:outputText id="otxtBuscar" value="Buscar por:"/>
+                                <p:selectOneMenu id="cmbCriterioBusqueda" value="#{cHorasExtrasC.dm.criterioBusquedaTitular}">
+                                    <f:selectItem itemValue="#{null}" itemLabel="--Elija una opción--"/>
+                                    <f:selectItem itemValue="cedula" itemLabel="CEDULA"/>
+                                    <f:selectItem itemValue="apellido" itemLabel="APELLIDOS"/>
+                                </p:selectOneMenu>
+                                <p:inputText id="txtBuscar" value="#{cHorasExtrasC.dm.datoBusqueda}"/>
+                                <p:commandButton value="Aceptar" update="pTabla" 
+                                                 action="#{cHorasExtrasC.dm.obtenerPersonas}" process="@form"/>
+                            </p:panelGrid>
+
+                            <p:panel id="pTabla">
+                                <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                                <p:dataTable var="persona" value="#{cHorasExtrasC.dm.lazyModel}" paginator="true" rows="5"  
+                                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} 
+                                             {CurrentPageReport} {NextPageLink} {LastPageLink}"  
+                                             rowsPerPageTemplate="5,10" selectionMode="single"    
+                                             selection="#{cHorasExtrasC.dm.personaSel}"
+                                             id="personaTable" sortBy="#{persona.strApellidos}"
+                                             rowKey="#{persona.lgCodigo}" lazy="true">  
+
+                                    <p:column headerText="Código" sortBy="#{persona.lgCodigo}">  
+                                        <h:outputText value="#{persona.lgCodigo}" />  
+                                    </p:column>  
+
+                                    <p:column headerText="Cédula" sortBy="#{persona.strIdentificacion}">  
+                                        <h:outputText value="#{persona.strIdentificacion}" />  
+                                    </p:column>  
+
+                                    <p:column headerText="Apellidos" sortBy="#{persona.strApellidos}">  
+                                        <h:outputText value="#{persona.strApellidos}" />  
+                                    </p:column>  
+
+                                    <p:column headerText="Nombre" sortBy="#{persona.strNombres}">  
+                                        <h:outputText value="#{persona.strNombres}" />  
+                                    </p:column>  
+                                </p:dataTable>  
+                                <p:commandButton value="Aceptar"  action="#{cHorasExtrasC.asignarSelectedPersona}"  
+                                                 update=":frmNuevo:txtNombresPersona :frmNuevo:txtCedulaPersona :frmEditar:txtNombresPersona 
+                                                 :frmEditar:txtCedulaPersona" />
+
+                            </p:panel>
+                        </h:form>  
+                    </p:panel>
+                </p:dialog>
+
+                <p:dialog id="dlgEditar"  widgetVar="wdgEditar" modal="true" closable="true" resizable="false"
+                          showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEditar">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:scrollPanel style="width:800px;height:500px" mode="native">
+                            <p:panelGrid id="pngEditar" columns="2" style="width:100%">
+                                <f:facet name="header">  
+                                    <p:row>  
+                                        <p:column colspan="2">Editar Ausencia Laboral</p:column>  
+                                    </p:row>  
+                                </f:facet> 
+                                <h:outputText value="Busque una Empleado:"/>
+                                <p:commandButton value="Buscar" onclick="PF('wdialogoBusquedaPersonas').show()"
+                                                 action="#{cHorasExtrasC.preparaBusqueda}"
+                                                 process="@this" update=":dialogoBusquedaPersonas" type="button"/>
+                                <h:outputText value="Nombres:"></h:outputText>
+                                <h:outputText id="txtNombresPersona" value="#{cHorasExtrasC.dm.objPersona.strApellidos} 
+                                              #{cHorasExtrasC.dm.objPersona.strNombres}"/>
+                                <h:outputText value="Cédula: "></h:outputText>
+                                <h:outputText id="txtCedulaPersona" value="#{cHorasExtrasC.dm.objPersona.strIdentificacion}"/>
+                               <h:outputText value="Fecha Inicio:"/>
+                               <p:calendar id="dIni" value="#{cHorasExtrasC.objHorasExtrasSel.dtFechaInicio}" required="true" >
+
+                               </p:calendar>
+
+
+                                <h:outputText value="Fecha Fin:"/>
+                                <p:calendar id="dfin" value="#{cHorasExtrasC.objHorasExtrasSel.dtFechaFin}" required="true">
+
+                               </p:calendar>
+                                
+                                <h:outputText value="Numero Horas:"/>
+                                <p:inputText value="#{cHorasExtrasC.objHorasExtrasSel.dlNumeroHoras}" style="width: 100%;"/>
+                                
+                                <h:outputText value="Solicitado por:"/>
+                                <p:inputText value="#{cHorasExtrasC.objHorasExtrasSel.strSolicitadoPor}" style="width: 100%;"/>
+                                <h:outputText value="Aprobado por:"/>
+                                <p:inputText value="#{cHorasExtrasC.objHorasExtrasSel.strAprobadoPor}" style="width: 100%;"/>
+                                <h:outputText value="Autorizado por:"/>
+                                <p:inputText value="#{cHorasExtrasC.objHorasExtrasSel.strAutorizadoPor}" style="width: 100%;"/>
+                                <h:outputText value="Observación:"/>
+                                <p:inputTextarea value="#{cHorasExtrasC.objHorasExtrasSel.strObservacion}" style="width: 100%;"/>
+                                
+                                <h:outputText value="Justificación:"/>
+                                <p:inputTextarea value="#{cHorasExtrasC.objHorasExtrasSel.strJustificacion}" style="width: 100%;"/>
+                                <h:outputText value="Estado:"/>
+                                
+                                <p:selectOneRadio value="#{cHorasExtrasC.objHorasExtrasSel.intEstado}">
+                                    <f:selectItem itemLabel="Activo" itemValue="1"/>
+                                    <f:selectItem itemLabel="Inactivo" itemValue="0"/>
+                                </p:selectOneRadio>
+
+                            </p:panelGrid>
+                            <p:panelGrid columns="1" style="width:100%" id="diego">
+                                <f:facet name="header">  
+                                    <p:row>  
+                                        <p:column colspan="2">Detalle Horas Extras</p:column>  
+                                    </p:row>  
+                                </f:facet> 
+                                <p:row>  
+                                    <p:column colspan="2"><p:commandButton value="Agregar" onclick="PF('wdgHorarioEditar').show()"
+                                                                           type="button" icon="ui-icon-circle-plus"/></p:column>
+                                </p:row>  
+                                <p:row>  
+                                    <p:column colspan="2"> <h:outputText value=""/></p:column>
+                                </p:row> 
+                                <p:panelGrid id="pnDetalleAusenciasEditar" columns="1">
+                                    <p:dataTable id="detalleTable" value="#{cHorasExtrasC.lstDetalleHorasExtras}" var="detalle"
+                                                 rowKey="#{detalle.lgCodigo}" selectionMode="single" >
+                                        <p:column>  
+                                            <f:facet name="header">  
+                                                <h:outputText value="Código" />  
+                                            </f:facet>  
+                                            <h:outputText value="#{detalle.objCodigoHoraExtra.lgCodigo}" />  
+                                        </p:column> 
+                                        <p:column>  
+                                            <f:facet name="header">  
+                                                <h:outputText value="Fecha Hora Extra" />  
+                                            </f:facet>  
+                                            <h:outputText value="#{detalle.dtfecha}" />  
+                                        </p:column> 
+                                        <p:column>  
+                                            <f:facet name="header">  
+                                                <h:outputText value="Hora de Entrada" />  
+                                            </f:facet>  
+                                            <h:outputText value="#{detalle.tmHoraEntrada}" />  
+                                        </p:column>
+                                        <p:column>  
+                                            <f:facet name="header">  
+                                                <h:outputText value="Hora de Salida" />  
+                                            </f:facet>  
+                                            <h:outputText value="#{detalle.tmHoraSalida}" />  
+                                        </p:column>
+                                        <p:column>  
+                                            <f:facet name="header">  
+                                                <h:outputText value="Número Observación" />  
+                                            </f:facet>  
+                                            <h:outputText value="#{detalle.strObservacion}" />  
+                                        </p:column>
+                                        <p:column>  
+                                            <f:facet name="header">  
+                                                <h:outputText value="x"  />  
+                                            </f:facet>  
+                                            <p:commandButton id="btnEliminarDetalle" icon="ui-icon-circle-close"  title="Eliminar"
+                                                             process="@this"
+                                                             action="#{cHorasExtrasC.eliminarDetalleAusencia()}" 
+                                                             update=":frmEditar:pnDetalleAusenciasEditar @parent">                                   
+                                                <f:setPropertyActionListener value="#{detalle}" target="#{cHorasExtrasC.objDetalleHorasExtrasActual}"/>
+                                            </p:commandButton>
+                                        </p:column> 
+
+                                    </p:dataTable>  
+                                </p:panelGrid>
+                                <f:facet name="footer">  
+                                    <p:commandButton value="Aceptar" action="#{cHorasExtrasC.editarHorasExtras()}" 
+                                                     update=":frmAusenciaTemporal:pnlAusencias" process="@this pngEditar" disabled="true"/>
+                                    <p:commandButton value="Cancelar" onclick="wdgEditar.hide()" type="reset"/>
+                                </f:facet>  
+                            </p:panelGrid>
+
+                        </p:scrollPanel> 
+                    </h:form> 
+                </p:dialog>
+
+                <p:dialog id="dlgHorario"  widgetVar="wdgHorario" modal="true" closable="true" resizable="false"
+                          showEffect="clip" hideEffect="fold">
+                    <h:form id="frmHorario">
+                        <p:growl id="messages" showDetail="true" />  
+                        <p:schedule id="schedule" value="#{cHorasExtrasC.eventModel}"  locale="ES" widgetVar="myschedule">
+                            <p:ajax event="dateSelect" listener="#{cHorasExtrasC.onDateSelect}" update=":dlgInfoAusencia" oncomplete="PF('eventDialog').show()" />  
+                            <p:ajax event="eventSelect" listener="#{cHorasExtrasC.onEventSelect}" update=":dlgInfoAusencia" oncomplete="PF('eventDialog').show()" />  
+                        </p:schedule>   
+                    </h:form>
+                </p:dialog>
+                <p:dialog id="dlgInfoAusencia" widgetVar="eventDialog" header="Información de Ausencia" showEffect="clip" hideEffect="clip">  
+                    <h:form id="frmH">
+                        <h:panelGrid id="eventDetails" columns="2">  
+                            <h:outputText value="Hora de Entrada"/>
+                            <p:calendar id="tmHoraE" value="#{cHorasExtrasC.horaEntrada}" title="Hora Entrada"  
+                                        required="true" requiredMessage="El campo Hora Salida es requerido" pattern="HH:mm" timeOnly="true"
+                                       />
+                          
+                            <h:outputText value="Hora de Salida:"/>
+                            <p:calendar id="tmHoraS" value="#{cHorasExtrasC.horaSalida}" title="Número de Horas"  
+                                        required="true" requiredMessage="El campo Número de Horas es requerido" pattern="HH:mm" timeOnly="true"
+                                        minHour="1" />
+                            
+                            <h:outputText value="Hora de Entrada Almuerzo"/>
+                            <p:calendar id="tmHoraEAlm" value="#{cHorasExtrasC.horaEntradaAlmuerzo}" title="Hora Entrada"  
+                                        required="true" requiredMessage="El campo Hora Salida es requerido" pattern="HH:mm" timeOnly="true"
+                                        />
+                          
+                            <h:outputText value="Hora de Salida Almuerzo:"/>
+                            <p:calendar id="tmHoraSAlm" value="#{cHorasExtrasC.horaSalidaAlmuerzo}" title="Número de Horas"  
+                                        required="true" requiredMessage="El campo Número de Horas es requerido" pattern="HH:mm" timeOnly="true"
+                                        />
+                            
+                            <h:outputText value="Observación"/>
+                            <h:inputText value="#{cHorasExtrasC.observacion}" /> 
+                            
+                            
+                            <p:commandButton id="addButton" value="Aceptar" actionListener="#{cHorasExtrasC.asignarDetalleHorasExtras()}" 
+
+                                             update=":frmNuevo:pnDetalleAusencias @parent">
+                                <p:collector value="#{cHorasExtrasC.objDetalleHoExtras}"   
+                                             addTo="#{cHorasExtrasC.lstDetalleHorasExtras}" unique="true" />  
+                            </p:commandButton>  
+                        </h:panelGrid>  
+                    </h:form>
+                </p:dialog>  
+
+                <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
+                          resizable="false"> 
+                    <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
+                </p:dialog>
+
+                <p:dialog id="dlgHorarioEditar"  widgetVar="wdgHorarioEditar" modal="true" closable="true" resizable="false"
+                          showEffect="clip" hideEffect="fold">
+                    <h:form id="frmHorarioEditar">
+                        <p:growl id="messagesEditar" showDetail="true" />  
+                        <p:schedule id="scheduleEditar" value="#{cHorasExtrasC.eventModel}"  locale="ES" widgetVar="myscheduleEditar">
+                            <p:ajax event="dateSelect" listener="#{cHorasExtrasC.onDateSelect}" update=":dlgInfoAusenciaEditar" 
+                                    oncomplete="PF('eventDialogEditar').show()" />  
+                            <p:ajax event="eventSelect" listener="#{cHorasExtrasC.onEventSelect}" update=":dlgInfoAusenciaEditar"
+                                    oncomplete="PF('eventDialogEditar').show()" />  
+                        </p:schedule>   
+                    </h:form>
+                </p:dialog>
+                <p:dialog id="dlgInfoAusenciaEditar" widgetVar="eventDialogEditar" header="Información de Ausencia" showEffect="clip" hideEffect="clip">  
+                    <h:form id="frmHEditar">
+                        <h:panelGrid id="eventDetailsEditar" columns="2">  
+                               <h:outputText value="Hora de Entrada"/>
+                            <p:calendar id="tmHoraE" value="#{cHorasExtrasC.horaEntrada}" title="Hora Entrada"  
+                                        required="true" requiredMessage="El campo Hora Salida es requerido" pattern="HH:mm" timeOnly="true"
+                                       />
+                          
+                            <h:outputText value="Hora de Salida:"/>
+                            <p:calendar id="tmHoraS" value="#{cHorasExtrasC.horaSalida}" title="Número de Horas"  
+                                        required="true" requiredMessage="El campo Número de Horas es requerido" pattern="HH:mm" timeOnly="true"
+                                        minHour="1" />
+                            
+                            <h:outputText value="Hora de Entrada Almuerzo"/>
+                            <p:calendar id="tmHoraEAlm" value="#{cHorasExtrasC.horaEntradaAlmuerzo}" title="Hora Entrada"  
+                                        required="true" requiredMessage="El campo Hora Salida es requerido" pattern="HH:mm" timeOnly="true"
+                                        />
+                          
+                            <h:outputText value="Hora de Salida Almuerzo:"/>
+                            <p:calendar id="tmHoraSAlm" value="#{cHorasExtrasC.horaSalidaAlmuerzo}" title="Número de Horas"  
+                                        required="true" requiredMessage="El campo Número de Horas es requerido" pattern="HH:mm" timeOnly="true"
+                                        />
+                            
+                            <h:outputText value="Observación"/>
+                            <h:inputText value="#{cHorasExtrasC.observacion}" /> 
+                            
+                            <p:commandButton id="addButtonEditar" value="Aceptar"  actionListener="#{cHorasExtrasC.insertarDetalleAusencia}" 
+                                             update=":frmEditar:diego">
+                            </p:commandButton>  
+                        </h:panelGrid>  
+                    </h:form>
+                </p:dialog>  
+
+
+
+
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

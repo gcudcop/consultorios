@@ -1,0 +1,213 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <title>
+            <ui:define name="tituloNavegador">Horas Laboradas del Empleado</ui:define>
+        </title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../../templates/plantillaInternaCenter.xhtml">
+            <ui:define name="top">Horas Laboradas del Empleado</ui:define>
+            <ui:define name="contenido">
+                <p:growl id="grmensajes" autoUpdate="true"/>
+                <h:form id="frmTiposJornada">
+                    <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                    <p:panel id="pnlTiposJornada">
+                        <p:dataTable id="tblTipoJornada" value="#{tiposJornadaC.lstTiposJornada}" var="tipoJornada" paginator="true" rows="10"
+                                     rowKey="#{tipoJornada.intCodigo}" selectionMode="single" selection="#{tiposJornadaC.objTipoJornadaSel}"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                     rowsPerPageTemplate="5,10,15">  
+                            <p:column filterBy="#{tipoJornada.intCodigo}"  sortBy="#{tipoJornada.intCodigo}" >
+                                <f:facet name="header">
+                                    <h:outputText value="Código"/>
+                                </f:facet>
+                                <h:outputText value="#{tipoJornada.intCodigo}"/>
+                            </p:column>
+                            <p:column filterBy="#{tipoJornada.strNombre}" filterMatchMode="startsWith" sortBy="#{tipoJornada.strNombre}">
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre"/>
+                                </f:facet>
+                                <h:outputText value="#{tipoJornada.strNombre}"/>
+                            </p:column>
+                            <p:column filterBy="#{tipoJornada.strNombreCorto}" filterMatchMode="startsWith" sortBy="#{tipoJornada.strNombreCorto}">
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre Corto"/>
+                                </f:facet>
+                                <h:outputText value="#{tipoJornada.strNombreCorto}"/>
+                            </p:column> 
+                            <p:column filterBy="#{tipoJornada.tmHoraEntrada}" filterMatchMode="startsWith" sortBy="#{tipoJornada.tmHoraEntrada}">
+                                <f:facet name="header">
+                                    <h:outputText value="HEJ"/>
+                                </f:facet>
+                                <h:outputText value="#{tipoJornada.tmHoraEntrada}"/>
+                            </p:column>
+                            <p:column filterBy="#{tipoJornada.tmHoraSalidaReceso}" filterMatchMode="startsWith" sortBy="#{tipoJornada.tmHoraSalidaReceso}">
+                                <f:facet name="header">
+                                    <h:outputText value="HSR"/>
+                                </f:facet>
+                                <h:outputText value="#{tipoJornada.tmHoraSalidaReceso}"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tipoJornada.tmHoraEntradaReceso}" filterMatchMode="startsWith" sortBy="#{tipoJornada.tmHoraEntradaReceso}">
+                                <f:facet name="header">
+                                    <h:outputText value="HER"/>
+                                </f:facet>
+                                <h:outputText value="#{tipoJornada.tmHoraEntradaReceso}"/>
+                            </p:column>
+
+                            <p:column filterBy="#{tipoJornada.tmHoraSalida}" filterMatchMode="startsWith" sortBy="#{tipoJornada.tmHoraSalida}">
+                                <f:facet name="header">
+                                    <h:outputText value="HSJ"/>
+                                </f:facet>
+                                <h:outputText value="#{tipoJornada.tmHoraSalida}"/>
+                            </p:column>
+                            <p:column filterBy="#{tipoJornada.dblnumeroHoras}" filterMatchMode="startsWith" sortBy="#{tipoJornada.dblnumeroHoras}">
+                                <f:facet name="header">
+                                    <h:outputText value="#Horas"/>
+                                </f:facet>
+                                <h:outputText value="#{tipoJornada.dblnumeroHoras}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Estado"/>
+                                </f:facet>
+                                <h:outputText value="#{tipoJornada.intEstado==1?'Activo':'Inactivo'}"/>
+                            </p:column>
+                            <p:column>
+
+                                <p:commandButton id="btnEditar" icon="ui-icon-pencil"  title="Editar" oncomplete="wdgEditar.show()" process="@this"
+                                                 action="#{tiposJornadaC.preparaEditar}" update=":dlgEditar, @form">                                   
+                                    <f:setPropertyActionListener value="#{tipoJornada}" target="#{tiposJornadaC.objTipoJornadaActual}"/>
+                                </p:commandButton>
+
+                                <p:commandButton id="btnEliminar" icon="ui-icon-close"  title="Eliminar" oncomplete="wdgEliminar.show()" 
+                                                 update=":dlgEliminar">                                   
+                                    <f:setPropertyActionListener value="#{tipoJornada}" target="#{tiposJornadaC.objTipoJornadaActual}"/>
+                                </p:commandButton>
+                            </p:column>
+                            <f:facet name="footer">  
+                                <p:commandButton id="btnNuevo" value="Nuevo" icon="ui-icon-newwin" 
+                                                 update=":dlgNuevo" onclick="PF('wdgNuevo').show()" 
+                                                 title="Agregar Tipo de Jornada" type="button" /> 
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+            <ui:define name="dialogos">
+                <p:dialog id="dlgNuevo"  widgetVar="wdgNuevo" modal="true" closable="false" resizable="false"
+                          showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmNuevo">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:panelGrid id="pngNuevo" columns="2">
+                            <f:facet name="header">  
+                                Nuevo Tipo de Jornada 
+                            </f:facet> 
+                            <h:outputText value="Nombre:"/>
+                            <p:inputText value="#{tiposJornadaC.objTipoJornada.strNombre}"/>
+                            <h:outputText value="Nombre Corto:"/>
+                            <p:inputText value="#{tiposJornadaC.objTipoJornada.strNombreCorto}"/>
+                            <h:outputText value="Descripciòn:"/>
+                            <p:inputText value="#{tiposJornadaC.objTipoJornada.strDescripcion}"/>
+                            <h:outputText value="Observación:"/>
+                            <p:inputText value="#{tiposJornadaC.objTipoJornada.strObservacion}"/>
+                            <h:outputText value="Hora Entrada Jornada :"/>
+                            <p:calendar id="timehoraEntrada" value="#{tiposJornadaC.horaEntradaJornada}" title="Hora de Entrada"  
+                                        required="true" requiredMessage="El campo Hora Entrada Jornada es requerido" pattern="HH:mm" timeOnly="true"/>
+                            <h:outputText value="Hora Salida al Receso:"/>
+                            <p:calendar id="timehoraSalidaReceso" value="#{tiposJornadaC.horaSalidaReceso}" title="Hora de Salida al Receso"  
+                                        required="true" requiredMessage="El campo Hora Salida Receso es requerido" pattern="HH:mm" timeOnly="true"/>
+                            <h:outputText value="Hora Entrada del Receso:"/>
+                            <p:calendar id="timehoraEntradaReceso" value="#{tiposJornadaC.horaEntradaReceso}" title="Hora de Entrada al Receso"  
+                                        required="true" requiredMessage="El campo Hora Entrada Receso es requerido" pattern="HH:mm" timeOnly="true"/>
+                            <h:outputText value="Hora Salida Jornada:"/>
+                            <p:calendar id="timehoraSalidaJornada" value="#{tiposJornadaC.horaSalidaJornada}" title="Hora de Salida Jornada"  
+                                        required="true" requiredMessage="El campo Hora Saila Jornada es requerido" pattern="HH:mm" timeOnly="true"/>
+                            <f:facet name="footer">  
+                                <p:commandButton value="Aceptar" action="#{tiposJornadaC.insertarTiposJornada}" update=":frmTiposJornada:pnlTiposJornada"/>
+                                <p:commandButton value="Cancelar" onclick="wdgNuevo.hide()" type="reset"/>
+                            </f:facet>  
+                        </p:panelGrid>
+
+                    </h:form> 
+                </p:dialog>
+
+                <p:dialog id="dlgEditar"  widgetVar="wdgEditar" modal="true" closable="false" resizable="false"
+                          showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEditar">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:panelGrid id="pngEditar" columns="2">
+                            <f:facet name="header">  
+                                Editar Tipo de Jornada 
+                            </f:facet> 
+                            <h:outputText value="Código:"/>
+                            <p:inputText value="#{tiposJornadaC.objTipoJornadaActual.intCodigo}"/>
+                            <h:outputText value="Nombre:"/>
+                            <p:inputText value="#{tiposJornadaC.objTipoJornadaActual.strNombre}"/>
+                            <h:outputText value="Nombre Corto:"/>
+                            <p:inputText value="#{tiposJornadaC.objTipoJornadaActual.strNombreCorto}"/>
+                            <h:outputText value="Descripciòn:"/>
+                            <p:inputText value="#{tiposJornadaC.objTipoJornadaActual.strDescripcion}"/>
+                            <h:outputText value="Observación:"/>
+                            <p:inputText value="#{tiposJornadaC.objTipoJornadaActual.strObservacion}"/>
+                            <h:outputText value="Hora Entrada Jornada :"/>
+                            <p:calendar id="timehoraEntrada" value="#{tiposJornadaC.horaEntradaJornada}" title="Hora de Entrada"  
+                                        required="true" requiredMessage="El campo Hora Entrada Jornada es requerido" pattern="HH:mm" timeOnly="true"/>
+                            <h:outputText value="Hora Salida al Receso:"/>
+                            <p:calendar id="timehoraSalidaReceso" value="#{tiposJornadaC.horaSalidaReceso}" title="Hora de Salida al Receso"  
+                                        required="true" requiredMessage="El campo Hora Salida Receso es requerido" pattern="HH:mm" timeOnly="true"/>
+                            <h:outputText value="Hora Entrada del Receso:"/>
+                            <p:calendar id="timehoraEntradaReceso" value="#{tiposJornadaC.horaEntradaReceso}" title="Hora de Entrada al Receso"  
+                                        required="true" requiredMessage="El campo Hora Entrada Receso es requerido" pattern="HH:mm" timeOnly="true"/>
+                            <h:outputText value="Hora Salida Jornada:"/>
+                            <p:calendar id="timehoraSalidaJornada" value="#{tiposJornadaC.horaSalidaJornada}" title="Hora de Salida Jornada"  
+                                        required="true" requiredMessage="El campo Hora Saila Jornada es requerido" pattern="HH:mm" timeOnly="true"/>
+                            <h:outputText value="Estado"/>
+                            <p:selectOneRadio value="#{tiposJornadaC.objTipoJornadaActual.intEstado}">
+                                <f:selectItem itemLabel="Activo" itemValue="1"/>
+                                <f:selectItem itemLabel="Inactivo" itemValue="0"/>
+                            </p:selectOneRadio>
+                            <f:facet name="footer">  
+                                <p:commandButton value="Aceptar" action="#{tiposJornadaC.editarTiposJornada}" update=":frmTiposJornada:pnlTiposJornada"/>
+                                <p:commandButton value="Cancelar" onclick="wdgEditar.hide()" type="reset"/>
+                            </f:facet>  
+                        </p:panelGrid>
+
+                    </h:form> 
+                </p:dialog>
+
+
+                <p:dialog id="dlgEliminar"  widgetVar="wdgEliminar" modal="true" closable="false" resizable="false"
+                          showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEliminar">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:panelGrid id="pngEliminar" columns="2">
+                            <f:facet name="header">  
+                                Eliminar Tipo de Jornada 
+                            </f:facet> 
+                            <h:outputText value="Código:"/>
+                            <p:inputText value="#{tiposJornadaC.objTipoJornadaActual.intCodigo}"/>
+                            <h:outputText value="Nombre:"/>
+                            <p:inputText value="#{tiposJornadaC.objTipoJornadaActual.strNombre}"/>
+                            <f:facet name="footer">  
+                                <p:commandButton value="Aceptar" action="#{tiposJornadaC.eliminarTiposJornada}" update=":frmTiposJornada:pnlTiposJornada"/>
+                                <p:commandButton value="Cancelar" onclick="wdgEliminar.hide()" type="reset"/>
+                            </f:facet>  
+                        </p:panelGrid>
+
+                    </h:form> 
+                </p:dialog>
+                <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
+                          resizable="false"> 
+                    <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
+                </p:dialog>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

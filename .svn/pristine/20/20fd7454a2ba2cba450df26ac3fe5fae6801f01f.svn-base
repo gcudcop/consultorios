@@ -1,0 +1,158 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.beans;
+
+import control.logica.clases.CTotalHorasLaboradas;
+import control.logica.funciones.consultas.CFTotalHorasLaboradas;
+import java.io.Serializable;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import org.apache.poi.hssf.model.Workbook;
+import org.apache.poi.hssf.record.formula.functions.Cell;
+import org.apache.poi.hssf.record.formula.functions.Row;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.IndexedColors;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+@ManagedBean
+@ViewScoped
+public final class TotalHorasLaboradasC implements Serializable {
+//   <editor-fold defaultstate="collapsed" desc="Atributos">
+
+    private CTotalHorasLaboradas objTHL;
+    private ArrayList<CTotalHorasLaboradas> lstTHL;
+    private java.util.Date fechInicio;
+    private java.util.Date fechaFin;
+
+    //</editor-fold>
+//   <editor-fold defaultstate="collapsed" desc="Constructores">
+    public TotalHorasLaboradasC() {
+        objTHL = new CTotalHorasLaboradas();
+        lstTHL = new ArrayList<CTotalHorasLaboradas>();
+        fechInicio = new Date();
+        fechaFin = new Date();
+        // cargarTotalHorasLaboradas();
+    }
+
+//    @PostConstruct
+//    public void PostTiposAusenciaC() {
+//        reinit();
+//    }
+    //</editor-fold>
+//   <editor-fold defaultstate="collapsed" desc="Metodos set y get">
+    public CTotalHorasLaboradas getObjTHL() {
+        return objTHL;
+    }
+
+    public void setObjTHL(CTotalHorasLaboradas objTHL) {
+        this.objTHL = objTHL;
+    }
+
+    public ArrayList<CTotalHorasLaboradas> getLstTHL() {
+        return lstTHL;
+    }
+
+    public void setLstTHL(ArrayList<CTotalHorasLaboradas> lstTHL) {
+        this.lstTHL = lstTHL;
+    }
+
+    public Date getFechInicio() {
+        return fechInicio;
+    }
+
+    public void setFechInicio(Date fechInicio) {
+        this.fechInicio = fechInicio;
+    }
+
+    public Date getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(Date fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+
+    //</editor-fold>
+//   <editor-fold defaultstate="collapsed" desc="Funciones">
+    ////reiniciar objetos
+    public void reinit() {
+        ///cargar los Tipos de Ausencias
+        cargarTotalHorasLaboradas();
+    }
+
+    public void cargarTotalHorasLaboradas() {
+        try {
+            lstTHL = CFTotalHorasLaboradas.obtenerHorasLaboradas(new java.sql.Date(this.fechInicio.getTime()),
+                    new java.sql.Date(this.fechaFin.getTime()));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void postProcessXLS(Object document) {
+//        HSSFWorkbook wb = (HSSFWorkbook) document;
+//        HSSFSheet sheet = wb.getSheetAt(0);
+//        HSSFRow header = sheet.getRow(0);
+//
+//        HSSFCellStyle cellStyle = wb.createCellStyle();
+//        cellStyle.setFillForegroundColor(HSSFColor.GREY_40_PERCENT.index);
+//        cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+
+        HSSFWorkbook wb = (HSSFWorkbook) document;
+        HSSFSheet sheet = wb.getSheetAt(0);
+
+        Iterator<HSSFRow> rit = sheet.rowIterator();
+
+        if (rit.hasNext()) {
+            rit.next(); // Skip header row
+        }
+
+        while (rit.hasNext()) {
+            HSSFRow row = rit.next();
+
+            Iterator<HSSFCell> cit = row.cellIterator();
+
+            for (int i = 4; i < row.getPhysicalNumberOfCells() - 1; i++) {
+                // cell.setCellValue(new Double(0.0));
+                double valor = Double.parseDouble(((HSSFCell) row.getCell(i)).getRichStringCellValue().toString());
+                ((HSSFCell) row.getCell(i)).setCellValue(valor);
+            }
+//            while (cit.hasNext()) {
+//                HSSFCell cell = cit.next();
+//
+//                if (cell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
+//                    String content = cell.getRichStringCellValue().toString();
+//                    // double numero= cell.set
+//
+//                    int index = content.indexOf("org.primefaces.component.celleditor");
+//                    //cell.setCellValue(cell.getStringCellValue().replace(".", ","));
+//                    cell.setCellValue(new Double(0.0));
+//
+////                    if (index != -1) {
+////                        content = content.substring(0, index);
+////                        cell.setCellValue("hola");
+////                    }
+//                }
+//            }
+        }
+    }
+
+    //</editor-fold>
+}

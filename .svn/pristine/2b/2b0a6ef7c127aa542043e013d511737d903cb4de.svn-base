@@ -1,0 +1,129 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.beans;
+
+import control.logica.clases.CParametrizacion;
+import control.logica.clases.CParametrizacion;
+import control.logica.funciones.CFParametrizacion;
+import control.logica.funciones.CFParametrizacion;
+import java.io.Serializable;
+import java.util.ArrayList;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import org.primefaces.context.DefaultRequestContext;
+import recursos.Util;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+@ManagedBean
+@ViewScoped
+public final class ParametrizacionC implements Serializable {
+//   <editor-fold defaultstate="collapsed" desc="Atributos">
+
+    private CParametrizacion objParametrizacion;
+    private ArrayList<CParametrizacion> lstParametrizaciones;
+    private CParametrizacion objParametrizacionActual;
+
+    //</editor-fold>
+//   <editor-fold defaultstate="collapsed" desc="Constructores">
+    public ParametrizacionC() {
+        objParametrizacion = new CParametrizacion();
+        lstParametrizaciones = new ArrayList<CParametrizacion>();
+        objParametrizacionActual = new CParametrizacion();
+        cargarParametrizaciones();
+    }
+
+//    @PostConstruct
+//    public void PostTiposAusenciaC() {
+//        reinit();
+//    }
+    //</editor-fold>
+//   <editor-fold defaultstate="collapsed" desc="Metodos set y get">
+    public CParametrizacion getObjParametrizacion() {
+        return objParametrizacion;
+    }
+
+    public void setObjParametrizacion(CParametrizacion objParametrizacion) {
+        this.objParametrizacion = objParametrizacion;
+    }
+
+    public ArrayList<CParametrizacion> getLstParametrizaciones() {
+        return lstParametrizaciones;
+    }
+
+    public void setLstParametrizaciones(ArrayList<CParametrizacion> lstParametrizaciones) {
+        this.lstParametrizaciones = lstParametrizaciones;
+    }
+
+    public CParametrizacion getObjParametrizacionActual() {
+        return objParametrizacionActual;
+    }
+
+    public void setObjParametrizacionActual(CParametrizacion objParametrizacionActual) {
+        this.objParametrizacionActual = objParametrizacionActual;
+    }
+
+    //</editor-fold>
+//   <editor-fold defaultstate="collapsed" desc="Funciones">
+    ////reiniciar objetos
+    public void reinit() {
+        ///cargar los Tipos de Ausencias
+        cargarParametrizaciones();
+    }
+
+    public void cargarParametrizaciones() {
+        try {
+            lstParametrizaciones = CFParametrizacion.obtenerParametrizaciones();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void insertarParametrizacion() {
+        try {
+            boolean bandera = CFParametrizacion.insertar(objParametrizacion);
+            if (bandera == true) {
+                cargarParametrizaciones();
+                objParametrizacion = new CParametrizacion();
+                DefaultRequestContext.getCurrentInstance().execute("wdgNuevo.hide()");
+                Util.addSuccessMessage("Datos Insertados");
+            } else {
+            }
+        } catch (Exception e) {
+            Util.addErrorMessage(e.getMessage());
+        }
+    }
+
+    public void editarParametrizacion() {
+        try {
+            CFParametrizacion.actualizar(objParametrizacionActual);
+            cargarParametrizaciones();
+            objParametrizacionActual = new CParametrizacion();
+            DefaultRequestContext.getCurrentInstance().execute("wdgEditar.hide()");
+            Util.addSuccessMessage("Datos Editados");
+        } catch (Exception e) {
+            Util.addErrorMessage(e.getMessage());
+        }
+
+    }
+
+    public void eliminarParametrizacion() {
+        try {
+            CFParametrizacion.eliminar(objParametrizacionActual.getLgCodigo());
+            cargarParametrizaciones();
+            objParametrizacionActual = new CParametrizacion();
+            DefaultRequestContext.getCurrentInstance().execute("wdgEliminar.hide()");
+            Util.addSuccessMessage("Datos Eliminados");
+        } catch (Exception e) {
+            Util.addErrorMessage(e.getMessage());
+        }
+
+    }
+
+    //</editor-fold>
+}

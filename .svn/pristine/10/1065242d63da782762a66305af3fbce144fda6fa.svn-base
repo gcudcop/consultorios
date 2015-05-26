@@ -1,0 +1,61 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.clases;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CEmpleadosConsulta {
+
+    private String cedula;
+    private String apellidos;
+    private String nombres;
+    private String dependencia;
+
+    public CEmpleadosConsulta() {
+    }
+
+    public CEmpleadosConsulta(String cedula, String apellidos, String nombres, String dependencia) {
+        this.cedula = cedula;
+        this.apellidos = apellidos;
+        this.nombres = nombres;
+        this.dependencia = dependencia;
+    }
+
+    public String getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public String getDependencia() {
+        return dependencia;
+    }
+
+    public void setDependencia(String dependencia) {
+        this.dependencia = dependencia;
+    }
+
+}

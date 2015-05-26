@@ -1,0 +1,191 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package control.logica.beans;
+
+import control.logica.clases.CCalendario;
+import control.logica.clases.CCalendarioFecha;
+import control.logica.funciones.CFCalendario;
+import java.util.ArrayList;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import org.primefaces.context.DefaultRequestContext;
+import recursos.Util;
+
+/**
+ *
+ * @author javier
+ */
+@ManagedBean
+@ViewScoped
+public class CalendarioC {
+private int a_o;
+    private CCalendario objCalendario;
+    private ArrayList<CCalendario> lstCalendario;
+    private CCalendario objCalendarioSel;
+   private CCalendarioFecha objCalendadarioFecha;
+    private CCalendario objCalendarioActual;
+
+  
+
+    public CalendarioC() {
+        objCalendario = new CCalendario();
+        lstCalendario = new ArrayList<CCalendario>();
+        objCalendarioSel = new CCalendario();
+        objCalendadarioFecha = new CCalendarioFecha();
+        cargarCalendario();
+    }
+
+    public CCalendario getObjCalendario() {
+        return objCalendario;
+    }
+
+    public void setObjCalendario(CCalendario objCalendario) {
+        this.objCalendario = objCalendario;
+    }
+
+    public ArrayList<CCalendario> getLstCalendario() {
+        return lstCalendario;
+    }
+
+    public void setLstCalendario(ArrayList<CCalendario> lstCalendario) {
+        this.lstCalendario = lstCalendario;
+    }
+
+    public CCalendario getObjCalendarioSel() {
+        return objCalendarioSel;
+    }
+
+    public void setObjCalendarioSel(CCalendario objCalendarioSel) {
+        this.objCalendarioSel = objCalendarioSel;
+    }
+
+    public CCalendarioFecha getObjCalendadarioFecha() {
+        return objCalendadarioFecha;
+    }
+
+    public void setObjCalendadarioFecha(CCalendarioFecha objCalendadarioFecha) {
+        this.objCalendadarioFecha = objCalendadarioFecha;
+    }
+
+    public CCalendario getObjCalendarioActual() {
+        return objCalendarioActual;
+    }
+
+    public void setObjCalendarioActual(CCalendario objCalendarioActual) {
+        this.objCalendarioActual = objCalendarioActual;
+    }
+
+    public int getA_o() {
+        return a_o;
+    }
+
+    public void setA_o(int a_o) {
+        this.a_o = a_o;
+    }
+
+
+   
+
+    public void reinit() {
+        ///cargar los Tipos de Ausencias
+        cargarCalendario();
+    }
+
+    public void cargarCalendario() {
+        try {
+            lstCalendario = CFCalendario.obtenerCalendarioDadoAnio((long)this.a_o);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void insertarCalendario() throws Exception {
+       CCalendarioFecha objCalendadarioFecha = new CCalendarioFecha(this.a_o);
+             try {
+           
+               this.lstCalendario =  objCalendadarioFecha.calendarioFechas();
+            
+               for (int i=0;i<=lstCalendario.size();i++)
+               {
+                   if(CFCalendario.insertar((CCalendario)lstCalendario.get(i)))
+                   {
+                       DefaultRequestContext.getCurrentInstance().execute("wdlgNuevaCalendario.hide()");
+                        Util.addSuccessMessage("Información guardada con exito");
+                        System.out.println("public void insertarCalendari dice: Información guardada con exito!!");
+                       
+                   }
+                   else {
+                Util.addErrorMessage("Error al guardar la información");
+                System.out.println("public void insertarDependencia dice: Error al guardar la información");
+            }
+                   cargarCalendario();
+               }
+            } 
+        catch (Exception e) {
+            Util.addErrorMessage(" insertar Calendario dice: " + e.getMessage());
+            
+        }
+    }
+    }
+
+//    public void editarTiposJornada() {
+//        try {
+//            if ((horaSalidaJornada.compareTo(horaEntradaJornada) > 0)
+//                    && (horaEntradaReceso.compareTo(horaSalidaReceso) > 0)
+//                    && (horaEntradaReceso.compareTo(horaEntradaJornada) > 0)
+//                    && (horaSalidaReceso.compareTo(horaEntradaJornada) > 0)
+//                    && (horaSalidaJornada.compareTo(horaEntradaReceso) > 0)
+//                    && (horaSalidaJornada.compareTo(horaSalidaReceso) > 0)) {
+//                this.objCalendarioActual.setTmHoraEntrada(new Time(this.horaEntradaJornada.getTime()));
+//                if (horaEntradaReceso == null) {
+//                    this.objCalendarioActual.setTmHoraEntradaReceso(new Time(0, 0, 0));
+//                } else {
+//                    this.objCalendarioActual.setTmHoraEntradaReceso(new Time(this.horaEntradaReceso.getTime()));
+//                }
+//                if (horaSalidaReceso == null) {
+//                    this.objCalendarioActual.setTmHoraSalidaReceso(new Time(0, 0, 0));
+//                } else {
+//                    this.objCalendarioActual.setTmHoraSalidaReceso(new Time(this.horaSalidaReceso.getTime()));
+//                }
+//
+//                this.objCalendarioActual.setTmHoraSalida(new Time(this.horaSalidaJornada.getTime()));
+//                CFTipoJornada.actualizar(objCalendarioActual);
+//                cargarTiposJornada();
+//                objCalendarioActual = new CCalendario();
+//                DefaultRequestContext.getCurrentInstance().execute("wdgEditar.hide()");
+//                Util.addSuccessMessage("Datos Editados");
+//            } else {
+//                Util.addSuccessMessage("Error en Fechas");
+//            }
+//        } catch (Exception e) {
+//            Util.addErrorMessage(e.getMessage());
+//        }
+//
+//    }
+//
+//    public void eliminarTiposJornada() {
+//        try {
+//            CFTipoJornada.eliminar(objCalendarioSel.getIntCodigo());
+//            cargarTiposJornada();
+//            objCalendarioActual = new CCalendario();
+//            DefaultRequestContext.getCurrentInstance().execute("wdgEliminar.hide()");
+//            Util.addSuccessMessage("Datos Eliminados");
+//        } catch (Exception e) {
+//            Util.addErrorMessage(e.getMessage());
+//        }
+//
+//    }
+//
+//    public void preparaEditar() {
+//        this.horaEntradaJornada = this.objCalendarioActual.getTmHoraEntrada();
+//        this.horaSalidaJornada = this.objCalendarioActual.getTmHoraSalida();
+//        this.horaSalidaReceso = this.objCalendarioActual.getTmHoraSalidaReceso();
+//        this.horaEntradaReceso = this.objCalendarioActual.getTmHoraEntradaReceso();
+//    }
+
+  
+

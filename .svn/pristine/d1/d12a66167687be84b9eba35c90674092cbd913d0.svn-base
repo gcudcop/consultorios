@@ -1,0 +1,123 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.clases;
+
+import java.sql.Date;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CCalendario {
+
+    private int intCodigo;
+    private java.sql.Date dtfecha;
+    private int intEsLaborable;
+    private int intEsFeriado;
+    private int intEsTieneJornadaEspecial;
+    private int intEstado;
+    private String strDia;
+    private String strObservacion;
+    private long lgAnio;
+    private int intCodigoPeriodo;
+
+    public CCalendario() {
+    }
+
+    public CCalendario(int intCodigo, Date dtfecha, int intEsLaborable, int intEsFeriado, int intEsTieneJornadaEspecial, int intEstado, String strDia, String strObservacion, long lgAnio, int intCodigoPeriodo) {
+        this.intCodigo = intCodigo;
+        this.dtfecha = dtfecha;
+        this.intEsLaborable = intEsLaborable;
+        this.intEsFeriado = intEsFeriado;
+        this.intEsTieneJornadaEspecial = intEsTieneJornadaEspecial;
+        this.intEstado = intEstado;
+        this.strDia = strDia;
+        this.strObservacion = strObservacion;
+        this.lgAnio = lgAnio;
+        this.intCodigoPeriodo = intCodigoPeriodo;
+    }
+
+    public int getIntCodigo() {
+        return intCodigo;
+    }
+
+    public void setIntCodigo(int intCodigo) {
+        this.intCodigo = intCodigo;
+    }
+
+    public Date getDtfecha() {
+        return dtfecha;
+    }
+
+    public void setDtfecha(Date dtfecha) {
+        this.dtfecha = dtfecha;
+    }
+
+    public int getIntEsLaborable() {
+        return intEsLaborable;
+    }
+
+    public void setIntEsLaborable(int intEsLaborable) {
+        this.intEsLaborable = intEsLaborable;
+    }
+
+    public int getIntEsFeriado() {
+        return intEsFeriado;
+    }
+
+    public void setIntEsFeriado(int intEsFeriado) {
+        this.intEsFeriado = intEsFeriado;
+    }
+
+    public int getIntEsTieneJornadaEspecial() {
+        return intEsTieneJornadaEspecial;
+    }
+
+    public void setIntEsTieneJornadaEspecial(int intEsTieneJornadaEspecial) {
+        this.intEsTieneJornadaEspecial = intEsTieneJornadaEspecial;
+    }
+
+    public int getIntEstado() {
+        return intEstado;
+    }
+
+    public void setIntEstado(int intEstado) {
+        this.intEstado = intEstado;
+    }
+
+    public String getStrDia() {
+        return strDia;
+    }
+
+    public void setStrDia(String strDia) {
+        this.strDia = strDia;
+    }
+
+    public String getStrObservacion() {
+        return strObservacion;
+    }
+
+    public void setStrObservacion(String strObservacion) {
+        this.strObservacion = strObservacion;
+    }
+
+    public long getLgAnio() {
+        return lgAnio;
+    }
+
+    public void setLgAnio(long lgAnio) {
+        this.lgAnio = lgAnio;
+    }
+
+    public int getIntCodigoPeriodo() {
+        return intCodigoPeriodo;
+    }
+
+    public void setIntCodigoPeriodo(int intCodigoPeriodo) {
+        this.intCodigoPeriodo = intCodigoPeriodo;
+    }
+
+}

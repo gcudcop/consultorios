@@ -1,0 +1,61 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.clases;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CGrupoLaboral {
+
+    private int intCodigo;
+    private String strNombre;
+    private String strDescripcion;
+    private int intEstado;
+
+    public CGrupoLaboral() {
+    }
+
+    public CGrupoLaboral(int intCodigo, String strNombre, String strDescripcion, int intEstado) {
+        this.intCodigo = intCodigo;
+        this.strNombre = strNombre;
+        this.strDescripcion = strDescripcion;
+        this.intEstado = intEstado;
+    }
+
+    public int getIntCodigo() {
+        return intCodigo;
+    }
+
+    public void setIntCodigo(int intCodigo) {
+        this.intCodigo = intCodigo;
+    }
+
+    public String getStrNombre() {
+        return strNombre;
+    }
+
+    public void setStrNombre(String strNombre) {
+        this.strNombre = strNombre;
+    }
+
+    public String getStrDescripcion() {
+        return strDescripcion;
+    }
+
+    public void setStrDescripcion(String strDescripcion) {
+        this.strDescripcion = strDescripcion;
+    }
+
+    public int getIntEstado() {
+        return intEstado;
+    }
+
+    public void setIntEstado(int intEstado) {
+        this.intEstado = intEstado;
+    }
+
+}

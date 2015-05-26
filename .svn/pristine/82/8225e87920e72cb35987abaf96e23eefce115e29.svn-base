@@ -1,0 +1,58 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package master.logica.funciones.consultas;
+
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import master.logica.clases.consultas.CPersona;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author Javier Romero
+ */
+public class CFPersona {
+
+    public static ArrayList<CPersona> llenarpersonaConsulta(ConjuntoResultado rs) throws Exception {
+        ArrayList<CPersona> lst = new ArrayList<CPersona>();
+        CPersona persona = null;
+        try {
+            while (rs.next()) {
+               
+                persona = new CPersona(
+                        rs.getLong(0),
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getDate(6),
+                        rs.getDate(7));
+                lst.add(persona);
+            }
+        } catch (Exception e) {
+            lst.clear();
+            throw e;
+        }
+        return lst;
+    }
+
+    public static ArrayList<CPersona> obtenerDatosPersona() throws Exception {
+        ArrayList<CPersona> lst = new ArrayList<CPersona>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_select_personas_cargo_dependencia()";
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenarpersonaConsulta(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+}

@@ -1,0 +1,129 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.funciones;
+
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import control.logica.clases.CParametrizacion;
+import control.logica.clases.CTipoJornada;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CFParametrizacion {
+
+    public static boolean insertar(CParametrizacion parametrizacion) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_insert_parametrizacion(?,?,?,?)";
+            lstP.add(new Parametro(1, parametrizacion.getStrNombre()));
+            lstP.add(new Parametro(2, parametrizacion.getStrDescripcion()));
+            lstP.add(new Parametro(3, parametrizacion.getDblValor()));
+            lstP.add(new Parametro(4, parametrizacion.getStrValorCadena()));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true")) {
+                    eje = true;
+                }
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+
+    public static boolean actualizar(CParametrizacion parametrizacion) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_update_parametrizacion(?,?,?,?,?)";
+            lstP.add(new Parametro(1, parametrizacion.getStrNombre()));
+            lstP.add(new Parametro(2, parametrizacion.getStrDescripcion()));
+            lstP.add(new Parametro(3, parametrizacion.getDblValor()));
+            lstP.add(new Parametro(4, parametrizacion.getStrValorCadena()));
+            lstP.add(new Parametro(5, parametrizacion.getLgCodigo()));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true")) {
+                    eje = true;
+                }
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+
+    public static boolean eliminar(int codigo) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_delete_parametrizacion(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true")) {
+                    eje = true;
+                }
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+
+    public static ArrayList<CParametrizacion> llenarParametrizacion(ConjuntoResultado rs) throws Exception {
+        ArrayList<CParametrizacion> lst = new ArrayList<CParametrizacion>();
+        CParametrizacion parametrizacion = null;
+        try {
+            while (rs.next()) {
+                parametrizacion = new CParametrizacion(rs.getInt("pcodigo"),
+                        rs.getString("pnombre"), rs.getString("pdescripcion"),
+                        rs.getDouble("pvalor"),
+                        rs.getString("pvalor_cadena"));
+                lst.add(parametrizacion);
+            }
+        } catch (Exception e) {
+            lst.clear();
+            throw e;
+        }
+        return lst;
+    }
+
+    public static CParametrizacion obtenerParametrizacionDadoCodigo(int codigo) throws Exception {
+        CParametrizacion lst;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_select_parametrizacion_dado_codigo(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = new CParametrizacion();
+            lst = llenarParametrizacion(rs).get(0);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+
+    public static ArrayList<CParametrizacion> obtenerParametrizaciones() throws Exception {
+        ArrayList<CParametrizacion> lst = new ArrayList<CParametrizacion>();
+        try {
+            String sql = "select * from control.f_select_parametrizaciones()";
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
+            lst = llenarParametrizacion(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+}

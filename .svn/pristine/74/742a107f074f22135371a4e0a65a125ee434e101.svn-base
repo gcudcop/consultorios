@@ -1,0 +1,361 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <title>
+            <ui:define name="tituloNavegador">Gestión de Grupos Laborales</ui:define>
+        </title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../../templates/plantillaInternaCenter.xhtml">
+            <ui:define name="top">Gestión de Grupos Laborales</ui:define>
+            <ui:define name="contenido">
+
+                <p:growl id="grmensajes" autoUpdate="true"/>
+                <h:form rendered="true">
+                    <p:scrollPanel style="width:1px;height:1px" mode="native">
+                        <p:schedule id="schedule1" value="#{scheduleHorarioC.eventModel}"  locale="ES" widgetVar="myschedule1" rendered="true"/>   
+                    </p:scrollPanel>
+
+                </h:form>
+                <h:form id="frmAusenciaTemporal">
+                    <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+
+                    <p:panel id="pnlAusencias">
+                        <p:dataTable id="tblAusencias" value="#{ausenciasTemporalesC.lstAusenciasTemporalesConsulta}" 
+                                     var="ausencias" paginator="true" rows="10"
+                                     rowKey="#{ausencias.lgCodigoAusenciaTemp}" selectionMode="single" 
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                     rowsPerPageTemplate="5,10,15">  
+                            <p:column style="width:2%">  
+                                <p:rowToggler />  
+                            </p:column>  
+                            <p:column filterBy="#{ausencias.lgCodigoAusenciaTemp}"  sortBy="#{ausencias.lgCodigoAusenciaTemp}" >
+                                <f:facet name="header">
+                                    <h:outputText value="Código"/>
+                                </f:facet>
+                                <h:outputText value="#{ausencias.lgCodigoAusenciaTemp}"/>
+                            </p:column>
+                            <p:column filterBy="#{ausencias.strPersonaApellidos}" filterMatchMode="startsWith" sortBy="#{ausencias.strPersonaApellidos}">
+                                <f:facet name="header">
+                                    <h:outputText value="Apellidos"/>
+                                </f:facet>
+                                <h:outputText value="#{ausencias.strPersonaApellidos}"/>
+                            </p:column>
+                            <p:column filterBy="#{ausencias.strPersonaNombres}" filterMatchMode="startsWith" sortBy="#{ausencias.strPersonaNombres}">
+                                <f:facet name="header">
+                                    <h:outputText value="Nombres"/>
+                                </f:facet>
+                                <h:outputText value="#{ausencias.strPersonaNombres}"/>
+                            </p:column>
+                            <p:column filterBy="#{ausencias.strNombreTipoAusencia}" filterMatchMode="startsWith" sortBy="#{ausencias.strNombreTipoAusencia}">
+                                <f:facet name="header">
+                                    <h:outputText value="Motivo"/>
+                                </f:facet>
+                                <h:outputText value="#{ausencias.strNombreTipoAusencia}"/>
+                            </p:column>
+                            <p:column filterBy="#{ausencias.dblDuracion}" filterMatchMode="startsWith" sortBy="#{ausencias.dblDuracion}">
+                                <f:facet name="header">
+                                    <h:outputText value="# Horas"/>
+                                </f:facet>
+                                <h:outputText value="#{ausencias.dblDuracion}"/>
+                            </p:column> 
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Estado"/>
+                                </f:facet>
+                                <h:outputText value="#{ausencias.intEstado==1?'Activo':'Inactivo'}"/>
+                            </p:column>  
+                            <p:column>
+                                <p:commandButton id="btnEditar" icon="ui-icon-pencil"  title="Editar" onclick="PF('wdgEditar').show()" process="@this"
+                                                 action="#{ausenciasTemporalesC.preparaEditar}" update=":dlgEditar" type="button">                                   
+                                    <f:setPropertyActionListener value="#{ausencias}" target="#{ausenciasTemporalesC.objAusenciaTemporalActualC}"/>
+                                </p:commandButton>
+                            </p:column>
+                            <p:rowExpansion>
+                                <h:panelGrid id="display" columns="2" cellpadding="4" style="width:300px;"  
+                                             styleClass=" ui-widget-content grid">
+                                    <h:outputText value="Solicitado por:" />  
+                                    <h:outputText  value="#{ausencias.strSolicitadoPor}" />  
+                                    <h:outputText value="Autorizado por:" />  
+                                    <h:outputText  value="#{ausencias.strAutorizadoPor}" />  
+                                    <h:outputText value="Número de Horas:" />  
+                                    <h:outputText  value="#{ausencias.dblDuracion}" />  
+                                </h:panelGrid>
+                            </p:rowExpansion>  
+                            <f:facet name="footer">  
+                                <p:commandButton id="btnNuevo" value="Nuevo" icon="ui-icon-newwin" onclick="PF('wdgNuevo').show()" 
+                                                 title="Agregar Ausencia Temporal" type="button"/> 
+
+                            </f:facet>
+                        </p:dataTable>
+
+                    </p:panel>
+                </h:form>
+            </ui:define>
+            <ui:define name="dialogos">
+                <p:dialog id="dlgNuevo"  widgetVar="wdgNuevo" modal="true" closable="true" resizable="false"
+                          showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmNuevo">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:scrollPanel style="width:600px;height:500px" mode="native">
+                            <p:panelGrid id="pngNuevo" columns="2" style="width:550px">
+                                <f:facet name="header">  
+                                    <p:row>  
+                                        <p:column colspan="2">Nueva Ausencia Laboral</p:column>  
+                                    </p:row>  
+                                </f:facet> 
+                                <h:outputText value="Busque una Empleado:"/>
+                                <p:commandButton value="Buscar" onclick="PF('wdialogoBusquedaPersonas').show()"
+                                                 action="#{ausenciasTemporalesC.preparaBusqueda}"
+                                                 process="@this" update=":dialogoBusquedaPersonas" type="button"/>
+                                <h:outputText value="Nombres:"></h:outputText>
+                                <h:outputText id="txtNombresPersona" value="#{ausenciasTemporalesC.dm.objPersona.strApellidos} 
+                                              #{ausenciasTemporalesC.dm.objPersona.strNombres}"/>
+                                <h:outputText value="Cédula: "></h:outputText>
+                                <h:outputText id="txtCedulaPersona" value="#{ausenciasTemporalesC.dm.objPersona.strIdentificacion}"/>
+
+                                <h:outputText value="Solicitado por:"/>
+                                <p:inputText value="#{ausenciasTemporalesC.objAusenciaTemporal.strSolicitadoPor}" style="width: 100%;"/>
+                                <h:outputText value="Aprobado por:"/>
+                                <p:inputText value="#{ausenciasTemporalesC.objAusenciaTemporal.strAprobadoPor}" style="width: 100%;"/>
+                                <h:outputText value="Autorizado por:"/>
+                                <p:inputText value="#{ausenciasTemporalesC.objAusenciaTemporal.strAutorizadoPor}" style="width: 100%;"/>
+                                <h:outputText value="Justificación:"/>
+                                <p:inputTextarea value="#{ausenciasTemporalesC.objAusenciaTemporal.strJustificacion}" style="width: 100%;"/>
+                                <h:outputText value="Observación:"/>
+                                <p:inputTextarea value="#{ausenciasTemporalesC.objAusenciaTemporal.strObservacion}" style="width: 100%;"/>
+                                <h:outputText value="Tipo de Ausencia"/>
+                                <p:selectOneMenu id="cmbTipoAusencia" style="width: 100%;" value="#{ausenciasTemporalesC.tipoAusenciaSel.intCodigo}"
+                                                 required="true" requiredMessage="Seleccione un Tipo de Ausencia">
+                                    <f:selectItem itemLabel="--Seleccione un Tipo de Ausencia--" itemValue="#{null}"/>
+                                    <f:selectItems value="#{tiposAusenciaC.lstTiposAusencia}" var="tiposAusencia"
+                                                   itemLabel="#{tiposAusencia.strNombre}"
+                                                   itemValue="#{tiposAusencia.intCodigo}"/>
+                                </p:selectOneMenu>
+                            </p:panelGrid>
+                            <p:panelGrid columns="1" style="width:550px">
+                                <f:facet name="header">  
+                                    <p:row>  
+                                        <p:column colspan="2">Detalle de Ausencia Laboral</p:column>  
+                                    </p:row>  
+                                </f:facet> 
+                                <p:row>  
+                                    <p:column colspan="2"><p:commandButton value="Agregar" onclick="PF('wdgHorario').show()"
+                                                                           type="button" icon="ui-icon-circle-plus"/></p:column>
+                                </p:row>  
+                                <p:row>  
+                                    <p:column colspan="2"> <h:outputText value=""/></p:column>
+                                </p:row> 
+
+
+                                <p:outputPanel id="pnDetalleAusencias">
+                                    <p:dataTable id="booksTable" value="#{ausenciasTemporalesC.lstDetalleAusencias}" var="detalle">
+                                        <p:column>  
+                                            <f:facet name="header">  
+                                                <h:outputText value="Código" />  
+                                            </f:facet>  
+                                            <h:outputText value="#{detalle.objCodigoAsignacionJornada.lgCodigo}" />  
+                                        </p:column> 
+                                        <p:column>  
+                                            <f:facet name="header">  
+                                                <h:outputText value="Fecha de Salida" />  
+                                            </f:facet>  
+                                            <h:outputText value="#{detalle.dtFecha_salida}" />  
+                                        </p:column> 
+                                        <p:column>  
+                                            <f:facet name="header">  
+                                                <h:outputText value="Hora de Salida" />  
+                                            </f:facet>  
+                                            <h:outputText value="#{detalle.tmHoraSalida}" />  
+                                        </p:column>
+                                        <p:column>  
+                                            <f:facet name="header">  
+                                                <h:outputText value="Número de Horas" />  
+                                            </f:facet>  
+                                            <h:outputText value="#{detalle.tmNumeroHoras}" />  
+                                        </p:column>
+                                        <p:column>  
+                                            <f:facet name="header">  
+                                                <h:outputText value="x"  />  
+                                            </f:facet>  
+                                            <p:commandButton update=":frmNuevo:pnDetalleAusencias" process=":frmNuevo:pnDetalleAusencias"
+                                                             icon="ui-icon-circle-close">
+                                                <p:collector value="#{detalle}" removeFrom="#{ausenciasTemporalesC.lstDetalleAusencias}" unique="true" />  
+                                            </p:commandButton>  
+                                        </p:column> 
+
+                                    </p:dataTable>  
+
+                                </p:outputPanel>  
+                                <f:facet name="footer">  
+                                    <p:commandButton value="Aceptar" action="#{ausenciasTemporalesC.insertarAusenciaTemporal}" 
+                                                     update=":frmAusenciaTemporal:pnlAusencias"/>
+                                    <p:commandButton value="Cancelar" onclick="wdgNuevo.hide()" type="reset"/>
+                                </f:facet>  
+                            </p:panelGrid>
+
+                        </p:scrollPanel> 
+
+
+                    </h:form> 
+                </p:dialog>
+
+                <p:dialog header="Busqueda de Personas"  widgetVar="wdialogoBusquedaPersonas"  
+                          id="dialogoBusquedaPersonas" resizable="false" modal="true">
+                    <p:panel id="pnlContenedorBusquedaPersonas">
+                        <h:form id="formPersonas">  
+                            <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                            <p:panelGrid id="pngBusqueda" columns="4">
+                                <h:outputText id="otxtBuscar" value="Buscar por:"/>
+                                <p:selectOneMenu id="cmbCriterioBusqueda" value="#{ausenciasTemporalesC.dm.criterioBusquedaTitular}">
+                                    <f:selectItem itemValue="#{null}" itemLabel="--Elija una opción--"/>
+                                    <f:selectItem itemValue="cedula" itemLabel="CEDULA"/>
+                                    <f:selectItem itemValue="apellido" itemLabel="APELLIDOS"/>
+                                </p:selectOneMenu>
+                                <p:inputText id="txtBuscar" value="#{ausenciasTemporalesC.dm.datoBusqueda}"/>
+                                <p:commandButton value="Aceptar" update="pTabla" 
+                                                 action="#{ausenciasTemporalesC.dm.obtenerPersonas}" process="@form"/>
+                            </p:panelGrid>
+
+                            <p:panel id="pTabla">
+                                <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                                <p:dataTable var="persona" value="#{ausenciasTemporalesC.dm.lazyModel}" paginator="true" rows="5"  
+                                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} 
+                                             {CurrentPageReport} {NextPageLink} {LastPageLink}"  
+                                             rowsPerPageTemplate="5,10" selectionMode="single"    
+                                             selection="#{ausenciasTemporalesC.dm.personaSel}"
+                                             id="personaTable" sortBy="#{persona.strApellidos}"
+                                             rowKey="#{persona.lgCodigo}" lazy="true">  
+
+                                    <p:column headerText="Código" sortBy="#{persona.lgCodigo}">  
+                                        <h:outputText value="#{persona.lgCodigo}" />  
+                                    </p:column>  
+
+                                    <p:column headerText="Cédula" sortBy="#{persona.strIdentificacion}">  
+                                        <h:outputText value="#{persona.strIdentificacion}" />  
+                                    </p:column>  
+
+                                    <p:column headerText="Apellidos" sortBy="#{persona.strApellidos}">  
+                                        <h:outputText value="#{persona.strApellidos}" />  
+                                    </p:column>  
+
+                                    <p:column headerText="Nombre" sortBy="#{persona.strNombres}">  
+                                        <h:outputText value="#{persona.strNombres}" />  
+                                    </p:column>  
+                                </p:dataTable>  
+                                <p:commandButton value="Aceptar"  action="#{ausenciasTemporalesC.asignarSelectedPersona}"  
+                                                 update=":frmNuevo:txtNombresPersona :frmNuevo:txtCedulaPersona :frmEditar:txtNombresPersona 
+                                                 :frmEditar:txtCedulaPersona" />
+
+                            </p:panel>
+                        </h:form>  
+                    </p:panel>
+                </p:dialog>
+
+                <p:dialog id="dlgEditar"  widgetVar="wdgEditar" modal="true" closable="false" resizable="false"
+                          showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEditar">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:panel id="pPersona">
+                            <h:outputText value="Busque una Persona:"/>
+                            <p:commandButton value="Buscar" oncomplete="wdialogoBusquedaPersonas.show()" action="#{ausenciasTemporalesC.preparaBusqueda}"
+                                             process="@this" update=":dialogoBusquedaPersonas"/>
+                            <h:outputText value="Nombres:"></h:outputText>
+                            <h:outputText id="txtNombresPersona" value="#{ausenciasTemporalesC.dm.objPersona.strApellidos} 
+                                          #{ausenciasTemporalesC.dm.objPersona.strNombres}"/>
+                            <h:outputText value="Cédula: "></h:outputText>
+                            <h:outputText id="txtCedulaPersona" value="#{ausenciasTemporalesC.dm.objPersona.strIdentificacion}"/>
+                        </p:panel>
+                        <p:panelGrid id="pngEditar" columns="2">
+                            <f:facet name="header">  
+                                Editar Ausencia Laboral
+                            </f:facet> 
+                            <h:outputText value="Código: "></h:outputText>
+                            <h:outputText id="txtCodigo" value="#{ausenciasTemporalesC.objAusenciaTemporalActual.lgCodigo}"/>
+
+                            <h:outputText value="Solicitado por:"/>
+                            <p:inputText value="#{ausenciasTemporalesC.objAusenciaTemporalActual.strSolicitadoPor}"/>
+                            <h:outputText value="Aprobado por:"/>
+                            <p:inputText value="#{ausenciasTemporalesC.objAusenciaTemporalActual.strAprobadoPor}"/>
+                            <h:outputText value="Autorizado por:"/>
+                            <p:inputText value="#{ausenciasTemporalesC.objAusenciaTemporalActual.strAutorizadoPor}"/>
+                            <h:outputText value="Justificación:"/>
+                            <p:inputText value="#{ausenciasTemporalesC.objAusenciaTemporalActual.strJustificacion}"/>
+                            <h:outputText value="Observación:"/>
+                            <p:inputText value="#{ausenciasTemporalesC.objAusenciaTemporalActual.strObservacion}"/>
+                            <h:outputText value="Fecha Solictud:"/>
+                            <p:inputText value="#{ausenciasTemporalesC.objAusenciaTemporalActual.tmstmFechaSolicitud}"/>
+                            <h:outputText value="Fecha Salida:"/>
+
+                            <h:outputText value="Tipos de Ausencia:"/>
+                            <p:selectOneMenu id="cmbTipoAusencia" style="width: 150px;" value="#{ausenciasTemporalesC.codigoTipoAusenciaSeleccionado}"
+                                             required="true" requiredMessage="Seleccione un Tipo de Ausencia">
+                                <f:selectItem itemLabel="--Seleccione un Tipo de Ausencia--" itemValue="#{null}"/>
+                                <f:selectItems value="#{tiposAusenciaC.lstTiposAusencia}" var="tiposAusencia"
+                                               itemLabel="#{tiposAusencia.strNombre}"
+                                               itemValue="#{tiposAusencia.intCodigo}"/>
+                            </p:selectOneMenu>
+                            <p:selectOneRadio value="#{ausenciasTemporalesC.objAusenciaTemporalActual.intEstado}">
+                                <f:selectItem itemLabel="Activo" itemValue="1"/>
+                                <f:selectItem itemLabel="Inactivo" itemValue="0"/>
+                            </p:selectOneRadio>
+
+
+                        </p:panelGrid>
+
+                        <p:commandButton value="Aceptar" action="#{ausenciasTemporalesC.editarAusenciaTemporal}" 
+                                         update=":frmAusenciaTemporal:pnlAusencias" process="@this pngEditar" disabled="true"/>
+                        <p:commandButton value="Cancelar" onclick="wdgEditar.hide()" type="reset"/>
+
+                    </h:form> 
+                </p:dialog>
+
+                <p:dialog id="dlgHorario"  widgetVar="wdgHorario" modal="true" closable="true" resizable="false"
+                          showEffect="clip" hideEffect="fold">
+                    <h:form id="frmHorario">
+                        <p:growl id="messages" showDetail="true" />  
+                        <p:schedule id="schedule" value="#{ausenciasTemporalesC.eventModel}"  locale="ES" widgetVar="myschedule">
+                            <p:ajax event="dateSelect" listener="#{ausenciasTemporalesC.onDateSelect}" update=":dlgInfoAusencia" oncomplete="PF('eventDialog').show()" />  
+                            <p:ajax event="eventSelect" listener="#{ausenciasTemporalesC.onEventSelect}" update=":dlgInfoAusencia" oncomplete="PF('eventDialog').show()" />  
+                        </p:schedule>   
+                    </h:form>
+                </p:dialog>
+                <p:dialog id="dlgInfoAusencia" widgetVar="eventDialog" header="Información de Ausencia" showEffect="clip" hideEffect="clip">  
+                    <h:form id="frmH">
+                        <h:panelGrid id="eventDetails" columns="2">  
+                            <h:outputText value="Hora de Salida"/>
+                            <p:calendar id="tmHoraS" value="#{ausenciasTemporalesC.horaSalida}" title="Hora de Salida"  
+                                        required="true" requiredMessage="El campo Hora Salida es requerido" pattern="HH:mm" timeOnly="true"
+                                        minHour="#{ausenciasTemporalesC.horarioEmpleadoSel.tmHoraEntradaJornada.hours}"
+                                        maxHour="#{ausenciasTemporalesC.horarioEmpleadoSel.tmHoraSalidaJornada.hours}"/>
+                            <h:outputText value="Hora Salida al Receso:"/>
+
+                            <p:calendar id="tmNumHoras" value="#{ausenciasTemporalesC.numeroHoras}" title="Número de Horas"  
+                                        required="true" requiredMessage="El campo Número de Horas es requerido" pattern="HH:mm" timeOnly="true"
+                                        minHour="1"
+                                        maxHour="#{ausenciasTemporalesC.horarioEmpleadoSel.tmHoraSalidaJornada.hours-ausenciasTemporalesC.horarioEmpleadoSel.tmHoraEntradaJornada.hours}"/>
+                            <p:commandButton id="addButton" value="Aceptar" actionListener="#{ausenciasTemporalesC.asignarDetalleAusencia}" 
+                                             
+                                             update=":frmNuevo:pnDetalleAusencias, @parent">
+                                <p:collector value="#{ausenciasTemporalesC.detalleAusencias}"   
+                                             addTo="#{ausenciasTemporalesC.lstDetalleAusencias}" unique="true" />  
+                            </p:commandButton>  
+                        </h:panelGrid>  
+                    </h:form>
+                </p:dialog>  
+
+                <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
+                          resizable="false"> 
+                    <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
+                </p:dialog>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

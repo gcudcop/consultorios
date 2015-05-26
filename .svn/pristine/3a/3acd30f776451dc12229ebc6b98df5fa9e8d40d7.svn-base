@@ -1,0 +1,89 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package master.logica.clases;
+
+/**
+ *
+ * @author Javier
+ */
+public class CParroquia {
+
+    private long lgCodigo;
+    private String strNombre;
+    private CCiudad objCodigoCiudad;
+    private boolean blEsUrbana;
+    
+    private Integer paCodigo;    
+    private Integer proCodigo;    
+    private Integer ciuCodigo;
+
+    public CParroquia(long lgCodigo, String strNombre, CCiudad objCodigoCiudad, boolean blEsUrbana) {
+        this.lgCodigo = lgCodigo;
+        this.strNombre = strNombre;
+        this.objCodigoCiudad = objCodigoCiudad;
+        this.blEsUrbana = blEsUrbana;
+    }
+
+    public CParroquia() {
+    }
+
+    public long getLgCodigo() {
+        return lgCodigo;
+    }
+
+    public void setLgCodigo(long lgCodigo) {
+        this.lgCodigo = lgCodigo;
+    }
+
+    public String getStrNombre() {
+        return strNombre;
+    }
+
+    public void setStrNombre(String strNombre) {
+        this.strNombre = strNombre;
+    }
+
+    public CCiudad getObjCodigoCiudad() {
+        return objCodigoCiudad;
+    }
+
+    public void setObjCodigoCiudad(CCiudad objCodigoCiudad) {
+        this.objCodigoCiudad = objCodigoCiudad;
+    }
+
+    public boolean getBlEsUrbana() {
+        return blEsUrbana;
+    }
+
+    public void setBlEsUrbana(boolean blEsUrbana) {
+        this.blEsUrbana = blEsUrbana;
+    }
+
+    public Integer getProCodigo() {
+        return proCodigo;
+    }
+
+    public void setProCodigo(Integer proCodigo) {
+        this.proCodigo = proCodigo;
+    }
+
+    public Integer getCiuCodigo() {
+        return ciuCodigo;
+    }
+
+    public void setCiuCodigo(Integer ciuCodigo) {
+        this.ciuCodigo = ciuCodigo;
+    }
+
+    public Integer getPaCodigo() {
+        return paCodigo;
+    }
+
+    public void setPaCodigo(Integer paCodigo) {
+        this.paCodigo = paCodigo;
+    }
+
+    
+}

@@ -1,0 +1,69 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.funciones.consultas;
+
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import control.logica.clases.consultas.CAusenciasTemporalesConsulta;
+import control.logica.clases.consultas.CRelDepGrupLabConsulta;
+import static control.logica.funciones.consultas.CFRelDepGrupLabConsulta.llenarRelDepGrupLabConsulta;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CFAusenciasTemporalesConsulta {
+    
+    public static ArrayList<CAusenciasTemporalesConsulta> llenarAusenciasTemporalesConsulta(ConjuntoResultado rs) throws Exception {
+        ArrayList<CAusenciasTemporalesConsulta> lst = new ArrayList<CAusenciasTemporalesConsulta>();
+        CAusenciasTemporalesConsulta ausenciasTemporalesConsulta = null;
+        try {
+            while (rs.next()) {
+                ausenciasTemporalesConsulta = new CAusenciasTemporalesConsulta(
+                        rs.getLong("pcodigo_ausencia_temp"),
+                        rs.getTimeStamp("pfecha_salida"),
+                        rs.getTimeStamp("pfecha_reintegro"),
+                        rs.getString("psolicitado_por"),
+                        rs.getString("pautorizado_por"),
+                        rs.getString("ppersona_apellidos"),
+                        rs.getString("ppersona_nombres"),
+                        rs.getString("pnombre_tipo_ausencia"),
+                        rs.getInt("pestado"),
+                        rs.getDouble("pduracion"));
+                lst.add(ausenciasTemporalesConsulta);
+            }
+        } catch (Exception e) {
+            lst.clear();
+            throw e;
+        }
+        return lst;
+    }
+    
+    public static ArrayList<CAusenciasTemporalesConsulta> obtenerAusenciasTemporalesEmpleados(
+            int opcion,
+            String papellidos, java.sql.Timestamp pfecha_sol_inicio, java.sql.Timestamp pfecha_sol_fin,
+            int ptipo_ausencia) throws Exception {
+        ArrayList<CAusenciasTemporalesConsulta> lst = new ArrayList<CAusenciasTemporalesConsulta>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_select_ausencias_temporales_empleado(?,?,?,?,?)";
+            lstP.add(new Parametro(1, opcion));
+            lstP.add(new Parametro(2, papellidos));
+            lstP.add(new Parametro(3, pfecha_sol_inicio));
+            lstP.add(new Parametro(4, pfecha_sol_fin));
+            lstP.add(new Parametro(5, ptipo_ausencia));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenarAusenciasTemporalesConsulta(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+}

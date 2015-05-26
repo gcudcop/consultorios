@@ -1,0 +1,57 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package master.logica.funciones.consultas;
+
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import master.logica.clases.Persona;
+import master.logica.clases.consultas.CPersonaBusquedas;
+import static master.logica.funciones.FPersona.llenarPersona;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CFPersonaBusquedas {
+
+    public static ArrayList<CPersonaBusquedas> llenarPersonaBusquedas(ConjuntoResultado rs) throws Exception {
+        ArrayList<CPersonaBusquedas> lst = new ArrayList<CPersonaBusquedas>();
+        CPersonaBusquedas persona = null;
+        try {
+            while (rs.next()) {
+                persona = new CPersonaBusquedas(
+                        rs.getLong("pcodigo_persona"),
+                        rs.getString("papellidos"),
+                        rs.getString("pnombres"),
+                        rs.getString("pidentificacion"));
+                lst.add(persona);
+            }
+        } catch (Exception e) {
+            lst.clear();
+            throw e;
+        }
+        return lst;
+    }
+
+    public static ArrayList<CPersonaBusquedas> obtenerPersonasDadoIdentificacion(String id) throws Exception {
+        ArrayList<CPersonaBusquedas> lst = new ArrayList<CPersonaBusquedas>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_select_persona_dado_identificacion_busquedas(?)";
+            lstP.add(new Parametro(1, id));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            //  lst = new Persona();
+            lst = llenarPersonaBusquedas(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+}

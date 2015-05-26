@@ -1,0 +1,102 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.funciones;
+
+import accesodatos.AccesoDatos;
+import accesodatos.Conexion;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import control.logica.clases.CAsignacionJornada;
+import control.logica.clases.CCalendario;
+import informacion.logica.clases.consulta.CRelacionDependenciaConsulta;
+import informacion.logica.funciones.CFRelacionDependencia;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CFAsignacionJornada {
+
+    public static ArrayList<CAsignacionJornada> llenarAsignacionJoranada(ConjuntoResultado rs) throws Exception {
+        ArrayList<CAsignacionJornada> lst = new ArrayList<CAsignacionJornada>();
+        CAsignacionJornada asignacionJornada = null;
+        try {
+            while (rs.next()) {
+                asignacionJornada = new CAsignacionJornada(rs.getLong("pcodigo"),
+                        CFRelacionDependencia.obtenerRelacionDependenciaDadoCodigo(rs.getLong("pcodigo_relacion_dependencia")),
+                        CFTipoJornada.obtenerTipoJornadaDadoCodigo(rs.getInt("pcodigo_tipo_jornada")),
+                        CFCalendario.obtenerCalendarioDadoCodigo(rs.getInt("pcodigo_calendario")),
+                        rs.getInt("pestado"),
+                        rs.getString("pobservacion"),
+                        rs.getDate("pfecha"));
+                lst.add(asignacionJornada);
+            }
+        } catch (Exception e) {
+            lst.clear();
+            throw e;
+        }
+        return lst;
+    }
+
+    public static CAsignacionJornada obtenerAsignacionJornadaDadoCodigo(long codigo) throws Exception {
+        CAsignacionJornada lst;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_select_asignacion_jornada_dado_codigo(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = new CAsignacionJornada();
+            lst = llenarAsignacionJoranada(rs).get(0);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+    
+    
+
+    public static boolean insertar(CAsignacionJornada aj,
+            ArrayList<CRelacionDependenciaConsulta> lstrdc,
+            ArrayList<CCalendario> lstc) throws Exception {
+        boolean eje = false;
+        Conexion con = new Conexion();
+        try {
+            if (con.getCon().getAutoCommit()) {
+                con.getCon().setAutoCommit(false);
+            }
+            for (CRelacionDependenciaConsulta rdc : lstrdc) {
+                aj.setObjCodigoRelacionDependencia(CFRelacionDependencia.
+                        obtenerRelacionDependenciaDadoCodigo(rdc.getCodigo()));
+                for (CCalendario c : lstc) {
+                    aj.setObjCodigoCalendario(c);
+                    ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+                    String sql = "select * from control.f_insert_asignacion_jornada(?, ?, ?, ?, ?, ?)";
+                    lstP.add(new Parametro(1, aj.getObjCodigoRelacionDependencia().getLgCodigo()));
+                    lstP.add(new Parametro(2, aj.getObjCodigoTipoJornada().getIntCodigo()));
+                    lstP.add(new Parametro(3, aj.getObjCodigoCalendario().getIntCodigo()));
+                    lstP.add(new Parametro(4, aj.getIntEstado()));
+                    lstP.add(new Parametro(5, aj.getStrObservacion()));
+                    lstP.add(new Parametro(6, aj.getDtfecha()));
+                    ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+                    while (rs.next()) {
+                        if (rs.getString(0).equals("true")) {
+                            eje = true;
+                        }
+                    }
+                }
+            }
+            con.getCon().commit();
+        } catch (SQLException exConec) {
+            con.getCon().rollback();
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+
+}

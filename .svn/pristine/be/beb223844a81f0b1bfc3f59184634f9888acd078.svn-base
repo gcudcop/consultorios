@@ -1,0 +1,59 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.funciones.consultas;
+
+import control.logica.funciones.*;
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import control.logica.clases.CGrupoLaboral;
+import control.logica.clases.CTipoAusencia;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import control.logica.clases.CTotalHorasNormales;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CFTotalHorasNormales {
+
+    public static ArrayList<CTotalHorasNormales> llenarHorasNormales(ConjuntoResultado rs) throws Exception {
+        ArrayList<CTotalHorasNormales> lst = new ArrayList<CTotalHorasNormales>();
+        CTotalHorasNormales horaNormal = null;
+        try {
+            while (rs.next()) {
+                horaNormal = new CTotalHorasNormales(rs.getString("pidentificacion"),
+                        rs.getString("papellido"),
+                        rs.getString("pnombre"),
+                        rs.getString("pdependencia"),
+                        rs.getDouble("psuma_horas_lab"),
+                        rs.getDouble("psuma_horas_sobretiempo"));
+                lst.add(horaNormal);
+            }
+        } catch (Exception e) {
+            lst.clear();
+            throw e;
+        }
+        return lst;
+    }
+
+    public static ArrayList<CTotalHorasNormales> obtenerHorasNormales(java.sql.Date fInicial, java.sql.Date fFinal) throws Exception {
+        ArrayList<CTotalHorasNormales> lst = new ArrayList<CTotalHorasNormales>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_select_total_horas_a_pagar_reporte(?,?)";
+            lstP.add(new Parametro(1, fInicial));
+            lstP.add(new Parametro(2, fFinal));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql,lstP);
+            lst = llenarHorasNormales(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+}

@@ -1,0 +1,136 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package master.presentacion.beans;
+
+import java.util.ArrayList;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import master.logica.clases.CPais;
+import master.logica.clases.CProvincia;
+import master.logica.funciones.CFPais;
+import master.logica.funciones.CFProvincia;
+import master.logica.funciones.FPersona;
+import org.primefaces.context.DefaultRequestContext;
+import recursos.Util;
+/**
+ *
+ * @author Javier
+ */
+@ManagedBean
+@ViewScoped
+public class gestionProvinciaC {
+ private CProvincia provinciaActual; 
+ 
+ private ArrayList<CProvincia> lstProvincia;
+  private CProvincia objProvincia;
+  private CProvincia provinciaSel;
+
+    public gestionProvinciaC() {
+      this.cargarPais();
+     this.objProvincia = new CProvincia();
+     this.provinciaActual = new CProvincia();   
+    }
+
+    public CProvincia getProvinciaActual() {
+        return provinciaActual;
+    }
+
+    public void setProvinciaActual(CProvincia provinciaActual) {
+        this.provinciaActual = provinciaActual;
+    }
+
+    public ArrayList<CProvincia> getLstProvincia() {
+        return lstProvincia;
+    }
+
+    public void setLstProvincia(ArrayList<CProvincia> lstProvincia) {
+        this.lstProvincia = lstProvincia;
+    }
+
+    public CProvincia getObjProvincia() {
+        return objProvincia;
+    }
+
+    public void setObjProvincia(CProvincia objProvincia) {
+        this.objProvincia = objProvincia;
+    }
+
+    public CProvincia getProvinciaSel() {
+        return provinciaSel;
+    }
+
+    public void setProvinciaSel(CProvincia provinciaSel) {
+        this.provinciaSel = provinciaSel;
+    }
+
+    
+    
+  public void cargarPais(){
+     
+      try {
+          this.lstProvincia = CFProvincia.ObtenerProvincias();
+      } catch (Exception e) {
+          Util.addErrorMessage(e,"Error al acceder a la base de datos");
+      }
+  }
+  public void insertarProvincia(){
+//              try {
+//            objPersona.setCodigo_global(0);
+//            if (FPersona.insertar(objPersona) == true) {
+//                
+//            FacesMessage mensaje=new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto", "Datos Insertados");
+//            FacesContext.getCurrentInstance().addMessage(null, mensaje);
+//            DefaultRequestContext.getCurrentInstance().execute("wdlgAgregarPersona.hide()");  
+//            this.cargarPersonas();
+//            this.objPersona = new CPais();
+//            } else {
+//                FacesMessage mensajeError=new FacesMessage(FacesMessage.SEVERITY_ERROR,"Atención", "Datos no se Insertó");
+//                FacesContext.getCurrentInstance().addMessage(null, mensajeError);
+//            }
+//        } catch (Exception e) {
+//             FacesMessage mensajeErrorIngreso=new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error", e.getMessage());
+//            FacesContext.getCurrentInstance().addMessage(null, mensajeErrorIngreso);
+//        }      
+  }
+  
+   public void actualizarProvincia (){
+//     try {
+//         personaSel.set(0);
+//         if (FPersona.actualizar(personaSel)) {
+//               FacesMessage mensajeActualizacion=new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto", "Datos Actualizados");
+//                FacesContext.getCurrentInstance().addMessage(null,mensajeActualizacion);
+//                DefaultRequestContext.getCurrentInstance().execute("wdlgEditarPersona.hide()");             
+//         } else {
+//              FacesMessage mensajeErrorActualizacion=new FacesMessage(FacesMessage.SEVERITY_ERROR,"Atención", "Datos no Actualizados");
+//             FacesContext.getCurrentInstance().addMessage(null, mensajeErrorActualizacion);
+//         }
+//         
+//     } catch (Exception e) {
+//          FacesMessage mensajeErrorA=new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error", e.getMessage());
+//            FacesContext.getCurrentInstance().addMessage(null, mensajeErrorA);
+//     }           
+} 
+
+   public void eliminarProvincia (){
+//    try {
+//        if (FPersona.eliminar(personaSel.getCodigo_persona())) {       
+//          FacesMessage mensajeEliminar=new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto", "Datos Eliminados");
+//          FacesContext.getCurrentInstance().addMessage(null,mensajeEliminar);
+//          DefaultRequestContext.getCurrentInstance().execute("wdlgEliminarPersona.hide()");
+//          this.cargarPersonas();
+//            
+//        } else {
+//             FacesMessage mensajeErrorEliminar=new FacesMessage(FacesMessage.SEVERITY_ERROR,"Atención", "Datos no se Eliminó");
+//             FacesContext.getCurrentInstance().addMessage(null, mensajeErrorEliminar);            
+//        }
+//    } catch (Exception e) {
+//           FacesMessage mensajeErrorE=new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error", e.getMessage());
+//            FacesContext.getCurrentInstance().addMessage(null, mensajeErrorE);
+//    }     
+}   
+}//Cierrala clase
+

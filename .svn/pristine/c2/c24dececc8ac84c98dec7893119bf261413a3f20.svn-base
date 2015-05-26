@@ -1,0 +1,109 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package master.logica.clases.consultas;
+
+import java.sql.Date;
+
+/**
+ *
+ * @author javier
+ */
+public class CPersona {
+
+    private long CodigoPersona;
+    private String strApellidos;
+    private String strNombres;
+    private String strIdentificacion;
+    private String strDependenciaNombre;
+    private String strCargoNombre;
+    private java.sql.Date dtFechaI;
+    private java.sql.Date dtFechaF;
+
+    public CPersona(long CodigoPersona, String strApellidos, String strNombres, String strIdentificacion, String strDependenciaNombre, String strCargoNombre, Date dtFechaI, Date dtFechaF) {
+        this.CodigoPersona = CodigoPersona;
+        this.strApellidos = strApellidos;
+        this.strNombres = strNombres;
+        this.strIdentificacion = strIdentificacion;
+        this.strDependenciaNombre = strDependenciaNombre;
+        this.strCargoNombre = strCargoNombre;
+        this.dtFechaI = dtFechaI;
+        this.dtFechaF = dtFechaF;
+    }
+
+    public CPersona() {
+    }
+
+    
+    
+    public long getCodigoPersona() {
+        return CodigoPersona;
+    }
+
+    public void setCodigoPersona(long CodigoPersona) {
+        this.CodigoPersona = CodigoPersona;
+    }
+
+    public String getStrApellidos() {
+        return strApellidos;
+    }
+
+    public void setStrApellidos(String strApellidos) {
+        this.strApellidos = strApellidos;
+    }
+
+    public String getStrNombres() {
+        return strNombres;
+    }
+
+    public void setStrNombres(String strNombres) {
+        this.strNombres = strNombres;
+    }
+
+    public String getStrIdentificacion() {
+        return strIdentificacion;
+    }
+
+    public void setStrIdentificacion(String strIdentificacion) {
+        this.strIdentificacion = strIdentificacion;
+    }
+
+    public String getStrDependenciaNombre() {
+        return strDependenciaNombre;
+    }
+
+    public void setStrDependenciaNombre(String strDependenciaNombre) {
+        this.strDependenciaNombre = strDependenciaNombre;
+    }
+
+    public String getStrCargoNombre() {
+        return strCargoNombre;
+    }
+
+    public void setStrCargoNombre(String strCargoNombre) {
+        this.strCargoNombre = strCargoNombre;
+    }
+
+    public Date getDtFechaI() {
+        return dtFechaI;
+    }
+
+    public void setDtFechaI(Date dtFechaI) {
+        this.dtFechaI = dtFechaI;
+    }
+
+    public Date getDtFechaF() {
+        return dtFechaF;
+    }
+
+    public void setDtFechaF(Date dtFechaF) {
+        this.dtFechaF = dtFechaF;
+    }
+            
+    
+
+    
+}

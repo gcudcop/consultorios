@@ -1,0 +1,114 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.clases;
+
+import java.sql.Date;
+import java.sql.Time;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CDetalleHorasExtras {
+
+    private long lgCodigo;
+    private CHorasExtras objCodigoHoraExtra;
+    private java.sql.Date dtfecha;
+    private java.sql.Time tmHoraEntrada;
+    private java.sql.Time tmHoraSalida;
+    private java.sql.Time tmHoraEntradaAlmuerzo;
+    private java.sql.Time tmHoraSalidaAlmuerzo;
+    private String strObservacion;
+    private int intEstado;
+
+    public CDetalleHorasExtras() {
+    }
+
+    public CDetalleHorasExtras(long lgCodigo, CHorasExtras objCodigoHoraExtra, Date dtfecha, Time tmHoraEntrada, Time tmHoraSalida, Time tmHoraEntradaAlmuerzo, Time tmHoraSalidaAlmuerzo, String strObservacion, int intEstado) {
+        this.lgCodigo = lgCodigo;
+        this.objCodigoHoraExtra = objCodigoHoraExtra;
+        this.dtfecha = dtfecha;
+        this.tmHoraEntrada = tmHoraEntrada;
+        this.tmHoraSalida = tmHoraSalida;
+        this.tmHoraEntradaAlmuerzo = tmHoraEntradaAlmuerzo;
+        this.tmHoraSalidaAlmuerzo = tmHoraSalidaAlmuerzo;
+        this.strObservacion = strObservacion;
+        this.intEstado = intEstado;
+    }
+
+    public long getLgCodigo() {
+        return lgCodigo;
+    }
+
+    public void setLgCodigo(long lgCodigo) {
+        this.lgCodigo = lgCodigo;
+    }
+
+    public CHorasExtras getObjCodigoHoraExtra() {
+        return objCodigoHoraExtra;
+    }
+
+    public void setObjCodigoHoraExtra(CHorasExtras objCodigoHoraExtra) {
+        this.objCodigoHoraExtra = objCodigoHoraExtra;
+    }
+
+    public Date getDtfecha() {
+        return dtfecha;
+    }
+
+    public void setDtfecha(Date dtfecha) {
+        this.dtfecha = dtfecha;
+    }
+
+    public Time getTmHoraEntrada() {
+        return tmHoraEntrada;
+    }
+
+    public void setTmHoraEntrada(Time tmHoraEntrada) {
+        this.tmHoraEntrada = tmHoraEntrada;
+    }
+
+    public Time getTmHoraSalida() {
+        return tmHoraSalida;
+    }
+
+    public void setTmHoraSalida(Time tmHoraSalida) {
+        this.tmHoraSalida = tmHoraSalida;
+    }
+
+    public Time getTmHoraEntradaAlmuerzo() {
+        return tmHoraEntradaAlmuerzo;
+    }
+
+    public void setTmHoraEntradaAlmuerzo(Time tmHoraEntradaAlmuerzo) {
+        this.tmHoraEntradaAlmuerzo = tmHoraEntradaAlmuerzo;
+    }
+
+    public Time getTmHoraSalidaAlmuerzo() {
+        return tmHoraSalidaAlmuerzo;
+    }
+
+    public void setTmHoraSalidaAlmuerzo(Time tmHoraSalidaAlmuerzo) {
+        this.tmHoraSalidaAlmuerzo = tmHoraSalidaAlmuerzo;
+    }
+
+    public String getStrObservacion() {
+        return strObservacion;
+    }
+
+    public void setStrObservacion(String strObservacion) {
+        this.strObservacion = strObservacion;
+    }
+
+    public int getIntEstado() {
+        return intEstado;
+    }
+
+    public void setIntEstado(int intEstado) {
+        this.intEstado = intEstado;
+    }
+
+}

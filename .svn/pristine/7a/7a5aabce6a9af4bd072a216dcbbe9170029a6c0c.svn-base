@@ -1,0 +1,84 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.clases;
+
+import java.sql.Date;
+import java.sql.Time;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CDetalleAusenciasTemporales {
+
+    private long lgCodigo;
+    private CAusenciaTemporal objCodigoAusenciaTemporal;
+    private java.sql.Date dtFecha_salida;
+    private java.sql.Time tmHoraSalida;
+    private java.sql.Time tmNumeroHoras;
+    private CAsignacionJornada objCodigoAsignacionJornada;
+
+    public CDetalleAusenciasTemporales() {
+    }
+
+    public CDetalleAusenciasTemporales(long lgCodigo, CAusenciaTemporal objCodigoAusenciaTemporal, Date dtFecha_salida, Time tmHoraSalida, Time tmNumeroHoras, CAsignacionJornada objCodigoAsignacionJornada) {
+        this.lgCodigo = lgCodigo;
+        this.objCodigoAusenciaTemporal = objCodigoAusenciaTemporal;
+        this.dtFecha_salida = dtFecha_salida;
+        this.tmHoraSalida = tmHoraSalida;
+        this.tmNumeroHoras = tmNumeroHoras;
+        this.objCodigoAsignacionJornada = objCodigoAsignacionJornada;
+    }
+
+    public long getLgCodigo() {
+        return lgCodigo;
+    }
+
+    public void setLgCodigo(long lgCodigo) {
+        this.lgCodigo = lgCodigo;
+    }
+
+    public CAusenciaTemporal getObjCodigoAusenciaTemporal() {
+        return objCodigoAusenciaTemporal;
+    }
+
+    public void setObjCodigoAusenciaTemporal(CAusenciaTemporal objCodigoAusenciaTemporal) {
+        this.objCodigoAusenciaTemporal = objCodigoAusenciaTemporal;
+    }
+
+    public Date getDtFecha_salida() {
+        return dtFecha_salida;
+    }
+
+    public void setDtFecha_salida(Date dtFecha_salida) {
+        this.dtFecha_salida = dtFecha_salida;
+    }
+
+    public Time getTmHoraSalida() {
+        return tmHoraSalida;
+    }
+
+    public void setTmHoraSalida(Time tmHoraSalida) {
+        this.tmHoraSalida = tmHoraSalida;
+    }
+
+    public Time getTmNumeroHoras() {
+        return tmNumeroHoras;
+    }
+
+    public void setTmNumeroHoras(Time tmNumeroHoras) {
+        this.tmNumeroHoras = tmNumeroHoras;
+    }
+
+    public CAsignacionJornada getObjCodigoAsignacionJornada() {
+        return objCodigoAsignacionJornada;
+    }
+
+    public void setObjCodigoAsignacionJornada(CAsignacionJornada objCodigoAsignacionJornada) {
+        this.objCodigoAsignacionJornada = objCodigoAsignacionJornada;
+    }
+
+}

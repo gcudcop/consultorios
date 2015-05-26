@@ -1,0 +1,44 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.funciones;
+
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import control.logica.clases.CCalendario;
+import control.logica.clases.CGrupoLaboral;
+import control.logica.clases.CRelDependenciaGrupoLab;
+import informacion.logica.clases.CRelacionDependencia;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CFRelDependenciaGrupoLab {
+
+    public static boolean insertar(CRelDependenciaGrupoLab asignacion) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_insert_relacion_grupo_lab(?,?,?)";
+            lstP.add(new Parametro(1, asignacion.getObjCodigoGrupoLaboral().getIntCodigo()));
+            lstP.add(new Parametro(2, asignacion.getObjCodigoRelacionDependencia().getLgCodigo()));
+            lstP.add(new Parametro(3, 1));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true")) {
+                    eje = true;
+                }
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+
+}

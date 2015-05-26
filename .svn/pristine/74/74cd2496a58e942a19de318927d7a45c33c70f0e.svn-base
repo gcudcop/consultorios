@@ -1,0 +1,56 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.funciones;
+
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import control.logica.clases.CReporteHorasEmpleado;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CFReporteHorasEmpleado {
+
+    public static ArrayList<CReporteHorasEmpleado> llenarReporteHorasEmpleado(ConjuntoResultado rs) throws Exception {
+        ArrayList<CReporteHorasEmpleado> lst = new ArrayList<CReporteHorasEmpleado>();
+        CReporteHorasEmpleado horasTrabajadas = null;
+        try {
+            while (rs.next()) {
+                horasTrabajadas = new CReporteHorasEmpleado(rs.getString("pidentificacion"),
+                        rs.getString("papellido"),
+                        rs.getString("pnombre"),
+                        rs.getDouble("psuma_horas_lab"),
+                        rs.getDouble("psuma_horas_lab_he"),
+                        rs.getDouble("psuma_horas_sobretiempo"));
+                lst.add(horasTrabajadas);
+            }
+        } catch (Exception e) {
+            lst.clear();
+            throw e;
+        }
+        return lst;
+    }
+
+    public static ArrayList<CReporteHorasEmpleado> obtenerReporteHorasEmpleado(java.sql.Date fecha_inicio, java.sql.Date fecha_fin) throws Exception {
+        ArrayList<CReporteHorasEmpleado> lst = new ArrayList<CReporteHorasEmpleado>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_select_total_horas_a_pagar_reporte(?,?)";
+            lstP.add(new Parametro(1, fecha_inicio));
+            lstP.add(new Parametro(2, fecha_fin));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenarReporteHorasEmpleado(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+}

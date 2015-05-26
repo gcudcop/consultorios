@@ -1,0 +1,156 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.clases;
+
+import informacion.logica.clases.CRelacionDependencia;
+import java.util.Date;
+
+/**
+ *
+ * @author Javier
+ */
+public class CHorasExtras {
+
+    private long lgCodigo;
+    private Date dtFechaInicio;
+    private Date dtFechaFin;
+    private double dlNumeroHoras;
+    private String strJustificacion;
+    private String strSolicitadoPor;
+    private Date dtFechaSolicitud;
+    private String strAutorizadoPor;
+    private String strAprobadoPor;
+    private String strObservacion;
+    private int intEstado;
+    private CRelacionDependencia objCodigoRelacion_Dependencia;
+    private int intEsHoraPagada;
+    
+       
+    
+
+    public CHorasExtras() {
+    }
+
+    public CHorasExtras(long lgCodigo, Date dtFechaInicio, Date dtFechaFin, double dlNumeroHoras, String strJustificacion, String strSolicitadoPor, Date dtFechaSolicitud, String strAutorizadoPor, String strAprobadoPor, String strObservacion, int intEstado, CRelacionDependencia objCodigoRelacion_Dependencia, int intEsHoraPagada) {
+        this.lgCodigo = lgCodigo;
+        this.dtFechaInicio = dtFechaInicio;
+        this.dtFechaFin = dtFechaFin;
+        this.dlNumeroHoras = dlNumeroHoras;
+        this.strJustificacion = strJustificacion;
+        this.strSolicitadoPor = strSolicitadoPor;
+        this.dtFechaSolicitud = dtFechaSolicitud;
+        this.strAutorizadoPor = strAutorizadoPor;
+        this.strAprobadoPor = strAprobadoPor;
+        this.strObservacion = strObservacion;
+        this.intEstado = intEstado;
+        this.objCodigoRelacion_Dependencia = objCodigoRelacion_Dependencia;
+        this.intEsHoraPagada = intEsHoraPagada;
+    }
+
+    public long getLgCodigo() {
+        return lgCodigo;
+    }
+
+    public void setLgCodigo(long lgCodigo) {
+        this.lgCodigo = lgCodigo;
+    }
+
+    public Date getDtFechaInicio() {
+        return dtFechaInicio;
+    }
+
+    public void setDtFechaInicio(Date dtFechaInicio) {
+        this.dtFechaInicio = dtFechaInicio;
+    }
+
+    public Date getDtFechaFin() {
+        return dtFechaFin;
+    }
+
+    public void setDtFechaFin(Date dtFechaFin) {
+        this.dtFechaFin = dtFechaFin;
+    }
+
+    public double getDlNumeroHoras() {
+        return dlNumeroHoras;
+    }
+
+    public void setDlNumeroHoras(double dlNumeroHoras) {
+        this.dlNumeroHoras = dlNumeroHoras;
+    }
+
+    public String getStrJustificacion() {
+        return strJustificacion;
+    }
+
+    public void setStrJustificacion(String strJustificacion) {
+        this.strJustificacion = strJustificacion;
+    }
+
+    public String getStrSolicitadoPor() {
+        return strSolicitadoPor;
+    }
+
+    public void setStrSolicitadoPor(String strSolicitadoPor) {
+        this.strSolicitadoPor = strSolicitadoPor;
+    }
+
+    public Date getDtFechaSolicitud() {
+        return dtFechaSolicitud;
+    }
+
+    public void setDtFechaSolicitud(Date dtFechaSolicitud) {
+        this.dtFechaSolicitud = dtFechaSolicitud;
+    }
+
+    public String getStrAutorizadoPor() {
+        return strAutorizadoPor;
+    }
+
+    public void setStrAutorizadoPor(String strAutorizadoPor) {
+        this.strAutorizadoPor = strAutorizadoPor;
+    }
+
+    public String getStrAprobadoPor() {
+        return strAprobadoPor;
+    }
+
+    public void setStrAprobadoPor(String strAprobadoPor) {
+        this.strAprobadoPor = strAprobadoPor;
+    }
+
+    public String getStrObservacion() {
+        return strObservacion;
+    }
+
+    public void setStrObservacion(String strObservacion) {
+        this.strObservacion = strObservacion;
+    }
+
+    public int getIntEstado() {
+        return intEstado;
+    }
+
+    public void setIntEstado(int intEstado) {
+        this.intEstado = intEstado;
+    }
+
+    public CRelacionDependencia getObjCodigoRelacion_Dependencia() {
+        return objCodigoRelacion_Dependencia;
+    }
+
+    public void setObjCodigoRelacion_Dependencia(CRelacionDependencia objCodigoRelacion_Dependencia) {
+        this.objCodigoRelacion_Dependencia = objCodigoRelacion_Dependencia;
+    }
+
+    public int getIntEsHoraPagada() {
+        return intEsHoraPagada;
+    }
+
+    public void setIntEsHoraPagada(int intEsHoraPagada) {
+        this.intEsHoraPagada = intEsHoraPagada;
+    }
+
+}

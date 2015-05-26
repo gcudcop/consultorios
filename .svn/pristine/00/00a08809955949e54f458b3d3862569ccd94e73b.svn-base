@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <title>
+            <ui:define name="tituloNavegador">Gestión Calendarios</ui:define>
+        </title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../../templates/plantillaInternaCenter.xhtml">
+            <ui:define name="top">Gestión de Calendario Laboral</ui:define>
+            <ui:define name="contenido">
+               
+                <p:accordionPanel>
+                    <p:tab title="Generar Calendario"> 
+                <h:form id="frmCalendarioGenerar">  
+                     
+                     <h:outputLabel for="a_o" value="Ingrese el año:" />  
+                     <p:inputText id="a_o" value="#{cCalendarioC1.a_o}"  /> 
+                     
+                     <p:commandButton id="addButton1" value="Generar" actionListener="#{cCalendarioC1.insertarCalendarioTotal()}" oncomplete="PF('myschedule').update();PF('wdgVarCalendario').hide();"
+                                 update=":frmCalendario:scCalendario"/>  
+                </h:form>   
+                    </p:tab>
+               </p:accordionPanel>
+
+                <h:form id="frmCalendario">  
+      
+                    <p:tab title="Modificar Fechas">   
+                        
+        <p:growl id="messages" showDetail="true" />  
+      
+        <p:schedule id="scCalendario" value="#{cCalendarioC1.eventModel}"  locale="ES" widgetVar="myschedule">  
+      
+            <p:ajax event="dateSelect" listener="#{cCalendarioC1.onDateSelect}" update="eventDetails" oncomplete="PF('wdgVarCalendario').show()" />  
+            <p:ajax event="eventSelect" listener="#{cCalendarioC1.onEventSelect}" update="eventDetails" oncomplete="PF('wdgVarCalendario').show()" />  
+            <p:ajax event="eventMove" listener="#{cCalendarioC1.onEventMove}" update="messages" />  
+            <p:ajax event="eventResize" listener="#{cCalendarioC1.onEventResize}" update="messages" />  
+      
+        </p:schedule> 
+        </p:tab>
+       <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
+                          resizable="false"> 
+                    <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
+                </p:dialog>
+        <p:dialog widgetVar="wdgVarCalendario" header="Agregar Fecha Calendario" showEffect="clip" hideEffect="clip">  
+            <h:panelGrid id="eventDetails" columns="2">  
+                <h:outputLabel for="Fecha" value="From:" />  
+                <p:inputMask id="from" value="#{cCalendarioC1.event.startDate}" mask="99/99/9999" readonly="true">  
+                    <f:convertDateTime pattern="dd/MM/yyyy" />  
+                </p:inputMask>  
+                
+                 <h:outputLabel for="Dia_Laborable" value="Dia Laborable:" />  
+                 <p:selectOneRadio id="Dia_Laborable" value="#{cCalendarioC1.objCalendario.intEsLaborable}">  
+                    <f:selectItem itemLabel="Si" itemValue="1" />  
+                    <f:selectItem itemLabel="NO" itemValue="0" />  
+                </p:selectOneRadio> 
+                
+                 <h:outputLabel for="Es_Feriado" value="Es Feriado:" />  
+                 <p:selectOneRadio id="Es_Feriado" value="#{cCalendarioC1.objCalendario.intEsFeriado}">  
+                    <f:selectItem itemLabel="Si" itemValue="1" />  
+                    <f:selectItem itemLabel="NO" itemValue="0" />  
+                </p:selectOneRadio> 
+               
+                 <h:outputLabel for="Jornada_Especial" value="Jonada Especial:" />  
+                 <p:selectOneRadio id="Jornada_Especial" value="#{cCalendarioC1.objCalendario.intEsTieneJornadaEspecial}">  
+                    <f:selectItem itemLabel="Si" itemValue="1" />  
+                    <f:selectItem itemLabel="NO" itemValue="0" />  
+                </p:selectOneRadio> 
+                
+                <h:outputLabel for="Observacion" value="Observación:" />  
+                <p:inputTextarea id="Observacion" rows="5" cols="20" value="#{cCalendarioC1.event.title}" queryDelay="750" minQueryLength="4" />  
+                   
+                  
+      
+                <p:commandButton id="addButton" value="Guardar" actionListener="#{cCalendarioC1.addEvent}" oncomplete="PF('myschedule').update();PF('wdgVarCalendario').hide();"
+                                 update=":frmCalendario:scCalendario"/>  
+                <p:commandButton type="reset" value="LImpiar" />  
+                
+            </h:panelGrid>  
+        </p:dialog>  
+      
+    </h:form>  
+            </ui:define>
+            <ui:define name="dialogos">
+              
+
+            </ui:define>
+
+        </ui:composition>
+    </h:body>
+</html>
+

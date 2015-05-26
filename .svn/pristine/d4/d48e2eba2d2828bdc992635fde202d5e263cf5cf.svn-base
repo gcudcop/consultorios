@@ -1,0 +1,53 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package master.logica.clases;
+
+/**
+ *
+ * @author Javier
+ */
+public class CProvincia {
+    private long lgCodigo;
+    private String strNombre;
+    private CPais objCodigoPais;
+
+    public CProvincia(long lgCodigo, String strNombre, CPais objCodigoPais) {
+        this.lgCodigo = lgCodigo;
+        this.strNombre = strNombre;
+        this.objCodigoPais = objCodigoPais;
+    }
+
+    public CProvincia() {
+    }
+
+    public long getLgCodigo() {
+        return lgCodigo;
+    }
+
+    public void setLgCodigo(long lgCodigo) {
+        this.lgCodigo = lgCodigo;
+    }
+
+    public String getStrNombre() {
+        return strNombre;
+    }
+
+    public void setStrNombre(String strNombre) {
+        this.strNombre = strNombre;
+    }
+
+    public CPais getObjCodigoPais() {
+        return objCodigoPais;
+    }
+
+    public void setObjCodigoPais(CPais objCodigoPais) {
+        this.objCodigoPais = objCodigoPais;
+    }
+    
+    
+    
+    
+    
+}

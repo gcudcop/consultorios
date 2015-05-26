@@ -1,0 +1,114 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package control.logica.clases;
+
+import informacion.logica.clases.CRelacionDependencia;
+import java.sql.Time;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CHistorialMarcacion {
+  private long lgCodigo;
+  private java.sql.Time tmHoraMarcacion;
+  private int intCodigoReloj;
+  private CRelacionDependencia objCodigoRelacionDependencia;
+  private CAsignacionJornada objCodigoAsignacionJornada;
+  private CCalendario objCodigoCalendario;
+  private String strTipoMarcacion1;
+  private long lgTipoMarcacion2;
+  private double dblTipoMarcacion3;
+
+    public CHistorialMarcacion() {
+    }
+
+    public CHistorialMarcacion(long lgCodigo, Time tmHoraMarcacion, int intCodigoReloj, CRelacionDependencia objCodigoRelacionDependencia, CAsignacionJornada objCodigoAsignacionJornada, CCalendario objCodigoCalendario, String strTipoMarcacion1, long lgTipoMarcacion2, double dblTipoMarcacion3) {
+        this.lgCodigo = lgCodigo;
+        this.tmHoraMarcacion = tmHoraMarcacion;
+        this.intCodigoReloj = intCodigoReloj;
+        this.objCodigoRelacionDependencia = objCodigoRelacionDependencia;
+        this.objCodigoAsignacionJornada = objCodigoAsignacionJornada;
+        this.objCodigoCalendario = objCodigoCalendario;
+        this.strTipoMarcacion1 = strTipoMarcacion1;
+        this.lgTipoMarcacion2 = lgTipoMarcacion2;
+        this.dblTipoMarcacion3 = dblTipoMarcacion3;
+    }
+
+    public long getLgCodigo() {
+        return lgCodigo;
+    }
+
+    public void setLgCodigo(long lgCodigo) {
+        this.lgCodigo = lgCodigo;
+    }
+
+    public Time getTmHoraMarcacion() {
+        return tmHoraMarcacion;
+    }
+
+    public void setTmHoraMarcacion(Time tmHoraMarcacion) {
+        this.tmHoraMarcacion = tmHoraMarcacion;
+    }
+
+    public int getIntCodigoReloj() {
+        return intCodigoReloj;
+    }
+
+    public void setIntCodigoReloj(int intCodigoReloj) {
+        this.intCodigoReloj = intCodigoReloj;
+    }
+
+    public CRelacionDependencia getObjCodigoRelacionDependencia() {
+        return objCodigoRelacionDependencia;
+    }
+
+    public void setObjCodigoRelacionDependencia(CRelacionDependencia objCodigoRelacionDependencia) {
+        this.objCodigoRelacionDependencia = objCodigoRelacionDependencia;
+    }
+
+    public CAsignacionJornada getObjCodigoAsignacionJornada() {
+        return objCodigoAsignacionJornada;
+    }
+
+    public void setObjCodigoAsignacionJornada(CAsignacionJornada objCodigoAsignacionJornada) {
+        this.objCodigoAsignacionJornada = objCodigoAsignacionJornada;
+    }
+
+    public CCalendario getObjCodigoCalendario() {
+        return objCodigoCalendario;
+    }
+
+    public void setObjCodigoCalendario(CCalendario objCodigoCalendario) {
+        this.objCodigoCalendario = objCodigoCalendario;
+    }
+
+    public String getStrTipoMarcacion1() {
+        return strTipoMarcacion1;
+    }
+
+    public void setStrTipoMarcacion1(String strTipoMarcacion1) {
+        this.strTipoMarcacion1 = strTipoMarcacion1;
+    }
+
+    public long getLgTipoMarcacion2() {
+        return lgTipoMarcacion2;
+    }
+
+    public void setLgTipoMarcacion2(long lgTipoMarcacion2) {
+        this.lgTipoMarcacion2 = lgTipoMarcacion2;
+    }
+
+    public double getDblTipoMarcacion3() {
+        return dblTipoMarcacion3;
+    }
+
+    public void setDblTipoMarcacion3(double dblTipoMarcacion3) {
+        this.dblTipoMarcacion3 = dblTipoMarcacion3;
+    }
+  
+}

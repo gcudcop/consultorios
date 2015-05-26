@@ -1,0 +1,131 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package master.presentacion.funciones.beans.consultas;
+
+import informacion.logica.clases.CRelacionDependencia;
+import java.util.ArrayList;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import master.logica.clases.*;
+import master.logica.clases.consultas.CPersonaBusquedas;
+import master.logica.funciones.FLazyPersonasDataModel;
+import master.logica.funciones.FPersona;
+import master.logica.funciones.consultas.CFPersonaBusquedas;
+import org.primefaces.context.DefaultRequestContext;
+import org.primefaces.model.LazyDataModel;
+import recursos.Util;
+
+/**
+ *
+ * @author Javier
+ */
+@ManagedBean
+@ViewScoped
+public class GestionPersonaConsultasC {
+
+    private ArrayList<Persona> lstPersonas;
+    private Persona objPersona;
+    private Persona personaSel;
+    private String criterioBusquedaTitular;
+    private ArrayList<CPersonaBusquedas> lstPersonasBusquedas;
+    private String datoBusqueda;
+    private LazyDataModel<CPersonaBusquedas> lazyModel;
+
+    public GestionPersonaConsultasC() {
+        this.objPersona = new Persona();
+        this.lstPersonasBusquedas = new ArrayList<CPersonaBusquedas>();
+        lazyModel = new FLazyPersonasDataModel(lstPersonasBusquedas);
+
+    }
+
+    public LazyDataModel<CPersonaBusquedas> getLazyModel() {
+        return lazyModel;
+    }
+
+    public void setLazyModel(LazyDataModel<CPersonaBusquedas> lazyModel) {
+        this.lazyModel = lazyModel;
+    }
+
+    public String getCriterioBusquedaTitular() {
+        return criterioBusquedaTitular;
+    }
+
+    public void setCriterioBusquedaTitular(String criterioBusquedaTitular) {
+        this.criterioBusquedaTitular = criterioBusquedaTitular;
+    }
+
+    public ArrayList<CPersonaBusquedas> getLstPersonasBusquedas() {
+        return lstPersonasBusquedas;
+    }
+
+    public void setLstPersonasBusquedas(ArrayList<CPersonaBusquedas> lstPersonasBusquedas) {
+        this.lstPersonasBusquedas = lstPersonasBusquedas;
+    }
+
+    public String getDatoBusqueda() {
+        return datoBusqueda;
+    }
+
+    public void setDatoBusqueda(String datoBusqueda) {
+        this.datoBusqueda = datoBusqueda;
+    }
+
+    public ArrayList<Persona> getLstPersonas() {
+        return lstPersonas;
+    }
+
+    public void setLstPersonas(ArrayList<Persona> lstPersonas) {
+        this.lstPersonas = lstPersonas;
+    }
+
+    public Persona getObjPersona() {
+        return objPersona;
+    }
+
+    public void setObjPersona(Persona objPersona) {
+        this.objPersona = objPersona;
+    }
+
+    public Persona getPersonaSel() {
+        return personaSel;
+    }
+
+    public void setPersonaSel(Persona personaSel) {
+        this.personaSel = personaSel;
+    }
+
+    public void obtenerPersonas() {
+        try {
+            if (criterioBusquedaTitular.equals("cedula")) {
+                lstPersonasBusquedas = CFPersonaBusquedas.obtenerPersonasDadoIdentificacion(datoBusqueda);
+            } else {
+                lstPersonasBusquedas = CFPersonaBusquedas.obtenerPersonasDadoIdentificacion(datoBusqueda.toUpperCase());
+            }
+            lazyModel = new FLazyPersonasDataModel(lstPersonasBusquedas);
+            datoBusqueda = null;
+            criterioBusquedaTitular = null;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void asignarSelectedPersona() {
+        try {
+            //   objPersona = (FPersona.ObtenerPersonaDadoCodigo(personaSel.getLgCodigoPersona()));
+            objPersona.setLgCodigoPersona(1);
+            objPersona.setStrApellidos("PALACIOS CAMPANA");
+            objPersona.setStrNombres("DIEGO BERNARDO");
+            objPersona.setStrIdentificacion("0603094517");
+            System.out.print(objPersona.getStrIdentificacion());
+        } catch (java.lang.Exception e) {
+            System.out.print(e.getMessage());
+            //  System.out.print(getPersona().getApellido() + " " + e.getMessage());
+        }
+        DefaultRequestContext.getCurrentInstance().execute("wdialogoBusquedaPersonas.hide()");
+        DefaultRequestContext.getCurrentInstance().execute("wdgNuevo.show()");
+    }
+
+}//Cierrala clase
+

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>
+            <ui:define name="tituloNavegador">Asignación de Jornadas</ui:define>
+        </title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../../templates/plantillaInternaCenter.xhtml">
+            <ui:define name="top">Asignación de Jornadas</ui:define>
+            <ui:define name="contenido">
+                <h:form id="frmBusquedaEmpleado">
+                    <p:growl id="messages" showDetail="false" />
+                    <p:panelGrid id="pnlBusquedaEmpleado" columns="4">
+                        <h:outputText value="Nombres o Apellidos"/>
+                        <h:outputText value="Grupo laboral"/>
+                        <h:outputText value="Dependencia"/>
+                        <h:outputText value="Buscar"/>
+                        <p:inputText id="txtap" value="#{asignacionJornadaC.txtApellidos}"/>
+                        <p:inputText id="txtgl" value="#{asignacionJornadaC.txtGrupoLaboral}" />
+                        <p:inputText id="txtdep" value="#{asignacionJornadaC.txtDependencia}"/>
+                        <p:commandButton icon="ui-icon-search" 
+                                         action="#{asignacionJornadaC.buscarRelacionesDependenciaConsulta()}"
+                                         update="dlstEmpleados messages" process="@this txtap txtgl txtdep"/>
+                    </p:panelGrid>
+                    <p:pickList id="dlstEmpleados" value="#{asignacionJornadaC.relacionesDependencia}" var="empleado" 
+                                itemLabel="#{empleado.apellidos}" itemValue="#{empleado}"
+                                converter="EmpleadoPickConverter">
+                        <f:facet name="sourceCaption">Disponibles</f:facet>  
+                        <f:facet name="targetCaption">Grupo para la jornada</f:facet> 
+                        <p:column style="width:50%;">  
+                            #{empleado.apellidos}  
+                        </p:column>
+                        <p:column style="width:50%;">  
+                            #{empleado.nombres}  
+                        </p:column>
+                    </p:pickList>
+                    <h:panelGrid columns="2">
+                        <p:selectOneMenu id="cmbTipoJornadas" value="#{asignacionJornadaC.jornadaSel.intCodigo}" >
+                            <f:selectItem itemLabel="--Seleccione la jornada--" itemValue="#{0}"/>
+                            <f:selectItems value="#{asignacionJornadaC.jornadas}" var="jornada" 
+                                           itemLabel="#{jornada.strNombreCorto} #{jornada.strNombre}"
+                                           itemValue="#{jornada.intCodigo}"/>
+                        </p:selectOneMenu>
+                        <p:commandButton value="Guardar" icon="ui-icon-circle-plus"
+                                         action="#{asignacionJornadaC.insertarAsignacionJornada}" 
+                                         process="@this cmbTipoJornadas dlstEmpleados scCalendario"
+                                         update="dlstEmpleados txtap txtgl txtdep cmbTipoJornadas scCalendario messages"/>
+                        <p:commandButton value="Limpiar Calendario" icon="ui-icon-calendar"
+                                         action="#{asignacionJornadaC.resetCalendario}" 
+                                         process="@this"
+                                         update="scCalendario messages"/>
+                    </h:panelGrid>
+                    <p:schedule id="scCalendario" value="#{asignacionJornadaC.eventModel}"  locale="ES" widgetVar="myschedule"
+                                aspectRatio="50" draggable="false">    
+                        <p:ajax event="eventSelect" listener="#{asignacionJornadaC.onEventSelect}" 
+                                update=":frmWCalendario:eventDetails" 
+                                oncomplete="PF('wdgVarCalendario').show()" />  
+                    </p:schedule> 
+                </h:form>
+            </ui:define>
+            <ui:define name="dialogos">
+                <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
+                          resizable="false"> 
+                    <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
+                </p:dialog>
+                <p:dialog widgetVar="wdgVarCalendario" header="Agregar Fecha Calendario" showEffect="clip" hideEffect="clip">  
+                    <h:form id="frmWCalendario">
+                        <h:panelGrid id="eventDetails" columns="2">  
+                            <h:outputLabel for="Fecha" value="From:" />  
+                            <p:inputMask id="Fecha" value="#{asignacionJornadaC.event.startDate}" mask="99/99/9999" readonly="true">  
+                                <f:convertDateTime pattern="dd/MM/yyyy" />  
+                            </p:inputMask>  
+
+                            <h:outputLabel for="Dia_Laborable" value="Dia Laborable:" />  
+                            <p:selectOneRadio id="Dia_Laborable" value="#{asignacionJornadaC.objCalendario.intEsLaborable}">  
+                                <f:selectItem itemLabel="Si" itemValue="1" />  
+                                <f:selectItem itemLabel="NO" itemValue="0" />  
+                            </p:selectOneRadio> 
+
+                            <h:outputLabel for="Es_Feriado" value="Es Feriado:" />  
+                            <p:selectOneRadio id="Es_Feriado" value="#{asignacionJornadaC.objCalendario.intEsFeriado}">  
+                                <f:selectItem itemLabel="Si" itemValue="1" />  
+                                <f:selectItem itemLabel="NO" itemValue="0" />  
+                            </p:selectOneRadio> 
+
+                            <h:outputLabel for="Jornada_Especial" value="Jonada Especial:" />  
+                            <p:selectOneRadio id="Jornada_Especial" value="#{asignacionJornadaC.objCalendario.
+                                                                             intEsTieneJornadaEspecial}">  
+                                <f:selectItem itemLabel="Si" itemValue="1" />  
+                                <f:selectItem itemLabel="NO" itemValue="0" />  
+                            </p:selectOneRadio> 
+
+                            <h:outputLabel for="Observacion" value="Observación:" />  
+                            <p:inputTextarea id="Observacion" rows="5" cols="20" value="#{asignacionJornadaC.event.title}" 
+                                             queryDelay="750" minQueryLength="4" readonly="true"/>  
+
+                            <h:outputLabel for="estado" value="Estado:" />  
+                            <p:selectOneRadio id="estado" value="#{asignacionJornadaC.objCalendario.
+                                                                   intEstado}">  
+                                <f:selectItem itemLabel="Si" itemValue="2" />  
+                                <f:selectItem itemLabel="NO" itemValue="0" />  
+                            </p:selectOneRadio>
+                            <p:commandButton id="addButton" value="Guardar" actionListener="#{asignacionJornadaC.addEvent}" 
+                                             oncomplete="PF('myschedule').update();PF('wdgVarCalendario').hide();"
+                                             update=":frmBusquedaEmpleado:scCalendario"/>  
+                            <p:commandButton type="reset" value="LImpiar" />  
+
+                        </h:panelGrid>  
+                    </h:form>
+                </p:dialog>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

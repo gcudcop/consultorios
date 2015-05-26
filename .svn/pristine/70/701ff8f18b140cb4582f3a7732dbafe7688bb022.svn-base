@@ -1,0 +1,131 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.beans;
+
+import control.logica.clases.CGrupoLaboral;
+import control.logica.clases.CTipoJornada;
+import control.logica.funciones.CFGrupoLabora;
+import control.logica.funciones.CFTipoJornada;
+import java.io.Serializable;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import org.primefaces.context.DefaultRequestContext;
+import recursos.Util;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+@ManagedBean
+@ViewScoped
+public final class GruposLaboralesC implements Serializable {
+//   <editor-fold defaultstate="collapsed" desc="Atributos">
+
+    private CGrupoLaboral objGrupoLaboral;
+    private ArrayList<CGrupoLaboral> lstGruposLaborales;
+    private CGrupoLaboral objGrupoLaboralActual;
+
+    //</editor-fold>
+//   <editor-fold defaultstate="collapsed" desc="Constructores">
+    public GruposLaboralesC() {
+        objGrupoLaboral = new CGrupoLaboral();
+        lstGruposLaborales = new ArrayList<CGrupoLaboral>();
+        objGrupoLaboralActual = new CGrupoLaboral();
+        cargarGruposLaborales();
+    }
+
+//    @PostConstruct
+//    public void PostTiposAusenciaC() {
+//        reinit();
+//    }
+    //</editor-fold>
+//   <editor-fold defaultstate="collapsed" desc="Metodos set y get">
+    public CGrupoLaboral getObjGrupoLaboral() {
+        return objGrupoLaboral;
+    }
+
+    public void setObjGrupoLaboral(CGrupoLaboral objGrupoLaboral) {
+        this.objGrupoLaboral = objGrupoLaboral;
+    }
+
+    public ArrayList<CGrupoLaboral> getLstGruposLaborales() {
+        return lstGruposLaborales;
+    }
+
+    public void setLstGruposLaborales(ArrayList<CGrupoLaboral> lstGruposLaborales) {
+        this.lstGruposLaborales = lstGruposLaborales;
+    }
+
+    public CGrupoLaboral getObjGrupoLaboralActual() {
+        return objGrupoLaboralActual;
+    }
+
+    public void setObjGrupoLaboralActual(CGrupoLaboral objGrupoLaboralActual) {
+        this.objGrupoLaboralActual = objGrupoLaboralActual;
+    }
+
+    //</editor-fold>
+//   <editor-fold defaultstate="collapsed" desc="Funciones">
+    ////reiniciar objetos
+    public void reinit() {
+        ///cargar los Tipos de Ausencias
+        cargarGruposLaborales();
+    }
+
+    public void cargarGruposLaborales() {
+        try {
+            lstGruposLaborales = CFGrupoLabora.obtenerGruposLaborales();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void insertarGrupoLaboral() {
+        try {
+            boolean bandera = CFGrupoLabora.insertar(objGrupoLaboral);
+            if (bandera == true) {
+                cargarGruposLaborales();
+                objGrupoLaboral = new CGrupoLaboral();
+                DefaultRequestContext.getCurrentInstance().execute("wdgNuevo.hide()");
+                Util.addSuccessMessage("Datos Insertados");
+            } else {
+            }
+        } catch (Exception e) {
+            Util.addErrorMessage(e.getMessage());
+        }
+    }
+
+    public void editarGrupoLaboral() {
+        try {
+            CFGrupoLabora.actualizar(objGrupoLaboralActual);
+            cargarGruposLaborales();
+            objGrupoLaboralActual = new CGrupoLaboral();
+            DefaultRequestContext.getCurrentInstance().execute("wdgEditar.hide()");
+            Util.addSuccessMessage("Datos Editados");
+        } catch (Exception e) {
+            Util.addErrorMessage(e.getMessage());
+        }
+
+    }
+
+    public void eliminarGrupoLaboral() {
+        try {
+            CFGrupoLabora.eliminar(objGrupoLaboralActual.getIntCodigo());
+            cargarGruposLaborales();
+            objGrupoLaboralActual = new CGrupoLaboral();
+            DefaultRequestContext.getCurrentInstance().execute("wdgEliminar.hide()");
+            Util.addSuccessMessage("Datos Eliminados");
+        } catch (Exception e) {
+            Util.addErrorMessage(e.getMessage());
+        }
+
+    }
+
+    //</editor-fold>
+}

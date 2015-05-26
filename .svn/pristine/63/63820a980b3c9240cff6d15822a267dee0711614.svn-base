@@ -1,0 +1,124 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.clases;
+
+import informacion.logica.clases.CRelacionDependencia;
+import java.sql.Timestamp;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CAusenciaTemporal {
+
+    private long lgCodigo;
+    private String strJustificacion;
+    private String strSolicitadoPor;
+    private java.sql.Timestamp tmstmFechaSolicitud;
+    private String strAutorizadoPor;
+    private String strAprobadoPor;
+    private String strObservacion;
+    private int intEstado;
+    private CTipoAusencia objCodigoTipoAusencia;
+    private CRelacionDependencia objCodigoRelacionDependencia;
+
+    public CAusenciaTemporal(long lgCodigo, String strJustificacion, String strSolicitadoPor, Timestamp tmstmFechaSolicitud, String strAutorizadoPor, String strAprobadoPor, String strObservacion, int intEstado, CTipoAusencia objCodigoTipoAusencia, CRelacionDependencia objCodigoRelacionDependencia) {
+        this.lgCodigo = lgCodigo;
+        this.strJustificacion = strJustificacion;
+        this.strSolicitadoPor = strSolicitadoPor;
+        this.tmstmFechaSolicitud = tmstmFechaSolicitud;
+        this.strAutorizadoPor = strAutorizadoPor;
+        this.strAprobadoPor = strAprobadoPor;
+        this.strObservacion = strObservacion;
+        this.intEstado = intEstado;
+        this.objCodigoTipoAusencia = objCodigoTipoAusencia;
+        this.objCodigoRelacionDependencia = objCodigoRelacionDependencia;
+    }
+
+    public CAusenciaTemporal() {
+    }
+
+    public long getLgCodigo() {
+        return lgCodigo;
+    }
+
+    public void setLgCodigo(long lgCodigo) {
+        this.lgCodigo = lgCodigo;
+    }
+
+    public String getStrJustificacion() {
+        return strJustificacion;
+    }
+
+    public void setStrJustificacion(String strJustificacion) {
+        this.strJustificacion = strJustificacion;
+    }
+
+    public String getStrSolicitadoPor() {
+        return strSolicitadoPor;
+    }
+
+    public void setStrSolicitadoPor(String strSolicitadoPor) {
+        this.strSolicitadoPor = strSolicitadoPor;
+    }
+
+    public Timestamp getTmstmFechaSolicitud() {
+        return tmstmFechaSolicitud;
+    }
+
+    public void setTmstmFechaSolicitud(Timestamp tmstmFechaSolicitud) {
+        this.tmstmFechaSolicitud = tmstmFechaSolicitud;
+    }
+
+    public String getStrAutorizadoPor() {
+        return strAutorizadoPor;
+    }
+
+    public void setStrAutorizadoPor(String strAutorizadoPor) {
+        this.strAutorizadoPor = strAutorizadoPor;
+    }
+
+    public String getStrAprobadoPor() {
+        return strAprobadoPor;
+    }
+
+    public void setStrAprobadoPor(String strAprobadoPor) {
+        this.strAprobadoPor = strAprobadoPor;
+    }
+
+    public String getStrObservacion() {
+        return strObservacion;
+    }
+
+    public void setStrObservacion(String strObservacion) {
+        this.strObservacion = strObservacion;
+    }
+
+    public int getIntEstado() {
+        return intEstado;
+    }
+
+    public void setIntEstado(int intEstado) {
+        this.intEstado = intEstado;
+    }
+
+    public CTipoAusencia getObjCodigoTipoAusencia() {
+        return objCodigoTipoAusencia;
+    }
+
+    public void setObjCodigoTipoAusencia(CTipoAusencia objCodigoTipoAusencia) {
+        this.objCodigoTipoAusencia = objCodigoTipoAusencia;
+    }
+
+    public CRelacionDependencia getObjCodigoRelacionDependencia() {
+        return objCodigoRelacionDependencia;
+    }
+
+    public void setObjCodigoRelacionDependencia(CRelacionDependencia objCodigoRelacionDependencia) {
+        this.objCodigoRelacionDependencia = objCodigoRelacionDependencia;
+    }
+
+}

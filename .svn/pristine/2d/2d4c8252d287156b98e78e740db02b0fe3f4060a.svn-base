@@ -1,0 +1,40 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package master.logica.clases;
+
+/**
+ *
+ * @author Javier
+ */
+public class CPais {
+
+    private long lgCodigo;
+    private String nombre;
+
+    public CPais(long lgCodigo, String nombre) {
+        this.lgCodigo = lgCodigo;
+        this.nombre = nombre;
+    }
+
+    public CPais() {
+    }
+
+    public long getLgCodigo() {
+        return lgCodigo;
+    }
+
+    public void setLgCodigo(long lgCodigo) {
+        this.lgCodigo = lgCodigo;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+}

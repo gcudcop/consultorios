@@ -1,0 +1,61 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package master.logica.clases.consultas;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CPersonaBusquedas {
+
+    private long lgCodigo;
+    private String strApellidos;
+    private String strNombres;
+    private String strIdentificacion;
+
+    public CPersonaBusquedas() {
+    }
+
+    public CPersonaBusquedas(long lgCodigo, String strApellidos, String strNombres, String strIdentificacion) {
+        this.lgCodigo = lgCodigo;
+        this.strApellidos = strApellidos;
+        this.strNombres = strNombres;
+        this.strIdentificacion = strIdentificacion;
+    }
+
+    public long getLgCodigo() {
+        return lgCodigo;
+    }
+
+    public void setLgCodigo(long lgCodigo) {
+        this.lgCodigo = lgCodigo;
+    }
+
+    public String getStrApellidos() {
+        return strApellidos;
+    }
+
+    public void setStrApellidos(String strApellidos) {
+        this.strApellidos = strApellidos;
+    }
+
+    public String getStrNombres() {
+        return strNombres;
+    }
+
+    public void setStrNombres(String strNombres) {
+        this.strNombres = strNombres;
+    }
+
+    public String getStrIdentificacion() {
+        return strIdentificacion;
+    }
+
+    public void setStrIdentificacion(String strIdentificacion) {
+        this.strIdentificacion = strIdentificacion;
+    }
+
+}

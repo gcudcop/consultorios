@@ -1,0 +1,57 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.funciones.consultas;
+
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import control.logica.clases.consultas.CHorarioEmpleado;
+import static control.logica.funciones.consultas.CFAusenciasTemporalesConsulta.llenarAusenciasTemporalesConsulta;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CFHorarioEmpleadoConsulta {
+
+    public static ArrayList<CHorarioEmpleado> llenarHorarioEmpleadoConsulta(ConjuntoResultado rs) throws Exception {
+        ArrayList<CHorarioEmpleado> lst = new ArrayList<CHorarioEmpleado>();
+        CHorarioEmpleado horaroEmpleado = null;
+        try {
+            while (rs.next()) {
+                horaroEmpleado = new CHorarioEmpleado(
+                        rs.getLong("pcodigo"),
+                        rs.getDate("pfecha"),
+                        rs.getString("pdia"),
+                        rs.getString("pnombre_jornada"),
+                        rs.getString("pnombre_corto"));
+                lst.add(horaroEmpleado);
+            }
+        } catch (Exception e) {
+            lst.clear();
+            throw e;
+        }
+        return lst;
+    }
+
+    public static ArrayList<CHorarioEmpleado> obtenerHorarioActivoEmpleado(
+            String cedula) throws Exception {
+        ArrayList<CHorarioEmpleado> lst = new ArrayList<CHorarioEmpleado>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_select_calendario_activo_empleado(?)";
+            lstP.add(new Parametro(1, cedula));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenarHorarioEmpleadoConsulta(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+}

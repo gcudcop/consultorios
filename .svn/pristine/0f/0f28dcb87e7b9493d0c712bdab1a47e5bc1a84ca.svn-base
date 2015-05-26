@@ -1,0 +1,71 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.clases;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CTotalHorasExtras {
+
+    private String cedula;
+    private String apellidos;
+    private String nombres;
+    private String dependencia;
+    private double totalHE;
+
+    public CTotalHorasExtras() {
+    }
+
+    public CTotalHorasExtras(String cedula, String apellidos, String nombres, String dependencia, double totalHE) {
+        this.cedula = cedula;
+        this.apellidos = apellidos;
+        this.nombres = nombres;
+        this.dependencia = dependencia;
+        this.totalHE = totalHE;
+    }
+
+    public String getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public String getDependencia() {
+        return dependencia;
+    }
+
+    public void setDependencia(String dependencia) {
+        this.dependencia = dependencia;
+    }
+
+    public double getTotalHE() {
+        return totalHE;
+    }
+
+    public void setTotalHE(double totalHE) {
+        this.totalHE = totalHE;
+    }
+
+}

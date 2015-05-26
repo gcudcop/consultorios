@@ -1,0 +1,28 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.clases;
+
+import java.util.Date;
+
+/**
+ *
+ * @author Javier
+ */
+public class CHorasExtras {
+  private long lgCodigo;
+  private Date dtFechaInicio;
+  private Date dtFechaFin;
+  private double dlNumeroHoras;
+  private String strJustificacion;
+  private String strSolicitadoPor;
+  private Date dtFechaSolicitud;
+  private String strAprobadoPor;
+  private String strObservacion;
+  private int intEstado;
+  //codigo_relacion_dependencia integer,//campo Faltante
+  private int intEsHoraPagada;
+  
+  
+}

@@ -1,0 +1,63 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.clases;
+
+import informacion.logica.clases.CRelacionDependencia;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CRelDependenciaGrupoLab {
+
+    private long lgCodigo;
+    private CGrupoLaboral objCodigoGrupoLaboral;
+    private CRelacionDependencia objCodigoRelacionDependencia;
+    private int intEstado;
+
+    public CRelDependenciaGrupoLab() {
+    }
+
+    public CRelDependenciaGrupoLab(long lgCodigo, CGrupoLaboral objCodigoGrupoLaboral, CRelacionDependencia objCodigoRelacionDependencia, int intEstado) {
+        this.lgCodigo = lgCodigo;
+        this.objCodigoGrupoLaboral = objCodigoGrupoLaboral;
+        this.objCodigoRelacionDependencia = objCodigoRelacionDependencia;
+        this.intEstado = intEstado;
+    }
+
+    public long getLgCodigo() {
+        return lgCodigo;
+    }
+
+    public void setLgCodigo(long lgCodigo) {
+        this.lgCodigo = lgCodigo;
+    }
+
+    public CGrupoLaboral getObjCodigoGrupoLaboral() {
+        return objCodigoGrupoLaboral;
+    }
+
+    public void setObjCodigoGrupoLaboral(CGrupoLaboral objCodigoGrupoLaboral) {
+        this.objCodigoGrupoLaboral = objCodigoGrupoLaboral;
+    }
+
+    public CRelacionDependencia getObjCodigoRelacionDependencia() {
+        return objCodigoRelacionDependencia;
+    }
+
+    public void setObjCodigoRelacionDependencia(CRelacionDependencia objCodigoRelacionDependencia) {
+        this.objCodigoRelacionDependencia = objCodigoRelacionDependencia;
+    }
+
+    public int getIntEstado() {
+        return intEstado;
+    }
+
+    public void setIntEstado(int intEstado) {
+        this.intEstado = intEstado;
+    }
+
+}

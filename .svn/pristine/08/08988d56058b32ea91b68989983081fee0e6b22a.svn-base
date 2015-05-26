@@ -1,0 +1,24 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.clases;
+
+/**
+ *
+ * @author Javier
+ */
+public class cTipoAusencia {
+
+    private long lgCodigo;
+    private String strNombre;
+    private String strObservacion;
+
+   
+
+    public cTipoAusencia() {
+    }
+
+  
+  
+}

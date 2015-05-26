@@ -1,0 +1,70 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package master.logica.clases.consultas;
+
+import master.logica.clases.CCiudad;
+import master.logica.clases.CPais;
+import master.logica.clases.CProvincia;
+
+/**
+ *
+ * @author Javier Romero
+ */
+public class CParroquia {
+    
+    
+   private CPais objPais;
+   private CProvincia objProv;
+   private CCiudad objCanton;
+   private master.logica.clases.CParroquia objParroquia;
+
+    public CPais getObjPais() {
+        return objPais;
+    }
+
+    public void setObjPais(CPais objPais) {
+        this.objPais = objPais;
+    }
+
+    public CProvincia getObjProv() {
+        return objProv;
+    }
+
+    public void setObjProv(CProvincia objProv) {
+        this.objProv = objProv;
+    }
+
+    public CCiudad getObjCanton() {
+        return objCanton;
+    }
+
+    public void setObjCanton(CCiudad objCanton) {
+        this.objCanton = objCanton;
+    }
+
+    public master.logica.clases.CParroquia getObjParroquia() {
+        return objParroquia;
+    }
+
+    public void setObjParroquia(master.logica.clases.CParroquia objParroquia) {
+        this.objParroquia = objParroquia;
+    }
+
+    public CParroquia() {
+    }
+
+    public CParroquia(CPais objPais, CProvincia objProv, CCiudad objCanton, master.logica.clases.CParroquia objParroquia) {
+        this.objPais = objPais;
+        this.objProv = objProv;
+        this.objCanton = objCanton;
+        this.objParroquia = objParroquia;
+    }
+
+   
+            
+    
+}

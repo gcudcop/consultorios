@@ -1,0 +1,270 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.beans;
+
+import control.logica.clases.CAusenciaTemporal;
+import control.logica.clases.CTipoAusencia;
+import control.logica.clases.consultas.CAusenciasTemporalesConsulta;
+import control.logica.clases.consultas.CHorarioEmpleado;
+import control.logica.funciones.consultas.CFAusenciasTemporalesConsulta;
+import control.logica.funciones.consultas.CFHorarioEmpleadoConsulta;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import master.logica.clases.Persona;
+import master.logica.clases.consultas.CPersonaBusquedas;
+import master.logica.funciones.FPersona;
+import master.presentacion.funciones.beans.consultas.GestionPersonaConsultasC;
+import org.primefaces.context.DefaultRequestContext;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+@ManagedBean
+@ViewScoped
+public class AusenciasTemporalesC implements Serializable {
+
+    //   <editor-fold defaultstate="collapsed" desc="Atributos">
+    private CAusenciaTemporal objAusenciaTemporal;
+    private ArrayList<CAusenciasTemporalesConsulta> lstAusenciasTemporalesConsulta;
+    private java.util.Date fechaSalida;
+    private java.util.Date fechaEntrada;
+    @ManagedProperty(value = "#{gestionPersonaConsultasC}")
+    private GestionPersonaConsultasC dm;
+    private CTipoAusencia tipoAusenciaSel;
+    private CAusenciasTemporalesConsulta objAusenciaTemporalActualC;
+    private CAusenciaTemporal objAusenciaTemporalActual;
+    private int codigoTipoAusenciaSeleccionado;
+    private ArrayList<CHorarioEmpleado> lstHorariosSel;
+    private ArrayList<CHorarioEmpleado> lstHorarioEmpleado;
+
+    //</editor-fold>
+    //   <editor-fold defaultstate="collapsed" desc="Constructores">
+    public AusenciasTemporalesC() {
+        lstAusenciasTemporalesConsulta = new ArrayList<CAusenciasTemporalesConsulta>();
+        objAusenciaTemporal = new CAusenciaTemporal();
+        cargaRelacionAusenciasTemporales();
+        this.tipoAusenciaSel = new CTipoAusencia();
+        this.objAusenciaTemporalActualC = new CAusenciasTemporalesConsulta();
+        this.objAusenciaTemporalActual = new CAusenciaTemporal();
+        codigoTipoAusenciaSeleccionado = 0;
+        lstHorariosSel = new ArrayList<CHorarioEmpleado>();
+        lstHorarioEmpleado = new ArrayList<CHorarioEmpleado>();
+      
+    }
+
+    //</editor-fold>
+    //   <editor-fold defaultstate="collapsed" desc="Metodos set y get">
+ 
+
+    public ArrayList<CHorarioEmpleado> getLstHorarioEmpleado() {
+        return lstHorarioEmpleado;
+    }
+
+    public void setLstHorarioEmpleado(ArrayList<CHorarioEmpleado> lstHorarioEmpleado) {
+        this.lstHorarioEmpleado = lstHorarioEmpleado;
+    }
+
+
+    public ArrayList<CHorarioEmpleado> getLstHorariosSel() {
+        return lstHorariosSel;
+    }
+
+    public void setLstHorariosSel(ArrayList<CHorarioEmpleado> lstHorariosSel) {
+        this.lstHorariosSel = lstHorariosSel;
+    }
+
+    public int getCodigoTipoAusenciaSeleccionado() {
+        return codigoTipoAusenciaSeleccionado;
+    }
+
+    public void setCodigoTipoAusenciaSeleccionado(int codigoTipoAusenciaSeleccionado) {
+        this.codigoTipoAusenciaSeleccionado = codigoTipoAusenciaSeleccionado;
+    }
+
+    public CAusenciasTemporalesConsulta getObjAusenciaTemporalActualC() {
+        return objAusenciaTemporalActualC;
+    }
+
+    public void setObjAusenciaTemporalActualC(CAusenciasTemporalesConsulta objAusenciaTemporalActualC) {
+        this.objAusenciaTemporalActualC = objAusenciaTemporalActualC;
+    }
+
+    public CAusenciaTemporal getObjAusenciaTemporalActual() {
+        return objAusenciaTemporalActual;
+    }
+
+    public void setObjAusenciaTemporalActual(CAusenciaTemporal objAusenciaTemporalActual) {
+        this.objAusenciaTemporalActual = objAusenciaTemporalActual;
+    }
+
+    public CTipoAusencia getTipoAusenciaSel() {
+        return tipoAusenciaSel;
+    }
+
+    public void setTipoAusenciaSel(CTipoAusencia tipoAusenciaSel) {
+        this.tipoAusenciaSel = tipoAusenciaSel;
+    }
+
+    public GestionPersonaConsultasC getDm() {
+        return dm;
+    }
+
+    public void setDm(GestionPersonaConsultasC dm) {
+        this.dm = dm;
+    }
+
+    public CAusenciaTemporal getObjAusenciaTemporal() {
+        return objAusenciaTemporal;
+    }
+
+    public void setObjAusenciaTemporal(CAusenciaTemporal objAusenciaTemporal) {
+        this.objAusenciaTemporal = objAusenciaTemporal;
+    }
+
+    public ArrayList<CAusenciasTemporalesConsulta> getLstAusenciasTemporalesConsulta() {
+        return lstAusenciasTemporalesConsulta;
+    }
+
+    public void setLstAusenciasTemporalesConsulta(ArrayList<CAusenciasTemporalesConsulta> lstAusenciasTemporalesConsulta) {
+        this.lstAusenciasTemporalesConsulta = lstAusenciasTemporalesConsulta;
+    }
+
+    public Date getFechaSalida() {
+        return fechaSalida;
+    }
+
+    public void setFechaSalida(Date fechaSalida) {
+        this.fechaSalida = fechaSalida;
+    }
+
+    public Date getFechaEntrada() {
+        return fechaEntrada;
+    }
+
+    public void setFechaEntrada(Date fechaEntrada) {
+        this.fechaEntrada = fechaEntrada;
+    }
+
+    //</editor-fold>
+    //   <editor-fold defaultstate="collapsed" desc="Funciones">
+    public void cargaRelacionAusenciasTemporales() {
+        try {
+            lstAusenciasTemporalesConsulta = CFAusenciasTemporalesConsulta.obtenerAusenciasTemporalesEmpleados(1, "Herrera", null, null, 1);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void preparaNuevo() {
+        this.objAusenciaTemporal = new CAusenciaTemporal();
+        // this.dm= new GestionPersonaConsultasC();
+        this.tipoAusenciaSel.setIntCodigo(0);
+        dm.setObjPersona(null);
+
+    }
+
+    public void preparaBusqueda() {
+        dm.setPersonaSel(null);
+        dm.setDatoBusqueda(null);
+        dm.setLazyModel(null);
+        dm.setLstPersonas(null);
+    }
+
+    public void insertarAusenciaTemporal() {
+//        try {
+//            objAusenciaTemporal.setIntEstado(1);
+//            CRelacionDependencia relacionDependencia = CFRelacionDependencia.obtenerRelacionDependenciaDadoCodigoPersona(dm.getObjPersona().getLgCodigoPersona());
+//            objAusenciaTemporal.setObjCodigoRelacionDependencia(relacionDependencia);
+//            this.objAusenciaTemporal.setTmstmFechaSalida(new Timestamp(this.fechaSalida.getTime()));
+//            this.objAusenciaTemporal.setTmstmFechaReintegro(new Timestamp(this.fechaEntrada.getTime()));
+//            this.objAusenciaTemporal.setTmstmFechaSolicitud(Tools.obtieneFechaActualSegundos());
+//            this.objAusenciaTemporal.setObjCodigoTipoAusencia(tipoAusenciaSel);
+//            boolean bandera = CFAusenciasTemporales.insertar(objAusenciaTemporal);
+//            if (bandera == true) {
+//                cargaRelacionAusenciasTemporales();
+//                fechaEntrada = null;
+//                fechaSalida = null;
+//                DefaultRequestContext.getCurrentInstance().execute("wdgNuevo.hide()");
+//                Util.addSuccessMessage("Datos Insertados");
+//            } else {
+//            }
+//        } catch (Exception e) {
+//            Util.addErrorMessage(e.getMessage());
+//        }
+
+    }
+
+    public void preparaEditar() {
+//        try {
+//            objAusenciaTemporalActual = CFAusenciasTemporales.obtenerAusenciaTemporalDadoCodigo(objAusenciaTemporalActualC.getLgCodigoAusenciaTemp());
+//            this.fechaEntrada = this.objAusenciaTemporalActual.getTmstmFechaReintegro();
+//            this.fechaSalida = this.objAusenciaTemporalActual.getTmstmFechaSalida();
+//            this.tipoAusenciaSel = this.objAusenciaTemporalActual.getObjCodigoTipoAusencia();
+//            dm.setObjPersona(objAusenciaTemporalActual.getObjCodigoRelacionDependencia().getObjCodigoPersona());
+//            codigoTipoAusenciaSeleccionado= objAusenciaTemporalActual.getObjCodigoTipoAusencia().getIntCodigo();
+//
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
+
+    }
+
+    public void editarAusenciaTemporal() {
+//        try {
+//            CRelacionDependencia relacionDependencia = CFRelacionDependencia.obtenerRelacionDependenciaDadoCodigoPersona(dm.getObjPersona().getLgCodigoPersona());
+//            objAusenciaTemporalActual.setObjCodigoRelacionDependencia(relacionDependencia);
+//            this.objAusenciaTemporalActual.setTmstmFechaSalida(new Timestamp(this.fechaSalida.getTime()));
+//            this.objAusenciaTemporalActual.setTmstmFechaReintegro(new Timestamp(this.fechaEntrada.getTime()));
+//            //this.objAusenciaTemporal.setTmstmFechaSolicitud(Tools.obtieneFechaActualSegundos());
+//            tipoAusenciaSel.setIntCodigo(codigoTipoAusenciaSeleccionado);
+//            this.objAusenciaTemporalActual.setObjCodigoTipoAusencia(tipoAusenciaSel);
+//            boolean bandera = CFAusenciasTemporales.actualizar(objAusenciaTemporalActual);
+//            if (bandera == true) {
+//                cargaRelacionAusenciasTemporales();
+//                fechaEntrada = null;
+//                fechaSalida = null;
+//                DefaultRequestContext.getCurrentInstance().execute("wdgEditar.hide()");
+//                Util.addSuccessMessage("Datos Actualizadoss");
+//            } else {
+//            }
+//        } catch (Exception e) {
+//            Util.addErrorMessage(e.getMessage());
+//        }
+
+    }
+
+    public void cargaHorarioEmpleado() {
+        try {
+            lstHorarioEmpleado = CFHorarioEmpleadoConsulta.obtenerHorarioActivoEmpleado(dm.getObjPersona().getStrIdentificacion());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void asignarSelectedPersona() {
+        try {
+            dm.setObjPersona(FPersona.ObtenerPersonaDadoCodigo(dm.getPersonaSel().getLgCodigo()));
+            cargaHorarioEmpleado();
+            //dm.ge = (FPersona.ObtenerPersonaDadoCodigo(dm.getPersonaSel().getLgCodigo()));
+//            objPersona.setLgCodigoPersona(1);
+//            objPersona.setStrApellidos("PALACIOS CAMPANA");
+//            objPersona.setStrNombres("DIEGO BERNARDO");
+//            objPersona.setStrIdentificacion("0603094517");
+           // System.out.print(objPersona.getStrIdentificacion());
+        } catch (java.lang.Exception e) {
+            System.out.print(e.getMessage());
+            //  System.out.print(getPersona().getApellido() + " " + e.getMessage());
+        }
+        DefaultRequestContext.getCurrentInstance().execute("wdialogoBusquedaPersonas.hide()");
+        // DefaultRequestContext.getCurrentInstance().execute("wdgNuevo.show()");
+    }
+    //</editor-fold>
+}

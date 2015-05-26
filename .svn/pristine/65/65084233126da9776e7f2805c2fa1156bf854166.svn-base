@@ -1,0 +1,124 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package master.logica.funciones;
+
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import master.logica.clases.CProvincia;
+
+
+/**
+ *
+ * @author Javier
+ */
+public class CFProvincia {
+     public static boolean insertar(CProvincia provincia) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_insert_provincia(?,?)";
+            lstP.add(new Parametro(1, provincia.getStrNombre()));
+            lstP.add(new Parametro(2, provincia.getObjCodigoPais().getLgCodigo()));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true"));
+                eje = true;
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+   
+   public static boolean actualizar(CProvincia provincia) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_update_provincia(?,?,?)";
+            lstP.add(new Parametro(1, provincia.getStrNombre()));
+            lstP.add(new Parametro(2, provincia.getObjCodigoPais().getLgCodigo()));
+            lstP.add(new Parametro(3, provincia.getLgCodigo()));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true"));
+                eje = true;
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+   
+   public static boolean eliminar(CProvincia provincia) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_delete_provincia(?)";
+            lstP.add(new Parametro(1, provincia.getLgCodigo()));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true"));
+                eje = true;
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+   
+ public static ArrayList<CProvincia> llenarProvincia(ConjuntoResultado rs) throws Exception
+      {
+          ArrayList<CProvincia> lst = new ArrayList<CProvincia>();
+          CProvincia provincia=null;
+          
+          try {
+            while(rs.next())
+            {
+                     provincia= new CProvincia(rs.getInt(1),rs.getString(2), CFPais.ObtenerPaisDadoCodigo(rs.getInt(3)));
+                     lst.add(provincia);
+            }
+            } catch (Exception e) {
+                 lst.clear();
+                throw e;
+          }
+         return lst;
+      }
+    public static CProvincia ObtenerProvinciaDadoCodigo(int codigo) throws Exception
+    {
+       CProvincia lst;
+          try
+        {
+         ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+         String sql = "select * from master.f_select_provincia_dado_codigo(?)";
+         lstP.add(new Parametro(1,codigo));
+         ConjuntoResultado rs= AccesoDatos.ejecutaQuery(sql,lstP);
+         lst= new CProvincia();
+         lst= llenarProvincia(rs).get(0);
+         rs=null;
+        } catch (SQLException exConec) {
+               throw  new Exception(exConec.getMessage());
+         }
+          return lst;
+    }
+    
+    public static  ArrayList<CProvincia> ObtenerProvincias() throws Exception
+    {
+       ArrayList<CProvincia> lst = new ArrayList<CProvincia>();
+          try
+        {
+         String sql = "select * from master.f_select_provincias()";
+         ConjuntoResultado rs= AccesoDatos.ejecutaQuery(sql);
+         lst= llenarProvincia(rs);
+          rs=null;
+
+        } catch (SQLException exConec) {
+               throw  new Exception(exConec.getMessage());
+         }
+          return lst;
+    }
+}

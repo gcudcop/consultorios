@@ -1,0 +1,149 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.funciones;
+
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import control.logica.clases.CTipoJornada;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CFTipoJornada {
+
+    public static boolean insertar(CTipoJornada tipoJornada) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_insert_tipo_jornada(?,?,?,?,?,?,?,?,?,?,?)";
+            lstP.add(new Parametro(1, tipoJornada.getTmHoraEntrada()));
+            lstP.add(new Parametro(2, tipoJornada.getTmHoraSalida()));
+            lstP.add(new Parametro(3, tipoJornada.getTmHoraEntradaReceso()));
+            lstP.add(new Parametro(4, tipoJornada.getTmHoraSalidaReceso()));
+            lstP.add(new Parametro(5, tipoJornada.getStrNombre()));
+            lstP.add(new Parametro(6, tipoJornada.getStrNombreCorto()));
+            lstP.add(new Parametro(7, tipoJornada.getStrDescripcion()));
+            lstP.add(new Parametro(8, tipoJornada.getStrObservacion()));
+            lstP.add(new Parametro(9, tipoJornada.getDblnumeroHoras()));
+            lstP.add(new Parametro(10, 1));
+            lstP.add(new Parametro(11, ""));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true")) {
+                    eje = true;
+                }
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+
+    public static boolean actualizar(CTipoJornada tipoJornada) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_update_tipo_jornada(?,?,?,?,?,?,?,?,?,?,?,?)";
+            lstP.add(new Parametro(1, tipoJornada.getTmHoraEntrada()));
+            lstP.add(new Parametro(2, tipoJornada.getTmHoraSalida()));
+            lstP.add(new Parametro(3, tipoJornada.getTmHoraEntradaReceso()));
+            lstP.add(new Parametro(4, tipoJornada.getTmHoraSalidaReceso()));
+            lstP.add(new Parametro(5, tipoJornada.getStrNombre()));
+            lstP.add(new Parametro(6, tipoJornada.getStrNombreCorto()));
+            lstP.add(new Parametro(7, tipoJornada.getStrDescripcion()));
+            lstP.add(new Parametro(8, tipoJornada.getStrObservacion()));
+            lstP.add(new Parametro(9, tipoJornada.getDblnumeroHoras()));
+            lstP.add(new Parametro(10, tipoJornada.getIntEstado()));
+            lstP.add(new Parametro(11, ""));
+            lstP.add(new Parametro(12, tipoJornada.getIntCodigo()));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true")) {
+                    eje = true;
+                }
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+
+    public static boolean eliminar(int codigo) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_delete_tipo_jornada(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true")) {
+                    eje = true;
+                }
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+
+    public static ArrayList<CTipoJornada> llenarTipoJornada(ConjuntoResultado rs) throws Exception {
+        ArrayList<CTipoJornada> lst = new ArrayList<CTipoJornada>();
+        CTipoJornada tipoJornada = null;
+        try {
+            while (rs.next()) {
+                tipoJornada = new CTipoJornada(rs.getInt("pcodigo"),
+                        rs.getTime("phora_entrada"), rs.getTime("phora_salida"),
+                        rs.getTime("phora_entrada_receso"),
+                        rs.getTime("phora_salida_receso"),
+                        rs.getString("pnombre"),
+                        rs.getString("pnombre_corto"),
+                        rs.getString("pdescripcion"),
+                        rs.getString("pobservacion"),
+                        rs.getDouble("pnumero_horas"),
+                        rs.getInt("pestado"),
+                        rs.getString("pdia"));
+                lst.add(tipoJornada);
+            }
+        } catch (Exception e) {
+            lst.clear();
+            throw e;
+        }
+        return lst;
+    }
+
+    public static CTipoJornada obtenerTipoJornadaDadoCodigo(int codigo) throws Exception {
+        CTipoJornada lst;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_select_tipo_jornada_dado_codigo(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = new CTipoJornada();
+            lst = llenarTipoJornada(rs).get(0);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+
+    public static ArrayList<CTipoJornada> obtenerTiposJornadas() throws Exception {
+        ArrayList<CTipoJornada> lst = new ArrayList<CTipoJornada>();
+        try {
+            String sql = "select * from control.f_select_tipo_jornadas()";
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
+            lst = llenarTipoJornada(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+}

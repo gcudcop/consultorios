@@ -1,0 +1,609 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.beans;
+
+import control.logica.clases.CDetalleHorasExtras;
+import control.logica.clases.CHorasExtras;
+import control.logica.clases.consultas.CHorarioEmpleado;
+import control.logica.clases.consultas.CHorasExtrasConsulta;
+import control.logica.funciones.CFDetalleHorasExtras;
+import control.logica.funciones.CFHorasExtras;
+import control.logica.funciones.consultas.CFHorarioEmpleadoConsulta;
+import control.logica.funciones.consultas.CFHorasExtrasConsulta;
+import informacion.logica.clases.CRelacionDependencia;
+import informacion.logica.funciones.CFRelacionDependencia;
+import java.io.Serializable;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import master.logica.funciones.FPersona;
+import master.presentacion.funciones.beans.consultas.GestionPersonaConsultasC;
+import org.primefaces.context.DefaultRequestContext;
+import org.primefaces.event.ScheduleEntryMoveEvent;
+import org.primefaces.event.ScheduleEntryResizeEvent;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DefaultScheduleEvent;
+import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.ScheduleEvent;
+import org.primefaces.model.ScheduleModel;
+import recursos.Tools;
+import recursos.Util;
+
+/**
+ *
+ * @author Javier Romero
+ */
+@ManagedBean
+@ViewScoped
+public class CHorasExtrasC implements Serializable {
+
+   
+    private CHorasExtras objHorasExtras;
+    private ArrayList<CHorasExtrasConsulta> lstHorasExtrasConsulta;
+    
+    @ManagedProperty(value = "#{gestionPersonaConsultasC}")
+    private GestionPersonaConsultasC dm;
+    private int codigoHorasExtrasSeleccionado;
+    private ArrayList<CHorarioEmpleado> lstHorariosSel;
+    private CHorasExtras objHorasExtrasSel;
+    private CHorasExtras objHorasExtrasSelC;
+    private ArrayList<CHorasExtrasConsulta> lstHorasExtrasConsultasel;
+    //////////////////////
+    private ScheduleModel eventModel;
+    private ScheduleEvent event = new DefaultScheduleEvent();
+    private ArrayList<CHorarioEmpleado> lstHorarioEmpleado;
+    private CDetalleHorasExtras objDetalleHoExtras;
+    private CDetalleHorasExtras objDetalleHorasExtrasActual;
+    private ArrayList<CDetalleHorasExtras> lstDetalleHorasExtras;
+    
+    private CHorarioEmpleado horarioEmpleadoSel;
+    
+    //dato extras
+    
+      private java.util.Date horaEntrada;
+      private java.util.Date horaSalida;
+      private java.util.Date numeroHoras;
+      private java.util.Date horaEntradaAlmuerzo;
+      private java.util.Date horaSalidaAlmuerzo;
+      private java.util.Date fecha;
+      private String Observacion;
+      
+
+
+   
+    
+    public CHorasExtrasC() {
+        this.lstHorasExtrasConsulta = new ArrayList<CHorasExtrasConsulta>();
+        this.objHorasExtras = new CHorasExtras();
+        this.objDetalleHoExtras = new CDetalleHorasExtras();
+        this.objDetalleHorasExtrasActual = new CDetalleHorasExtras();
+        this.lstDetalleHorasExtras = new ArrayList<CDetalleHorasExtras>();
+        this.lstHorariosSel = new ArrayList<CHorarioEmpleado>();
+        this.objHorasExtrasSel = new CHorasExtras();
+        this.eventModel = new DefaultScheduleModel();
+        this.lstHorarioEmpleado = new ArrayList<CHorarioEmpleado>();
+       
+        this.horarioEmpleadoSel = new CHorarioEmpleado();
+    }
+
+    @PostConstruct
+    public void PostCHorasExtrasC() {
+        cargarHorasExtras();
+        cargarHorarioEmpleado();
+
+    }
+
+    public CHorasExtrasC(CHorasExtras objHorasExtras, ArrayList<CHorasExtrasConsulta> lstHorasExtrasConsulta, GestionPersonaConsultasC dm, ArrayList<CHorarioEmpleado> lstHorariosSel, ScheduleModel eventModel, ArrayList<CHorarioEmpleado> lstHorarioEmpleado, CDetalleHorasExtras objDetalleHoExtras, CDetalleHorasExtras objDetalleHorasExtrasActual, ArrayList<CDetalleHorasExtras> lstDetalleHorasExtras, CHorarioEmpleado horarioEmpleadoSel) {
+        this.objHorasExtras = objHorasExtras;
+        this.lstHorasExtrasConsulta = lstHorasExtrasConsulta;
+        this.dm = dm;
+        this.lstHorariosSel = lstHorariosSel;
+        this.eventModel = eventModel;
+        this.lstHorarioEmpleado = lstHorarioEmpleado;
+        this.objDetalleHoExtras = objDetalleHoExtras;
+        this.objDetalleHorasExtrasActual = objDetalleHorasExtrasActual;
+        this.lstDetalleHorasExtras = lstDetalleHorasExtras;
+        this.horarioEmpleadoSel = horarioEmpleadoSel;
+    }
+
+    ///////
+    public CHorasExtras getObjHorasExtrasSelC() {
+        return objHorasExtrasSelC;
+    }
+
+    public void setObjHorasExtrasSelC(CHorasExtras objHorasExtrasSelC) {
+        this.objHorasExtrasSelC = objHorasExtrasSelC;
+    }
+    
+    
+    
+    public String getObservacion() {
+        return Observacion;
+    }
+
+    public void setObservacion(String Observacion) {
+        this.Observacion = Observacion;
+    }
+
+    
+    public Date getHoraEntrada() {
+        return horaEntrada;
+    }
+
+    public void setHoraEntrada(Date horaEntrada) {
+        this.horaEntrada = horaEntrada;
+    }
+
+    public Date getHoraSalida() {
+        return horaSalida;
+    }
+
+    public void setHoraSalida(Date horaSalida) {
+        this.horaSalida = horaSalida;
+    }
+
+    public Date getNumeroHoras() {
+        return numeroHoras;
+    }
+
+    public void setNumeroHoras(Date numeroHoras) {
+        this.numeroHoras = numeroHoras;
+    }
+
+    public Date getHoraEntradaAlmuerzo() {
+        return horaEntradaAlmuerzo;
+    }
+
+    public void setHoraEntradaAlmuerzo(Date horaEntradaAlmuerzo) {
+        this.horaEntradaAlmuerzo = horaEntradaAlmuerzo;
+    }
+
+    public Date getHoraSalidaAlmuerzo() {
+        return horaSalidaAlmuerzo;
+    }
+
+    public void setHoraSalidaAlmuerzo(Date horaSalidaAlmuerzo) {
+        this.horaSalidaAlmuerzo = horaSalidaAlmuerzo;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+    
+    
+    
+    
+    
+/////
+    
+    
+    public Date getRandomDate(Date base) {
+        Calendar date = Calendar.getInstance();
+        date.setTime(base);
+        date.add(Calendar.DATE, ((int) (Math.random() * 30)) + 1);    //set random day of month  
+
+        return date.getTime();
+    }
+
+    public Date getInitialDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(calendar.get(Calendar.YEAR), Calendar.FEBRUARY, calendar.get(Calendar.DATE), 0, 0, 0);
+
+        return calendar.getTime();
+    }
+
+    public ScheduleModel getEventModel() {
+        return eventModel;
+    }
+
+    public ScheduleEvent getEvent() {
+        return event;
+    }
+
+    public void setEvent(ScheduleEvent event) {
+        this.event = event;
+    }
+
+    public ArrayList<CHorarioEmpleado> getLstHorariosSel() {
+        return lstHorariosSel;
+    }
+
+    public void setLstHorariosSel(ArrayList<CHorarioEmpleado> lstHorariosSel) {
+        this.lstHorariosSel = lstHorariosSel;
+    }
+
+    public GestionPersonaConsultasC getDm() {
+        return dm;
+    }
+
+    public void setDm(GestionPersonaConsultasC dm) {
+        this.dm = dm;
+    }
+
+    public CHorasExtras getObjHorasExtras() {
+        return objHorasExtras;
+    }
+
+    public void setObjHorasExtras(CHorasExtras objHorasExtras) {
+        this.objHorasExtras = objHorasExtras;
+    }
+
+    public ArrayList<CHorasExtrasConsulta> getLstHorasExtrasConsulta() {
+        return lstHorasExtrasConsulta;
+    }
+
+    public void setLstHorasExtrasConsulta(ArrayList<CHorasExtrasConsulta> lstHorasExtrasConsulta) {
+        this.lstHorasExtrasConsulta = lstHorasExtrasConsulta;
+    }
+
+    public ArrayList<CHorarioEmpleado> getLstHorarioEmpleado() {
+        return lstHorarioEmpleado;
+    }
+
+    public void setLstHorarioEmpleado(ArrayList<CHorarioEmpleado> lstHorarioEmpleado) {
+        this.lstHorarioEmpleado = lstHorarioEmpleado;
+    }
+
+    public CDetalleHorasExtras getObjDetalleHoExtras() {
+        return objDetalleHoExtras;
+    }
+
+    public void setObjDetalleHoExtras(CDetalleHorasExtras objDetalleHoExtras) {
+        this.objDetalleHoExtras = objDetalleHoExtras;
+    }
+
+    public CDetalleHorasExtras getObjDetalleHorasExtrasActual() {
+        return objDetalleHorasExtrasActual;
+    }
+
+    public int getCodigoHorasExtrasSeleccionado() {
+        return codigoHorasExtrasSeleccionado;
+    }
+
+    public void setCodigoHorasExtrasSeleccionado(int codigoHorasExtrasSeleccionado) {
+        this.codigoHorasExtrasSeleccionado = codigoHorasExtrasSeleccionado;
+    }
+
+    public ArrayList<CHorasExtrasConsulta> getLstHorasExtrasConsultasel() {
+        return lstHorasExtrasConsultasel;
+    }
+
+    public void setLstHorasExtrasConsultasel(ArrayList<CHorasExtrasConsulta> lstHorasExtrasConsultasel) {
+        this.lstHorasExtrasConsultasel = lstHorasExtrasConsultasel;
+    }
+
+    public void setObjDetalleHorasExtrasActual(CDetalleHorasExtras objDetalleHorasExtrasActual) {
+        this.objDetalleHorasExtrasActual = objDetalleHorasExtrasActual;
+    }
+
+    public ArrayList<CDetalleHorasExtras> getLstDetalleHorasExtras() {
+        return lstDetalleHorasExtras;
+    }
+
+    public void setLstDetalleHorasExtras(ArrayList<CDetalleHorasExtras> lstDetalleHorasExtras) {
+        this.lstDetalleHorasExtras = lstDetalleHorasExtras;
+    }
+
+    public CHorarioEmpleado getHorarioEmpleadoSel() {
+        return horarioEmpleadoSel;
+    }
+
+    public void setHorarioEmpleadoSel(CHorarioEmpleado horarioEmpleadoSel) {
+        this.horarioEmpleadoSel = horarioEmpleadoSel;
+    }
+
+    public CHorasExtras getObjHorasExtrasSel() {
+        return objHorasExtrasSel;
+    }
+
+    public void setObjHorasExtrasSel(CHorasExtras objHorasExtrasSel) {
+        this.objHorasExtrasSel = objHorasExtrasSel;
+    }
+
+
+    
+
+    public void cargarHorasExtras() {
+        try {
+            lstHorasExtrasConsulta =CFHorasExtrasConsulta.obtenerHorasExtrasEmpleados("");
+                    
+                    } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void preparaNuevo() {
+        this.objHorasExtras = new CHorasExtras();
+        // this.dm= new GestionPersonaConsultasC();
+        
+        dm.setObjPersona(null);
+
+    }
+ public void preparaEditar() {
+        try {
+            objHorasExtrasSel = CFHorasExtras.obtenerHorasExtrasDadoCodigo(objHorasExtrasSelC.getLgCodigo());
+            lstDetalleHorasExtras = CFDetalleHorasExtras.obtenerDetalleHorasExtrasDadoCodigoHoraExtra(objHorasExtrasSel.getLgCodigo());
+            dm.setObjPersona(objHorasExtrasSel.getObjCodigoRelacion_Dependencia().getObjCodigoPersona());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+    
+    public void preparaBusqueda() {
+        dm.setPersonaSel(null);
+        dm.setDatoBusqueda(null);
+        dm.setLazyModel(null);
+        dm.setLstPersonas(null);
+    }
+    
+
+    public void insertarHorasExtras() {
+        try {
+            this.objHorasExtras.setIntEstado(1);
+            CRelacionDependencia relacionDependencia = CFRelacionDependencia.obtenerRelacionDependenciaDadoCodigoPersona(dm.getObjPersona().getLgCodigoPersona());
+           this.objHorasExtras.setObjCodigoRelacion_Dependencia(relacionDependencia);
+          //  this.objHorasExtras.setDtFechaSolicitud(Tools.obtieneFechaActualSegundos());
+            
+            if (lstDetalleHorasExtras.size() > 0) {
+                if (dm.getObjPersona().getLgCodigoPersona() > 0) {
+                    long codHorasExtras = CFHorasExtras.insertar(objHorasExtras,lstDetalleHorasExtras);
+                    if (codHorasExtras > 0) {
+                        cargarHorasExtras();
+                        DefaultRequestContext.getCurrentInstance().execute("wdgNuevo.hide()");
+                        Util.addSuccessMessage("Datos Insertados");
+                    } else {
+                    }
+                } else {
+                    Util.addSuccessMessage("Una Hora Extra necesita un empleado");
+                }
+
+            } else {
+                Util.addSuccessMessage("Una Hora Extra necesita al menos un día asignado");
+            }
+
+        } catch (Exception e) {
+            Util.addErrorMessage("Una Hora Extra necesita al menos un empleado asignado");
+            System.out.println(e.getMessage());
+
+        }
+
+    }
+//
+    public void eliminarDetalleAusencia() {
+        try {
+            if (lstDetalleHorasExtras.size() > 1) {
+                boolean bandera = CFDetalleHorasExtras.eliminar(objDetalleHorasExtrasActual.getLgCodigo());
+                if (bandera) {
+                    Util.addSuccessMessage("Registro Eliminado Definitivamente");
+                    lstDetalleHorasExtras = CFDetalleHorasExtras.obtenerDetalleHorasExtrasDadoCodigoHoraExtra(objHorasExtrasSel.getLgCodigo());
+                } else {
+                    Util.addSuccessMessage("No se eliminó el Registro");
+                }
+
+            } else {
+                Util.addSuccessMessage("En una Hora Extra debe existir al menos una fecha de permiso.");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            Util.addSuccessMessage("No se eliminó el Registro" + e.getMessage());
+        }
+    }
+//
+    public void insertarDetalleAusencia() {
+        try {
+           objDetalleHoExtras = new CDetalleHorasExtras();
+            objDetalleHoExtras.setDtfecha(horarioEmpleadoSel.getDtFecha());
+            CRelacionDependencia relacionDependencia = CFRelacionDependencia.obtenerRelacionDependenciaDadoCodigoPersona(dm.getObjPersona().getLgCodigoPersona());
+           this.objHorasExtras.setObjCodigoRelacion_Dependencia(relacionDependencia);
+           objDetalleHoExtras.setObjCodigoHoraExtra(objHorasExtrasSel);
+           objDetalleHoExtras.setTmHoraEntrada(new java.sql.Time(this.horaEntrada.getTime()));
+           objDetalleHoExtras.setTmHoraSalida(new java.sql.Time(this.horaSalida.getTime()));
+           objDetalleHoExtras.setTmHoraEntradaAlmuerzo(new java.sql.Time(this.horaEntradaAlmuerzo.getTime()));
+           objDetalleHoExtras.setTmHoraSalidaAlmuerzo(new java.sql.Time(this.horaSalidaAlmuerzo.getTime()));
+           objDetalleHoExtras.setStrObservacion(this.Observacion);
+       long numero = CFDetalleHorasExtras.insertar(objDetalleHoExtras);
+
+            if (numero > 0) {
+                Util.addSuccessMessage("Dìa de Persmiso Insertado");
+                DefaultRequestContext.getCurrentInstance().execute("PF('myscheduleEditar').update();PF('eventDialogEditar').hide();PF('wdgHorarioEditar').hide()");
+                lstDetalleHorasExtras = CFDetalleHorasExtras.obtenerDetalleHorasExtrasDadoCodigoHoraExtra(objHorasExtrasSel.getLgCodigo());
+
+            } else {
+                Util.addSuccessMessage("No se insertó el día de permiso");
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            Util.addSuccessMessage("No se insertó el día de permiso" + e.getMessage());
+        }
+    }
+
+   
+
+    
+    public void asignarDetalleHorasExtras() {
+
+        objDetalleHoExtras = new CDetalleHorasExtras();
+        objDetalleHoExtras.setDtfecha(horarioEmpleadoSel.getDtFecha());
+        CHorasExtras objHoras = new CHorasExtras();
+        objHoras.setLgCodigo(horarioEmpleadoSel.getLgCodigo());
+        objDetalleHoExtras.setObjCodigoHoraExtra(null);
+        objDetalleHoExtras.setTmHoraEntrada(new java.sql.Time(this.horaEntrada.getTime()));
+        objDetalleHoExtras.setTmHoraSalida(new java.sql.Time(this.horaSalida.getTime()));
+        objDetalleHoExtras.setTmHoraEntradaAlmuerzo(new java.sql.Time(this.horaEntradaAlmuerzo.getTime()));
+        objDetalleHoExtras.setTmHoraSalidaAlmuerzo(new java.sql.Time(this.horaSalidaAlmuerzo.getTime()));
+        objDetalleHoExtras.setStrObservacion(this.Observacion);
+        DefaultRequestContext.getCurrentInstance().execute("PF('myschedule').update();PF('eventDialog').hide();PF('wdgHorario').hide()");
+
+    }
+    public void cargaHorarioEmpleado() {
+        try {
+            lstHorarioEmpleado = CFHorarioEmpleadoConsulta.obtenerHorarioActivoEmpleado(dm.getObjPersona().getStrIdentificacion());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void asignarSelectedPersona() {
+        try {
+            dm.setObjPersona(FPersona.ObtenerPersonaDadoCodigo(dm.getPersonaSel().getLgCodigo()));
+            //  cargaHorarioEmpleado();
+            //dm.ge = (FPersona.ObtenerPersonaDadoCodigo(dm.getPersonaSel().getLgCodigo()));
+//            objPersona.setLgCodigoPersona(1);
+//            objPersona.setStrApellidos("PALACIOS CAMPANA");
+//            objPersona.setStrNombres("DIEGO BERNARDO");
+//            objPersona.setStrIdentificacion("0603094517");
+            // System.out.print(objPersona.getStrIdentificacion());
+        } catch (java.lang.Exception e) {
+            System.out.print(e.getMessage());
+            //  System.out.print(getPersona().getApellido() + " " + e.getMessage());
+        }
+        DefaultRequestContext.getCurrentInstance().execute("PF('wdialogoBusquedaPersonas').hide()");
+        // DefaultRequestContext.getCurrentInstance().execute("wdgNuevo.show()");
+    }
+
+    public void cargarHorarioEmpleado() {
+        try {
+            lstHorarioEmpleado = CFHorarioEmpleadoConsulta.obtenerHorarioActivoEmpleado("06");
+            for (CHorarioEmpleado cHorarioEmpleado : lstHorarioEmpleado) {
+                eventModel.addEvent(new DefaultScheduleEvent(cHorarioEmpleado.getStrNombreCorto(), cHorarioEmpleado.getDtFecha(), cHorarioEmpleado.getDtFecha(),
+                        cHorarioEmpleado));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private Calendar today() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
+
+        return calendar;
+    }
+
+    private Date previousDay8Pm() {
+        Calendar t = (Calendar) today().clone();
+        t.set(Calendar.AM_PM, Calendar.PM);
+        t.set(Calendar.DATE, t.get(Calendar.DATE) - 1);
+        t.set(Calendar.HOUR, 8);
+
+        return t.getTime();
+    }
+
+    private Date previousDay11Pm() {
+        Calendar t = (Calendar) today().clone();
+        t.set(Calendar.AM_PM, Calendar.PM);
+        t.set(Calendar.DATE, t.get(Calendar.DATE) - 1);
+        t.set(Calendar.HOUR, 11);
+
+        return t.getTime();
+    }
+
+    private Date today1Pm() {
+        Calendar t = (Calendar) today().clone();
+        t.set(Calendar.AM_PM, Calendar.PM);
+        t.set(Calendar.HOUR, 1);
+
+        return t.getTime();
+    }
+
+    private Date theDayAfter3Pm() {
+        Calendar t = (Calendar) today().clone();
+        t.set(Calendar.DATE, t.get(Calendar.DATE) + 2);
+        t.set(Calendar.AM_PM, Calendar.PM);
+        t.set(Calendar.HOUR, 3);
+
+        return t.getTime();
+    }
+
+    private Date today6Pm() {
+        Calendar t = (Calendar) today().clone();
+        t.set(Calendar.AM_PM, Calendar.PM);
+        t.set(Calendar.HOUR, 6);
+
+        return t.getTime();
+    }
+
+    private Date nextDay9Am() {
+        Calendar t = (Calendar) today().clone();
+        t.set(Calendar.AM_PM, Calendar.AM);
+        t.set(Calendar.DATE, t.get(Calendar.DATE) + 1);
+        t.set(Calendar.HOUR, 9);
+
+        return t.getTime();
+    }
+
+    private Date nextDay11Am() {
+        Calendar t = (Calendar) today().clone();
+        t.set(Calendar.AM_PM, Calendar.AM);
+        t.set(Calendar.DATE, t.get(Calendar.DATE) + 1);
+        t.set(Calendar.HOUR, 11);
+
+        return t.getTime();
+    }
+
+    private Date fourDaysLater3pm() {
+        Calendar t = (Calendar) today().clone();
+        t.set(Calendar.AM_PM, Calendar.PM);
+        t.set(Calendar.DATE, t.get(Calendar.DATE) + 4);
+        t.set(Calendar.HOUR, 3);
+
+        return t.getTime();
+    }
+
+    public void addEvent(ActionEvent actionEvent) {
+        if (event.getId() == null) {
+            eventModel.addEvent(event);
+        } else {
+            eventModel.updateEvent(event);
+        }
+
+        event = new DefaultScheduleEvent();
+    }
+
+
+
+    public void onEventSelect(SelectEvent selectEvent) {
+        event = (ScheduleEvent) selectEvent.getObject();
+        horarioEmpleadoSel = (CHorarioEmpleado) event.getData();
+        System.out.print((horarioEmpleadoSel.getLgCodigo()));
+    }
+
+    public void onDateSelect(SelectEvent selectEvent) {
+        event = new DefaultScheduleEvent("", (Date) selectEvent.getObject(), (Date) selectEvent.getObject());
+
+    }
+
+    public void onEventMove(ScheduleEntryMoveEvent event) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event moved", "Day delta:" + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());
+
+        addMessage(message);
+    }
+
+    public void onEventResize(ScheduleEntryResizeEvent event) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event resized", "Day delta:" + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());
+
+        addMessage(message);
+    }
+
+    private void addMessage(FacesMessage message) {
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+    //</editor-fold>
+}

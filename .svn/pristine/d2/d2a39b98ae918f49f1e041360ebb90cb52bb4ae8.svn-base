@@ -1,0 +1,73 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.clases;
+
+import java.sql.Time;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CMarcacionDespuesSalida {
+
+    private long lgCodigo;
+    private CHistorialMarcacion objCodigoHistorialMarcacion;
+    private double dblTiempoDespuesHoras;
+    private java.sql.Time tmTiempoDespues;
+    private int intTipo;
+
+    public CMarcacionDespuesSalida() {
+    }
+
+    public CMarcacionDespuesSalida(long lgCodigo, CHistorialMarcacion objCodigoHistorialMarcacion, double dblTiempoDespuesHoras, Time tmTiempoDespues, int intTipo) {
+        this.lgCodigo = lgCodigo;
+        this.objCodigoHistorialMarcacion = objCodigoHistorialMarcacion;
+        this.dblTiempoDespuesHoras = dblTiempoDespuesHoras;
+        this.tmTiempoDespues = tmTiempoDespues;
+        this.intTipo = intTipo;
+    }
+
+    public long getLgCodigo() {
+        return lgCodigo;
+    }
+
+    public void setLgCodigo(long lgCodigo) {
+        this.lgCodigo = lgCodigo;
+    }
+
+    public CHistorialMarcacion getObjCodigoHistorialMarcacion() {
+        return objCodigoHistorialMarcacion;
+    }
+
+    public void setObjCodigoHistorialMarcacion(CHistorialMarcacion objCodigoHistorialMarcacion) {
+        this.objCodigoHistorialMarcacion = objCodigoHistorialMarcacion;
+    }
+
+    public double getDblTiempoDespuesHoras() {
+        return dblTiempoDespuesHoras;
+    }
+
+    public void setDblTiempoDespuesHoras(double dblTiempoDespuesHoras) {
+        this.dblTiempoDespuesHoras = dblTiempoDespuesHoras;
+    }
+
+    public Time getTmTiempoDespues() {
+        return tmTiempoDespues;
+    }
+
+    public void setTmTiempoDespues(Time tmTiempoDespues) {
+        this.tmTiempoDespues = tmTiempoDespues;
+    }
+
+    public int getIntTipo() {
+        return intTipo;
+    }
+
+    public void setIntTipo(int intTipo) {
+        this.intTipo = intTipo;
+    }
+
+}

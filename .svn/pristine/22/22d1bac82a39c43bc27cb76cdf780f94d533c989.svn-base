@@ -1,0 +1,22 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package informacion.presentacion.beans;
+
+import informacion.logica.funciones.consulta.CFRelacionDependenciaConsulta;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import org.primefaces.model.DualListModel;
+
+/**
+ *
+ * @author escorpiondj
+ */
+@ManagedBean
+@ViewScoped
+public class AsignacionJornadaC {
+    private DualListModel<CFRelacionDependenciaConsulta> relacionesDependencia;
+}

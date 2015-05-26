@@ -1,0 +1,147 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.beans;
+
+import control.logica.clases.CAusenciaTemporal;
+import control.logica.clases.CGrupoLaboral;
+import control.logica.clases.CRelDependenciaGrupoLab;
+import control.logica.clases.CTipoAusencia;
+import control.logica.clases.CTipoJornada;
+import control.logica.clases.consultas.CAusenciasTemporalesConsulta;
+import control.logica.clases.consultas.CRelDepGrupLabConsulta;
+import control.logica.funciones.CFAusenciasTemporales;
+import control.logica.funciones.CFTipoAusencia;
+import control.logica.funciones.CFTipoJornada;
+import control.logica.funciones.consultas.CFAusenciasTemporalesConsulta;
+import control.logica.funciones.consultas.CFRelDepGrupLabConsulta;
+import informacion.logica.clases.CRelacionDependencia;
+import informacion.logica.funciones.CFRelacionDependencia;
+import java.io.Serializable;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import master.presentacion.funciones.beans.consultas.GestionPersonaConsultasC;
+import org.primefaces.context.DefaultRequestContext;
+import recursos.Tools;
+import recursos.Util;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+@ManagedBean
+@ViewScoped
+public class AusenciasTemporalesC implements Serializable {
+
+    //   <editor-fold defaultstate="collapsed" desc="Atributos">
+    private CAusenciaTemporal objAusenciaTemporal;
+    private ArrayList<CAusenciasTemporalesConsulta> lstAusenciasTemporalesConsulta;
+    private java.util.Date fechaSalida;
+    private java.util.Date fechaEntrada;
+    @ManagedProperty(value = "#{gestionPersonaConsultasC}")
+    private GestionPersonaConsultasC dm;
+    private CTipoAusencia tipoAusenciaSel;
+
+    //</editor-fold>
+    //   <editor-fold defaultstate="collapsed" desc="Constructores">
+    public AusenciasTemporalesC() {
+        lstAusenciasTemporalesConsulta = new ArrayList<CAusenciasTemporalesConsulta>();
+        objAusenciaTemporal = new CAusenciaTemporal();
+        cargaRelacionAusenciasTemporales();
+        this.tipoAusenciaSel = new CTipoAusencia();
+    }
+
+    //</editor-fold>
+    //   <editor-fold defaultstate="collapsed" desc="Metodos set y get">
+    
+    public CTipoAusencia getTipoAusenciaSel() {
+        return tipoAusenciaSel;
+    }
+
+    public void setTipoAusenciaSel(CTipoAusencia tipoAusenciaSel) {
+        this.tipoAusenciaSel = tipoAusenciaSel;
+    }
+    
+    public GestionPersonaConsultasC getDm() {
+        return dm;
+    }
+
+    public void setDm(GestionPersonaConsultasC dm) {
+        this.dm = dm;
+    }
+
+    public CAusenciaTemporal getObjAusenciaTemporal() {
+        return objAusenciaTemporal;
+    }
+
+    public void setObjAusenciaTemporal(CAusenciaTemporal objAusenciaTemporal) {
+        this.objAusenciaTemporal = objAusenciaTemporal;
+    }
+
+    public ArrayList<CAusenciasTemporalesConsulta> getLstAusenciasTemporalesConsulta() {
+        return lstAusenciasTemporalesConsulta;
+    }
+
+    public void setLstAusenciasTemporalesConsulta(ArrayList<CAusenciasTemporalesConsulta> lstAusenciasTemporalesConsulta) {
+        this.lstAusenciasTemporalesConsulta = lstAusenciasTemporalesConsulta;
+    }
+
+    public Date getFechaSalida() {
+        return fechaSalida;
+    }
+
+    public void setFechaSalida(Date fechaSalida) {
+        this.fechaSalida = fechaSalida;
+    }
+
+    public Date getFechaEntrada() {
+        return fechaEntrada;
+    }
+
+    public void setFechaEntrada(Date fechaEntrada) {
+        this.fechaEntrada = fechaEntrada;
+    }
+
+    //</editor-fold>
+    //   <editor-fold defaultstate="collapsed" desc="Funciones">
+    public void cargaRelacionAusenciasTemporales() {
+        try {
+            lstAusenciasTemporalesConsulta = CFAusenciasTemporalesConsulta.obtenerAusenciasTemporalesEmpleados(1, "Herrera", null, null, 1);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void insertarAusenciaTemporal() {
+        try {
+            objAusenciaTemporal.setIntEstado(1);
+            CRelacionDependencia relacionDependencia = CFRelacionDependencia.obtenerRelacionDependenciaDadoCodigoPersona(dm.getObjPersona().getLgCodigoPersona());
+            objAusenciaTemporal.setObjCodigoRelacionDependencia(relacionDependencia);
+            this.objAusenciaTemporal.setTmstmFechaSalida(new Timestamp(this.fechaSalida.getTime()));
+            this.objAusenciaTemporal.setTmstmFechaReintegro(new Timestamp(this.fechaEntrada.getTime()));
+            this.objAusenciaTemporal.setTmstmFechaSolicitud(Tools.obtieneFechaActualSegundos());
+            this.objAusenciaTemporal.setObjCodigoTipoAusencia(tipoAusenciaSel);
+            boolean bandera = CFAusenciasTemporales.insertar(objAusenciaTemporal);
+            if (bandera == true) {
+                cargaRelacionAusenciasTemporales();
+                objAusenciaTemporal = new CAusenciaTemporal();
+                fechaEntrada = null;
+                fechaSalida = null;
+                DefaultRequestContext.getCurrentInstance().execute("wdgNuevo.hide()");
+                Util.addSuccessMessage("Datos Insertados");
+            } else {
+            }
+        } catch (Exception e) {
+            Util.addErrorMessage(e.getMessage());
+        }
+
+    }
+    //</editor-fold>
+}

@@ -1,0 +1,65 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.funciones.consultas;
+
+import accesodatos.Parametro;
+import informacion.logica.funciones.CFRelacionDependencia;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import master.logica.funciones.CFRelacionDepencia;
+import control.logica.clases.CEmpleadosConsulta;
+import control.logica.clases.CTotalHorasExtras;
+import control.logica.clases.CTotalHorasLaboradas;
+import control.logica.clases.CTotalHorasNormales;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CFTotalHorasLaboradas {
+
+    public static ArrayList<CTotalHorasLaboradas> obtenerHorasLaboradas(java.sql.Date fInicial, java.sql.Date fFinal) throws Exception {
+        ArrayList<CTotalHorasExtras> lstHE = new ArrayList<CTotalHorasExtras>();
+        ArrayList<CTotalHorasNormales> lstHN = new ArrayList<CTotalHorasNormales>();
+        ArrayList<CTotalHorasLaboradas> lstL = new ArrayList<CTotalHorasLaboradas>();
+        ArrayList<CEmpleadosConsulta> lstEmpleados = new ArrayList<CEmpleadosConsulta>();
+
+        lstHE = CFTotalHorasExtras.obtenerHorasExtras(fInicial, fFinal);
+        lstHN = CFTotalHorasNormales.obtenerHorasNormales(fInicial, fFinal);
+        lstEmpleados = CFEmpleadosConsulta.obtenerEmpleados();
+        try {
+            for (int i = 0; i <= lstEmpleados.size() - 1; i++) {
+                CTotalHorasLaboradas hL = new CTotalHorasLaboradas();
+                String cedula = lstEmpleados.get(i).getCedula().toString();
+                for (int j = 0; j <= lstHE.size() - 1; j++) {
+                    if (lstHE.get(j).getCedula().equals(cedula)) {
+                        hL.setTotalHE(lstHE.get(j).getTotalHE());
+                        break;
+                    } else {
+                        hL.setTotalHE(0);
+                    }
+                }
+                for (int j = 0; j <= lstHN.size() - 1; j++) {
+                    if (lstHN.get(j).getCedula().equals(cedula)) {
+                        hL.setTotalHL(lstHN.get(j).getTotalHL());
+                        hL.setTotalSobretiempo(lstHN.get(j).getTotalSobretiempo());
+                        break;
+                    } else {
+                        hL.setTotalHL(0);
+                        hL.setTotalSobretiempo(0);
+                    }
+                }
+                hL.setApellidos(lstEmpleados.get(i).getApellidos());
+                hL.setNombres(lstEmpleados.get(i).getNombres());
+                hL.setDependencia(lstEmpleados.get(i).getDependencia());
+                lstL.add(hL);
+            }
+        } catch (Exception exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lstL;
+    }
+}

@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <title>
+            <ui:define name="tituloNavegador">Gestión de Parametrización</ui:define>
+        </title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../../templates/plantillaInternaCenter.xhtml">
+            <ui:define name="top">Gestión de Parametrización</ui:define>
+            <ui:define name="contenido">
+                <p:growl id="grmensajes" autoUpdate="true"/>
+                <h:form id="frmParametrizacion">
+                    <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                    <p:panel id="pnlParametrizacion">
+                        <p:dataTable id="tblParametrizacion" value="#{parametrizacionC.lstParametrizaciones}" var="parametro" paginator="true" rows="10"
+                                     rowKey="#{parametro.lgCodigo}" selectionMode="single" selection="#{parametrizacionC.objParametrizacionActual}"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                     rowsPerPageTemplate="5,10,15">  
+                            <p:column filterBy="#{parametro.lgCodigo}"  sortBy="#{parametro.lgCodigo}" >
+                                <f:facet name="header">
+                                    <h:outputText value="Código"/>
+                                </f:facet>
+                                <h:outputText value="#{parametro.lgCodigo}"/>
+                            </p:column>
+                            <p:column filterBy="#{parametro.strNombre}" filterMatchMode="startsWith" sortBy="#{parametro.strNombre}">
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre"/>
+                                </f:facet>
+                                <h:outputText value="#{parametro.strNombre}"/>
+                            </p:column>
+                            <p:column filterBy="#{parametro.strDescripcion}" filterMatchMode="startsWith" sortBy="#{parametro.strDescripcion}">
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre Corto"/>
+                                </f:facet>
+                                <h:outputText value="#{parametro.strDescripcion}"/>
+                            </p:column> 
+
+                            <p:column filterBy="#{parametro.dblValor}" filterMatchMode="startsWith" sortBy="#{parametro.dblValor}">
+                                <f:facet name="header">
+                                    <h:outputText value="Valor"/>
+                                </f:facet>
+                                <h:outputText value="#{parametro.dblValor}"/>
+                            </p:column>
+                            <p:column filterBy="#{parametro.strValorCadena}" filterMatchMode="startsWith" sortBy="#{parametro.strValorCadena}">
+                                <f:facet name="header">
+                                    <h:outputText value="Valor Cadena"/>
+                                </f:facet>
+                                <h:outputText value="#{parametro.strValorCadena}"/>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton id="btnEditar" icon="ui-icon-pencil"  title="Editar" oncomplete="wdgEditar.show()" process="@this"
+                                                 update=":dlgEditar, @form">                                   
+                                    <f:setPropertyActionListener value="#{parametro}" target="#{parametrizacionC.objParametrizacionActual}"/>
+                                </p:commandButton>
+
+                                <p:commandButton id="btnEliminar" icon="ui-icon-close"  title="Eliminar" oncomplete="wdgEliminar.show()" 
+                                                 update=":dlgEliminar">                                   
+                                    <f:setPropertyActionListener value="#{parametro}" target="#{parametrizacionC.objParametrizacionActual}"/>
+                                </p:commandButton>
+                            </p:column>
+                            <f:facet name="footer">  
+                                <p:commandButton id="btnNuevo" value="Nuevo" icon="ui-icon-newwin" 
+                                                 update=":dlgNuevo" onclick="PF('wdgNuevo').show()" 
+                                                 title="Agregar Parámetro" type="button" /> 
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+            <ui:define name="dialogos">
+                <p:dialog id="dlgNuevo"  widgetVar="wdgNuevo" modal="true" closable="false" resizable="false"
+                          showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmNuevo">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:panelGrid id="pngNuevo" columns="2">
+                            <f:facet name="header">  
+                                Nuevo Parámetro 
+                            </f:facet> 
+                            <h:outputText value="Nombre:"/>
+                            <p:inputText value="#{parametrizacionC.objParametrizacion.strNombre}"/>
+                            <h:outputText value="Descripción:"/>
+                            <p:inputText value="#{parametrizacionC.objParametrizacion.strDescripcion}"/>
+                            <h:outputText value="Valor"/>
+                            <p:inputText value="#{parametrizacionC.objParametrizacion.dblValor}"/>
+                            <h:outputText value="Valor Cadena"/>
+                            <p:inputText value="#{parametrizacionC.objParametrizacion.strValorCadena}"/>
+                            <f:facet name="footer">  
+                                <p:commandButton value="Aceptar" action="#{parametrizacionC.insertarParametrizacion}" update=":frmParametrizacion:pnlParametrizacion"/>
+                                <p:commandButton value="Cancelar" onclick="wdgNuevo.hide()" type="reset"/>
+                            </f:facet>  
+                        </p:panelGrid>
+
+                    </h:form> 
+                </p:dialog>
+
+                <p:dialog id="dlgEditar"  widgetVar="wdgEditar" modal="true" closable="false" resizable="false"
+                          showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEditar">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:panelGrid id="pngEditar" columns="2">
+                            <f:facet name="header">  
+                                Editar Parámetro 
+                            </f:facet> 
+                            <h:outputText value="Código:"/>
+                            <p:inputText value="#{parametrizacionC.objParametrizacionActual.lgCodigo}"/>
+                            <h:outputText value="Nombre:"/>
+                            <p:inputText value="#{parametrizacionC.objParametrizacionActual.strNombre}"/>
+                            <h:outputText value="Descripción:"/>
+                            <p:inputText value="#{parametrizacionC.objParametrizacionActual.strDescripcion}"/>
+                            <h:outputText value="Valor"/>
+                            <p:inputText value="#{parametrizacionC.objParametrizacionActual.dblValor}"/>
+                            <h:outputText value="Valor Cadena"/>
+                            <p:inputText value="#{parametrizacionC.objParametrizacionActual.strValorCadena}"/>
+                            <f:facet name="footer">  
+                                <p:commandButton value="Aceptar" action="#{parametrizacionC.editarParametrizacion}" update=":frmParametrizacion:pnlParametrizacion"/>
+                                <p:commandButton value="Cancelar" onclick="wdgEditar.hide()" type="reset"/>
+                            </f:facet>  
+                        </p:panelGrid>
+
+                    </h:form> 
+                </p:dialog>
+
+
+                <p:dialog id="dlgEliminar"  widgetVar="wdgEliminar" modal="true" closable="false" resizable="false"
+                          showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEliminar">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:panelGrid id="pngEliminar" columns="2">
+                            <f:facet name="header">  
+                                Eliminar Parámetro
+                            </f:facet> 
+                            <h:outputText value="Código:"/>
+                            <p:inputText value="#{parametrizacionC.objParametrizacionActual.lgCodigo}"/>
+                            <h:outputText value="Nombre:"/>
+                            <p:inputText value="#{parametrizacionC.objParametrizacionActual.strNombre}"/>
+                            <f:facet name="footer">  
+                                <p:commandButton value="Aceptar" action="#{parametrizacionC.eliminarParametrizacion}" update=":frmParametrizacion:pnlParametrizacion"/>
+                                <p:commandButton value="Cancelar" onclick="wdgEliminar.hide()" type="reset"/>
+                            </f:facet>  
+                        </p:panelGrid>
+
+                    </h:form> 
+                </p:dialog>
+                <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
+                          resizable="false"> 
+                    <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
+                </p:dialog>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

@@ -1,0 +1,199 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.beans;
+
+import control.logica.clases.CGrupoLaboral;
+import control.logica.clases.CRelDependenciaGrupoLab;
+import control.logica.clases.consultas.CRelDepGrupLabConsulta;
+import control.logica.funciones.CFRelDependenciaGrupoLab;
+import control.logica.funciones.consultas.CFRelDepGrupLabConsulta;
+import informacion.logica.clases.CRelacionDependencia;
+import informacion.logica.funciones.CFRelacionDependencia;
+import java.io.Serializable;
+import java.util.ArrayList;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import master.presentacion.funciones.beans.consultas.GestionPersonaConsultasC;
+import org.primefaces.context.DefaultRequestContext;
+import recursos.Util;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+@ManagedBean
+@ViewScoped
+public final class RelacionDependenciaGrupoLaboralC implements Serializable {
+//   <editor-fold defaultstate="collapsed" desc="Atributos">
+
+    private CRelDependenciaGrupoLab rdpgl;
+    private CRelDepGrupLabConsulta rdpglActual;
+    private ArrayList<CRelDepGrupLabConsulta> lstrdpgl;
+    private ArrayList<CRelDepGrupLabConsulta> lstrdpglDetalle;
+    private CGrupoLaboral grupoLaboralSel;
+    @ManagedProperty(value = "#{gestionPersonaConsultasC}")
+    private GestionPersonaConsultasC dm;
+    @ManagedProperty(value = "#{gruposLaboralesC}")
+    private GruposLaboralesC dmGrupoLaboral;
+
+    //</editor-fold>
+//   <editor-fold defaultstate="collapsed" desc="Constructores">
+    public RelacionDependenciaGrupoLaboralC() {
+        lstrdpgl = new ArrayList<CRelDepGrupLabConsulta>();
+        lstrdpglDetalle = new ArrayList<CRelDepGrupLabConsulta>();
+        rdpgl = new CRelDependenciaGrupoLab();
+        rdpglActual = new CRelDepGrupLabConsulta();
+        this.grupoLaboralSel = new CGrupoLaboral();
+        cargaRelacionDepGruposLaborales();
+    }
+
+    public RelacionDependenciaGrupoLaboralC(CRelDependenciaGrupoLab rdpgl, ArrayList<CRelDepGrupLabConsulta> lstrdpgl) {
+        this.rdpgl = rdpgl;
+        this.lstrdpgl = lstrdpgl;
+
+    }
+
+//    @PostConstruct
+//    public void PostTiposAusenciaC() {
+//        reinit();
+//    }
+    //</editor-fold>
+//   <editor-fold defaultstate="collapsed" desc="Metodos set y get">
+    public ArrayList<CRelDepGrupLabConsulta> getLstrdpglDetalle() {
+        return lstrdpglDetalle;
+    }
+
+    public void setLstrdpglDetalle(ArrayList<CRelDepGrupLabConsulta> lstrdpglDetalle) {
+        this.lstrdpglDetalle = lstrdpglDetalle;
+    }
+
+    public CRelDepGrupLabConsulta getRdpglActual() {
+        return rdpglActual;
+    }
+
+    public void setRdpglActual(CRelDepGrupLabConsulta rdpglActual) {
+        this.rdpglActual = rdpglActual;
+    }
+
+    public GruposLaboralesC getDmGrupoLaboral() {
+        return dmGrupoLaboral;
+    }
+
+    public void setDmGrupoLaboral(GruposLaboralesC dmGrupoLaboral) {
+        this.dmGrupoLaboral = dmGrupoLaboral;
+    }
+
+    public GestionPersonaConsultasC getDm() {
+        return dm;
+    }
+
+    public void setDm(GestionPersonaConsultasC dm) {
+        this.dm = dm;
+    }
+
+    public CRelDependenciaGrupoLab getRdpgl() {
+        return rdpgl;
+    }
+
+    public void setRdpgl(CRelDependenciaGrupoLab rdpgl) {
+        this.rdpgl = rdpgl;
+    }
+
+    public ArrayList<CRelDepGrupLabConsulta> getLstrdpgl() {
+        return lstrdpgl;
+    }
+
+    public void setLstrdpgl(ArrayList<CRelDepGrupLabConsulta> lstrdpgl) {
+        this.lstrdpgl = lstrdpgl;
+    }
+
+    public CGrupoLaboral getGrupoLaboralSel() {
+        return grupoLaboralSel;
+    }
+
+    public void setGrupoLaboralSel(CGrupoLaboral grupoLaboralSel) {
+        this.grupoLaboralSel = grupoLaboralSel;
+    }
+
+    //</editor-fold>
+//   <editor-fold defaultstate="collapsed" desc="Funciones">
+    ////reiniciar objetos
+    public void reinit() {
+        ///cargar los Tipos de Ausencias
+        cargaRelacionDepGruposLaborales();
+    }
+
+    public void cargaRelacionDepGruposLaborales() {
+        try {
+            lstrdpgl = CFRelDepGrupLabConsulta.obtenerRelacionesDependenciaGruposLaboralesCriterioBusqueda(1, dmGrupoLaboral.getObjGrupoLaboral().getIntCodigo(), "", "");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void cargaRelacionDepGruposLaboralesDetalle() {
+        try {
+            lstrdpglDetalle = CFRelDepGrupLabConsulta.obtenerRelacionesDependenciaGruposLaboralesCriterioBusqueda(-1, -1, "", rdpglActual.getStrIdentificacion());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void insertarAsignacionPersonaGrupoL() {
+        try {
+            rdpgl.setIntEstado(1);
+            rdpgl.setObjCodigoGrupoLaboral(grupoLaboralSel);
+            CRelacionDependencia relacionDependencia = CFRelacionDependencia.obtenerRelacionDependenciaDadoCodigoPersona(dm.getObjPersona().getLgCodigoPersona());
+            rdpgl.setObjCodigoRelacionDependencia(relacionDependencia);
+            boolean bandera = CFRelDependenciaGrupoLab.insertar(rdpgl);
+            if (bandera == true) {
+                cargaRelacionDepGruposLaborales();
+                rdpgl = new CRelDependenciaGrupoLab();
+                grupoLaboralSel = new CGrupoLaboral();
+                dm.setObjPersona(null);
+                DefaultRequestContext.getCurrentInstance().execute("wdgNuevo.hide()");
+                Util.addSuccessMessage("Datos Insertados");
+            } else {
+            }
+        } catch (Exception e) {
+            Util.addErrorMessage(e.getMessage());
+        }
+    }
+//
+//    public void editarGrupoLaboral() {
+//        try {
+//            CFGrupoLabora.actualizar(objGrupoLaboralActual);
+//            cargarGruposLaborales();
+//            objGrupoLaboralActual = new CGrupoLaboral();
+//            DefaultRequestContext.getCurrentInstance().execute("wdgEditar.hide()");
+//            Util.addSuccessMessage("Datos Editados");
+//        } catch (Exception e) {
+//            Util.addErrorMessage(e.getMessage());
+//        }
+//
+//    }
+//
+//    public void eliminarGrupoLaboral() {
+//        try {
+//            CFGrupoLabora.eliminar(objGrupoLaboralActual.getIntCodigo());
+//            cargarGruposLaborales();
+//            objGrupoLaboralActual = new CGrupoLaboral();
+//            DefaultRequestContext.getCurrentInstance().execute("wdgEliminar.hide()");
+//            Util.addSuccessMessage("Datos Eliminados");
+//        } catch (Exception e) {
+//            Util.addErrorMessage(e.getMessage());
+//        }
+    //   }
+
+    public void preparaVer() {
+//        this.nuevo = false;
+//        this.editar = false;
+//        this.ingresaDatos = false;
+//        this.jornadaSelected = this.grupoJornadaActual.getJornada().getId();
+    }
+    //</editor-fold>
+}

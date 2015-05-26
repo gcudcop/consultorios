@@ -1,0 +1,53 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.funciones.consultas;
+
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import control.logica.clases.CEmpleadosConsulta;
+import control.logica.clases.CTotalHorasExtras;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CFEmpleadosConsulta {
+
+    public static ArrayList<CEmpleadosConsulta> llenarEmpleados(ConjuntoResultado rs) throws Exception {
+        ArrayList<CEmpleadosConsulta> lst = new ArrayList<CEmpleadosConsulta>();
+        CEmpleadosConsulta empleados = null;
+        try {
+            while (rs.next()) {
+                empleados = new CEmpleadosConsulta(
+                        rs.getString("cedulas"),
+                        rs.getString("papellidos"),
+                        rs.getString("pnombres"),
+                        rs.getString("pdependencia"));
+                lst.add(empleados);
+            }
+        } catch (Exception e) {
+            lst.clear();
+            throw e;
+        }
+        return lst;
+    }
+
+    public static ArrayList<CEmpleadosConsulta> obtenerEmpleados() throws Exception {
+        ArrayList<CEmpleadosConsulta> lst = new ArrayList<CEmpleadosConsulta>();
+        try {
+            String sql = "select * from control.f_select_empleados_con_relacion_rdp_activa()";
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
+            lst = llenarEmpleados(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+}

@@ -1,0 +1,223 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package master.logica.clases;
+
+import java.sql.Date;
+
+/**
+ *
+ * @author Javier
+ */
+public class Persona {
+ private long lgCodigoPersona;
+ private String strApellidos;
+ private String strNombres;
+ private String strTipoIdentificacion;
+ private String strIdentificacion;
+ private String strMail;
+ private String strTelefonoCasa;
+ private String strTelefonoOficina;
+ private String strTelefonoCelular;
+ private Date dtFechaNacimiento;
+ private boolean blCapacidadesDiferentes;
+ //objetos 
+ private CParroquia objCodigoParroquia;
+  private String strDirCallePrincipal;
+  private String strDirCalleTrans;
+  private String strDirNumero;
+  private String strDirReferencia;
+  private CTipoSangre objCodigoTipoSangre;
+  private CEstadoCivil objEstadoCivil;
+  private CEtnia objCodigoEtnia;
+ private CGenero objCodigoGenero;
+
+    public Persona(long lgCodigoPersona, String strApellidos, String strNombres, String strTipoIdentificacion, String strIdentificacion, String strMail, String strTelefonoCasa, String strTelefonoOficina, String strTelefonoCelular, Date dtFechaNacimiento, boolean blCapacidadesDiferentes, CParroquia objCodigoParroquia, String strDirCallePrincipal, String strDirCalleTrans, String strDirNumero, String strDirReferencia, CTipoSangre objCodigoTipoSangre, CEtnia objCodigoEtnia, CGenero objCodigoGenero) {
+        this.lgCodigoPersona = lgCodigoPersona;
+        this.strApellidos = strApellidos;
+        this.strNombres = strNombres;
+        this.strTipoIdentificacion = strTipoIdentificacion;
+        this.strIdentificacion = strIdentificacion;
+        this.strMail = strMail;
+        this.strTelefonoCasa = strTelefonoCasa;
+        this.strTelefonoOficina = strTelefonoOficina;
+        this.strTelefonoCelular = strTelefonoCelular;
+        this.dtFechaNacimiento = dtFechaNacimiento;
+        this.blCapacidadesDiferentes = blCapacidadesDiferentes;
+        this.objCodigoParroquia = objCodigoParroquia;
+        this.strDirCallePrincipal = strDirCallePrincipal;
+        this.strDirCalleTrans = strDirCalleTrans;
+        this.strDirNumero = strDirNumero;
+        this.strDirReferencia = strDirReferencia;
+        this.objCodigoTipoSangre = objCodigoTipoSangre;
+        this.objCodigoEtnia = objCodigoEtnia;
+        this.objCodigoGenero = objCodigoGenero;
+    }
+
+    public Persona() {
+    }
+
+    public long getLgCodigoPersona() {
+        return lgCodigoPersona;
+    }
+
+    public void setLgCodigoPersona(long lgCodigoPersona) {
+        this.lgCodigoPersona = lgCodigoPersona;
+    }
+
+    public String getStrApellidos() {
+        return strApellidos;
+    }
+
+    public void setStrApellidos(String strApellidos) {
+        this.strApellidos = strApellidos;
+    }
+
+    public String getStrNombres() {
+        return strNombres;
+    }
+
+    public void setStrNombres(String strNombres) {
+        this.strNombres = strNombres;
+    }
+
+    public String getStrTipoIdentificacion() {
+        return strTipoIdentificacion;
+    }
+
+    public void setStrTipoIdentificacion(String strTipoIdentificacion) {
+        this.strTipoIdentificacion = strTipoIdentificacion;
+    }
+
+    public String getStrIdentificacion() {
+        return strIdentificacion;
+    }
+
+    public void setStrIdentificacion(String strIdentificacion) {
+        this.strIdentificacion = strIdentificacion;
+    }
+
+    public String getStrMail() {
+        return strMail;
+    }
+
+    public void setStrMail(String strMail) {
+        this.strMail = strMail;
+    }
+
+    public String getStrTelefonoCasa() {
+        return strTelefonoCasa;
+    }
+
+    public void setStrTelefonoCasa(String strTelefonoCasa) {
+        this.strTelefonoCasa = strTelefonoCasa;
+    }
+
+    public String getStrTelefonoOficina() {
+        return strTelefonoOficina;
+    }
+
+    public void setStrTelefonoOficina(String strTelefonoOficina) {
+        this.strTelefonoOficina = strTelefonoOficina;
+    }
+
+    public String getStrTelefonoCelular() {
+        return strTelefonoCelular;
+    }
+
+    public void setStrTelefonoCelular(String strTelefonoCelular) {
+        this.strTelefonoCelular = strTelefonoCelular;
+    }
+
+    public Date getDtFechaNacimiento() {
+        return dtFechaNacimiento;
+    }
+
+    public void setDtFechaNacimiento(Date dtFechaNacimiento) {
+        this.dtFechaNacimiento = dtFechaNacimiento;
+    }
+
+    public boolean getBlCapacidadesDiferentes() {
+        return blCapacidadesDiferentes;
+    }
+
+    public void setBlCapacidadesDiferentes(boolean blCapacidadesDiferentes) {
+        this.blCapacidadesDiferentes = blCapacidadesDiferentes;
+    }
+
+    public CParroquia getObjCodigoParroquia() {
+        return objCodigoParroquia;
+    }
+
+    public void setObjCodigoParroquia(CParroquia objCodigoParroquia) {
+        this.objCodigoParroquia = objCodigoParroquia;
+    }
+
+    public String getStrDirCallePrincipal() {
+        return strDirCallePrincipal;
+    }
+
+    public void setStrDirCallePrincipal(String strDirCallePrincipal) {
+        this.strDirCallePrincipal = strDirCallePrincipal;
+    }
+
+    public String getStrDirCalleTrans() {
+        return strDirCalleTrans;
+    }
+
+    public void setStrDirCalleTrans(String strDirCalleTrans) {
+        this.strDirCalleTrans = strDirCalleTrans;
+    }
+
+    public String getStrDirNumero() {
+        return strDirNumero;
+    }
+
+    public void setStrDirNumero(String strDirNumero) {
+        this.strDirNumero = strDirNumero;
+    }
+
+    public String getStrDirReferencia() {
+        return strDirReferencia;
+    }
+
+    public void setStrDirReferencia(String strDirReferencia) {
+        this.strDirReferencia = strDirReferencia;
+    }
+
+    public CTipoSangre getObjCodigoTipoSangre() {
+        return objCodigoTipoSangre;
+    }
+
+    public void setObjCodigoTipoSangre(CTipoSangre objCodigoTipoSangre) {
+        this.objCodigoTipoSangre = objCodigoTipoSangre;
+    }
+
+    public CEstadoCivil getObjEstadoCivil() {
+        return objEstadoCivil;
+    }
+
+    public void setObjEstadoCivil(CEstadoCivil objEstadoCivil) {
+        this.objEstadoCivil = objEstadoCivil;
+    }
+
+    public CEtnia getObjCodigoEtnia() {
+        return objCodigoEtnia;
+    }
+
+    public void setObjCodigoEtnia(CEtnia objCodigoEtnia) {
+        this.objCodigoEtnia = objCodigoEtnia;
+    }
+
+    public CGenero getObjCodigoGenero() {
+        return objCodigoGenero;
+    }
+
+    public void setObjCodigoGenero(CGenero objCodigoGenero) {
+        this.objCodigoGenero = objCodigoGenero;
+    }
+
+ 
+ 
+}

@@ -1,0 +1,115 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package informacion.logica.clases;
+
+
+import java.util.Date;
+import master.logica.clases.Persona;
+import master.logica.clases.CDependencia;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CRelacionDependencia {
+
+    private long lgCodigo;
+    private int intEstado;
+    private String strCodigoBiometrico;
+    private Date dtFechaInicio;
+    private Date dtFechaFin;
+    private boolean blTieneFechaFin;
+    private Persona objCodigoPersona;
+    private CDependencia objCodigoDepencia;
+    private int intCodigoTipoRelacionDependencia;
+
+    public CRelacionDependencia() {
+    }
+
+    public CRelacionDependencia(long lgCodigo, int intEstado, String strCodigoBiometrico, Date dtFechaInicio, Date dtFechaFin, boolean blTieneFechaFin, Persona objCodigoPersona, CDependencia objCodigoDepencia, int intCodigoTipoRelacionDependencia) {
+        this.lgCodigo = lgCodigo;
+        this.intEstado = intEstado;
+        this.strCodigoBiometrico = strCodigoBiometrico;
+        this.dtFechaInicio = dtFechaInicio;
+        this.dtFechaFin = dtFechaFin;
+        this.blTieneFechaFin = blTieneFechaFin;
+        this.objCodigoPersona = objCodigoPersona;
+        this.objCodigoDepencia = objCodigoDepencia;
+        this.intCodigoTipoRelacionDependencia = intCodigoTipoRelacionDependencia;
+    }
+
+    public long getLgCodigo() {
+        return lgCodigo;
+    }
+
+    public void setLgCodigo(long lgCodigo) {
+        this.lgCodigo = lgCodigo;
+    }
+
+    public int getIntEstado() {
+        return intEstado;
+    }
+
+    public void setIntEstado(int intEstado) {
+        this.intEstado = intEstado;
+    }
+
+    public String getStrCodigoBiometrico() {
+        return strCodigoBiometrico;
+    }
+
+    public void setStrCodigoBiometrico(String strCodigoBiometrico) {
+        this.strCodigoBiometrico = strCodigoBiometrico;
+    }
+
+    public Date getDtFechaInicio() {
+        return dtFechaInicio;
+    }
+
+    public void setDtFechaInicio(Date dtFechaInicio) {
+        this.dtFechaInicio = dtFechaInicio;
+    }
+
+    public Date getDtFechaFin() {
+        return dtFechaFin;
+    }
+
+    public void setDtFechaFin(Date dtFechaFin) {
+        this.dtFechaFin = dtFechaFin;
+    }
+
+    public boolean isBlTieneFechaFin() {
+        return blTieneFechaFin;
+    }
+
+    public void setBlTieneFechaFin(boolean blTieneFechaFin) {
+        this.blTieneFechaFin = blTieneFechaFin;
+    }
+
+    public Persona getObjCodigoPersona() {
+        return objCodigoPersona;
+    }
+
+    public void setObjCodigoPersona(Persona objCodigoPersona) {
+        this.objCodigoPersona = objCodigoPersona;
+    }
+
+    public CDependencia getObjCodigoDepencia() {
+        return objCodigoDepencia;
+    }
+
+    public void setObjCodigoDepencia(CDependencia objCodigoDepencia) {
+        this.objCodigoDepencia = objCodigoDepencia;
+    }
+
+    public int getIntCodigoTipoRelacionDependencia() {
+        return intCodigoTipoRelacionDependencia;
+    }
+
+    public void setIntCodigoTipoRelacionDependencia(int intCodigoTipoRelacionDependencia) {
+        this.intCodigoTipoRelacionDependencia = intCodigoTipoRelacionDependencia;
+    }
+
+}

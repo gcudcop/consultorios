@@ -1,0 +1,93 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.clases.consultas;
+
+import java.sql.Timestamp;
+
+/**
+ *
+ * @author Javier Romero
+ */
+public class CHorasExtrasConsulta {
+
+    private long lgCodigoHorasExtras;
+    private double numHoras;
+    private String strSolicitadoPor;
+    private String strAutorizadoPor;
+    private String strPersonaApellidos;
+    private String strPersonaNombres;
+    private String strAprobadoPor;
+
+    //private int intEstado;
+    public CHorasExtrasConsulta(long lgCodigoHorasExtras, double numHoras, String strSolicitadoPor, String strAutorizadoPor,String strAprobadoPor, String strPersonaApellidos, String strPersonaNombres) {
+        this.lgCodigoHorasExtras = lgCodigoHorasExtras;
+        this.numHoras = numHoras;
+        this.strSolicitadoPor = strSolicitadoPor;
+        this.strAutorizadoPor = strAutorizadoPor;
+        this.strPersonaApellidos = strPersonaApellidos;
+        this.strPersonaNombres = strPersonaNombres;
+        this.strAprobadoPor = strAprobadoPor;
+    }
+
+    public long getLgCodigoHorasExtras() {
+        return lgCodigoHorasExtras;
+    }
+
+    public void setLgCodigoHorasExtras(long lgCodigoHorasExtras) {
+        this.lgCodigoHorasExtras = lgCodigoHorasExtras;
+    }
+
+    public double getNumHoras() {
+        return numHoras;
+    }
+
+    public void setNumHoras(double numHoras) {
+        this.numHoras = numHoras;
+    }
+
+    public String getStrSolicitadoPor() {
+        return strSolicitadoPor;
+    }
+
+    public void setStrSolicitadoPor(String strSolicitadoPor) {
+        this.strSolicitadoPor = strSolicitadoPor;
+    }
+
+    public String getStrAutorizadoPor() {
+        return strAutorizadoPor;
+    }
+
+    public void setStrAutorizadoPor(String strAutorizadoPor) {
+        this.strAutorizadoPor = strAutorizadoPor;
+    }
+
+    public String getStrPersonaApellidos() {
+        return strPersonaApellidos;
+    }
+
+    public void setStrPersonaApellidos(String strPersonaApellidos) {
+        this.strPersonaApellidos = strPersonaApellidos;
+    }
+
+    public String getStrPersonaNombres() {
+        return strPersonaNombres;
+    }
+
+    public void setStrPersonaNombres(String strPersonaNombres) {
+        this.strPersonaNombres = strPersonaNombres;
+    }
+
+    public String getStrAprobadoPor() {
+        return strAprobadoPor;
+    }
+
+    public void setStrAprobadoPor(String strAprobadoPor) {
+        this.strAprobadoPor = strAprobadoPor;
+    }
+    
+    
+
+}

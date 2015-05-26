@@ -1,0 +1,73 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.clases;
+
+import java.sql.Time;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CMarcacionAntesEntrada {
+
+    private long lgCodigo;
+    private CHistorialMarcacion objCodigoHistorialMarcacion;
+    private double dblTiempoAdelantoHoras;
+    private java.sql.Time tmTiempoAdelanto;
+    private int intTipo;
+
+    public CMarcacionAntesEntrada() {
+    }
+
+    public CMarcacionAntesEntrada(long lgCodigo, CHistorialMarcacion objCodigoHistorialMarcacion, double dblTiempoAdelantoHoras, Time tmTiempoAdelanto, int intTipo) {
+        this.lgCodigo = lgCodigo;
+        this.objCodigoHistorialMarcacion = objCodigoHistorialMarcacion;
+        this.dblTiempoAdelantoHoras = dblTiempoAdelantoHoras;
+        this.tmTiempoAdelanto = tmTiempoAdelanto;
+        this.intTipo = intTipo;
+    }
+
+    public long getLgCodigo() {
+        return lgCodigo;
+    }
+
+    public void setLgCodigo(long lgCodigo) {
+        this.lgCodigo = lgCodigo;
+    }
+
+    public CHistorialMarcacion getObjCodigoHistorialMarcacion() {
+        return objCodigoHistorialMarcacion;
+    }
+
+    public void setObjCodigoHistorialMarcacion(CHistorialMarcacion objCodigoHistorialMarcacion) {
+        this.objCodigoHistorialMarcacion = objCodigoHistorialMarcacion;
+    }
+
+    public double getDblTiempoAdelantoHoras() {
+        return dblTiempoAdelantoHoras;
+    }
+
+    public void setDblTiempoAdelantoHoras(double dblTiempoAdelantoHoras) {
+        this.dblTiempoAdelantoHoras = dblTiempoAdelantoHoras;
+    }
+
+    public Time getTmTiempoAdelanto() {
+        return tmTiempoAdelanto;
+    }
+
+    public void setTmTiempoAdelanto(Time tmTiempoAdelanto) {
+        this.tmTiempoAdelanto = tmTiempoAdelanto;
+    }
+
+    public int getIntTipo() {
+        return intTipo;
+    }
+
+    public void setIntTipo(int intTipo) {
+        this.intTipo = intTipo;
+    }
+
+}

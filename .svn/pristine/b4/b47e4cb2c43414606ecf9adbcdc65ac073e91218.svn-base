@@ -1,0 +1,285 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package master.logica.funciones;
+
+import accesodatos.AccesoDatos;
+import accesodatos.Conexion;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import informacion.logica.clases.CRelacionDependencia;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import master.logica.clases.CPersonaCargoAdministrativo;
+import master.logica.clases.Persona;
+import java.text.*;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class FPersona {
+
+    public static boolean insertar(Persona persona) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_insert_persona(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+            lstP.add(new Parametro(1, persona.getStrApellidos()));
+            lstP.add(new Parametro(2, persona.getStrNombres()));
+            lstP.add(new Parametro(3, persona.getStrTipoIdentificacion()));
+            lstP.add(new Parametro(4, persona.getStrIdentificacion()));
+            lstP.add(new Parametro(5, persona.getStrMail()));
+            lstP.add(new Parametro(6, persona.getStrTelefonoCasa()));
+            lstP.add(new Parametro(7, persona.getStrTelefonoOficina()));
+            lstP.add(new Parametro(8, persona.getStrTelefonoCelular()));
+            lstP.add(new Parametro(9, (new java.sql.Date(persona.getDtFechaNacimiento().getTime()))));
+            lstP.add(new Parametro(10, persona.getBlCapacidadesDiferentes()));
+            lstP.add(new Parametro(11, persona.getObjCodigoParroquia().getLgCodigo()));
+            lstP.add(new Parametro(12, persona.getStrDirCallePrincipal()));
+            lstP.add(new Parametro(13, persona.getStrDirCalleTrans()));
+            lstP.add(new Parametro(14, persona.getStrDirNumero()));
+            lstP.add(new Parametro(15, persona.getStrDirReferencia()));
+            lstP.add(new Parametro(16, persona.getObjCodigoTipoSangre().getLgCodigo()));
+            lstP.add(new Parametro(17, persona.getObjEstadoCivil().getLgCodigo()));
+            lstP.add(new Parametro(18, persona.getObjCodigoEtnia().getLgCodigo()));
+            lstP.add(new Parametro(19, persona.getObjCodigoEtnia()));
+
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true"));
+                eje = true;
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+
+    public static long insertar(Persona persona,
+            CPersonaCargoAdministrativo personaCargoAdministrativo,
+            CRelacionDependencia relacionDependencia) throws Exception {
+        long numero_persona = -1;
+        boolean eje = false;
+        boolean eje1 = false;
+        Conexion con = new Conexion();
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            if (con.getCon().getAutoCommit()) {
+                con.getCon().setAutoCommit(false);
+            }
+
+            java.sql.Date fechaNa = new java.sql.Date(persona.getDtFechaNacimiento().getTime());
+
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_insert_persona_bigint(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            lstP.add(new Parametro(1, persona.getStrApellidos()));
+            lstP.add(new Parametro(2, persona.getStrNombres()));
+            lstP.add(new Parametro(3, persona.getStrTipoIdentificacion()));
+            lstP.add(new Parametro(4, persona.getStrIdentificacion()));
+            lstP.add(new Parametro(5, persona.getStrMail()));
+            lstP.add(new Parametro(6, persona.getStrTelefonoCasa()));
+            lstP.add(new Parametro(7, persona.getStrTelefonoOficina()));
+            lstP.add(new Parametro(8, persona.getStrTelefonoCelular()));
+            lstP.add(new Parametro(9, fechaNa));
+            lstP.add(new Parametro(10, persona.getBlCapacidadesDiferentes()));
+            lstP.add(new Parametro(11, (int) persona.getObjCodigoParroquia().getLgCodigo()));
+            lstP.add(new Parametro(12, persona.getStrDirCallePrincipal()));
+            lstP.add(new Parametro(13, persona.getStrDirCalleTrans()));
+            lstP.add(new Parametro(14, persona.getStrDirNumero()));
+            lstP.add(new Parametro(15, persona.getStrDirReferencia()));
+            lstP.add(new Parametro(16, (int) persona.getObjCodigoTipoSangre().getLgCodigo()));
+            lstP.add(new Parametro(17, (int) persona.getObjEstadoCivil().getLgCodigo()));
+            lstP.add(new Parametro(18, (int) persona.getObjCodigoEtnia().getLgCodigo()));
+            lstP.add(new Parametro(19, (int) persona.getObjCodigoEtnia().getLgCodigo()));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getLong(0) > 0) {
+                    numero_persona = rs.getLong(0);
+                }
+            }
+            if (personaCargoAdministrativo != null) {
+                ////////////////////////////////inserta persona-cargo admin
+                ArrayList<Parametro> lstP1 = new ArrayList<Parametro>();
+                String sql1 = "select * from master.f_insert_persona_cargo_administrativo(?,?,?)";
+
+                lstP1.add(new Parametro(1, (long) numero_persona));
+                lstP1.add(new Parametro(2, (int) personaCargoAdministrativo.getObjCodigoCargoAdmistrativo().getIntCodigo()));
+                lstP1.add(new Parametro(3, 0));
+
+                ConjuntoResultado rs1 = AccesoDatos.ejecutaQuery(sql1, lstP1);
+                while (rs1.next()) {
+                    if (rs1.getString(0).equals("true")) {
+                        eje = true;
+                    }
+                }
+            } else {
+            }
+
+            if (relacionDependencia != null) {////////////////////////////////inserta relacion de dependencia
+                ArrayList<Parametro> lstP2 = new ArrayList<Parametro>();
+                String sql2 = "select * from informacion.f_insert_relacion_dependencia(?,?,?,?,?,?,?,?)";
+                java.sql.Date fechaIngreso = new java.sql.Date(relacionDependencia.getDtFechaInicio().getTime());
+                java.sql.Date fechaFin = new java.sql.Date(relacionDependencia.getDtFechaFin().getTime());
+                lstP2.add(new Parametro(1, 0));
+                lstP2.add(new Parametro(2, relacionDependencia.getStrCodigoBiometrico()));
+                lstP2.add(new Parametro(3, fechaIngreso));
+                lstP2.add(new Parametro(4, fechaFin));
+                lstP2.add(new Parametro(5, relacionDependencia.isBlTieneFechaFin()));
+                lstP2.add(new Parametro(6, numero_persona));
+                lstP2.add(new Parametro(7, (int) relacionDependencia.getObjCodigoDepencia().getIntCodigo()));
+                lstP2.add(new Parametro(8, 0));
+                ConjuntoResultado rs2 = AccesoDatos.ejecutaQuery(sql2, lstP2);
+                while (rs2.next()) {
+                    if (rs2.getString(0).equals("true")) {
+                        eje1 = true;
+                    }
+                }
+            }
+
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return numero_persona;
+    }
+
+    public static boolean actualizar(Persona persona) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_update_persona(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+            lstP.add(new Parametro(1, persona.getStrApellidos()));
+            lstP.add(new Parametro(2, persona.getStrNombres()));
+            lstP.add(new Parametro(3, persona.getStrTipoIdentificacion()));
+            lstP.add(new Parametro(4, persona.getStrIdentificacion()));
+            lstP.add(new Parametro(5, persona.getStrMail()));
+            lstP.add(new Parametro(6, persona.getStrTelefonoCasa()));
+            lstP.add(new Parametro(7, persona.getStrTelefonoOficina()));
+            lstP.add(new Parametro(8, persona.getStrTelefonoCelular()));
+            lstP.add(new Parametro(9, persona.getDtFechaNacimiento()));
+            lstP.add(new Parametro(10, persona.getBlCapacidadesDiferentes()));
+            lstP.add(new Parametro(11, persona.getObjCodigoParroquia().getLgCodigo()));
+            lstP.add(new Parametro(12, persona.getStrDirCallePrincipal()));
+            lstP.add(new Parametro(13, persona.getStrDirCalleTrans()));
+            lstP.add(new Parametro(14, persona.getStrDirNumero()));
+            lstP.add(new Parametro(15, persona.getStrDirReferencia()));
+            lstP.add(new Parametro(16, persona.getObjCodigoTipoSangre().getLgCodigo()));
+            lstP.add(new Parametro(17, persona.getObjEstadoCivil().getLgCodigo()));
+            lstP.add(new Parametro(18, persona.getObjCodigoEtnia().getLgCodigo()));
+            lstP.add(new Parametro(19, persona.getObjCodigoEtnia()));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true"));
+                eje = true;
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+
+    public static boolean eliminar(long codigo) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_delete_persona(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true"));
+                eje = true;
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+
+    public static ArrayList<Persona> llenarPersona(ConjuntoResultado rs) throws Exception {
+        ArrayList<Persona> lst = new ArrayList<Persona>();
+        Persona persona = null;
+        try {
+            while (rs.next()) {
+                persona = new Persona(rs.getLong(0), rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getDate(9), rs.getBoolean(10),
+                        CFParroquia.ObtenerParroquiasDadoCodigo(rs.getInt(11)),
+                        rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15), CFTipoSangre.ObtenerTipoSangreCodigo(rs.getInt(16)),
+                        CFEstadoCivil.ObtenerEstadoCivilDadoCodigo(rs.getInt(17)),
+                        CFEtnia.ObtenerEtniasDadoCodigo(rs.getInt(18)), CFGenero.ObtenerGeneroDadoCodigo(rs.getInt(19)));
+                lst.add(persona);
+            }
+        } catch (Exception e) {
+            lst.clear();
+            throw e;
+        }
+        return lst;
+    }
+
+    public static Persona ObtenerPersonaDadoCodigo(long codigo) throws Exception {
+        Persona lst;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_select_persona_dado_codigo(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = new Persona();
+            lst = llenarPersona(rs).get(0);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+
+    public static ArrayList<Persona> ObtenerPersonaDadoCedula(String cedula) throws Exception {
+        ArrayList<Persona> lst = new ArrayList<Persona>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_select_persona_dado_identificacion(?)";
+            lstP.add(new Parametro(1, cedula));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            //  lst = new Persona();
+            lst = llenarPersona(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+
+    public static ArrayList<Persona> ObtenerPersonaDadoApellido(String apellido) throws Exception {
+        ArrayList<Persona> lst = new ArrayList<Persona>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_select_persona_dado_apellido(?)";
+            lstP.add(new Parametro(1, apellido));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            // lst = new Persona();
+            lst = llenarPersona(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+
+    public static ArrayList<Persona> obtenerTodasPersonas() throws Exception {
+        ArrayList<Persona> lst = new ArrayList<Persona>();
+        try {
+            //ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_select_persona()";
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
+            // lst = new Persona();
+            lst = llenarPersona(rs);
+            rs = null;
+
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+}

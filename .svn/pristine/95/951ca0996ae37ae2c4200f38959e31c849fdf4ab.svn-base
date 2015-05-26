@@ -1,0 +1,38 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.funciones.consultas;
+
+import java.util.ArrayList;
+import recursos.Tools;
+import control.logica.clases.CTotalHorasExtras;
+import control.logica.clases.CTotalHorasLaboradas;
+import control.logica.clases.CTotalHorasNormales;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class NewMain {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        // TODO code application logic here
+
+        try {
+            ArrayList<CTotalHorasLaboradas> lista = new ArrayList<CTotalHorasLaboradas>();
+            lista = CFTotalHorasLaboradas.obtenerHorasLaboradas(Tools.FechaDateDadoString("01/01/2000"), Tools.FechaDateDadoString("01/01/2018"));
+            for (CTotalHorasLaboradas horasLaboradas : lista) {
+                System.out.println(horasLaboradas.getApellidos() + " " + horasLaboradas.getTotalHL() + " " + horasLaboradas.getTotalHE() + " " + horasLaboradas.getTotalSobretiempo());
+            }
+
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+        }
+    }
+
+}

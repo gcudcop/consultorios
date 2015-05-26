@@ -1,0 +1,61 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package master.logica.clases;
+
+/**
+ *
+ * @author Javier
+ */
+public class CPersonaCargoAdministrativo {
+   
+    private long lgCodigo;
+    private Persona objCodigoPersona;
+    private CCargoAdministrativo objCodigoCargoAdmistrativo;
+    private int intEstado;
+
+    public CPersonaCargoAdministrativo(long lgCodigo, Persona objCodigoPersona, CCargoAdministrativo objCodigoCargoAdmistrativo, int intEstado) {
+        this.lgCodigo = lgCodigo;
+        this.objCodigoPersona = objCodigoPersona;
+        this.objCodigoCargoAdmistrativo = objCodigoCargoAdmistrativo;
+        this.intEstado = intEstado;
+    }
+
+    public Persona getObjCodigoPersona() {
+        return objCodigoPersona;
+    }
+
+    public void setObjCodigoPersona(Persona objCodigoPersona) {
+        this.objCodigoPersona = objCodigoPersona;
+    }
+
+    public CPersonaCargoAdministrativo() {
+    }
+
+    public long getLgCodigo() {
+        return lgCodigo;
+    }
+
+    public void setLgCodigo(long lgCodigo) {
+        this.lgCodigo = lgCodigo;
+    }
+
+    public CCargoAdministrativo getObjCodigoCargoAdmistrativo() {
+        return objCodigoCargoAdmistrativo;
+    }
+
+    public void setObjCodigoCargoAdmistrativo(CCargoAdministrativo objCodigoCargoAdmistrativo) {
+        this.objCodigoCargoAdmistrativo = objCodigoCargoAdmistrativo;
+    }
+
+    public int getIntEstado() {
+        return intEstado;
+    }
+
+    public void setIntEstado(int intEstado) {
+        this.intEstado = intEstado;
+    }
+    
+    
+}

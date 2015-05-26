@@ -1,0 +1,65 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package informacion.logica.funciones;
+
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import control.logica.clases.CCalendario;
+import control.logica.clases.CGrupoLaboral;
+import static control.logica.funciones.CFGrupoLabora.llenarGrupoLaboral;
+import informacion.logica.clases.CRelacionDependencia;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import master.logica.clases.Persona;
+import master.logica.funciones.CFDependencia;
+import master.logica.funciones.FPersona;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CFRelacionDependencia {
+
+    public static ArrayList<CRelacionDependencia> llenarRelacionDependencia(ConjuntoResultado rs) throws Exception {
+        ArrayList<CRelacionDependencia> lst = new ArrayList<CRelacionDependencia>();
+        CRelacionDependencia relacionDependencia = null;
+        try {
+            while (rs.next()) {
+                relacionDependencia = new CRelacionDependencia(rs.getLong("pcodigo"),
+                        rs.getInt("pestado"),
+                        rs.getString("pcodigo_biometrico"),
+                        rs.getDate("pfecha_inicio"),
+                        rs.getDate("pfecha_fin"),
+                        rs.getBoolean("ptiene_fecha_fin"),
+                        FPersona.ObtenerPersonaDadoCodigo(rs.getLong("pcodigo_persona")),
+                        CFDependencia.ObtenerDependenciaDadoCodigo(rs.getInt("pcodigo_dependencia")),
+                        rs.getInt("pcodigo_tipo_relacion_dependencia"));
+                lst.add(relacionDependencia);
+            }
+        } catch (Exception e) {
+            lst.clear();
+            throw e;
+        }
+        return lst;
+    }
+
+    public static CRelacionDependencia obtenerRelacionDependenciaDadoCodigo(long codigo) throws Exception {
+        CRelacionDependencia lst;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_select_relacion_dependencia_dado_codigo(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = new CRelacionDependencia();
+            lst = llenarRelacionDependencia(rs).get(0);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+}

@@ -1,0 +1,75 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package control.logica.clases;
+
+/**
+ *
+ * @author javier
+ */
+public class CCalendarioFecha {
+    private int año;
+
+    public int getAño() {
+        return año;
+    }
+
+    public void setAño(int año) {
+        this.año = año;
+    }
+    
+    
+    public static boolean EsBisciesto(int año){
+        return ((año % 4 == 0 && año % 100 != 0) || año % 400 == 0);     
+    }
+    
+    public static int dow(int mes, int dia, int año){
+     int y = año - (14 -mes)/12;
+      int x = y + y/4 - y/100 + y/400;
+        
+      int m = mes + 12*((14 -mes) / 12) - 2;
+        
+      int d = (dia + x + (31 * m) / 12) % 7;
+      return d;
+    }
+    
+    public void calendarioFechas()
+    { 
+        int mes =1;
+       
+            for( mes = 1;mes<=12;mes++)
+                  {       
+          String[] meses = {"",
+              "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "julio", " Agosto",
+              "septiembre", "Octubbre", "Nobiembre", "Diciembre"};
+          String [] diaLetras = {"","D","L","M","Mi","J","V","S"} ;   
+          int[] dias = {0,31,28,31,30,31,31,30,31,30,31,30,31};
+         
+         // si el año es bisciesto en febreo se ponen 29 dias
+         if(mes == 2 &&  EsBisciesto(this.año)) dias[mes] = 29;
+     
+         
+           System.out.println();
+          
+            int d = dow (mes, 1, this.año);
+  
+        
+                
+          
+          for(int i = 0; i < d; i++)
+          {
+            System.out.print("...");}
+             for(int i = 1; i <= dias[mes]; i++){
+                System.out.println(meses[mes]+"/"+this.año+"/"+i );
+                if((i + d) % 7 == 0 || i == dias[mes]) 
+                System.out.println();      
+                }
+         }
+     
+
+    
+}
+}

@@ -1,0 +1,112 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.clases;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author javier
+ */
+public class CCalendarioFecha {
+
+    private int año;
+
+    public int getAño() {
+        return año;
+    }
+
+    public void setAño(int año) {
+        this.año = año;
+    }
+
+    public CCalendarioFecha(int año) {
+        this.año = año;
+    }
+
+    public CCalendarioFecha() {
+    }
+
+    public static boolean EsBisciesto(int año) {
+        return ((año % 4 == 0 && año % 100 != 0) || año % 400 == 0);
+    }
+
+    public static int dow(int mes, int dia, int año) {
+        int y = año - (14 - mes) / 12;
+        int x = y + y / 4 - y / 100 + y / 400;
+
+        int m = mes + 12 * ((14 - mes) / 12) - 2;
+
+        int d = (dia + x + (31 * m) / 12) % 7;
+        return d;
+    }
+
+    public ArrayList<CCalendario> calendarioFechas() throws ParseException {
+        ArrayList<CCalendario> objCalendario = new ArrayList<CCalendario>();
+        int mes = 1;
+
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        for (mes = 1; mes <= 12; mes++) {
+            int k = 1;
+            String[] meses = {"",
+                "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "julio", " Agosto",
+                "septiembre", "Octubbre", "Nobiembre", "Diciembre"};
+            String[] diaLetras = {"", "DOMINGO", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO"};
+            int[] dias = {0, 31, 28, 31, 30, 31, 31, 30, 31, 30, 31, 30, 31};
+
+            // si el año es bisciesto en febreo se ponen 29 dias
+            if (mes == 2 && EsBisciesto(this.año)) {
+                dias[mes] = 29;
+            }
+
+            int d = dow(mes, 1, this.año);
+
+            for (int i = 0; i < d; i++) {
+                k++;
+                if (k == 8) {
+                    k = 1;
+                }
+
+            }
+
+            for (int i = 1; i <= dias[mes]; i++) {
+                String fecha = i + "/" + mes + "/" + this.año;
+
+                // System.out.println(diaLetras[k]+" "+i);
+                objCalendario.add(i - 1, new CCalendario(formato.parse(fecha), diaLetras[k], (long) this.año));
+                // System.out.println(i+"/"+meses[mes]+this.año );
+                if ((i + d) % 7 == 0 || i == dias[mes]) {
+                    System.out.println("No asignar");
+                }
+
+                if (k == 7) {
+                    k = 1;
+                } else {
+
+                    k++;
+
+                }
+
+            }
+        }
+
+        return objCalendario;
+    }
+
+    public static void main(String[] args) throws ParseException {
+
+        CCalendarioFecha objCCalendario = new CCalendarioFecha(2014);
+
+        ArrayList<CCalendario> objCalendario = new ArrayList<CCalendario>();
+        objCalendario = objCCalendario.calendarioFechas();
+        for (int j = 0; j <= objCalendario.size(); j++) {
+            System.out.println(objCalendario.get(j).getDtfecha() + " " + objCalendario.get(j).getStrDia());
+        }
+    }
+
+}

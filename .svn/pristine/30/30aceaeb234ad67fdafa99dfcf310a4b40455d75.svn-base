@@ -1,0 +1,81 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.clases;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CReporteHorasEmpleado {
+
+    private String identificacion;
+    private String apellidos;
+    private String nombres;
+    private double horas_normales;
+    private double horas_extras;
+    private double horas_sobretiempo;
+
+    public CReporteHorasEmpleado() {
+    }
+
+    public CReporteHorasEmpleado(String identificacion, String apellidos, String nombres, double horas_normales, double horas_extras, double horas_sobretiempo) {
+        this.identificacion = identificacion;
+        this.apellidos = apellidos;
+        this.nombres = nombres;
+        this.horas_normales = horas_normales;
+        this.horas_extras = horas_extras;
+        this.horas_sobretiempo = horas_sobretiempo;
+    }
+
+    public String getIdentificacion() {
+        return identificacion;
+    }
+
+    public void setIdentificacion(String identificacion) {
+        this.identificacion = identificacion;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public double getHoras_normales() {
+        return horas_normales;
+    }
+
+    public void setHoras_normales(double horas_normales) {
+        this.horas_normales = horas_normales;
+    }
+
+    public double getHoras_extras() {
+        return horas_extras;
+    }
+
+    public void setHoras_extras(double horas_extras) {
+        this.horas_extras = horas_extras;
+    }
+
+    public double getHoras_sobretiempo() {
+        return horas_sobretiempo;
+    }
+
+    public void setHoras_sobretiempo(double horas_sobretiempo) {
+        this.horas_sobretiempo = horas_sobretiempo;
+    }
+
+}

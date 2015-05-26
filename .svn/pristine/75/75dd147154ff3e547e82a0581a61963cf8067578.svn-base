@@ -1,0 +1,196 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package master.presentacion.beans;
+
+import java.util.ArrayList;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import master.logica.clases.*;
+import master.logica.funciones.*;
+import org.primefaces.context.DefaultRequestContext;
+import recursos.Util;
+/**
+ *
+ * @author Javier
+ */
+@ManagedBean
+@ViewScoped
+public class gestionParroquiaC {
+ private CParroquia parroquiaActual; 
+ 
+ private ArrayList<CParroquia> lstParroquias;
+  private ArrayList<CParroquia> lstParroquias1;
+ private CParroquia objParroquia;
+  private CParroquia parroquiaSel;
+  
+   private ArrayList<CProvincia> provincias;
+    private ArrayList<CCiudad> cantones;
+
+    public gestionParroquiaC() {
+      this.cargarParroquias();
+     this.objParroquia = new CParroquia();
+     this.parroquiaActual = new CParroquia();   
+    }
+
+    public CParroquia getParroquiaActual() {
+        return parroquiaActual;
+    }
+
+    public void setParroquiaActual(CParroquia parroquiaActual) {
+        this.parroquiaActual = parroquiaActual;
+    }
+
+    public ArrayList<CParroquia> getLstParroquas() {
+        return lstParroquias;
+    }
+
+    public void setLstParroquas(ArrayList<CParroquia> lstParroquas) {
+        this.lstParroquias = lstParroquas;
+    }
+
+    public CParroquia getObjParroquia() {
+        return objParroquia;
+    }
+
+    public void setObjParroquia(CParroquia objParroquia) {
+        this.objParroquia = objParroquia;
+    }
+
+    public CParroquia getParroquiaSel() {
+        return parroquiaSel;
+    }
+
+    public void setParroquiaSel(CParroquia parroquiaSel) {
+        this.parroquiaSel = parroquiaSel;
+    }
+
+    public ArrayList<CProvincia> getProvincias() {
+        return provincias;
+    }
+
+    public void setProvincias(ArrayList<CProvincia> provincias) {
+        this.provincias = provincias;
+    }
+
+    public ArrayList<CCiudad> getCantones() {
+        return cantones;
+    }
+
+    public void setCantones(ArrayList<CCiudad> cantones) {
+        this.cantones = cantones;
+    }
+
+    public ArrayList<CParroquia> getLstParroquias() {
+        return lstParroquias;
+    }
+
+    public void setLstParroquias(ArrayList<CParroquia> lstParroquias) {
+        this.lstParroquias = lstParroquias;
+    }
+
+    public ArrayList<CParroquia> getLstParroquias1() {
+        return lstParroquias1;
+    }
+
+    public void setLstParroquias1(ArrayList<CParroquia> lstParroquias1) {
+        this.lstParroquias1 = lstParroquias1;
+    }
+
+    
+    
+  public void cargarParroquias(){
+     
+      try {
+          this.lstParroquias = CFParroquia.ObtenerParroquias();
+      } catch (Exception e) {
+          Util.addErrorMessage(e,"Error al acceder a la base de datos");
+      }
+  }
+  public  void  cargarProvincias(){        
+        
+        
+        try {
+            this.provincias = CFProvincia.ObtenerProvinciasdadoPais(parroquiaActual.getPaCodigo());            
+            
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+           
+        }        
+    }
+    
+    public  void  cargaCiudad(){
+        try {
+            this.cantones = CFCiudad.ObtenerCiudadesdadoProvincia(parroquiaActual.getProCodigo());
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }     
+        
+    }
+      public  void  cargaParroquiasCiudad(){
+        try {
+            this.lstParroquias1 = CFParroquia.ObtenerParroquiasDadoCuidad(parroquiaActual.getCiuCodigo());
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }   
+      }
+  public void insertarParroquia(){
+//              try {
+//            objPersona.setCodigo_global(0);
+//            if (FPersona.insertar(objPersona) == true) {
+//                
+//            FacesMessage mensaje=new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto", "Datos Insertados");
+//            FacesContext.getCurrentInstance().addMessage(null, mensaje);
+//            DefaultRequestContext.getCurrentInstance().execute("wdlgAgregarPersona.hide()");  
+//            this.cargarPersonas();
+//            this.objPersona = new CPais();
+//            } else {
+//                FacesMessage mensajeError=new FacesMessage(FacesMessage.SEVERITY_ERROR,"Atención", "Datos no se Insertó");
+//                FacesContext.getCurrentInstance().addMessage(null, mensajeError);
+//            }
+//        } catch (Exception e) {
+//             FacesMessage mensajeErrorIngreso=new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error", e.getMessage());
+//            FacesContext.getCurrentInstance().addMessage(null, mensajeErrorIngreso);
+//        }      
+  }
+  
+   public void actualizarParroquia (){
+//     try {
+//         personaSel.set(0);
+//         if (FPersona.actualizar(personaSel)) {
+//               FacesMessage mensajeActualizacion=new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto", "Datos Actualizados");
+//                FacesContext.getCurrentInstance().addMessage(null,mensajeActualizacion);
+//                DefaultRequestContext.getCurrentInstance().execute("wdlgEditarPersona.hide()");             
+//         } else {
+//              FacesMessage mensajeErrorActualizacion=new FacesMessage(FacesMessage.SEVERITY_ERROR,"Atención", "Datos no Actualizados");
+//             FacesContext.getCurrentInstance().addMessage(null, mensajeErrorActualizacion);
+//         }
+//         
+//     } catch (Exception e) {
+//          FacesMessage mensajeErrorA=new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error", e.getMessage());
+//            FacesContext.getCurrentInstance().addMessage(null, mensajeErrorA);
+//     }           
+} 
+
+   public void eliminarParroquia (){
+//    try {
+//        if (FPersona.eliminar(personaSel.getCodigo_persona())) {       
+//          FacesMessage mensajeEliminar=new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto", "Datos Eliminados");
+//          FacesContext.getCurrentInstance().addMessage(null,mensajeEliminar);
+//          DefaultRequestContext.getCurrentInstance().execute("wdlgEliminarPersona.hide()");
+//          this.cargarPersonas();
+//            
+//        } else {
+//             FacesMessage mensajeErrorEliminar=new FacesMessage(FacesMessage.SEVERITY_ERROR,"Atención", "Datos no se Eliminó");
+//             FacesContext.getCurrentInstance().addMessage(null, mensajeErrorEliminar);            
+//        }
+//    } catch (Exception e) {
+//           FacesMessage mensajeErrorE=new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error", e.getMessage());
+//            FacesContext.getCurrentInstance().addMessage(null, mensajeErrorE);
+//    }     
+}   
+}//Cierrala clase
+

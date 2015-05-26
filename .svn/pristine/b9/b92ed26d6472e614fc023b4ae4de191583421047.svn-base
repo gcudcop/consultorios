@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>
+            <ui:define name="tituloNavegador">Asignación de Jornadas</ui:define>
+        </title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../../templates/plantillaInternaCenter.xhtml">
+            <ui:define name="top">Asignación de Jornadas</ui:define>
+            <ui:define name="contenido">
+                <h:form id="frmBusquedaEmpleado">
+                    <p:panelGrid id="pnlBusquedaEmpleado" columns="4">
+                        <h:outputText value="Nombres o Apellidos"/>
+                        <h:outputText value="Grupo laboral"/>
+                        <h:outputText value="Dependencia"/>
+                        <h:outputText value="Buscar"/>
+                        <p:inputText value="#{asignacionJornadaC.txtApellidos}"/>
+                        <p:inputText value="#{asignacionJornadaC.txtGrupoLaboral}" />
+                        <p:inputText value="#{asignacionJornadaC.txtDependencia}"/>
+                        <p:commandButton icon="ui-icon-search" 
+                                         action="#{asignacionJornadaC.buscarRelacionesDependenciaConsulta()}"
+                                         update="dlstEmpleados"/>
+                    </p:panelGrid>
+                    <p:pickList id="dlstEmpleados" value="#{asignacionJornadaC.relacionesDependencia}" var="empleado" 
+                                itemLabel="#{empleado.apellidos}" itemValue="#{empleado}"
+                                converter="EmpleadoPickConverter">
+                        <f:facet name="sourceCaption">Disponibles</f:facet>  
+                        <f:facet name="targetCaption">Grupo para la jornada</f:facet> 
+                        <p:column style="width:50%;">  
+                            #{empleado.apellidos}  
+                        </p:column>
+                        <p:column style="width:50%;">  
+                            #{empleado.nombres}  
+                        </p:column>
+                    </p:pickList>
+                </h:form>
+                <h:form id="frmListaDual">
+                </h:form>
+            </ui:define>
+            <ui:define name="dialogos">
+                <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
+                          resizable="false"> 
+                    <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
+                </p:dialog>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

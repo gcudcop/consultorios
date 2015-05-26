@@ -1,0 +1,124 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package master.logica.funciones;
+
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import master.logica.clases.CGenero;
+
+
+/**
+ *
+ * @author Javier
+ */
+public class CFGenero {
+     public static boolean insertar(CGenero genero) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_insert_genero(?,?)";
+            lstP.add(new Parametro(1, genero.getStrCodificacion()));
+            lstP.add(new Parametro(2, genero.getStrNombre()));
+              ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true"));
+                eje = true;
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+   
+   public static boolean actualizar(CGenero genero) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_update_genero(?,?,?)";
+              lstP.add(new Parametro(1, genero.getStrCodificacion()));
+            lstP.add(new Parametro(2, genero.getStrNombre()));
+            lstP.add(new Parametro(3, genero.getLgCodigo()));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true"));
+                eje = true;
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+   
+   public static boolean eliminar(CGenero genero) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_delete_genero(?)";
+            lstP.add(new Parametro(1, genero.getLgCodigo()));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true"));
+                eje = true;
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+   
+ public static ArrayList<CGenero> llenarGenero(ConjuntoResultado rs) throws Exception
+      {
+          ArrayList<CGenero> lst = new ArrayList<CGenero>();
+          CGenero genero=null;
+          
+          try {
+            while(rs.next())
+            {
+                     genero= new CGenero(rs.getInt(0),rs.getString(1), rs.getString(2));
+                     lst.add(genero);
+            }
+            } catch (Exception e) {
+                 lst.clear();
+                throw e;
+          }
+         return lst;
+      }
+    public static CGenero ObtenerGeneroDadoCodigo(int codigo) throws Exception
+    {
+       CGenero lst;
+          try
+        {
+         ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+         String sql = "select * from master.f_select_genero_dado_codigo(?)";
+         lstP.add(new Parametro(1,codigo));
+         ConjuntoResultado rs= AccesoDatos.ejecutaQuery(sql,lstP);
+         lst= new CGenero();
+         lst= llenarGenero(rs).get(0);
+         rs=null;
+        } catch (SQLException exConec) {
+               throw  new Exception(exConec.getMessage());
+         }
+          return lst;
+    }
+    
+    public static  ArrayList<CGenero> ObtenerGeneros()throws Exception
+    {
+       ArrayList<CGenero> lst = new ArrayList<CGenero>();
+          try
+        {
+         String sql = "select * from master.f_select_generos()";
+         ConjuntoResultado rs= AccesoDatos.ejecutaQuery(sql);
+         lst= llenarGenero(rs);
+          rs=null;
+
+        } catch (SQLException exConec) {
+               throw  new Exception(exConec.getMessage());
+         }
+          return lst;
+    }
+}

@@ -1,0 +1,122 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package master.logica.funciones;
+
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import master.logica.clases.CTipoSangre;
+
+
+/**
+ *
+ * @author Javier
+ */
+public class CFTipoSangre {
+     public static boolean insertar(CTipoSangre tipoSangre) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_insert_tipoSangre(?,?)";
+            lstP.add(new Parametro(1, tipoSangre.getStrNombre()));
+             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true"));
+                eje = true;
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+   
+   public static boolean actualizar(CTipoSangre tipoSangre) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_update_tipoSangre(?,?,?)";
+            lstP.add(new Parametro(1, tipoSangre.getStrNombre()));
+            lstP.add(new Parametro(2, tipoSangre.getLgCodigo()));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true"));
+                eje = true;
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+   
+   public static boolean eliminar(CTipoSangre tipoSangre) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_delete_tipoSangre(?)";
+            lstP.add(new Parametro(1, tipoSangre.getLgCodigo()));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true"));
+                eje = true;
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+   
+ public static ArrayList<CTipoSangre> llenarTipoSangre(ConjuntoResultado rs) throws Exception
+      {
+          ArrayList<CTipoSangre> lst = new ArrayList<CTipoSangre>();
+          CTipoSangre tipoSangre=null;
+          
+          try {
+            while(rs.next())
+            {
+                     tipoSangre= new CTipoSangre(rs.getInt(0),rs.getString(1));
+                     lst.add(tipoSangre);
+            }
+            } catch (Exception e) {
+                 lst.clear();
+                throw e;
+          }
+         return lst;
+      }
+    public static CTipoSangre ObtenerTipoSangreCodigo(int codigo) throws Exception
+    {
+       CTipoSangre lst;
+          try
+        {
+         ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+         String sql = "select * from master.f_select_tipo_sangre_dado_codigo(?)";
+         lstP.add(new Parametro(1,codigo));
+         ConjuntoResultado rs= AccesoDatos.ejecutaQuery(sql,lstP);
+         lst= new CTipoSangre();
+         lst= llenarTipoSangre(rs).get(0);
+         rs=null;
+        } catch (SQLException exConec) {
+               throw  new Exception(exConec.getMessage());
+         }
+          return lst;
+    }
+    
+    public static  ArrayList<CTipoSangre> ObtenerTipoSangre() throws Exception
+    {
+       ArrayList<CTipoSangre> lst = new ArrayList<CTipoSangre>();
+          try
+        {
+         String sql = "select * from master.f_select_tipos_sangre()";
+         ConjuntoResultado rs= AccesoDatos.ejecutaQuery(sql);
+         lst= llenarTipoSangre(rs);
+          rs=null;
+
+        } catch (SQLException exConec) {
+               throw  new Exception(exConec.getMessage());
+         }
+          return lst;
+    }
+}

@@ -1,0 +1,154 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.funciones;
+
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import control.logica.clases.CCalendario;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CFCalendario {
+
+    public static boolean insertar(CCalendario calendario) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_insert_calendario(?,?,?,?,?,?,?,?,?)";
+            lstP.add(new Parametro(1, calendario.getDtfecha()));
+            lstP.add(new Parametro(2, calendario.getIntEsLaborable()));
+            lstP.add(new Parametro(3, calendario.getIntEsFeriado()));
+            lstP.add(new Parametro(4, calendario.getIntEsTieneJornadaEspecial()));
+            lstP.add(new Parametro(5, calendario.getIntEstado()));
+            lstP.add(new Parametro(6, calendario.getStrDia()));
+            lstP.add(new Parametro(7, calendario.getStrObservacion()));
+            lstP.add(new Parametro(8, calendario.getLgAnio()));
+            lstP.add(new Parametro(9, calendario.getIntCodigoPeriodo()));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true")) {
+                    eje = true;
+                }
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+
+//    public static boolean actualizar(CGrupoLaboral grupoLaboral) throws Exception {
+//        boolean eje = false;
+//        try {
+//            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+//            String sql = "select * from control.f_update_grupo_laboral(?,?,?,?)";
+//            lstP.add(new Parametro(1, grupoLaboral.getStrNombre()));
+//            lstP.add(new Parametro(2, grupoLaboral.getStrDescripcion()));
+//            lstP.add(new Parametro(3, grupoLaboral.getIntEstado()));
+//            lstP.add(new Parametro(4, grupoLaboral.getIntCodigo()));
+//            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+//            while (rs.next()) {
+//                if (rs.getString(0).equals("true")) {
+//                    eje = true;
+//                }
+//            }
+//        } catch (SQLException exConec) {
+//            throw new Exception(exConec.getMessage());
+//        }
+//        return eje;
+//    }
+//
+//    public static boolean eliminar(int codigo) throws Exception {
+//        boolean eje = false;
+//        try {
+//            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+//            String sql = "select * from control.f_delete_grupo_laboral(?)";
+//            lstP.add(new Parametro(1, codigo));
+//            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+//            while (rs.next()) {
+//                if (rs.getString(0).equals("true")) {
+//                    eje = true;
+//                }
+//            }
+//        } catch (SQLException exConec) {
+//            throw new Exception(exConec.getMessage());
+//        }
+//        return eje;
+//    }
+    public static ArrayList<CCalendario> llenarCalendario(ConjuntoResultado rs) throws Exception {
+        ArrayList<CCalendario> lst = new ArrayList<CCalendario>();
+        CCalendario calendario = null;
+        try {
+            while (rs.next()) {
+                calendario = new CCalendario(rs.getInt("pcodigo"),
+                        rs.getDate("pfecha"),
+                        rs.getInt("pes_laborable"),
+                        rs.getInt("pes_feriado"),
+                        rs.getInt("pes_tiene_jornada_especial"),
+                        rs.getInt("pestado"),
+                        rs.getString("pdia"),
+                        rs.getString("pobservacion"),
+                        rs.getLong("panio"),
+                        rs.getInt("pcodigo_periodo"));
+                lst.add(calendario
+                );
+            }
+        } catch (Exception e) {
+            lst.clear();
+            throw e;
+        }
+        return lst;
+    }
+
+    public static CCalendario obtenerCalendarioDadoCodigo(int codigo) throws Exception {
+        CCalendario lst;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_select_calendario_dado_codigo(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = new CCalendario();
+            lst = llenarCalendario(rs).get(0);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+
+    public static CCalendario obtenerCalendarioDadoAnio(long anio) throws Exception {
+        CCalendario lst;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_select_calendario_dado_anio(?)";
+            lstP.add(new Parametro(1, anio));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = new CCalendario();
+            lst = llenarCalendario(rs).get(0);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+
+//    public static ArrayList<CCalendario> obtenerCalendarios() throws Exception {
+//        ArrayList<CCalendario> lst = new ArrayList<CCalendario>();
+//        try {
+//            String sql = "select * from control.f_select_grupos_laborales()";
+//            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
+//            lst = llenarCalendario(rs);
+//            rs = null;
+//        } catch (SQLException exConec) {
+//            throw new Exception(exConec.getMessage());
+//        }
+//        return lst;
+//    }
+}

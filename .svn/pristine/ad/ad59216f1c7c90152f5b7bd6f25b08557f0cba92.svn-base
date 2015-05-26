@@ -1,0 +1,61 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.funciones.consultas;
+
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import control.logica.clases.consultas.CAusenciasTemporalesConsulta;
+import control.logica.clases.consultas.CHorasExtrasConsulta;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CFHorasExtrasConsulta {
+
+    public static ArrayList<CHorasExtrasConsulta> llenarHorasExtrasConsulta(ConjuntoResultado rs) throws Exception {
+        ArrayList<CHorasExtrasConsulta> lst = new ArrayList<CHorasExtrasConsulta>();
+        CHorasExtrasConsulta objHorasExtras = null;
+        try {
+            while (rs.next()) {
+                objHorasExtras = new CHorasExtrasConsulta(
+                        rs.getLong(0),
+                        rs.getDouble(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6));
+                        
+                lst.add(objHorasExtras);
+            }
+        } catch (Exception e) {
+            lst.clear();
+            throw e;
+        }
+        return lst;
+    }
+
+    public static ArrayList<CHorasExtrasConsulta> obtenerHorasExtrasEmpleados(String papellidos) throws Exception {
+        ArrayList<CHorasExtrasConsulta> lst = new ArrayList<CHorasExtrasConsulta>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.fn_select_persona_horas_extras(?)";
+            
+            lstP.add(new Parametro(1, papellidos));
+            
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenarHorasExtrasConsulta(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+}

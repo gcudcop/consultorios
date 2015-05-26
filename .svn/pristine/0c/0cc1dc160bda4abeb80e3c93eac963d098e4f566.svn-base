@@ -1,0 +1,51 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package master.logica.clases;
+
+/**
+ *
+ * @author Javier
+ */
+public class CEtnia {
+    private long lgCodigo;
+    private String strCodificacion;
+    private String strNombre;
+
+    public CEtnia(long lgCodigo, String strCodificacion, String strNombre) {
+        this.lgCodigo = lgCodigo;
+        this.strCodificacion = strCodificacion;
+        this.strNombre = strNombre;
+    }
+
+    public CEtnia() {
+    }
+
+    public long getLgCodigo() {
+        return lgCodigo;
+    }
+
+    public void setLgCodigo(long lgCodigo) {
+        this.lgCodigo = lgCodigo;
+    }
+
+    public String getStrCodificacion() {
+        return strCodificacion;
+    }
+
+    public void setStrCodificacion(String strCodificacion) {
+        this.strCodificacion = strCodificacion;
+    }
+
+    public String getStrNombre() {
+        return strNombre;
+    }
+
+    public void setStrNombre(String strNombre) {
+        this.strNombre = strNombre;
+    }
+    
+    
+    
+}

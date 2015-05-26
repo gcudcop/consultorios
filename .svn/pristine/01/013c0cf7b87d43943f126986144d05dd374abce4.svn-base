@@ -1,0 +1,96 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.beans;
+
+import control.logica.clases.CTotalHorasLaboradas;
+import control.logica.funciones.consultas.CFTotalHorasLaboradas;
+import java.io.Serializable;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+@ManagedBean
+@ViewScoped
+public final class TotalHorasLaboradasC implements Serializable {
+//   <editor-fold defaultstate="collapsed" desc="Atributos">
+
+    private CTotalHorasLaboradas objTHL;
+    private ArrayList<CTotalHorasLaboradas> lstTHL;
+    private java.util.Date fIni;
+    private java.util.Date fFin;
+
+    //</editor-fold>
+//   <editor-fold defaultstate="collapsed" desc="Constructores">
+    public TotalHorasLaboradasC() {
+        objTHL = new CTotalHorasLaboradas();
+        lstTHL = new ArrayList<CTotalHorasLaboradas>();
+        fIni = new Date();
+        fFin = new Date();
+        cargarTotalHorasLaboradas();
+    }
+
+//    @PostConstruct
+//    public void PostTiposAusenciaC() {
+//        reinit();
+//    }
+    //</editor-fold>
+//   <editor-fold defaultstate="collapsed" desc="Metodos set y get">
+    public CTotalHorasLaboradas getObjTHL() {
+        return objTHL;
+    }
+
+    public void setObjTHL(CTotalHorasLaboradas objTHL) {
+        this.objTHL = objTHL;
+    }
+
+    public ArrayList<CTotalHorasLaboradas> getLstTHL() {
+        return lstTHL;
+    }
+
+    public void setLstTHL(ArrayList<CTotalHorasLaboradas> lstTHL) {
+        this.lstTHL = lstTHL;
+    }
+
+    public Date getfIni() {
+        return fIni;
+    }
+
+    public void setfIni(Date fIni) {
+        this.fIni = fIni;
+    }
+
+    public Date getfFin() {
+        return fFin;
+    }
+
+    public void setfFin(Date fFin) {
+        this.fFin = fFin;
+    }
+
+    //</editor-fold>
+//   <editor-fold defaultstate="collapsed" desc="Funciones">
+    ////reiniciar objetos
+    public void reinit() {
+        ///cargar los Tipos de Ausencias
+        cargarTotalHorasLaboradas();
+    }
+
+    public void cargarTotalHorasLaboradas() {
+        try {
+            lstTHL = CFTotalHorasLaboradas.obtenerHorasLaboradas(new java.sql.Date(this.fIni.getTime()), new java.sql.Date(this.fFin.getTime()));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    //</editor-fold>
+}

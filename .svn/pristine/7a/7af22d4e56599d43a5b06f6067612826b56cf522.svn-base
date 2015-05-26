@@ -1,0 +1,864 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package master.presentacion.beans;
+
+import informacion.logica.clases.CRelacionDependencia;
+import informacion.logica.funciones.CFRelacionDependencia;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import master.logica.clases.*;
+import master.logica.clases.consultas.CPersona;
+import master.logica.funciones.*;
+import master.logica.funciones.CFDependencia;
+import master.logica.clases.consultas.CPersonaBusquedas;
+import master.logica.funciones.CFEstadoCivil;
+import master.logica.funciones.CFEtnia;
+import master.logica.funciones.CFGenero;
+import master.logica.funciones.CFParroquia;
+import master.logica.funciones.CFTipoSangre;
+import master.logica.funciones.FPersona;
+import master.logica.funciones.consultas.CFPersona;
+import master.presentacion.funciones.beans.consultas.GestionPersonaConsultasC;
+import org.primefaces.context.DefaultRequestContext;
+import org.primefaces.model.LazyDataModel;
+import recursos.Util;
+
+/**
+ *
+ * @author Javier
+ */
+@ManagedBean
+@ViewScoped
+public class PersonaC {
+
+    //objeto de persona
+     private master.logica.clases.consultas.CPersona objPersonaConsultaActual;
+     private ArrayList<master.logica.clases.consultas.CPersona> lstPersonaConsulta;
+     private ArrayList<CRelacionDependencia> lstRelacioniDependencia;
+    //actualizacion
+    
+    private Persona personaSel;
+    private CPersonaCargoAdministrativo objCargoAdministrativoP;
+    private String criterioBusquedaTitular;
+    private ArrayList<CPersonaBusquedas> lstPersonasBusquedas;
+    private String datoBusqueda;
+    private LazyDataModel<CPersonaBusquedas> lazyModel;
+    private CDependencia objDependenciaSel;
+    private CCargoAdministrativo objCargoAdministrativoSel;
+    private CEtnia objEtnia;
+    private CTipoSangre objTipoSangre;
+    private CEstadoCivil objEstCivil;
+    private CGenero objGenero;
+    private CParroquia objParroquia;
+    private CRelacionDependencia objCRelacionDependencia;
+     private CRelacionDependencia objCRelacionDependenciaSel;
+    //private Persona persona;
+    private Date dtfechaNac;
+    private Date dtfechaIngreso;
+    private Date dtfechaSalida;
+    private int codTipo;
+    //datos ciudad
+    
+    private master.logica.clases.consultas.CParroquia objDatosPais;
+    private ArrayList<master.logica.clases.consultas.CParroquia> lstDatosPais;
+    //dependencia
+    private  long codigoDep;
+    private String strCodigoBiometrico;
+//    private CDependencia 
+    private CParroquia objParroquiaSel;
+ //objetos para inssercion   
+    private ArrayList<Persona> lstPersonas;
+    private Persona objPersona;
+    private CEtnia objEtniaI;
+    private CTipoSangre objTipoSangreI;
+    private CEstadoCivil objEstCivilI;
+    private CGenero objGeneroI;
+    private CParroquia objParroquiaI;
+    private CRelacionDependencia objCRelacionDependenciaI;
+    private CRelacionDependencia objCRelacionDependenciaSelI;
+     private ArrayList<CRelacionDependencia> lstRelacioniDependenciaI;
+    private master.logica.clases.consultas.CParroquia objDatosPaisI;
+    private ArrayList<master.logica.clases.consultas.CParroquia> lstDatosPaisI;
+    private CDependencia objDependenciaI;
+    
+    //persona busqueda
+    private GestionPersonaConsultasC dm;
+    public PersonaC() {
+       
+        this.dm = new GestionPersonaConsultasC();
+        this.objDependenciaSel = new CDependencia();
+        this.objCargoAdministrativoSel = new CCargoAdministrativo();
+        this.objEtnia = new CEtnia();
+        this.objTipoSangre = new CTipoSangre();
+        this.objEstCivil = new CEstadoCivil();
+        this.objGenero = new CGenero();
+        this.objParroquia = new CParroquia();
+        this.objCRelacionDependencia = new CRelacionDependencia();
+        this.objPersonaConsultaActual = new CPersona();
+        this.objDatosPais = new master.logica.clases.consultas.CParroquia();
+        this.lstDatosPais = new ArrayList<master.logica.clases.consultas.CParroquia>();
+        
+        //objetos Insercion
+        this.objPersona = new Persona();
+        this.objCargoAdministrativoP = new CPersonaCargoAdministrativo();
+        this.objEtniaI =new CEtnia();
+        this.objTipoSangreI = new CTipoSangre();
+        this.objEstCivilI = new CEstadoCivil();
+        this.objGeneroI = new CGenero();
+        this.objParroquiaI =  new CParroquia();
+        this.objCRelacionDependenciaI = new CRelacionDependencia();
+        this.objDatosPaisI = new master.logica.clases.consultas.CParroquia();
+        this.lstDatosPaisI = new ArrayList<master.logica.clases.consultas.CParroquia>();
+        this.objDependenciaI = new CDependencia();
+      
+        this.cargarPersonas();
+    }
+
+    
+    public CDependencia getObjDependenciaI() {
+        return objDependenciaI;
+    }
+
+    public void setObjDependenciaI(CDependencia objDependenciaI) {
+        this.objDependenciaI = objDependenciaI;
+    }
+    
+    
+
+    public ArrayList<CRelacionDependencia> getLstRelacioniDependenciaI() {
+        return lstRelacioniDependenciaI;
+    }
+
+    public void setLstRelacioniDependenciaI(ArrayList<CRelacionDependencia> lstRelacioniDependenciaI) {
+        this.lstRelacioniDependenciaI = lstRelacioniDependenciaI;
+    }
+
+    public CEtnia getObjEtniaI() {
+        return objEtniaI;
+    }
+
+    public void setObjEtniaI(CEtnia objEtniaI) {
+        this.objEtniaI = objEtniaI;
+    }
+
+    public CTipoSangre getObjTipoSangreI() {
+        return objTipoSangreI;
+    }
+
+    public void setObjTipoSangreI(CTipoSangre objTipoSangreI) {
+        this.objTipoSangreI = objTipoSangreI;
+    }
+
+    public CEstadoCivil getObjEstCivilI() {
+        return objEstCivilI;
+    }
+
+    public void setObjEstCivilI(CEstadoCivil objEstCivilI) {
+        this.objEstCivilI = objEstCivilI;
+    }
+
+    public CGenero getObjGeneroI() {
+        return objGeneroI;
+    }
+
+    public void setObjGeneroI(CGenero objGeneroI) {
+        this.objGeneroI = objGeneroI;
+    }
+
+    public CParroquia getObjParroquiaI() {
+        return objParroquiaI;
+    }
+
+    public void setObjParroquiaI(CParroquia objParroquiaI) {
+        this.objParroquiaI = objParroquiaI;
+    }
+
+    public CRelacionDependencia getObjCRelacionDependenciaI() {
+        return objCRelacionDependenciaI;
+    }
+
+    public void setObjCRelacionDependenciaI(CRelacionDependencia objCRelacionDependenciaI) {
+        this.objCRelacionDependenciaI = objCRelacionDependenciaI;
+    }
+
+    public CRelacionDependencia getObjCRelacionDependenciaSelI() {
+        return objCRelacionDependenciaSelI;
+    }
+
+    public void setObjCRelacionDependenciaSelI(CRelacionDependencia objCRelacionDependenciaSelI) {
+        this.objCRelacionDependenciaSelI = objCRelacionDependenciaSelI;
+    }
+
+    public master.logica.clases.consultas.CParroquia getObjDatosPaisI() {
+        return objDatosPaisI;
+    }
+
+    public void setObjDatosPaisI(master.logica.clases.consultas.CParroquia objDatosPaisI) {
+        this.objDatosPaisI = objDatosPaisI;
+    }
+
+    public ArrayList<master.logica.clases.consultas.CParroquia> getLstDatosPaisI() {
+        return lstDatosPaisI;
+    }
+
+    public void setLstDatosPaisI(ArrayList<master.logica.clases.consultas.CParroquia> lstDatosPaisI) {
+        this.lstDatosPaisI = lstDatosPaisI;
+    }
+
+    
+    
+    
+    
+    public CParroquia getObjParroquiaSel() {
+        return objParroquiaSel;
+    }
+
+    public void setObjParroquiaSel(CParroquia objParroquiaSel) {
+        this.objParroquiaSel = objParroquiaSel;
+    }
+
+    public String getStrCodigoBiometrico() {
+        return strCodigoBiometrico;
+    }
+
+    public void setStrCodigoBiometrico(String strCodigoBiometrico) {
+        this.strCodigoBiometrico = strCodigoBiometrico;
+    }
+
+    public long getCodigoDep() {
+        return codigoDep;
+    }
+
+    public void setCodigoDep(long codigoDep) {
+        this.codigoDep = codigoDep;
+    }
+
+    public int getCodTipo() {
+        return codTipo;
+    }
+
+    public void setCodTipo(int codTipo) {
+        this.codTipo = codTipo;
+        
+    }
+
+    public Date getDtfechaIngreso() {
+        return dtfechaIngreso;
+    }
+
+    public void setDtfechaIngreso(Date dtfechaIngreso) {
+        this.dtfechaIngreso = dtfechaIngreso;
+    }
+
+    public Date getDtfechaSalida() {
+        return dtfechaSalida;
+    }
+
+    public void setDtfechaSalida(Date dtfechaSalida) {
+        this.dtfechaSalida = dtfechaSalida;
+    }
+
+    public Date getDtfechaNac() {
+        return dtfechaNac;
+    }
+
+    public void setDtfechaNac(Date dtfechaNac) {
+        this.dtfechaNac = dtfechaNac;
+    }
+
+    public ArrayList<Persona> getLstPersonas() {
+        return lstPersonas;
+    }
+
+    public void setLstPersonas(ArrayList<Persona> lstPersonas) {
+        this.lstPersonas = lstPersonas;
+    }
+
+    public Persona getObjPersona() {
+        return objPersona;
+    }
+
+    public void setObjPersona(Persona objPersona) {
+        this.objPersona = objPersona;
+    }
+
+    public Persona getPersonaSel() {
+        return personaSel;
+    }
+
+    public void setPersonaSel(Persona personaSel) {
+        this.personaSel = personaSel;
+    }
+
+    public CPersonaCargoAdministrativo getObjCargoAdministrativoP() {
+        return objCargoAdministrativoP;
+    }
+
+    public void setObjCargoAdministrativoP(CPersonaCargoAdministrativo objCargoAdministrativoP) {
+        this.objCargoAdministrativoP = objCargoAdministrativoP;
+    }
+
+    public String getCriterioBusquedaTitular() {
+        return criterioBusquedaTitular;
+    }
+
+    public void setCriterioBusquedaTitular(String criterioBusquedaTitular) {
+        this.criterioBusquedaTitular = criterioBusquedaTitular;
+    }
+
+    public ArrayList<CPersonaBusquedas> getLstPersonasBusquedas() {
+        return lstPersonasBusquedas;
+    }
+
+    public void setLstPersonasBusquedas(ArrayList<CPersonaBusquedas> lstPersonasBusquedas) {
+        this.lstPersonasBusquedas = lstPersonasBusquedas;
+    }
+
+    public String getDatoBusqueda() {
+        return datoBusqueda;
+    }
+
+    public void setDatoBusqueda(String datoBusqueda) {
+        this.datoBusqueda = datoBusqueda;
+    }
+
+    public LazyDataModel<CPersonaBusquedas> getLazyModel() {
+        return lazyModel;
+    }
+
+    public void setLazyModel(LazyDataModel<CPersonaBusquedas> lazyModel) {
+        this.lazyModel = lazyModel;
+    }
+
+    public CDependencia getObjDependenciaSel() {
+        return objDependenciaSel;
+    }
+
+    public void setObjDependenciaSel(CDependencia objDependenciaSel) {
+        this.objDependenciaSel = objDependenciaSel;
+    }
+
+    public CCargoAdministrativo getObjCargoAdministrativoSel() {
+        return objCargoAdministrativoSel;
+    }
+
+    public void setObjCargoAdministrativoSel(CCargoAdministrativo objCargoAdministrativoSel) {
+        this.objCargoAdministrativoSel = objCargoAdministrativoSel;
+    }
+
+    public CEtnia getObjEtnia() {
+        return objEtnia;
+    }
+
+    public void setObjEtnia(CEtnia objEtnia) {
+        this.objEtnia = objEtnia;
+    }
+
+    public CTipoSangre getObjTipoSangre() {
+        return objTipoSangre;
+    }
+
+    public void setObjTipoSangre(CTipoSangre objTipoSangre) {
+        this.objTipoSangre = objTipoSangre;
+    }
+
+    public CEstadoCivil getObjEstCivil() {
+        return objEstCivil;
+    }
+
+    public void setObjEstCivil(CEstadoCivil objEstCivil) {
+        this.objEstCivil = objEstCivil;
+    }
+
+    public CGenero getObjGenero() {
+        return objGenero;
+    }
+
+    public void setObjGenero(CGenero objGenero) {
+        this.objGenero = objGenero;
+    }
+
+    public CParroquia getObjParroquia() {
+        return objParroquia;
+    }
+
+    public void setObjParroquia(CParroquia objParroquia) {
+        this.objParroquia = objParroquia;
+    }
+
+    public CRelacionDependencia getObjCRelacionDependencia() {
+        return objCRelacionDependencia;
+    }
+
+    public void setObjCRelacionDependencia(CRelacionDependencia objCRelacionDependencia) {
+        this.objCRelacionDependencia = objCRelacionDependencia;
+    }
+
+    public CPersona getObjPersonaConsultaActual() {
+        return objPersonaConsultaActual;
+    }
+
+    public void setObjPersonaConsultaActual(CPersona objPersonaConsultaActual) {
+        this.objPersonaConsultaActual = objPersonaConsultaActual;
+    }
+
+    public ArrayList<CPersona> getLstPersonaConsulta() {
+        return lstPersonaConsulta;
+    }
+
+    public void setLstPersonaConsulta(ArrayList<CPersona> lstPersonaConsulta) {
+        this.lstPersonaConsulta = lstPersonaConsulta;
+    }
+
+    public master.logica.clases.consultas.CParroquia getObjDatosPais() {
+        return objDatosPais;
+    }
+
+    public void setObjDatosPais(master.logica.clases.consultas.CParroquia objDatosPais) {
+        this.objDatosPais = objDatosPais;
+    }
+
+    public ArrayList<master.logica.clases.consultas.CParroquia> getLstDatosPais() {
+        return lstDatosPais;
+    }
+
+    public void setLstDatosPais(ArrayList<master.logica.clases.consultas.CParroquia> lstDatosPais) {
+        this.lstDatosPais = lstDatosPais;
+    }
+
+    public ArrayList<CRelacionDependencia> getLstRelacioniDependencia() {
+        return lstRelacioniDependencia;
+    }
+
+    public void setLstRelacioniDependencia(ArrayList<CRelacionDependencia> lstRelacioniDependencia) {
+        this.lstRelacioniDependencia = lstRelacioniDependencia;
+    }
+
+    public CRelacionDependencia getObjCRelacionDependenciaSel() {
+        return objCRelacionDependenciaSel;
+    }
+
+    public void setObjCRelacionDependenciaSel(CRelacionDependencia objCRelacionDependenciaSel) {
+        this.objCRelacionDependenciaSel = objCRelacionDependenciaSel;
+    }
+
+    public GestionPersonaConsultasC getDm() {
+        return dm;
+    }
+
+    public void setDm(GestionPersonaConsultasC dm) {
+        this.dm = dm;
+    }
+
+    
+    
+    public void cargarPersonas() {
+        try {
+            this.lstPersonaConsulta = CFPersona.obtenerDatosPersona();
+        } catch (Exception e) {
+            Util.addErrorMessage(e, "Error al acceder a la base de datos");
+        }
+    }
+    private int cargoAdministrativo;
+    private long etnia;
+    private long genero;
+    private long etadocivil;
+    private long tip0Sangre;
+    
+    public int getCargoAdministrativo() {
+        return cargoAdministrativo;
+    }
+
+    public void setCargoAdministrativo(int cargoAdministrativo) {
+        this.cargoAdministrativo = cargoAdministrativo;
+    }
+
+    public long getEtnia() {
+        return etnia;
+    }
+
+    public void setEtnia(long etnia) {
+        this.etnia = etnia;
+    }
+
+    public long getGenero() {
+        return genero;
+    }
+
+    public void setGenero(long genero) {
+        this.genero = genero;
+    }
+
+    public long getEtadocivil() {
+        return etadocivil;
+    }
+
+    public void setEtadocivil(long etadocivil) {
+        this.etadocivil = etadocivil;
+    }
+
+    public long getTip0Sangre() {
+        return tip0Sangre;
+    }
+
+    public void setTip0Sangre(long tip0Sangre) {
+        this.tip0Sangre = tip0Sangre;
+    }
+
+   
+    
+
+    public void insertarPersona() {
+        try {
+//            objTipoSangre.setLgCodigo(codTipo);
+            objEtniaI.setLgCodigo(etnia);
+            objEstCivilI.setLgCodigo(etadocivil);
+            objGeneroI.setLgCodigo(genero);
+            objTipoSangreI.setLgCodigo((int) tip0Sangre);
+            
+            objPersona.setLgCodigoPersona(0);
+            objPersona.setObjCodigoEtnia(objEtniaI);
+            objPersona.setObjCodigoGenero(objGeneroI);
+            objPersona.setObjCodigoParroquia(objParroquiaI);
+            objPersona.setObjEstadoCivil(objEstCivilI);
+            objPersona.setObjCodigoTipoSangre(objTipoSangreI);
+            objPersona.setDtFechaNacimiento(dtfechaNac);
+//            objCRelacionDependencia.setDtFechaInicio(dtfechaIngreso);
+//            objCRelacionDependencia.setDtFechaFin(dtfechaSalida);
+            
+            //
+            this.objCargoAdministrativoP.setObjCodigoCargoAdmistrativo(CFCargoAdministrativo.ObtenerCargoAdministrativoDadoCodigo(cargoAdministrativo));
+            this.objCRelacionDependenciaI.setObjCodigoDepencia(CFDependencia.ObtenerDependenciaDadoCodigo((int) objDependenciaI.getIntCodigo()));
+
+            //
+            
+          for (master.logica.clases.consultas.CParroquia par : lstDatosPaisI)
+          {
+             this.objPersona.setObjCodigoParroquia(par.getObjParroquia());
+          } 
+          
+//          for (CRelacionDependencia rel : lstRelacioniDependenciaI)
+//          {
+//             
+//          } 
+          
+            if (FPersona.insertar(objPersona, objCargoAdministrativoP, objCRelacionDependenciaI) != -1) {
+
+                FacesMessage mensaje = new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Datos Insertados");
+                FacesContext.getCurrentInstance().addMessage(null, mensaje);
+                DefaultRequestContext.getCurrentInstance().execute("wdlgAgregarPersona.hide()");
+                this.cargarPersonas();
+                this.objPersona = new Persona();
+            } else {
+                FacesMessage mensajeError = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Atención", "Datos no se Insertó");
+                FacesContext.getCurrentInstance().addMessage(null, mensajeError);
+            }
+        } catch (Exception e) {
+            FacesMessage mensajeErrorIngreso = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, mensajeErrorIngreso);
+        }
+    }
+
+    public void actualizarPersona() {
+     try {
+//         personaSel.set(0);
+         this.personaSel.setObjCodigoEtnia(objEtnia);
+         this.personaSel.setObjCodigoGenero(objGenero);
+         this.personaSel.setObjCodigoTipoSangre(objTipoSangre);
+         this.personaSel.setObjEstadoCivil(objEstCivil);
+         
+         
+         for (master.logica.clases.consultas.CParroquia par : lstDatosPais)
+          {
+             this.personaSel.setObjCodigoParroquia(par.getObjParroquia());
+         } 
+         
+         
+         if (FPersona.actualizarDCA(personaSel,objCargoAdministrativoP)!=-1) {
+               FacesMessage mensajeActualizacion=new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto", "Datos Actualizados");
+                FacesContext.getCurrentInstance().addMessage(null,mensajeActualizacion);
+                DefaultRequestContext.getCurrentInstance().execute("wdlgEditarPersona.hide()");     
+                cargarPersonas();
+         } else {
+              FacesMessage mensajeErrorActualizacion=new FacesMessage(FacesMessage.SEVERITY_ERROR,"Atención", "Datos no Actualizados");
+             FacesContext.getCurrentInstance().addMessage(null, mensajeErrorActualizacion);
+         }
+         
+     } catch (Exception e) {
+          FacesMessage mensajeErrorA=new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, mensajeErrorA);
+     }           
+    }
+
+    public void eliminarPersona() {
+//    try {
+//        if (FPersona.eliminar(personaSel.getCodigo_persona())) {       
+//          FacesMessage mensajeEliminar=new FacesMessage(FacesMessage.SEVERITY_INFO,"Correcto", "Datos Eliminados");
+//          FacesContext.getCurrentInstance().addMessage(null,mensajeEliminar);
+//          DefaultRequestContext.getCurrentInstance().execute("wdlgEliminarPersona.hide()");
+//          this.cargarPersonas();
+//            
+//        } else {
+//             FacesMessage mensajeErrorEliminar=new FacesMessage(FacesMessage.SEVERITY_ERROR,"Atención", "Datos no se Eliminó");
+//             FacesContext.getCurrentInstance().addMessage(null, mensajeErrorEliminar);            
+//        }
+//    } catch (Exception e) {
+//           FacesMessage mensajeErrorE=new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error", e.getMessage());
+//            FacesContext.getCurrentInstance().addMessage(null, mensajeErrorE);
+//    }     
+    }
+    private String datoBusquedaP;
+    private String criterio;
+    public String getDatoBusquedaP() {
+        return datoBusquedaP;
+    }
+
+    public void setDatoBusquedaP(String datoBusquedaP) {
+        this.datoBusquedaP = datoBusquedaP;
+    }
+
+    public String getCriterio() {
+        return criterio;
+    }
+
+    public void setCriterio(String criterio) {
+        this.criterio = criterio;
+    }
+    
+    
+    public void cargarDatosPersonaConsulta()
+    {
+        
+        try {
+           this.dm.setCriterioBusquedaTitular("cedula");
+         this.dm.setDatoBusqueda(datoBusquedaP);
+            dm.obtenerPersonas();
+                       
+           } catch (java.lang.Exception e) {
+            System.out.print(e.getMessage());
+           }
+    }
+    
+    
+    public void preparaBusqueda() {
+        dm.setPersonaSel(null);
+        dm.setDatoBusqueda(null);
+        dm.setLazyModel(null);
+        dm.setLstPersonas(null);
+    }
+    public void preparaEditarBusquedaPersona()
+    {    CRelacionDependencia objRD = new CRelacionDependencia();
+         this.objPersonaConsultaActual = null;
+         this.personaSel = null;
+          this.lstDatosPais = null;
+       try {
+            dm.setObjPersona(FPersona.ObtenerPersonaDadoCodigo(dm.getPersonaSel().getLgCodigo()));
+            //this.objPersonaConsultaActual.setCodigoPersona(dm.getPersonaSel().getLgCodigo());
+        
+            this.personaSel =FPersona.ObtenerPersonaDadoCodigo(dm.getObjPersona().getLgCodigoPersona());
+            this.objDatosPais.setObjParroquia(CFParroquia.ObtenerParroquia((int) personaSel.getObjCodigoParroquia().getLgCodigo()));
+           
+            this.lstDatosPais = new ArrayList<master.logica.clases.consultas.CParroquia>();
+            this.lstDatosPais.add(new master.logica.clases.consultas.CParroquia(
+                    objDatosPais.getObjParroquia().getObjCodigoCiudad().getObjProvincia().getObjCodigoPais(),objDatosPais.getObjParroquia().getObjCodigoCiudad().getObjProvincia()
+                    ,objDatosPais.getObjParroquia().getObjCodigoCiudad(),
+                    objDatosPais.getObjParroquia()));
+            
+            this.objTipoSangre = CFTipoSangre.ObtenerTipoSangreCodigo((int) personaSel.getObjCodigoTipoSangre().getLgCodigo());
+            this.objEstCivil = CFEstadoCivil.ObtenerEstadoCivilDadoCodigo((int)personaSel.getObjEstadoCivil().getLgCodigo());
+            this.objGenero = CFGenero.ObtenerGeneroDadoCodigo((int)personaSel.getObjCodigoGenero().getLgCodigo());
+            this.objEtnia = CFEtnia.ObtenerEtniasDadoCodigo((int)personaSel.getObjCodigoEtnia().getLgCodigo());
+            this.objCargoAdministrativoP = CFPersonaCargoAdministrativo.ObtenerCargoAdministrativoDadoCedula((int)personaSel.getObjCodigoEtnia().getLgCodigo());
+                    
+            
+           objRD = CFRelacionDependencia.obtenerRelacionDependenciaDadoCodigoPersona(dm.getPersonaSel().getLgCodigo());
+           this.lstRelacioniDependencia = new ArrayList<CRelacionDependencia>();
+           this.lstRelacioniDependencia.add(new CRelacionDependencia(objRD.getLgCodigo(),
+           objRD.getIntEstado(),objRD.getStrCodigoBiometrico(),objRD.getDtFechaInicio(),objRD.getDtFechaFin(),
+           objRD.isBlTieneFechaFin(),objRD.getObjCodigoPersona(),objRD.getObjCodigoDepencia(),0));
+                       
+           } catch (java.lang.Exception e) {
+            System.out.print(e.getMessage());
+           }
+       DefaultRequestContext.getCurrentInstance().execute("PF('wdialogoBusquedaPersonas').hide()");
+       DefaultRequestContext.getCurrentInstance().execute("PF('wdlgEditarPersona').show()");
+      // DefaultRequestContext.getCurrentInstance().update(":frmEditarPersona:pngEditarPersona,:frmEditarPersona:pnDetallesPais,:frmEditarPersona:pnDetalleDependencia");
+       
+       
+    }     
+         
+          
+    
+     public void preparaEditar() {
+         
+          CRelacionDependencia objRD = new CRelacionDependencia();
+        try {
+            this.personaSel =FPersona.ObtenerPersonaDadoCodigo(objPersonaConsultaActual.getCodigoPersona());
+            this.objDatosPais.setObjParroquia(CFParroquia.ObtenerParroquia((int) personaSel.getObjCodigoParroquia().getLgCodigo()));
+           
+            this.lstDatosPais = new ArrayList<master.logica.clases.consultas.CParroquia>();
+            this.lstDatosPais.add(new master.logica.clases.consultas.CParroquia(
+                    objDatosPais.getObjParroquia().getObjCodigoCiudad().getObjProvincia().getObjCodigoPais(),objDatosPais.getObjParroquia().getObjCodigoCiudad().getObjProvincia()
+                    ,objDatosPais.getObjParroquia().getObjCodigoCiudad(),
+                    objDatosPais.getObjParroquia()));
+            
+            this.objTipoSangre = CFTipoSangre.ObtenerTipoSangreCodigo((int) personaSel.getObjCodigoTipoSangre().getLgCodigo());
+            this.objEstCivil = CFEstadoCivil.ObtenerEstadoCivilDadoCodigo((int)personaSel.getObjEstadoCivil().getLgCodigo());
+            this.objGenero = CFGenero.ObtenerGeneroDadoCodigo((int)personaSel.getObjCodigoGenero().getLgCodigo());
+            this.objEtnia = CFEtnia.ObtenerEtniasDadoCodigo((int)personaSel.getObjCodigoEtnia().getLgCodigo());
+            this.objCargoAdministrativoP = CFPersonaCargoAdministrativo.ObtenerCargoAdministrativoDadoCedula((int)personaSel.getObjCodigoEtnia().getLgCodigo());
+                    
+            
+           objRD = CFRelacionDependencia.obtenerRelacionDependenciaDadoCodigoPersona(objPersonaConsultaActual.getCodigoPersona());
+           this.lstRelacioniDependencia = new ArrayList<CRelacionDependencia>();
+           this.lstRelacioniDependencia.add(new CRelacionDependencia(objRD.getLgCodigo(),
+           objRD.getIntEstado(),objRD.getStrCodigoBiometrico(),objRD.getDtFechaInicio(),objRD.getDtFechaFin(),
+           objRD.isBlTieneFechaFin(),objRD.getObjCodigoPersona(),objRD.getObjCodigoDepencia(),0));
+           
+           
+            
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+     public void preparaEditarParroquia()
+     {
+         System.out.println("");
+         
+     }
+     public void preparaEditarDependencia()
+     {
+        try {
+           this.codigoDep = objCRelacionDependenciaSel.getObjCodigoDepencia().getIntCodigo();
+           this.strCodigoBiometrico = objCRelacionDependenciaSel.getStrCodigoBiometrico();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+         
+     }
+     public void actualizarDependencia()
+     {
+        
+       try
+       {
+           objCRelacionDependenciaSel.setObjCodigoDepencia(CFDependencia.ObtenerDependenciaDadoCodigo((int) codigoDep));
+           objCRelacionDependenciaSel.setStrCodigoBiometrico(strCodigoBiometrico);
+           if (CFRelacionDepencia.actualizar(objCRelacionDependenciaSel)) {
+
+                FacesMessage mensaje = new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Datos Insertados");
+                FacesContext.getCurrentInstance().addMessage(null, mensaje);
+                DefaultRequestContext.getCurrentInstance().execute("wdEditarDependencia.hide()");
+                this.cargarPersonas();
+                this.objPersona = new Persona();
+            } else {
+                FacesMessage mensajeError = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Atención", "Datos no se Insertó");
+                FacesContext.getCurrentInstance().addMessage(null, mensajeError);
+            }
+        } catch (Exception e) {
+            FacesMessage mensajeErrorIngreso = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, mensajeErrorIngreso);
+        }
+         
+         
+         
+     }
+     public void actualizarLugarProcedencia()
+     {
+        
+       try
+       {
+           
+           this.objDatosPais.setObjParroquia(CFParroquia.ObtenerParroquia((int) objParroquia.getLgCodigo()));
+           
+           this.lstDatosPais = new ArrayList<master.logica.clases.consultas.CParroquia>();
+            this.lstDatosPais.add(new master.logica.clases.consultas.CParroquia(
+                    objDatosPais.getObjParroquia().getObjCodigoCiudad().getObjProvincia().getObjCodigoPais(),objDatosPais.getObjParroquia().getObjCodigoCiudad().getObjProvincia()
+                    ,objDatosPais.getObjParroquia().getObjCodigoCiudad(),
+                    objDatosPais.getObjParroquia()));
+       
+           
+             DefaultRequestContext.getCurrentInstance().execute("wdLugarProcedencia.hide()");
+             this.lstDatosPais = null; 
+             this.objCRelacionDependencia = null;
+             this.objCargoAdministrativoP = null;
+             this.objGenero = null;
+             this.objParroquia = null;
+             this.objParroquiaSel= null;
+             this.objTipoSangre = null;
+             this.objEstCivil = null;
+             this.objGenero = null;
+                
+        } catch (Exception e) {
+            FacesMessage mensajeErrorIngreso = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, mensajeErrorIngreso);
+        }
+}
+     
+     public void insertarDependenciaTabla()
+     {
+           
+       try
+       {
+           this.objCRelacionDependenciaI.setObjCodigoDepencia(objDependenciaI);
+           
+            this.lstRelacioniDependenciaI = new ArrayList<CRelacionDependencia>();
+           
+           this.lstRelacioniDependenciaI.add(new CRelacionDependencia(0, 
+                   0, objCRelacionDependenciaI.getStrCodigoBiometrico(), objCRelacionDependenciaI.getDtFechaInicio(), 
+                   objCRelacionDependenciaI.getDtFechaFin(),objCRelacionDependenciaI.isBlTieneFechaFin(), 
+                   null,CFDependencia.ObtenerDependenciaDadoCodigo((int)objCRelacionDependenciaI.getObjCodigoDepencia().getIntCodigo()),0));
+           
+           
+           
+                DefaultRequestContext.getCurrentInstance().execute("wdInsertarDependencia.hide()");
+           
+           
+        } catch (Exception e) {
+            FacesMessage mensajeErrorIngreso = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, mensajeErrorIngreso);
+        }
+         
+     }
+             
+     
+  public void insertarLugarProcedencia()
+     {
+        
+       try
+       {
+           
+           this.objDatosPaisI.setObjParroquia(CFParroquia.ObtenerParroquia((int) objParroquiaI.getLgCodigo()));
+           
+           
+           this.lstDatosPaisI = new ArrayList<master.logica.clases.consultas.CParroquia>();
+            this.lstDatosPaisI.add(new master.logica.clases.consultas.CParroquia(
+                    objDatosPaisI.getObjParroquia().getObjCodigoCiudad().getObjProvincia().getObjCodigoPais(),
+                    objDatosPaisI.getObjParroquia().getObjCodigoCiudad().getObjProvincia()
+                    ,objDatosPaisI.getObjParroquia().getObjCodigoCiudad(),
+                    objDatosPaisI.getObjParroquia()));
+       
+           
+             DefaultRequestContext.getCurrentInstance().execute("wdLugarProcedenciaInsertar.hide()");
+//          
+                
+        } catch (Exception e) {
+            FacesMessage mensajeErrorIngreso = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, mensajeErrorIngreso);
+        }
+}   
+     
+     
+     
+     
+}
+

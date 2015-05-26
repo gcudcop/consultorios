@@ -1,0 +1,57 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package informacion.logica.funciones.consulta;
+
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import informacion.logica.clases.consulta.CRelacionDependenciaConsulta;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author escorpiondj
+ */
+public class CFRelacionDependenciaConsulta {
+
+    public static ArrayList<CRelacionDependenciaConsulta> llenarRelacionDependenciaConsulta(ConjuntoResultado rs) throws Exception {
+        ArrayList<CRelacionDependenciaConsulta> lst = new ArrayList<CRelacionDependenciaConsulta>();
+        CRelacionDependenciaConsulta rdpc = null;
+        try {
+            while (rs.next()) {
+                rdpc = new CRelacionDependenciaConsulta(rs.getLong("pcodigo"),
+                        rs.getString("papellidos"),
+                        rs.getString("pnombres"));
+                lst.add(rdpc);
+            }
+        } catch (Exception e) {
+            lst.clear();
+            throw e;
+        }
+        return lst;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    public static ArrayList<CRelacionDependenciaConsulta> obtenerRelacionesDependenciaDadoGlDepApNom(
+            String apellidos, String nombres, String grupo_laboral, String dependencia) throws Exception {
+        ArrayList<CRelacionDependenciaConsulta> lst = new ArrayList<CRelacionDependenciaConsulta>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from informacion.f_select_relacion_dependencia_dado_gl_dep_ap_nom(?,?,?,?)";
+            lstP.add(new Parametro(1, apellidos));
+            lstP.add(new Parametro(2, nombres));
+            lstP.add(new Parametro(3, grupo_laboral));
+            lstP.add(new Parametro(4, dependencia));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenarRelacionDependenciaConsulta(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+}

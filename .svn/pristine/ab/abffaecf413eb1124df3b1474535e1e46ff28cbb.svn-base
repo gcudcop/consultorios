@@ -1,0 +1,124 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package master.logica.funciones;
+
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import master.logica.clases.CEstadoCivil;
+
+
+/**
+ *
+ * @author Javier
+ */
+public class CFEstadoCivil {
+     public static boolean insertar(CEstadoCivil estadoCivil) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_insert_estado_civil(?,?)";
+            lstP.add(new Parametro(1, estadoCivil.getStrCodificacion()));
+            lstP.add(new Parametro(2, estadoCivil.getStrNombre()));
+              ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true"));
+                eje = true;
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+   
+   public static boolean actualizar(CEstadoCivil estadoCivil) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_update_estados_civiles(?,?,?)";
+              lstP.add(new Parametro(1, estadoCivil.getStrCodificacion()));
+            lstP.add(new Parametro(2, estadoCivil.getStrNombre()));
+            lstP.add(new Parametro(3, estadoCivil.getLgCodigo()));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true"));
+                eje = true;
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+   
+   public static boolean eliminar(CEstadoCivil estadoCivil) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_delete_estado_civil(?)";
+            lstP.add(new Parametro(1, estadoCivil.getLgCodigo()));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true"));
+                eje = true;
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+   
+ public static ArrayList<CEstadoCivil> llenarEstadosCiviles(ConjuntoResultado rs) throws Exception
+      {
+          ArrayList<CEstadoCivil> lst = new ArrayList<CEstadoCivil>();
+          CEstadoCivil estadoCivil=null;
+          
+          try {
+            while(rs.next())
+            {
+                     estadoCivil= new CEstadoCivil(rs.getInt(1),rs.getString(2), rs.getString(3));
+                     lst.add(estadoCivil);
+            }
+            } catch (Exception e) {
+                 lst.clear();
+                throw e;
+          }
+         return lst;
+      }
+    public static CEstadoCivil ObtenerEstadoCivilDadoCodigo(int codigo) throws Exception
+    {
+       CEstadoCivil lst;
+          try
+        {
+         ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+         String sql = "select * from master.f_select_estado_civil_dado_codigo(?)";
+         lstP.add(new Parametro(1,codigo));
+         ConjuntoResultado rs= AccesoDatos.ejecutaQuery(sql,lstP);
+         lst= new CEstadoCivil();
+         lst= llenarEstadosCiviles(rs).get(0);
+         rs=null;
+        } catch (SQLException exConec) {
+               throw  new Exception(exConec.getMessage());
+         }
+          return lst;
+    }
+    
+    public static  ArrayList<CEstadoCivil> ObtenerEstadosCiviles() throws Exception
+    {
+       ArrayList<CEstadoCivil> lst = new ArrayList<CEstadoCivil>();
+          try
+        {
+         String sql = "select * from master.f_select_estados_civiles()";
+         ConjuntoResultado rs= AccesoDatos.ejecutaQuery(sql);
+         lst= llenarEstadosCiviles(rs);
+          rs=null;
+
+        } catch (SQLException exConec) {
+               throw  new Exception(exConec.getMessage());
+         }
+          return lst;
+    }
+}

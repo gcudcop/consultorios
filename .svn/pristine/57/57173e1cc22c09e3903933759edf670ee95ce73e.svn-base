@@ -1,0 +1,149 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package informacion.presentacion.beans;
+
+import control.logica.clases.CGrupoLaboral;
+import control.logica.funciones.CFGrupoLabora;
+import informacion.logica.clases.consulta.CRelacionDependenciaConsulta;
+import informacion.logica.funciones.consulta.CFRelacionDependenciaConsulta;
+import java.util.ArrayList;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import master.logica.clases.CDependencia;
+import org.primefaces.model.DualListModel;
+import recursos.Util;
+
+/**
+ *
+ * @author escorpiondj
+ */
+@ManagedBean
+@ViewScoped
+public class AsignacionJornadaC {
+
+    //objetos para el picklist
+    private DualListModel<CRelacionDependenciaConsulta> relacionesDependencia;
+    private ArrayList<CRelacionDependenciaConsulta> rdOrigen;
+    private ArrayList<CRelacionDependenciaConsulta> rdDestino;
+    //
+
+    //parámetros de busqueda
+    private String txtApellidos;
+    private String txtGrupoLaboral;
+    private String txtDependencia;
+    private ArrayList<CGrupoLaboral> gruposLaborales;
+    private ArrayList<CDependencia> dependencias;
+    //
+
+    public AsignacionJornadaC() {
+        this.reinit();
+    }
+
+    private void reinit() {
+        this.txtApellidos = "";
+        this.txtGrupoLaboral = "";
+        this.txtDependencia = "";
+        this.rdOrigen = new ArrayList<CRelacionDependenciaConsulta>();
+        this.rdDestino = new ArrayList<CRelacionDependenciaConsulta>();
+        this.relacionesDependencia = new DualListModel<CRelacionDependenciaConsulta>(rdOrigen, rdDestino);
+        this.cargarRelacionesDependenciaConsulta();
+        this.gruposLaborales = new ArrayList<CGrupoLaboral>();
+        this.dependencias = new ArrayList<CDependencia>();
+    }
+
+    public DualListModel<CRelacionDependenciaConsulta> getRelacionesDependencia() {
+        return relacionesDependencia;
+    }
+
+    public void setRelacionesDependencia(DualListModel<CRelacionDependenciaConsulta> relacionesDependencia) {
+        this.relacionesDependencia = relacionesDependencia;
+    }
+
+    public ArrayList<CRelacionDependenciaConsulta> getRdOrigen() {
+        return rdOrigen;
+    }
+
+    public void setRdOrigen(ArrayList<CRelacionDependenciaConsulta> rdOrigen) {
+        this.rdOrigen = rdOrigen;
+    }
+
+    public ArrayList<CRelacionDependenciaConsulta> getRdDestino() {
+        return rdDestino;
+    }
+
+    public void setRdDestino(ArrayList<CRelacionDependenciaConsulta> rdDestino) {
+        this.rdDestino = rdDestino;
+    }
+
+    public String getTxtApellidos() {
+        return txtApellidos;
+    }
+
+    public void setTxtApellidos(String txtApellidos) {
+        this.txtApellidos = txtApellidos;
+    }
+
+    public String getTxtGrupoLaboral() {
+        return txtGrupoLaboral;
+    }
+
+    public void setTxtGrupoLaboral(String txtGrupoLaboral) {
+        this.txtGrupoLaboral = txtGrupoLaboral;
+    }
+
+    public String getTxtDependencia() {
+        return txtDependencia;
+    }
+
+    public void setTxtDependencia(String txtDependencia) {
+        this.txtDependencia = txtDependencia;
+    }
+
+    private void cargarRelacionesDependenciaConsulta() {
+        try {
+            this.rdOrigen = CFRelacionDependenciaConsulta.obtenerRelacionesDependenciaDadoGlDepApNom("", "", "", "");
+            this.relacionesDependencia.setSource(rdOrigen);
+        } catch (Exception e) {
+            Util.addErrorMessage("private void cargarRelacionesDependenciaConsulta dice: " + e.getMessage());
+            System.out.println("private void cargarRelacionesDependenciaConsulta dice: " + e.getMessage());
+        }
+    }
+
+    public ArrayList<CGrupoLaboral> cargarGruposLaborales() {
+        try {
+            this.gruposLaborales = CFGrupoLabora.obtenerGruposLaborales();
+        } catch (Exception e) {
+            Util.addErrorMessage("private void cargarGruposLaborales dice: " + e.getMessage());
+            System.out.println("private void cargarGruposLaborales dice: " + e.getMessage());
+        }
+        return gruposLaborales;
+    }
+
+    public void buscarRelacionesDependenciaConsulta() {
+        try {
+            this.rdOrigen = CFRelacionDependenciaConsulta.obtenerRelacionesDependenciaDadoGlDepApNom(this.txtApellidos,
+                    "", this.txtGrupoLaboral, this.txtDependencia);
+            CRelacionDependenciaConsulta p = null;
+
+            for (CRelacionDependenciaConsulta o : this.relacionesDependencia.getTarget()) {
+                int i = 0;
+                while (this.rdOrigen.size() > 0 && i < this.rdOrigen.size()) {
+                    p = this.rdOrigen.get(i);
+                    if (o.getCodigo() == p.getCodigo()) {
+                        this.rdOrigen.remove(p);
+                        break;
+                    }
+                    i += 1;
+                }
+            }
+            this.relacionesDependencia.setSource(rdOrigen);
+        } catch (Exception e) {
+            Util.addErrorMessage("private void buscarRelacionesDependenciaConsulta dice: " + e.getMessage());
+            System.out.println("private void buscarRelacionesDependenciaConsulta dice: " + e.getMessage());
+        }
+    }
+
+}

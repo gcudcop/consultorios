@@ -1,0 +1,403 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.beans;
+
+import control.logica.clases.CCalendario;
+import control.logica.clases.CCalendarioFecha;
+import control.logica.funciones.CFCalendario;
+import java.io.Serializable;
+import java.util.GregorianCalendar;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import org.primefaces.context.DefaultRequestContext;
+import org.primefaces.event.ScheduleEntryMoveEvent;
+import org.primefaces.event.ScheduleEntryResizeEvent;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DefaultScheduleEvent;
+import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.ScheduleEvent;
+import org.primefaces.model.ScheduleModel;
+import recursos.Util;
+
+/**
+ *
+ * @author Javier Romero
+ */
+@ManagedBean
+@ViewScoped
+public class CCalendarioC1 implements Serializable {
+
+    private int a_o;
+    private CCalendario objCalendario;
+    private ArrayList<CCalendario> lstCalendario;
+    /////
+    
+   // private CCalendario objCalendario;
+    private ArrayList<CCalendario> lsCalendario;
+ private String observacion;
+   
+    //////////////////////
+    private ScheduleModel eventModel;
+    private ScheduleEvent event = new DefaultScheduleEvent();
+    // private ArrayList<CDetalleAusenciasTemporales> lstDetalleAusenciasActual;
+   
+
+  
+    public CCalendarioC1() {
+        this.lsCalendario = new ArrayList<CCalendario>();
+        this.objCalendario = new CCalendario();
+        objCalendario = new CCalendario();
+        lstCalendario = new ArrayList<CCalendario>();
+        cargarCalendario();
+        eventModel = new DefaultScheduleModel();
+        for (CCalendario calendario : lsCalendario) {
+            eventModel.addEvent(new DefaultScheduleEvent(calendario.getStrObservacion(), calendario.getDtfecha(), calendario.getDtfecha()));
+
+        }
+        //////////////////i
+              
+    }
+
+    @PostConstruct
+    public void PostConstructorAusencias() {
+      
+
+    }
+
+    public int getA_o() {
+        return a_o;
+    }
+
+    public void setA_o(int a_o) {
+        this.a_o = a_o;
+    }
+
+    public ArrayList<CCalendario> getLstCalendario() {
+        return lstCalendario;
+    }
+
+    public void setLstCalendario(ArrayList<CCalendario> lstCalendario) {
+        this.lstCalendario = lstCalendario;
+    }
+
+ 
+    public CCalendario getObjCalendario() {
+        return objCalendario;
+    }
+
+    public void setObjCalendario(CCalendario objCalendario) {
+        this.objCalendario = objCalendario;
+    }
+
+    public ArrayList<CCalendario> getLsCalendario() {
+        return lsCalendario;
+    }
+
+    public void setLsCalendario(ArrayList<CCalendario> lsCalendario) {
+        this.lsCalendario = lsCalendario;
+    }
+   
+
+    public Date getRandomDate(Date base) {
+        Calendar date = Calendar.getInstance();
+        date.setTime(base);
+        date.add(Calendar.DATE, ((int) (Math.random() * 30)) + 1);    //set random day of month  
+
+        return date.getTime();
+    }
+
+    public Date getInitialDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(calendar.get(Calendar.YEAR), Calendar.FEBRUARY, calendar.get(Calendar.DATE), 0, 0, 0);
+
+        return calendar.getTime();
+    }
+
+    public ScheduleModel getEventModel() {
+        return eventModel;
+    }
+
+    public ScheduleEvent getEvent() {
+        return event;
+    }
+
+    public void setEvent(ScheduleEvent event) {
+        this.event = event;
+    }
+
+    public String getObservacion() {
+        return observacion;
+    }
+
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
+    }
+
+   
+
+   
+
+    public void cargarCalendario() {
+        try {
+            Calendar fecha = new GregorianCalendar();
+            int a = fecha.get(Calendar.YEAR);
+
+            lsCalendario= CFCalendario.obtenerCalendarioDadoAnio(2014);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void insertarCalendarioTotal() throws Exception {
+       CCalendarioFecha objCalendadarioFecha = new CCalendarioFecha(this.a_o);
+             try {
+           
+               this.lstCalendario =  objCalendadarioFecha.calendarioFechas();
+            
+               for (int i=0;i<=lstCalendario.size();i++)
+               {
+                   if(CFCalendario.insertar((CCalendario)lstCalendario.get(i)))
+                   {
+                      // DefaultRequestContext.getCurrentInstance().execute("wdlgNuevaCalendario.hide()");
+                        Util.addSuccessMessage("Información guardada con exito");
+                        System.out.println("public void insertarCalendari dice: Información guardada con exito!!");
+                       
+                   }
+                   else {
+                Util.addErrorMessage("Error al guardar la información");
+                System.out.println("public void insertarDependencia dice: Error al guardar la información");
+            }
+                   //cargarCalendario();
+               }
+            } 
+        catch (Exception e) {
+            Util.addErrorMessage(" insertar Calendario dice: " + e.getMessage());
+            
+        }
+    }
+    
+    
+//public void insertarCalendario() throws Exception {
+//       
+//             try {
+//           
+//                 objCalendario.setDtfecha(event.getStartDate());
+//                 objCalendario.setStrDia(event.getId());
+//                 objCalendario.setStrObservacion(event.getTitle());
+//                
+//                    
+//            
+//                  if(CFCalendario.insertar(objCalendario))
+//                   {
+//                       DefaultRequestContext.getCurrentInstance().execute("wdgVarCalendario.hide()");
+//                        Util.addSuccessMessage("Información guardada con exito");
+//                        System.out.println("public void insertar Calendario dice: Información guardada con exito!!");
+//                       
+//                   }
+//                   else {
+//                Util.addErrorMessage("Error al guardar la información");
+//                System.out.println("public void insertar Calendario dice: Error al guardar la información");
+//            }
+//                  //cargarCalendario();
+//               }
+//            
+//        catch (Exception e) {
+//            Util.addErrorMessage(" insertar Calendario dice: " + e.getMessage());
+//            
+//        }
+//    }
+    
+public void actualizarCalendario() throws Exception {
+       
+             try {
+           
+                 objCalendario.setDtfecha(event.getStartDate());
+                  objCalendario.setStrObservacion(event.getTitle());
+                
+                    
+            
+                  if(CFCalendario.actualizar(objCalendario))
+                   {
+                       DefaultRequestContext.getCurrentInstance().execute("wdgVarCalendario.hide()");
+                        Util.addSuccessMessage("Información guardada con exito");
+                        System.out.println("public void Actualizar Calendario dice: Información guardada con exito!!");
+                       
+                   }
+                   else {
+                Util.addErrorMessage("Error al guardar la información");
+                System.out.println("public void Actualiz Calendario dice: Error al guardar la información");
+            }
+                  //cargarCalendario();
+               }
+            
+        catch (Exception e) {
+            Util.addErrorMessage(" insertar Calendario dice: " + e.getMessage());
+            
+        }
+    }
+
+
+    
+
+//    public void eliminarDetalleAusencia() {
+//        try {
+//            if (lstDetalleAusencias.size() > 1) {
+//                boolean bandera = CFDetalleAusenciasTemporales.eliminar(detalleAusenciasActual.getLgCodigo());
+//                if (bandera) {
+//                    Util.addSuccessMessage("Registro Eliminado Definitivamente");
+//                    lstDetalleAusencias = CFDetalleAusenciasTemporales.obtenerDetalleAusenciasTemporalesDadoCodigoAusencia(objAusenciaTemporalActual.getLgCodigo());
+//                } else {
+//                    Util.addSuccessMessage("No se eliminó el Registro");
+//                }
+//
+//            } else {
+//                Util.addSuccessMessage("En una Ausencia Temporal debe existir al menos una fecha de permiso.");
+//            }
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//            Util.addSuccessMessage("No se eliminó el Registro" + e.getMessage());
+//        }
+//    }
+
+    
+
+  
+   
+
+    
+
+   
+
+   
+
+    private Calendar today() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
+
+        return calendar;
+    }
+
+    private Date previousDay8Pm() {
+        Calendar t = (Calendar) today().clone();
+        t.set(Calendar.AM_PM, Calendar.PM);
+        t.set(Calendar.DATE, t.get(Calendar.DATE) - 1);
+        t.set(Calendar.HOUR, 8);
+
+        return t.getTime();
+    }
+
+    private Date previousDay11Pm() {
+        Calendar t = (Calendar) today().clone();
+        t.set(Calendar.AM_PM, Calendar.PM);
+        t.set(Calendar.DATE, t.get(Calendar.DATE) - 1);
+        t.set(Calendar.HOUR, 11);
+
+        return t.getTime();
+    }
+
+    private Date today1Pm() {
+        Calendar t = (Calendar) today().clone();
+        t.set(Calendar.AM_PM, Calendar.PM);
+        t.set(Calendar.HOUR, 1);
+
+        return t.getTime();
+    }
+
+    private Date theDayAfter3Pm() {
+        Calendar t = (Calendar) today().clone();
+        t.set(Calendar.DATE, t.get(Calendar.DATE) + 2);
+        t.set(Calendar.AM_PM, Calendar.PM);
+        t.set(Calendar.HOUR, 3);
+
+        return t.getTime();
+    }
+
+    private Date today6Pm() {
+        Calendar t = (Calendar) today().clone();
+        t.set(Calendar.AM_PM, Calendar.PM);
+        t.set(Calendar.HOUR, 6);
+
+        return t.getTime();
+    }
+
+    private Date nextDay9Am() {
+        Calendar t = (Calendar) today().clone();
+        t.set(Calendar.AM_PM, Calendar.AM);
+        t.set(Calendar.DATE, t.get(Calendar.DATE) + 1);
+        t.set(Calendar.HOUR, 9);
+
+        return t.getTime();
+    }
+
+    private Date nextDay11Am() {
+        Calendar t = (Calendar) today().clone();
+        t.set(Calendar.AM_PM, Calendar.AM);
+        t.set(Calendar.DATE, t.get(Calendar.DATE) + 1);
+        t.set(Calendar.HOUR, 11);
+
+        return t.getTime();
+    }
+
+    private Date fourDaysLater3pm() {
+        Calendar t = (Calendar) today().clone();
+        t.set(Calendar.AM_PM, Calendar.PM);
+        t.set(Calendar.DATE, t.get(Calendar.DATE) + 4);
+        t.set(Calendar.HOUR, 3);
+
+        return t.getTime();
+    }
+
+    public void addEvent(ActionEvent actionEvent) throws Exception {
+        if (event.getId() == null) {
+           // insertarCalendario();
+            eventModel.addEvent(event);
+           
+        } else {
+            actualizarCalendario();
+                      
+            eventModel.updateEvent(event);
+        }
+
+        event = new DefaultScheduleEvent();
+    }
+
+   
+
+    public void onEventSelect(SelectEvent selectEvent) {
+        event = (ScheduleEvent) selectEvent.getObject();
+//        horarioEmpleadoSel = (CHorarioEmpleado) event.getData();
+//        System.out.print((horarioEmpleadoSel.getLgCodigo()));
+    }
+
+    public void onDateSelect(SelectEvent selectEvent) {
+        event = new DefaultScheduleEvent("", (Date) selectEvent.getObject(), (Date) selectEvent.getObject());
+
+    }
+
+    public void onEventMove(ScheduleEntryMoveEvent event) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event moved", "Day delta:" + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());
+
+        addMessage(message);
+    }
+
+    public void onEventResize(ScheduleEntryResizeEvent event) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event resized", "Day delta:" + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());
+
+        addMessage(message);
+    }
+
+    private void addMessage(FacesMessage message) {
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+    //</editor-fold>
+}

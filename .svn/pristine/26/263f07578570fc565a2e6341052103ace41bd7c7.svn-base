@@ -1,0 +1,114 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.beans;
+
+import control.logica.clases.CTipoAusencia;
+import control.logica.funciones.CFTipoAusencia;
+import java.io.Serializable;
+import java.util.ArrayList;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import org.primefaces.context.DefaultRequestContext;
+import recursos.Util;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+@ManagedBean
+@ViewScoped
+public final class TiposAusenciaC implements Serializable {
+//   <editor-fold defaultstate="collapsed" desc="Atributos">
+
+    private CTipoAusencia objTipoAusencia;
+    private ArrayList<CTipoAusencia> lstTiposAusencia;
+    private CTipoAusencia objTipoAusenciaSel;
+
+    //</editor-fold>
+//   <editor-fold defaultstate="collapsed" desc="Constructores">
+    public TiposAusenciaC() {
+        objTipoAusencia = new CTipoAusencia();
+        lstTiposAusencia = new ArrayList<CTipoAusencia>();
+        objTipoAusenciaSel = new CTipoAusencia();
+        cargarTiposAusencia();
+    }
+
+//    @PostConstruct
+//    public void PostTiposAusenciaC() {
+//        reinit();
+//    }
+    //</editor-fold>
+//   <editor-fold defaultstate="collapsed" desc="Metodos set y get">
+    public CTipoAusencia getObjTipoAusencia() {
+        return objTipoAusencia;
+    }
+
+    public void setObjTipoAusencia(CTipoAusencia objTipoAusencia) {
+        this.objTipoAusencia = objTipoAusencia;
+    }
+
+    public ArrayList<CTipoAusencia> getLstTiposAusencia() {
+        return lstTiposAusencia;
+    }
+
+    public void setLstTiposAusencia(ArrayList<CTipoAusencia> lstTiposAusencia) {
+        this.lstTiposAusencia = lstTiposAusencia;
+    }
+
+    public CTipoAusencia getObjTipoAusenciaSel() {
+        return objTipoAusenciaSel;
+    }
+
+    public void setObjTipoAusenciaSel(CTipoAusencia objTipoAusenciaSel) {
+        this.objTipoAusenciaSel = objTipoAusenciaSel;
+    }
+
+    //</editor-fold>
+//   <editor-fold defaultstate="collapsed" desc="Funciones">
+    ////reiniciar objetos
+    public void reinit() {
+        ///cargar los Tipos de Ausencias
+        cargarTiposAusencia();
+    }
+
+    public void cargarTiposAusencia() {
+        try {
+            lstTiposAusencia = CFTipoAusencia.obtenerTiposAusencisa();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void insertarTiposAusencia() {
+        try {
+            boolean bandera = CFTipoAusencia.insertar(objTipoAusencia);
+            if (bandera == true) {
+                cargarTiposAusencia();
+                objTipoAusencia = new CTipoAusencia();
+                DefaultRequestContext.getCurrentInstance().execute("wdgNuevo.hide()");
+                Util.addSuccessMessage("Datos Insertados");
+            } else {
+            }
+        } catch (Exception e) {
+            Util.addErrorMessage(e.getMessage());
+        }
+    }
+
+    public void eliminarTiposAusencia() {
+        try {
+            CFTipoAusencia.eliminar(objTipoAusenciaSel.getIntCodigo());
+            cargarTiposAusencia();
+            objTipoAusenciaSel = new CTipoAusencia();
+            DefaultRequestContext.getCurrentInstance().execute("wdgEliminar.hide()");
+            Util.addSuccessMessage("Datos Eliminados");
+        } catch (Exception e) {
+            Util.addErrorMessage(e.getMessage());
+        }
+
+    }
+
+    //</editor-fold>
+}

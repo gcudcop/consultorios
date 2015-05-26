@@ -1,0 +1,240 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.funciones;
+
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import control.logica.clases.CCalendario;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+/**
+ *
+ * @author Javier Romero
+ */
+public class CFCalendario {
+    
+   public static String sacarDiaLetras(int dia)
+    {
+        String d="";
+        
+        switch (dia)
+        {
+            case 0:
+                d="DOMINGO";
+                break;
+            case 1:
+                d="LUNES";
+                 break;
+            case 2:
+                d="MARTES";
+                 break;
+            case 3:
+                d= "MIERCOLES";
+                 break;
+            case 4:
+                d="JUEVES";
+                 break;
+            case 5:
+               d="VIERNES";    
+                 break;
+            case 6:
+                d="SABADO";    
+                 break;
+            default:
+                d="no hay dia";  
+                 break;
+        }
+        
+        return d;
+    }
+   
+            
+
+    
+    
+    
+    public static boolean insertar(CCalendario calendario) throws Exception {
+        boolean eje = false;
+         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+          Calendar fecha1 = new GregorianCalendar();
+            int año = fecha1.get(Calendar.YEAR);
+             java.sql.Date fecha = new java.sql.Date(calendario.getDtfecha().getTime());
+          
+         
+          //int dia = fecha.getDay();
+            
+            
+            
+        try {
+            
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_insert_calendario(?,?,?,?,?,?,?,?,?)";
+            lstP.add(new Parametro(1, fecha));
+            lstP.add(new Parametro(2, calendario.getIntEsLaborable()));
+            lstP.add(new Parametro(3, 0));
+            lstP.add(new Parametro(4, 0));
+            lstP.add(new Parametro(5, 0));
+            lstP.add(new Parametro(6, calendario.getStrDia()));
+            lstP.add(new Parametro(7, ""));
+            lstP.add(new Parametro(8, año));
+            lstP.add(new Parametro(9, 0));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true")) {
+                    eje = true;
+                }
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+
+    public static boolean actualizar(CCalendario calendario) throws Exception {
+        boolean eje = false;
+         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+          Calendar fecha1 = new GregorianCalendar();
+            int año = fecha1.get(Calendar.YEAR);
+             java.sql.Date fecha = new java.sql.Date(calendario.getDtfecha().getTime());
+          
+         
+          int dia = fecha.getDay();
+            
+            
+            
+        try {
+            
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_update_calendario(?,?,?,?,?,?,?,?,?)";
+            lstP.add(new Parametro(1, fecha));
+            lstP.add(new Parametro(2, calendario.getIntEsLaborable()));
+            lstP.add(new Parametro(3, calendario.getIntEsFeriado()));
+            lstP.add(new Parametro(4, calendario.getIntEsTieneJornadaEspecial()));
+            lstP.add(new Parametro(5, 0));
+            lstP.add(new Parametro(6, sacarDiaLetras(dia)));
+            lstP.add(new Parametro(7, calendario.getStrObservacion()));
+            lstP.add(new Parametro(8, año));
+            lstP.add(new Parametro(9, 0));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true")) {
+                    eje = true;
+                }
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+
+//    public static boolean eliminar(int codigo) throws Exception {
+//        boolean eje = false;
+//        try {
+//            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+//            String sql = "select * from control.f_delete_grupo_laboral(?)";
+//            lstP.add(new Parametro(1, codigo));
+//            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+//            while (rs.next()) {
+//                if (rs.getString(0).equals("true")) {
+//                    eje = true;
+//                }
+//            }
+//        } catch (SQLException exConec) {
+//            throw new Exception(exConec.getMessage());
+//        }
+//        return eje;
+//    }
+    public static ArrayList<CCalendario> llenarCalendario(ConjuntoResultado rs) throws Exception {
+        ArrayList<CCalendario> lst = new ArrayList<CCalendario>();
+        CCalendario calendario = null;
+        
+        try {
+            while (rs.next()) {
+                String cadena = "";
+                if(rs.getInt(2)==1)
+                {
+                    cadena= cadena + "Dia laborable,";
+                }
+                if(rs.getInt(3)==1)
+                {
+                    cadena= cadena + " Feriado,";
+                }
+                if(rs.getInt(4)==1)
+                {
+                    cadena= cadena + " Dia Jornada Especial,";
+                }
+                cadena = cadena+" "+ rs.getString(7);                    
+
+                calendario = new CCalendario(rs.getInt(0),
+                        rs.getDate(1),
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        rs.getInt(4),
+                        rs.getInt(5),
+                        rs.getString(6),
+                        //rs.getString(7),
+                        cadena,
+                        rs.getLong(8),
+                        rs.getInt(9));
+                lst.add(calendario);
+               
+            }
+        } catch (Exception e) {
+            lst.clear();
+            System.out.println(e.getMessage());
+        }
+        return lst;
+    }
+
+    public static CCalendario obtenerCalendarioDadoCodigo(int codigo) throws Exception {
+        CCalendario lst;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_select_calendario_dado_codigo(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = new CCalendario();
+            lst = llenarCalendario(rs).get(0);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+
+    public static ArrayList<CCalendario> obtenerCalendarioDadoAnio(long a) throws Exception {
+        ArrayList<CCalendario>  lst = new ArrayList<CCalendario>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_select_calendario_dado_anio(?)";
+            lstP.add(new Parametro(1, 2014));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+             lst = llenarCalendario(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+
+//    public static ArrayList<CCalendario> obtenerCalendarios() throws Exception {
+//        ArrayList<CCalendario> lst = new ArrayList<CCalendario>();
+//        try {
+//            String sql = "select * from control.f_select_grupos_laborales()";
+//            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
+//            lst = llenarCalendario(rs);
+//            rs = null;
+//        } catch (SQLException exConec) {
+//            throw new Exception(exConec.getMessage());
+//        }
+//        return lst;
+//    }
+}

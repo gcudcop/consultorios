@@ -1,0 +1,380 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package informacion.presentacion.beans;
+
+import control.logica.clases.CAsignacionJornada;
+import control.logica.clases.CGrupoLaboral;
+import control.logica.clases.CTipoJornada;
+import control.logica.funciones.CFGrupoLabora;
+import control.logica.funciones.CFTipoJornada;
+import informacion.logica.clases.consulta.CRelacionDependenciaConsulta;
+import informacion.logica.funciones.consulta.CFRelacionDependenciaConsulta;
+import java.util.ArrayList;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import master.logica.clases.CDependencia;
+import org.primefaces.model.DualListModel;
+import recursos.Util;
+//calendario
+import control.logica.clases.CCalendario;
+import control.logica.clases.CCalendarioFecha;
+import control.logica.funciones.CFAsignacionJornada;
+import control.logica.funciones.CFCalendario;
+import java.io.Serializable;
+import java.util.GregorianCalendar;
+import java.util.Calendar;
+import java.util.Date;
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import org.primefaces.context.DefaultRequestContext;
+import org.primefaces.event.ScheduleEntryMoveEvent;
+import org.primefaces.event.ScheduleEntryResizeEvent;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DefaultScheduleEvent;
+import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.ScheduleEvent;
+import org.primefaces.model.ScheduleModel;
+import recursos.Tools;
+
+/**
+ *
+ * @author escorpiondj
+ */
+@ManagedBean
+@ViewScoped
+public class AsignacionJornadaC {
+
+    //objetos para el picklist
+    private DualListModel<CRelacionDependenciaConsulta> relacionesDependencia;
+    private ArrayList<CRelacionDependenciaConsulta> rdOrigen;
+    private ArrayList<CRelacionDependenciaConsulta> rdDestino;
+    //
+
+    //parámetros de busqueda
+    private String txtApellidos;
+    private String txtGrupoLaboral;
+    private String txtDependencia;
+    private ArrayList<CGrupoLaboral> gruposLaborales;
+    private ArrayList<CDependencia> dependencias;
+    //
+
+    //tipo jornadas
+    private CTipoJornada jornadaSel;
+    private ArrayList<CTipoJornada> jornadas;
+
+    //calendario
+    private int a_o;
+    private CCalendario objCalendario;
+    private CCalendario objCalendario1;
+    private ArrayList<CCalendario> lstCalendario;
+    private ArrayList<CCalendario> lsCalendario;
+    private String observacion;
+    private ScheduleModel eventModelEditable;
+    private ScheduleModel eventModel;
+    private ScheduleEvent event;
+    //private ScheduleEvent event1;
+    //
+    private CAsignacionJornada objAsignacionJornada;
+
+    public AsignacionJornadaC() {
+        this.reinit();
+    }
+
+    private void reinit() {
+        this.txtApellidos = "";
+        this.txtGrupoLaboral = "";
+        this.txtDependencia = "";
+        this.rdOrigen = new ArrayList<CRelacionDependenciaConsulta>();
+        this.rdDestino = new ArrayList<CRelacionDependenciaConsulta>();
+        this.relacionesDependencia = new DualListModel<CRelacionDependenciaConsulta>(rdOrigen, rdDestino);
+        this.cargarRelacionesDependenciaConsulta();
+        this.gruposLaborales = new ArrayList<CGrupoLaboral>();
+        this.dependencias = new ArrayList<CDependencia>();
+        this.cargarTipoJornadas();
+        this.jornadaSel = new CTipoJornada();
+        this.objAsignacionJornada = new CAsignacionJornada();
+        //calendario
+        this.lsCalendario = new ArrayList<CCalendario>();
+        this.objCalendario = new CCalendario();
+        lstCalendario = new ArrayList<CCalendario>();
+        cargarCalendario();
+        eventModel = new DefaultScheduleModel();
+        for (CCalendario calendario : lsCalendario) {
+            eventModel.addEvent(new DefaultScheduleEvent(calendario.getStrObservacion(),
+                    calendario.getDtfecha(), calendario.getDtfecha(), calendario));
+
+        }
+        //
+    }
+
+    public CAsignacionJornada getObjAsignacionJornada() {
+        return objAsignacionJornada;
+    }
+
+    public void setObjAsignacionJornada(CAsignacionJornada objAsignacionJornada) {
+        this.objAsignacionJornada = objAsignacionJornada;
+    }
+
+    public CTipoJornada getJornadaSel() {
+        return jornadaSel;
+    }
+
+    public void setJornadaSel(CTipoJornada jornadaSel) {
+        this.jornadaSel = jornadaSel;
+    }
+
+    public ArrayList<CTipoJornada> getJornadas() {
+        return jornadas;
+    }
+
+    public void setJornadas(ArrayList<CTipoJornada> jornadas) {
+        this.jornadas = jornadas;
+    }
+
+    public DualListModel<CRelacionDependenciaConsulta> getRelacionesDependencia() {
+        return relacionesDependencia;
+    }
+
+    public void setRelacionesDependencia(DualListModel<CRelacionDependenciaConsulta> relacionesDependencia) {
+        this.relacionesDependencia = relacionesDependencia;
+    }
+
+    public ArrayList<CRelacionDependenciaConsulta> getRdOrigen() {
+        return rdOrigen;
+    }
+
+    public void setRdOrigen(ArrayList<CRelacionDependenciaConsulta> rdOrigen) {
+        this.rdOrigen = rdOrigen;
+    }
+
+    public ArrayList<CRelacionDependenciaConsulta> getRdDestino() {
+        return rdDestino;
+    }
+
+    public void setRdDestino(ArrayList<CRelacionDependenciaConsulta> rdDestino) {
+        this.rdDestino = rdDestino;
+    }
+
+    public String getTxtApellidos() {
+        return txtApellidos;
+    }
+
+    public void setTxtApellidos(String txtApellidos) {
+        this.txtApellidos = txtApellidos;
+    }
+
+    public String getTxtGrupoLaboral() {
+        return txtGrupoLaboral;
+    }
+
+    public void setTxtGrupoLaboral(String txtGrupoLaboral) {
+        this.txtGrupoLaboral = txtGrupoLaboral;
+    }
+
+    public String getTxtDependencia() {
+        return txtDependencia;
+    }
+
+    public void setTxtDependencia(String txtDependencia) {
+        this.txtDependencia = txtDependencia;
+    }
+
+    public ScheduleModel getEventModel() {
+        return eventModel;
+    }
+
+    public void setEventModel(ScheduleModel eventModel) {
+        this.eventModel = eventModel;
+    }
+
+    public ScheduleEvent getEvent() {
+        return event;
+    }
+
+    public void setEvent(ScheduleEvent event) {
+        this.event = event;
+    }
+
+    public CCalendario getObjCalendario() {
+        return objCalendario;
+    }
+
+    public void setObjCalendario(CCalendario objCalendario) {
+        this.objCalendario = objCalendario;
+    }
+
+    private void cargarRelacionesDependenciaConsulta() {
+        try {
+            this.rdOrigen = CFRelacionDependenciaConsulta.obtenerRelacionesDependenciaDadoGlDepApNom("", "", "", "");
+            this.relacionesDependencia.setSource(rdOrigen);
+        } catch (Exception e) {
+            Util.addErrorMessage("private void cargarRelacionesDependenciaConsulta dice: " + e.getMessage());
+            System.out.println("private void cargarRelacionesDependenciaConsulta dice: " + e.getMessage());
+        }
+    }
+
+    private void cargarTipoJornadas() {
+        try {
+            this.jornadas = CFTipoJornada.obtenerTiposJornadas();
+        } catch (Exception e) {
+            Util.addErrorMessage("private void cargarTipoJornadas dice: " + e.getMessage());
+            System.out.println("private void cargarTipoJornadas dice: " + e.getMessage());
+        }
+    }
+
+    public ArrayList<CGrupoLaboral> cargarGruposLaborales() {
+        try {
+            this.gruposLaborales = CFGrupoLabora.obtenerGruposLaborales();
+        } catch (Exception e) {
+            Util.addErrorMessage("private void cargarGruposLaborales dice: " + e.getMessage());
+            System.out.println("private void cargarGruposLaborales dice: " + e.getMessage());
+        }
+        return gruposLaborales;
+    }
+
+    public void buscarRelacionesDependenciaConsulta() {
+        try {
+            this.rdOrigen = CFRelacionDependenciaConsulta.obtenerRelacionesDependenciaDadoGlDepApNom(this.txtApellidos,
+                    "", this.txtGrupoLaboral, this.txtDependencia);
+            CRelacionDependenciaConsulta p = null;
+
+            for (CRelacionDependenciaConsulta o : this.relacionesDependencia.getTarget()) {
+                int i = 0;
+                while (this.rdOrigen.size() > 0 && i < this.rdOrigen.size()) {
+                    p = this.rdOrigen.get(i);
+                    if (o.getCodigo() == p.getCodigo()) {
+                        this.rdOrigen.remove(p);
+                        break;
+                    }
+                    i += 1;
+                }
+            }
+            this.relacionesDependencia.setSource(rdOrigen);
+        } catch (Exception e) {
+            Util.addErrorMessage("private void buscarRelacionesDependenciaConsulta dice: " + e.getMessage());
+            System.out.println("private void buscarRelacionesDependenciaConsulta dice: " + e.getMessage());
+        }
+    }
+
+    public void cargarCalendario() {
+        try {
+            Calendar fecha = new GregorianCalendar();
+            //lsCalendario = new ArrayList<CCalendario>();
+            lsCalendario = CFCalendario.obtenerCalendarioDadoAnio(Integer.parseInt(Tools.obtieneFechaActual().substring(0, 3)));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void resetCalendario() {
+        lsCalendario = new ArrayList<CCalendario>();
+        lstCalendario = new ArrayList<CCalendario>();
+        cargarCalendario();
+        eventModel = new DefaultScheduleModel();
+        for (CCalendario calendario : lsCalendario) {
+            eventModel.addEvent(new DefaultScheduleEvent(calendario.getStrObservacion(),
+                    calendario.getDtfecha(), calendario.getDtfecha(), calendario));
+
+        }
+    }
+
+    public void addEvent(ActionEvent actionEvent) throws Exception {
+        if (event.getId() == null) {
+            eventModel.addEvent(event);
+        } else {
+            ((CCalendario) event.getData()).setIntEstado(objCalendario.getIntEstado());
+            if (((CCalendario) event.getData()).getIntEstado() == 2) {
+                //((CCalendario) event.getData()).setStrObservacion(((CCalendario) event.getData()).getStrObservacion() + " Seleccionado");
+                if (!event.getTitle().contains(" Seleccionado")) {
+                    ((DefaultScheduleEvent) event).setTitle(event.getTitle() + " Seleccionado");
+                }
+            } else {
+                //((CCalendario) event.getData()).setStrObservacion(((CCalendario) event.getData()).getStrObservacion().replace(" Seleccionado", ""));
+                ((DefaultScheduleEvent) event).setTitle(event.getTitle().replace(" Seleccionado", ""));
+            }
+            eventModel.updateEvent(event);
+        }
+        event = new DefaultScheduleEvent();
+    }
+
+    public void delEvent(ActionEvent actionEvent) throws Exception {
+        if (event.getId() != null) {
+            eventModel.deleteEvent(event);
+        } /*else {
+         eventModel.updateEvent(event);
+         }*/
+
+        event = new DefaultScheduleEvent();
+    }
+
+    public void onEventSelect(SelectEvent selectEvent) {
+        event = (ScheduleEvent) selectEvent.getObject();
+        objCalendario = (CCalendario) event.getData();
+    }
+
+    public void onDateSelect(SelectEvent selectEvent) {
+        event = new DefaultScheduleEvent("", (Date) selectEvent.getObject(), (Date) selectEvent.getObject());
+    }
+
+    public void onEventMove(ScheduleEntryMoveEvent event) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event moved", "Day delta:"
+                + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());
+        addMessage(message);
+    }
+
+    public void onEventResize(ScheduleEntryResizeEvent event) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event resized", "Day delta:"
+                + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());
+        addMessage(message);
+    }
+
+    private void addMessage(FacesMessage message) {
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    public void insertarAsignacionJornada() {
+        try {
+            for (ScheduleEvent event1 : eventModel.getEvents()) {
+                if (((CCalendario) event1.getData()).getIntEstado() == 2) {
+                    lstCalendario.add((CCalendario) event1.getData());
+                }
+            }
+            if (!lstCalendario.isEmpty()) {
+                objAsignacionJornada.setDtfecha(new java.sql.Date((new java.util.Date()).getTime()));
+                objAsignacionJornada.setIntEstado(1);
+                if (jornadaSel.getIntCodigo() != 0) {
+                    objAsignacionJornada.setObjCodigoTipoJornada(jornadaSel);
+                    objAsignacionJornada.setStrObservacion("s/n");
+                    if (!this.relacionesDependencia.getTarget().isEmpty()) {
+                        if (CFAsignacionJornada.insertar(objAsignacionJornada, (ArrayList<CRelacionDependenciaConsulta>) this.relacionesDependencia.getTarget(), lstCalendario)) {
+                            this.reinit();
+                            //DefaultRequestContext.getCurrentInstance().execute("wdlgNuevoCargoAdministrativo.hide()");
+                            Util.addSuccessMessage("Información guardada con exito");
+                            System.out.println("public void insertarAsignacionJornada dice: Información guardada con exito!!");
+                        } else {
+                            Util.addErrorMessage("Error al guardar la información");
+                            System.out.println("public void insertarAsignacionJornada dice: Error al guardar la información");
+                        }
+                    } else {
+                        Util.addErrorMessage("No ha agregado personas al grupo para la jornada");
+                        System.out.println("public void insertarAsignacionJornada dice: No ha agregado personas al grupo para la jornada");
+                    }
+                } else {
+                    Util.addErrorMessage("No ha seleccionado un tipo de jornada");
+                    System.out.println("public void insertarAsignacionJornada dice: No ha seleccionado un tipo de jornada");
+                }
+            } else {
+                Util.addErrorMessage("No ha seleccionado ningún día del calendario");
+                System.out.println("public void insertarAsignacionJornada dice: No ha seleccionado ningún día del calendario");
+            }
+        } catch (Exception e) {
+            Util.addErrorMessage("private void insertarAsignacionJornada dice: " + e.getMessage());
+            System.out.println("private void insertarAsignacionJornada dice: " + e.getMessage());
+        }
+    }
+}

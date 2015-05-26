@@ -1,0 +1,165 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.funciones;
+
+import accesodatos.AccesoDatos;
+import accesodatos.Conexion;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import control.logica.clases.CDetalleHorasExtras;
+import control.logica.clases.CHorasExtras;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CFHorasExtras {
+
+    public static long insertar(CHorasExtras horasExtras, ArrayList<CDetalleHorasExtras> lstDetalleHorasExtras)
+            throws Exception {
+        long eje = 0;
+        long eje1 = 0;
+        long ejef = 0;
+        Conexion con = new Conexion();
+        try {
+            if (con.getCon().getAutoCommit()) {
+                con.getCon().setAutoCommit(false);
+            }
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from psto.f_insert_horas_extras(?,?,?,?,?,?,?,?,?,?,?,?)";
+            lstP.add(new Parametro(1, horasExtras.getDtFechaInicio()));
+            lstP.add(new Parametro(2, horasExtras.getDtFechaFin()));
+            lstP.add(new Parametro(3, horasExtras.getDlNumeroHoras()));
+            lstP.add(new Parametro(4, horasExtras.getStrJustificacion()));
+            lstP.add(new Parametro(5, horasExtras.getStrSolicitadoPor()));
+            lstP.add(new Parametro(6, horasExtras.getDtFechaSolicitud()));
+            lstP.add(new Parametro(7, horasExtras.getStrAutorizadoPor()));
+            lstP.add(new Parametro(8, horasExtras.getStrAprobadoPor()));
+            lstP.add(new Parametro(9, horasExtras.getStrObservacion()));
+            lstP.add(new Parametro(10, horasExtras.getIntEstado()));
+            lstP.add(new Parametro(11, horasExtras.getObjCodigoRelacion_Dependencia().getLgCodigo()));
+            lstP.add(new Parametro(12, horasExtras.getIntEsHoraPagada()));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getLong(0) > 0) {
+                    eje = rs.getLong(0);
+                }
+            }
+
+            for (CDetalleHorasExtras detalleHorasExtras : lstDetalleHorasExtras) {
+                ArrayList<Parametro> lstP1 = new ArrayList<Parametro>();
+                String sql1 = "select * from psto.f_insert_detalle_horas_extras(?,?,?,?,?,?,?,?)";
+                lstP1.add(new Parametro(1, eje));
+                lstP1.add(new Parametro(2, detalleHorasExtras.getDtfecha()));
+                lstP1.add(new Parametro(3, detalleHorasExtras.getTmHoraEntrada()));
+                lstP1.add(new Parametro(4, detalleHorasExtras.getTmHoraSalida()));
+                lstP1.add(new Parametro(5, detalleHorasExtras.getTmHoraEntradaAlmuerzo()));
+                lstP1.add(new Parametro(6, detalleHorasExtras.getTmHoraSalidaAlmuerzo()));
+                lstP1.add(new Parametro(7, detalleHorasExtras.getStrObservacion()));
+                lstP1.add(new Parametro(8, detalleHorasExtras.getIntEstado()));
+                ConjuntoResultado rs1 = AccesoDatos.ejecutaQuery(sql1, lstP1);
+                while (rs1.next()) {
+                    if (rs1.getLong(0) > 0) {
+                        eje1 = rs1.getLong(0);
+                    }
+                }
+            }
+            if ((eje > 0) && (eje1 == eje)) {
+                ejef = eje;
+            } else {
+                ejef = -1;
+            }
+            con.getCon().commit();
+        } catch (SQLException exConec) {
+            con.getCon().rollback();
+            throw new Exception(exConec.getMessage());
+        }
+        return ejef;
+    }
+
+    public static boolean actualizar(CHorasExtras horasExtras, ArrayList<CDetalleHorasExtras> lstDetalleHorasExtras)
+            throws Exception {
+        boolean eje = false;
+        boolean eje1 = false;
+        boolean ejef = false;
+        Conexion con = new Conexion();
+        try {
+            if (con.getCon().getAutoCommit()) {
+                con.getCon().setAutoCommit(false);
+            }
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from psto.f_update_horas_extras(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            lstP.add(new Parametro(1, horasExtras.getDtFechaInicio()));
+            lstP.add(new Parametro(2, horasExtras.getDtFechaFin()));
+            lstP.add(new Parametro(3, horasExtras.getDlNumeroHoras()));
+            lstP.add(new Parametro(4, horasExtras.getStrJustificacion()));
+            lstP.add(new Parametro(5, horasExtras.getStrSolicitadoPor()));
+            lstP.add(new Parametro(6, horasExtras.getDtFechaSolicitud()));
+            lstP.add(new Parametro(7, horasExtras.getStrAutorizadoPor()));
+            lstP.add(new Parametro(8, horasExtras.getStrAprobadoPor()));
+            lstP.add(new Parametro(9, horasExtras.getStrObservacion()));
+            lstP.add(new Parametro(10, horasExtras.getIntEstado()));
+            lstP.add(new Parametro(11, horasExtras.getObjCodigoRelacion_Dependencia().getLgCodigo()));
+            lstP.add(new Parametro(12, horasExtras.getIntEsHoraPagada()));
+            lstP.add(new Parametro(13, horasExtras.getLgCodigo()));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true")) {
+                    eje = true;
+                }
+            }
+            for (CDetalleHorasExtras detalleHorasExtras : lstDetalleHorasExtras) {
+                ArrayList<Parametro> lstP1 = new ArrayList<Parametro>();
+                String sql1 = "select * from psto.f_update_detalle_horas_extras(?,?,?,?,?,?,?,?,?)";
+                lstP1.add(new Parametro(1, horasExtras.getLgCodigo()));
+                lstP1.add(new Parametro(2, detalleHorasExtras.getDtfecha()));
+                lstP1.add(new Parametro(3, detalleHorasExtras.getTmHoraEntrada()));
+                lstP1.add(new Parametro(4, detalleHorasExtras.getTmHoraSalida()));
+                lstP1.add(new Parametro(5, detalleHorasExtras.getTmHoraEntradaAlmuerzo()));
+                lstP1.add(new Parametro(6, detalleHorasExtras.getTmHoraSalidaAlmuerzo()));
+                lstP1.add(new Parametro(7, detalleHorasExtras.getStrObservacion()));
+                lstP1.add(new Parametro(8, detalleHorasExtras.getIntEstado()));
+                lstP1.add(new Parametro(9, detalleHorasExtras.getLgCodigo()));
+                ConjuntoResultado rs1 = AccesoDatos.ejecutaQuery(sql1, lstP1);
+                while (rs1.next()) {
+                    if (rs1.getString(0).equals("true")) {
+                        eje1 = true;
+                    }
+                }
+            }
+            if ((eje == true) && (eje1 == eje)) {
+                ejef = eje;
+            } else {
+                ejef = false;
+            }
+            con.getCon().commit();
+        } catch (SQLException exConec) {
+            con.getCon().rollback();
+            throw new Exception(exConec.getMessage());
+        }
+        return ejef;
+    }
+
+    public static boolean eliminar(long codigo) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_delete_horas_extras(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true")) {
+                    eje = true;
+                }
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+}

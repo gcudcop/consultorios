@@ -1,0 +1,95 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.clases.consultas;
+
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CHorarioEmpleado {
+
+    private long lgCodigo;
+    private java.sql.Date dtFecha;
+    private String strDia;
+    private String strNombreJornada;
+    private String strNombreCorto;
+    private java.sql.Time tmHoraEntradaJornada;
+    private java.sql.Time tmHoraSalidaJornada;
+
+    public CHorarioEmpleado() {
+    }
+
+    public CHorarioEmpleado(long lgCodigo, Date dtFecha, String strDia, String strNombreJornada, String strNombreCorto, Time tmHoraEntradaJornada, Time tmHoraSalidaJornada) {
+        this.lgCodigo = lgCodigo;
+        this.dtFecha = dtFecha;
+        this.strDia = strDia;
+        this.strNombreJornada = strNombreJornada;
+        this.strNombreCorto = strNombreCorto;
+        this.tmHoraEntradaJornada = tmHoraEntradaJornada;
+        this.tmHoraSalidaJornada = tmHoraSalidaJornada;
+    }
+
+    public Time getTmHoraEntradaJornada() {
+        return tmHoraEntradaJornada;
+    }
+
+    public void setTmHoraEntradaJornada(Time tmHoraEntradaJornada) {
+        this.tmHoraEntradaJornada = tmHoraEntradaJornada;
+    }
+
+    public Time getTmHoraSalidaJornada() {
+        return tmHoraSalidaJornada;
+    }
+
+    public void setTmHoraSalidaJornada(Time tmHoraSalidaJornada) {
+        this.tmHoraSalidaJornada = tmHoraSalidaJornada;
+    }
+
+    public long getLgCodigo() {
+        return lgCodigo;
+    }
+
+    public void setLgCodigo(long lgCodigo) {
+        this.lgCodigo = lgCodigo;
+    }
+
+    public Date getDtFecha() {
+        return dtFecha;
+    }
+
+    public void setDtFecha(Date dtFecha) {
+        this.dtFecha = dtFecha;
+    }
+
+    public String getStrDia() {
+        return strDia;
+    }
+
+    public void setStrDia(String strDia) {
+        this.strDia = strDia;
+    }
+
+    public String getStrNombreJornada() {
+        return strNombreJornada;
+    }
+
+    public void setStrNombreJornada(String strNombreJornada) {
+        this.strNombreJornada = strNombreJornada;
+    }
+
+    public String getStrNombreCorto() {
+        return strNombreCorto;
+    }
+
+    public void setStrNombreCorto(String strNombreCorto) {
+        this.strNombreCorto = strNombreCorto;
+    }
+
+}

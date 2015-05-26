@@ -1,0 +1,51 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.funciones;
+
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import control.logica.clases.CAusenciaTemporal;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import recursos.Tools;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CFAusenciasTemporales {
+
+    public static boolean insertar(CAusenciaTemporal ausenciaTemporal) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_insert_ausencia_temporal(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            lstP.add(new Parametro(1, ausenciaTemporal.getTmstmFechaSalida()));
+            lstP.add(new Parametro(2, ausenciaTemporal.getTmstmFechaReintegro()));
+            lstP.add(new Parametro(3, 0));
+            lstP.add(new Parametro(4, ""));
+            lstP.add(new Parametro(5, ausenciaTemporal.getStrJustificacion()));
+            lstP.add(new Parametro(6, ausenciaTemporal.getStrSolicitadoPor()));
+            lstP.add(new Parametro(7, Tools.obtieneFechaActualSegundos()));
+            lstP.add(new Parametro(8, ausenciaTemporal.getStrAutorizadoPor()));
+            lstP.add(new Parametro(9, ausenciaTemporal.getStrAprobadoPor()));
+            lstP.add(new Parametro(10, ausenciaTemporal.getStrObservacion()));
+            lstP.add(new Parametro(11, 1));
+            lstP.add(new Parametro(12, ausenciaTemporal.getObjCodigoTipoAusencia().getIntCodigo()));
+            lstP.add(new Parametro(13, ausenciaTemporal.getObjCodigoRelacionDependencia().getLgCodigo()));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true")) {
+                    eje = true;
+                }
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+}

@@ -1,0 +1,73 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.clases;
+
+import java.sql.Time;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CMarcacionDespuesEntrada {
+
+    private long lgCodigo;
+    private CHistorialMarcacion objCodigoHistorialMarcacion;
+    private double dblTiempoRetrasoHoras;
+    private java.sql.Time tmTiempoRetraso;
+    private int intTipo;
+
+    public CMarcacionDespuesEntrada(long lgCodigo, CHistorialMarcacion objCodigoHistorialMarcacion, double dblTiempoRetrasoHoras, Time tmTiempoRetraso, int intTipo) {
+        this.lgCodigo = lgCodigo;
+        this.objCodigoHistorialMarcacion = objCodigoHistorialMarcacion;
+        this.dblTiempoRetrasoHoras = dblTiempoRetrasoHoras;
+        this.tmTiempoRetraso = tmTiempoRetraso;
+        this.intTipo = intTipo;
+    }
+
+    public CMarcacionDespuesEntrada() {
+    }
+
+    public long getLgCodigo() {
+        return lgCodigo;
+    }
+
+    public void setLgCodigo(long lgCodigo) {
+        this.lgCodigo = lgCodigo;
+    }
+
+    public CHistorialMarcacion getObjCodigoHistorialMarcacion() {
+        return objCodigoHistorialMarcacion;
+    }
+
+    public void setObjCodigoHistorialMarcacion(CHistorialMarcacion objCodigoHistorialMarcacion) {
+        this.objCodigoHistorialMarcacion = objCodigoHistorialMarcacion;
+    }
+
+    public double getDblTiempoRetrasoHoras() {
+        return dblTiempoRetrasoHoras;
+    }
+
+    public void setDblTiempoRetrasoHoras(double dblTiempoRetrasoHoras) {
+        this.dblTiempoRetrasoHoras = dblTiempoRetrasoHoras;
+    }
+
+    public Time getTmTiempoRetraso() {
+        return tmTiempoRetraso;
+    }
+
+    public void setTmTiempoRetraso(Time tmTiempoRetraso) {
+        this.tmTiempoRetraso = tmTiempoRetraso;
+    }
+
+    public int getIntTipo() {
+        return intTipo;
+    }
+
+    public void setIntTipo(int intTipo) {
+        this.intTipo = intTipo;
+    }
+
+}

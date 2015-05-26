@@ -1,0 +1,236 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.beans;
+
+import control.logica.clases.CTipoJornada;
+import control.logica.funciones.CFTipoJornada;
+import java.io.Serializable;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import org.primefaces.context.DefaultRequestContext;
+import recursos.Util;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+@ManagedBean
+@ViewScoped
+public final class TiposJornadaC implements Serializable {
+//   <editor-fold defaultstate="collapsed" desc="Atributos">
+
+    private CTipoJornada objTipoJornada;
+    private ArrayList<CTipoJornada> lstTiposJornada;
+    private CTipoJornada objTipoJornadaSel;
+    private java.util.Date horaEntradaJornada;
+    private java.util.Date horaSalidaReceso;
+    private java.util.Date horaEntradaReceso;
+    private java.util.Date horaSalidaJornada;
+    private CTipoJornada objTipoJornadaActual;
+
+    //</editor-fold>
+//   <editor-fold defaultstate="collapsed" desc="Constructores">
+    public TiposJornadaC() {
+        objTipoJornada = new CTipoJornada();
+        lstTiposJornada = new ArrayList<CTipoJornada>();
+        objTipoJornadaSel = new CTipoJornada();
+        cargarTiposJornada();
+    }
+
+//    @PostConstruct
+//    public void PostTiposAusenciaC() {
+//        reinit();
+//    }
+    //</editor-fold>
+//   <editor-fold defaultstate="collapsed" desc="Metodos set y get">
+    public CTipoJornada getObjTipoJornada() {
+        return objTipoJornada;
+    }
+
+    public void setObjTipoJornada(CTipoJornada objTipoJornada) {
+        this.objTipoJornada = objTipoJornada;
+    }
+
+    public ArrayList<CTipoJornada> getLstTiposJornada() {
+        return lstTiposJornada;
+    }
+
+    public void setLstTiposJornada(ArrayList<CTipoJornada> lstTiposJornada) {
+        this.lstTiposJornada = lstTiposJornada;
+    }
+
+    public CTipoJornada getObjTipoJornadaSel() {
+        return objTipoJornadaSel;
+    }
+
+    public void setObjTipoJornadaSel(CTipoJornada objTipoJornadaSel) {
+        this.objTipoJornadaSel = objTipoJornadaSel;
+    }
+
+    public Date getHoraEntradaJornada() {
+        return horaEntradaJornada;
+    }
+
+    public void setHoraEntradaJornada(Date horaEntradaJornada) {
+        this.horaEntradaJornada = horaEntradaJornada;
+    }
+
+    public Date getHoraSalidaReceso() {
+        return horaSalidaReceso;
+    }
+
+    public void setHoraSalidaReceso(Date horaSalidaReceso) {
+        this.horaSalidaReceso = horaSalidaReceso;
+    }
+
+    public Date getHoraEntradaReceso() {
+        return horaEntradaReceso;
+    }
+
+    public void setHoraEntradaReceso(Date horaEntradaReceso) {
+        this.horaEntradaReceso = horaEntradaReceso;
+    }
+
+    public Date getHoraSalidaJornada() {
+        return horaSalidaJornada;
+    }
+
+    public void setHoraSalidaJornada(Date horaSalidaJornada) {
+        this.horaSalidaJornada = horaSalidaJornada;
+    }
+
+//    public Date getHoraSalidaJornadaTimetoDate() {
+//        return new Date(objTipoJornadaSel.getTmHoraSalida().getTime());
+//    }
+    public CTipoJornada getObjTipoJornadaActual() {
+        return objTipoJornadaActual;
+    }
+
+    public void setObjTipoJornadaActual(CTipoJornada objTipoJornadaActual) {
+        this.objTipoJornadaActual = objTipoJornadaActual;
+    }
+
+    //</editor-fold>
+//   <editor-fold defaultstate="collapsed" desc="Funciones">
+    ////reiniciar objetos
+    public void reinit() {
+        ///cargar los Tipos de Ausencias
+        cargarTiposJornada();
+    }
+
+    public void cargarTiposJornada() {
+        try {
+            lstTiposJornada = CFTipoJornada.obtenerTiposJornadas();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void insertarTiposJornada() {
+        try {
+            if (horaEntradaReceso == null) {
+                // horaEntradaReceso.setTime(new Time(0, 0, 0));
+            }
+            if ((horaSalidaJornada.compareTo(horaEntradaJornada) > 0)
+                    && (horaEntradaReceso.compareTo(horaSalidaReceso) > 0)
+                    && (horaEntradaReceso.compareTo(horaEntradaJornada) > 0)
+                    && (horaSalidaReceso.compareTo(horaEntradaJornada) > 0)
+                    && (horaSalidaJornada.compareTo(horaEntradaReceso) > 0)
+                    && (horaSalidaJornada.compareTo(horaSalidaReceso) > 0)) {
+                this.objTipoJornada.setTmHoraEntrada(new Time(this.horaEntradaJornada.getTime()));
+                if (horaEntradaReceso == null) {
+                    this.objTipoJornada.setTmHoraEntradaReceso(new Time(0, 0, 0));
+                } else {
+                    this.objTipoJornada.setTmHoraEntradaReceso(new Time(this.horaEntradaReceso.getTime()));
+                }
+                if (horaSalidaReceso == null) {
+                    this.objTipoJornada.setTmHoraSalidaReceso(new Time(0, 0, 0));
+                } else {
+                    this.objTipoJornada.setTmHoraSalidaReceso(new Time(this.horaSalidaReceso.getTime()));
+                }
+
+                this.objTipoJornada.setTmHoraSalida(new Time(this.horaSalidaJornada.getTime()));
+                boolean bandera = CFTipoJornada.insertar(objTipoJornada);
+                if (bandera == true) {
+                    cargarTiposJornada();
+                    objTipoJornada = new CTipoJornada();
+                    horaEntradaJornada = null;
+                    horaEntradaReceso = null;
+                    horaSalidaJornada = null;
+                    horaSalidaReceso = null;
+                    DefaultRequestContext.getCurrentInstance().execute("wdgNuevo.hide()");
+                    Util.addSuccessMessage("Datos Insertados");
+                } else {
+                }
+            } else {
+                Util.addSuccessMessage("Error en Fechas");
+            }
+
+        } catch (Exception e) {
+            Util.addErrorMessage(e.getMessage());
+        }
+    }
+
+    public void editarTiposJornada() {
+        try {
+            if ((horaSalidaJornada.compareTo(horaEntradaJornada) > 0)
+                    && (horaEntradaReceso.compareTo(horaSalidaReceso) > 0)
+                    && (horaEntradaReceso.compareTo(horaEntradaJornada) > 0)
+                    && (horaSalidaReceso.compareTo(horaEntradaJornada) > 0)
+                    && (horaSalidaJornada.compareTo(horaEntradaReceso) > 0)
+                    && (horaSalidaJornada.compareTo(horaSalidaReceso) > 0)) {
+                this.objTipoJornadaActual.setTmHoraEntrada(new Time(this.horaEntradaJornada.getTime()));
+                if (horaEntradaReceso == null) {
+                    this.objTipoJornadaActual.setTmHoraEntradaReceso(new Time(0, 0, 0));
+                } else {
+                    this.objTipoJornadaActual.setTmHoraEntradaReceso(new Time(this.horaEntradaReceso.getTime()));
+                }
+                if (horaSalidaReceso == null) {
+                    this.objTipoJornadaActual.setTmHoraSalidaReceso(new Time(0, 0, 0));
+                } else {
+                    this.objTipoJornadaActual.setTmHoraSalidaReceso(new Time(this.horaSalidaReceso.getTime()));
+                }
+
+                this.objTipoJornadaActual.setTmHoraSalida(new Time(this.horaSalidaJornada.getTime()));
+                CFTipoJornada.actualizar(objTipoJornadaActual);
+                cargarTiposJornada();
+                objTipoJornadaActual = new CTipoJornada();
+                DefaultRequestContext.getCurrentInstance().execute("wdgEditar.hide()");
+                Util.addSuccessMessage("Datos Editados");
+            } else {
+                Util.addSuccessMessage("Error en Fechas");
+            }
+        } catch (Exception e) {
+            Util.addErrorMessage(e.getMessage());
+        }
+
+    }
+
+    public void eliminarTiposJornada() {
+        try {
+            CFTipoJornada.eliminar(objTipoJornadaSel.getIntCodigo());
+            cargarTiposJornada();
+            objTipoJornadaActual = new CTipoJornada();
+            DefaultRequestContext.getCurrentInstance().execute("wdgEliminar.hide()");
+            Util.addSuccessMessage("Datos Eliminados");
+        } catch (Exception e) {
+            Util.addErrorMessage(e.getMessage());
+        }
+
+    }
+
+    public void preparaEditar() {
+        this.horaEntradaJornada = this.objTipoJornadaActual.getTmHoraEntrada();
+        this.horaSalidaJornada = this.objTipoJornadaActual.getTmHoraSalida();
+        this.horaSalidaReceso = this.objTipoJornadaActual.getTmHoraSalidaReceso();
+        this.horaEntradaReceso = this.objTipoJornadaActual.getTmHoraEntradaReceso();
+    }
+
+    //</editor-fold>
+}

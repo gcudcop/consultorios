@@ -1,0 +1,111 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.clases.consultas;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CRelDepGrupLabConsulta {
+
+    private long lgCodigo;
+    private int intEstado;
+    private int intCodigoGrupoLaboral;
+    private String strNombreGrupoLaboral;
+    private long lgCodigoRelacionDependencia;
+    private long lgCpdigoPersona;
+    private String strApellidoPersona;
+    private String strNombrePersona;
+    private String strIdentificacion;
+
+    public CRelDepGrupLabConsulta() {
+    }
+
+    public CRelDepGrupLabConsulta(long lgCodigo, int intEstado, int intCodigoGrupoLaboral, String strNombreGrupoLaboral, long lgCodigoRelacionDependencia, long lgCpdigoPersona, String strApellidoPersona, String strNombrePersona, String strIdentificacion) {
+        this.lgCodigo = lgCodigo;
+        this.intEstado = intEstado;
+        this.intCodigoGrupoLaboral = intCodigoGrupoLaboral;
+        this.strNombreGrupoLaboral = strNombreGrupoLaboral;
+        this.lgCodigoRelacionDependencia = lgCodigoRelacionDependencia;
+        this.lgCpdigoPersona = lgCpdigoPersona;
+        this.strApellidoPersona = strApellidoPersona;
+        this.strNombrePersona = strNombrePersona;
+        this.strIdentificacion = strIdentificacion;
+    }
+
+    public long getLgCodigo() {
+        return lgCodigo;
+    }
+
+    public void setLgCodigo(long lgCodigo) {
+        this.lgCodigo = lgCodigo;
+    }
+
+    public int getIntEstado() {
+        return intEstado;
+    }
+
+    public void setIntEstado(int intEstado) {
+        this.intEstado = intEstado;
+    }
+
+    public int getIntCodigoGrupoLaboral() {
+        return intCodigoGrupoLaboral;
+    }
+
+    public void setIntCodigoGrupoLaboral(int intCodigoGrupoLaboral) {
+        this.intCodigoGrupoLaboral = intCodigoGrupoLaboral;
+    }
+
+    public String getStrNombreGrupoLaboral() {
+        return strNombreGrupoLaboral;
+    }
+
+    public void setStrNombreGrupoLaboral(String strNombreGrupoLaboral) {
+        this.strNombreGrupoLaboral = strNombreGrupoLaboral;
+    }
+
+    public long getLgCodigoRelacionDependencia() {
+        return lgCodigoRelacionDependencia;
+    }
+
+    public void setLgCodigoRelacionDependencia(long lgCodigoRelacionDependencia) {
+        this.lgCodigoRelacionDependencia = lgCodigoRelacionDependencia;
+    }
+
+    public long getLgCpdigoPersona() {
+        return lgCpdigoPersona;
+    }
+
+    public void setLgCpdigoPersona(long lgCpdigoPersona) {
+        this.lgCpdigoPersona = lgCpdigoPersona;
+    }
+
+    public String getStrApellidoPersona() {
+        return strApellidoPersona;
+    }
+
+    public void setStrApellidoPersona(String strApellidoPersona) {
+        this.strApellidoPersona = strApellidoPersona;
+    }
+
+    public String getStrNombrePersona() {
+        return strNombrePersona;
+    }
+
+    public void setStrNombrePersona(String strNombrePersona) {
+        this.strNombrePersona = strNombrePersona;
+    }
+
+    public String getStrIdentificacion() {
+        return strIdentificacion;
+    }
+
+    public void setStrIdentificacion(String strIdentificacion) {
+        this.strIdentificacion = strIdentificacion;
+    }
+
+}

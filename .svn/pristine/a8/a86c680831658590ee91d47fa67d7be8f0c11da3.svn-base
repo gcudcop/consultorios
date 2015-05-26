@@ -1,0 +1,50 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package master.logica.funciones;
+
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import informacion.logica.clases.CRelacionDependencia;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author Javier Romero
+ */
+public class CFRelacionDepencia {
+    
+    public static boolean actualizar(CRelacionDependencia relacionDependencia) throws Exception {
+        boolean eje = false;
+        try {
+           ArrayList<Parametro> lstP2 = new ArrayList<Parametro>();
+                String sql2 = "select * from informacion.f_update_relacion_dependencia(?,?,?,?,?,?,?,?,?)";
+                java.sql.Date fechaIngreso = new java.sql.Date(relacionDependencia.getDtFechaInicio().getTime());
+                java.sql.Date fechaFin = new java.sql.Date(relacionDependencia.getDtFechaFin().getTime());
+                lstP2.add(new Parametro(1, relacionDependencia.getIntEstado()));
+                lstP2.add(new Parametro(2, relacionDependencia.getStrCodigoBiometrico()));
+                lstP2.add(new Parametro(3, fechaIngreso));
+                lstP2.add(new Parametro(4, fechaFin));
+                lstP2.add(new Parametro(5, relacionDependencia.isBlTieneFechaFin()));
+                lstP2.add(new Parametro(6, relacionDependencia.getObjCodigoPersona().getLgCodigoPersona()));
+                lstP2.add(new Parametro(7, (int) relacionDependencia.getObjCodigoDepencia().getIntCodigo()));
+                lstP2.add(new Parametro(8, 0));
+                lstP2.add(new Parametro(9, relacionDependencia.getLgCodigo()));
+                
+                ConjuntoResultado rs2 = AccesoDatos.ejecutaQuery(sql2, lstP2);
+                while (rs2.next()) {
+                    if (rs2.getString(0).equals("true")) {
+                        eje = true;
+                    }
+                }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+    
+}

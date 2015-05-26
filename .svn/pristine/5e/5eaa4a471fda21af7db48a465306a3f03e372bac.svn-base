@@ -1,0 +1,65 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control.logica.funciones.consultas;
+
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import control.logica.clases.CRelDependenciaGrupoLab;
+import control.logica.clases.consultas.CRelDepGrupLabConsulta;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CFRelDepGrupLabConsulta {
+
+    public static ArrayList<CRelDepGrupLabConsulta> llenarRelDepGrupLabConsulta(ConjuntoResultado rs) throws Exception {
+        ArrayList<CRelDepGrupLabConsulta> lst = new ArrayList<CRelDepGrupLabConsulta>();
+        CRelDepGrupLabConsulta rdpgl = null;
+        try {
+            while (rs.next()) {
+                rdpgl = new CRelDepGrupLabConsulta(rs.getLong("pcodigo_rdp_gl"),
+                        rs.getInt("pestado_rdp_gl"),
+                        rs.getInt("pcodigo_gl"),
+                        rs.getString("pnombre_gl"),
+                        rs.getLong("pcodigo_rdp"),
+                        rs.getLong("pcodigo_persona"),
+                        rs.getString("papellidos_persona"),
+                        rs.getString("pnombres_persona"),
+                        rs.getString("pidentificacion"));
+                lst.add(rdpgl);
+            }
+        } catch (Exception e) {
+            lst.clear();
+            throw e;
+        }
+        return lst;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    public static ArrayList<CRelDepGrupLabConsulta> obtenerRelacionesDependenciaGruposLaboralesCriterioBusqueda(int estado,
+            int grupoLaboral, String apellidos, String cedula) throws Exception {
+        ArrayList<CRelDepGrupLabConsulta> lst = new ArrayList<CRelDepGrupLabConsulta>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from control.f_select_rdp_gl_dado_criterio_busqueda(?,?,?,?)";
+            lstP.add(new Parametro(1, estado));
+            lstP.add(new Parametro(2, grupoLaboral));
+            lstP.add(new Parametro(3, apellidos));
+            lstP.add(new Parametro(4, cedula));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenarRelDepGrupLabConsulta(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+
+}

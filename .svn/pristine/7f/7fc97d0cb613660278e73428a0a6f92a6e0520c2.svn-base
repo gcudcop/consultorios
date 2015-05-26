@@ -1,0 +1,82 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package master.logica.funciones;
+
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import master.logica.clases.CPersonaCargoAdministrativo;
+
+/**
+ *
+ * @author DiegoPalacios
+ */
+public class CFPersonaCargoAdministrativo {
+    ///////LA ACTUALZACION O CAMBIO ADMINISTRATIVO DE UN EMPLEADO EN 
+    ////LA BASE DE DATOS IMPLICA UNA INSERCION LA BASE SE ENCARGA DEL RESTO
+
+    public static boolean insertar(CPersonaCargoAdministrativo personaCargoAdministrativo) throws Exception {
+        boolean eje = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_insert_persona_cargo_administrativo(?,?,?)";
+            lstP.add(new Parametro(1, personaCargoAdministrativo.getObjCodigoPersona().getLgCodigoPersona()));
+            lstP.add(new Parametro(2, personaCargoAdministrativo.getObjCodigoCargoAdmistrativo().getIntCodigo()));
+            lstP.add(new Parametro(3, 1));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true")) {
+                    eje = true;
+                }
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return eje;
+    }
+
+    public static ArrayList<CPersonaCargoAdministrativo> llenarCargoAdministrativos(ConjuntoResultado rs) throws Exception
+      {
+          ArrayList<CPersonaCargoAdministrativo> lst = new ArrayList<CPersonaCargoAdministrativo>();
+          CPersonaCargoAdministrativo cargoAdministrativo=null;
+          
+          try {
+            while(rs.next())
+            {
+                     cargoAdministrativo= new CPersonaCargoAdministrativo((long)rs.getInt(0),FPersona.ObtenerPersonaDadoCodigo(rs.getLong(1)),
+                             CFCargoAdministrativo.ObtenerCargoAdministrativoDadoCodigo(rs.getInt(2)),rs.getInt(3));
+                             
+                     lst.add(cargoAdministrativo);
+            }
+            } catch (Exception e) {
+                 lst.clear();
+                throw e;
+          }
+          
+         return lst;
+      }
+    public static CPersonaCargoAdministrativo ObtenerCargoAdministrativoDadoCedula(int codigo) throws Exception
+    {
+       CPersonaCargoAdministrativo lst = new CPersonaCargoAdministrativo();
+          try
+        {
+         ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+         String sql = "select * from master.f_select_cargo_adminisrativo_dado_codigo_persona(?)";
+         lstP.add(new Parametro(1,codigo));
+         ConjuntoResultado rs= AccesoDatos.ejecutaQuery(sql,lstP);
+        
+         lst= llenarCargoAdministrativos(rs).get(0);
+         rs=null;
+        } catch (SQLException exConec) {
+               throw  new Exception(exConec.getMessage());
+         }
+          return lst;
+    }
+    
+    
+}
