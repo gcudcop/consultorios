@@ -26,11 +26,11 @@ public class FEmpleado {
             lstP.add(new Parametro(1, empleado.getNombres_empleado()));
             lstP.add(new Parametro(2, empleado.getApellido_paterno()));
             lstP.add(new Parametro(3, empleado.getApellido_materno()));
-            lstP.add(new Parametro(4, empleado.getNumero_credencial()));
             lstP.add(new Parametro(5, empleado.getEstado_civil()));
             lstP.add(new Parametro(5, empleado.getEmail_empleado()));
             lstP.add(new Parametro(5, empleado.getTelefono_empleado()));
             lstP.add(new Parametro(5, empleado.getCedula_empleado()));
+            lstP.add(new Parametro(4, empleado.getNumero_credencial()));
        
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             while (rs.next()) {
@@ -52,11 +52,11 @@ public class FEmpleado {
             lstP.add(new Parametro(2, empleado.getNombres_empleado()));
             lstP.add(new Parametro(2, empleado.getApellido_paterno()));
             lstP.add(new Parametro(2, empleado.getApellido_materno()));
-            lstP.add(new Parametro(2, empleado.getNumero_credencial()));
             lstP.add(new Parametro(2, empleado.getEstado_civil()));
             lstP.add(new Parametro(2, empleado.getEmail_empleado()));
             lstP.add(new Parametro(2, empleado.getTelefono_empleado()));
             lstP.add(new Parametro(2, empleado.getCedula_empleado()));
+            lstP.add(new Parametro(2, empleado.getNumero_credencial()));
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             while (rs.next()) {
                 if (rs.getString(0).equals("true"));
@@ -95,8 +95,8 @@ public class FEmpleado {
         try {
             while (rs.next()) {
                 empleado = new Empleado(rs.getInt("pid_empleado"), rs.getString("pnombres_nombre_empleado"), rs.getString("papellido_paterno"), 
-                        rs.getString("papellido_materno"), rs.getString("pnumero_credencial"), rs.getString("pestado_civil"),
-                        rs.getString("pemail_empleado"),rs.getString("ptelefono_empleado"),rs.getString(" pcedula_empleado "));
+                        rs.getString("papellido_materno"), rs.getString("pestado_civil"),rs.getString("pemail_empleado"),
+                        rs.getString("ptelefono_empleado"),rs.getString(" pcedula_empleado "), rs.getString("pnumero_credencial"));
                 lst.add(empleado);
             }
         } catch (Exception e) {
@@ -119,14 +119,14 @@ public class FEmpleado {
         return lst;
     }
 
-    public static Cliente ObtenerClienteDadoCodigo(int codigo) throws Exception {
-        Cliente lst;
+    public static Empleado ObtenerEmpleadoDadoCodigo(int codigo) throws Exception {
+        Empleado lst;
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
             String sql = "select * from master.f_select_estudiante_dado_codigo(?)";
             lstP.add(new Parametro(1, codigo));
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
-            lst = new Cliente();
+            lst = new Empleado();
             lst = llenarEmpleado(rs).get(0);
             rs = null;
         } catch (SQLException exConec) {
