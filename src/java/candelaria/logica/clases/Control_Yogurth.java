@@ -9,9 +9,9 @@ package candelaria.logica.clases;
  *
  * @author ROGES
  */
-public class ControlYogurth {
+public class Control_Yogurth {
   private Integer id_control_yogurth;
-  private Integer id_producto;
+  private Producto id_producto;
   private Double agua_yogurth;
   private Double proteinas_yogurth;
   private Double lipidos_yogurth;
@@ -21,7 +21,20 @@ public class ControlYogurth {
   private Double fibras_yogurth;
   private Double contenido_energetico;
 
-    public ControlYogurth() {
+    public Control_Yogurth() {
+    }
+
+    public Control_Yogurth(Integer id_control_yogurth, Producto id_producto, Double agua_yogurth, Double proteinas_yogurth, Double lipidos_yogurth, Double glucidos_yogurth, Double acidos_organicos, Double cenizas_yogurth, Double fibras_yogurth, Double contenido_energetico) {
+        this.id_control_yogurth = id_control_yogurth;
+        this.id_producto = id_producto;
+        this.agua_yogurth = agua_yogurth;
+        this.proteinas_yogurth = proteinas_yogurth;
+        this.lipidos_yogurth = lipidos_yogurth;
+        this.glucidos_yogurth = glucidos_yogurth;
+        this.acidos_organicos = acidos_organicos;
+        this.cenizas_yogurth = cenizas_yogurth;
+        this.fibras_yogurth = fibras_yogurth;
+        this.contenido_energetico = contenido_energetico;
     }
 
     public Integer getId_control_yogurth() {
@@ -32,11 +45,11 @@ public class ControlYogurth {
         this.id_control_yogurth = id_control_yogurth;
     }
 
-    public Integer getId_producto() {
+    public Producto getId_producto() {
         return id_producto;
     }
 
-    public void setId_producto(Integer id_producto) {
+    public void setId_producto(Producto id_producto) {
         this.id_producto = id_producto;
     }
 
@@ -103,5 +116,7 @@ public class ControlYogurth {
     public void setContenido_energetico(Double contenido_energetico) {
         this.contenido_energetico = contenido_energetico;
     }
+
+    
   
 }
