@@ -14,25 +14,25 @@ public class Empleado {
   private String nombres_empleado;
   private String apellido_paterno;
   private String apellido_materno;
-  private String numero_credencial;
   private String estado_civil;
   private String email_empleado;
   private String telefono_empleado;
   private String cedula_empleado;
+  private String numero_credencial;
 
     public Empleado() {
     }
 
-    public Empleado(Integer id_empleado, String nombres_empleado, String apellido_paterno, String apellido_materno, String numero_credencial, String estado_civil, String email_empleado, String telefono_empleado, String cedula_empleado) {
+    public Empleado(Integer id_empleado, String nombres_empleado, String apellido_paterno, String apellido_materno, String estado_civil, String email_empleado, String telefono_empleado, String cedula_empleado, String numero_credencial) {
         this.id_empleado = id_empleado;
         this.nombres_empleado = nombres_empleado;
         this.apellido_paterno = apellido_paterno;
         this.apellido_materno = apellido_materno;
-        this.numero_credencial = numero_credencial;
         this.estado_civil = estado_civil;
         this.email_empleado = email_empleado;
         this.telefono_empleado = telefono_empleado;
         this.cedula_empleado = cedula_empleado;
+        this.numero_credencial = numero_credencial;
     }
 
     public Integer getId_empleado() {
@@ -67,14 +67,6 @@ public class Empleado {
         this.apellido_materno = apellido_materno;
     }
 
-    public String getNumero_credencial() {
-        return numero_credencial;
-    }
-
-    public void setNumero_credencial(String numero_credencial) {
-        this.numero_credencial = numero_credencial;
-    }
-
     public String getEstado_civil() {
         return estado_civil;
     }
@@ -107,6 +99,13 @@ public class Empleado {
         this.cedula_empleado = cedula_empleado;
     }
 
-  
+    public String getNumero_credencial() {
+        return numero_credencial;
+    }
+
+    public void setNumero_credencial(String numero_credencial) {
+        this.numero_credencial = numero_credencial;
+    }
+
     
 }
