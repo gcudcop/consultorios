@@ -26,11 +26,11 @@ public class FEmpleado {
             lstP.add(new Parametro(1, empleado.getNombres_empleado()));
             lstP.add(new Parametro(2, empleado.getApellido_paterno()));
             lstP.add(new Parametro(3, empleado.getApellido_materno()));
-            lstP.add(new Parametro(5, empleado.getEstado_civil()));
+            lstP.add(new Parametro(4, empleado.getEstado_civil()));
             lstP.add(new Parametro(5, empleado.getEmail_empleado()));
-            lstP.add(new Parametro(5, empleado.getTelefono_empleado()));
-            lstP.add(new Parametro(5, empleado.getCedula_empleado()));
-            lstP.add(new Parametro(4, empleado.getNumero_credencial()));
+            lstP.add(new Parametro(6, empleado.getTelefono_empleado()));
+            lstP.add(new Parametro(7, empleado.getCedula_empleado()));
+            lstP.add(new Parametro(8, empleado.getNumero_credencial()));
        
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             while (rs.next()) {
@@ -50,13 +50,13 @@ public class FEmpleado {
             String sql = "select * from candelaria.f_update_cliente(?,?,?,?,?,?,?,?,?)";
             lstP.add(new Parametro(1, empleado.getId_empleado()));
             lstP.add(new Parametro(2, empleado.getNombres_empleado()));
-            lstP.add(new Parametro(2, empleado.getApellido_paterno()));
-            lstP.add(new Parametro(2, empleado.getApellido_materno()));
-            lstP.add(new Parametro(2, empleado.getEstado_civil()));
-            lstP.add(new Parametro(2, empleado.getEmail_empleado()));
-            lstP.add(new Parametro(2, empleado.getTelefono_empleado()));
-            lstP.add(new Parametro(2, empleado.getCedula_empleado()));
-            lstP.add(new Parametro(2, empleado.getNumero_credencial()));
+            lstP.add(new Parametro(3, empleado.getApellido_paterno()));
+            lstP.add(new Parametro(4, empleado.getApellido_materno()));
+            lstP.add(new Parametro(5, empleado.getEstado_civil()));
+            lstP.add(new Parametro(6, empleado.getEmail_empleado()));
+            lstP.add(new Parametro(7, empleado.getTelefono_empleado()));
+            lstP.add(new Parametro(8, empleado.getCedula_empleado()));
+            lstP.add(new Parametro(9, empleado.getNumero_credencial()));
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             while (rs.next()) {
                 if (rs.getString(0).equals("true"));
