@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>
+            <ui:define name="Proveedor">Gestión de Proveedor</ui:define>
+        </title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../../templates/plantillaInternaCenter.xhtml">
+            <ui:define name="top">Gestión de Proveedor </ui:define>
+            <ui:define name="contenido">
+                <p:growl id="mensajes" autoUpdate="true" showDetail="true"/>
+                <h:form id="frmproveedor">
+                    <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                    <p:panel id="pnlProveedor">
+                        <p:dataTable id="tblProveedor" value="#{proveedorControlador.lstProveedor}" 
+                                     var="proveedor" 
+                                     paginator="true" rows="10" rowKey="#{proveedor.id_proveedor}" selectionMode="single" 
+                                     selection="#{proveedorControlador.proveedorSel}">
+
+                            <p:column headerText="Nombres Proveedor">
+                                <h:outputText value="#{proveedor.nombre_proveedor}"/>
+                            </p:column>
+
+
+
+                            <p:column headerText="Direcciòn">
+                                <h:outputText value="#{proveedor.direcion_proveedor}"/>
+                            </p:column>
+
+
+                            <p:column headerText="Ciudad">
+                                <h:outputText value="#{proveedor.ciudad_proveedor}"/>
+                            </p:column>
+
+
+                            <p:column headerText="Telefono" 
+
+                                      <h:outputText value="#{proveedor.telefono_provedor}"/>
+                            </p:column>
+
+                            <p:column headerText="Producto" 
+                                      <h:outputText value="#{proveedor.producto_provedor}"/>
+                            </p:column>
+
+                            <p:column headerText="Costo">
+                                <h:outputText value="#{proveedor.costo}"/>
+                            </p:column>                         
+
+
+                            <p:column exportable="false">
+                                <p:commandButton id="btnEditarProveedor" icon="ui-icon-pencil"  title="Editar Proveedor" 
+                                                 oncomplete="wdlgEditarProveedor.show()" 
+                                                 process="@this" update=":dlgEditarProveedor, @form">                                   
+                                    <f:setPropertyActionListener value="#{proveedor}" 
+                                                                 target="#{proveedorControlador.proveedorSel}"/>
+                                </p:commandButton>
+
+
+                                <p:commandButton id="btnEliminarProveedor" icon="ui-icon-close"  title="Eliminar Proveedor"
+                                                 oncomplete="wdlgEliminarProveedor.show()" 
+                                                 update=":dlgEliminarProveedor">                                   
+                                    <f:setPropertyActionListener value="#{proveedor}" 
+                                                                 target="#{proveedorControlador.proveedorSel}"/>
+                                </p:commandButton>
+                            </p:column>
+
+
+
+                            <f:facet name="footer">  
+                                <p:commandButton id="btnNuevoProveedor" value="Nuevo" icon="ui-icon-newwin"
+                                                 oncomplete="wdlgNuevoProveedor.show()" title="Nuevo Proveedor"/>  
+
+                                <h:commandLink>
+                                    <img src="../../resources/images/excel.png" alt=""/>
+                                    <p:dataExporter type="xls" target="tblProveedor" fileName="proveedor" pageOnly="true" />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <img src="../../resources/images/pdf.png" alt=""/>
+                                    <p:dataExporter type="pdf" target="tblProveedor" fileName="proveedor" pageOnly="true" />
+                                </h:commandLink>
+
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="dialogos">
+                <p:dialog id="dlgNuevoProveedor" header="Nuevo Proveedor" widgetVar="wdlgNuevoProveedor" 
+                          modal="true" closable="false" resizable="false"
+                          showEffect="clip" hideEffect="fold"> 
+
+
+
+                    <h:form id="frmNuevoProveedor">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:panelGrid id="pngNuevoProveedor" columns="2">
+                            <h:outputText value="Nombres:"/>
+                            <p:inputText value="#{proveedorControlador.objProveedor.nombre_proveedor}" placeholder="Ingrese un Nombre" 
+                                         required="true" requiredMessage="Ingrese el nombre"/>
+
+                            <h:outputText value="Direcion:"/>
+                            <p:inputText value="#{proveedorControlador.objProveedor.direcion_proveedor}" placeholder="Ingrese una Direcioin"  
+                                         required="true" requiredMessage="Ingrese la Direcion"/>
+
+                            <h:outputText value="Ciudad:"/>
+                            <p:inputText value="#{proveedorControlador.objProveedor.ciudad_proveedor}" placeholder="Ingrese una Ciudad"
+                                         required="true" requiredMessage="Ingrese una Ciudad"/>
+
+                            <h:outputText value="Telefono:"/>
+                            <p:inputText value="#{proveedorControlador.objProveedor.telefono_provedor}" placeholder="Ingrese el Telefono"
+                                         required="true" requiredMessage="Ingrese el Telefono"/>
+
+                            <h:outputText value="Producto:"/>
+                            <p:inputText value="#{proveedorControlador.objProveedor.producto_provedor}" placeholder="Ingrese el Producto"
+                                         required="true" requiredMessage="Ingrese el Telefono"/>
+
+                            <h:outputText value="Costo:"/>
+                            <p:inputText value="#{proveedorControlador.objProveedor.costo}" placeholder="Ingrese el Costo"
+                                         required="true" requiredMessage="Ingrese el Costo"/>
+
+
+                        </p:panelGrid>
+
+                        <p:commandButton value="Aceptar" action="#{proveedorControlador.insertarProveedor()}" 
+                                         update=":frmproveedor:pnlProveedor"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgNuevoProveedor.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+
+
+
+
+
+                <p:dialog id="dlgEditarProveedor" header="Editar Proveedor" widgetVar="wdlgEditarPeoveedor" 
+                          modal="true" 
+                          closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEditarProveedor">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:messages id="messages" autoUpdate="true"/>  
+                        <p:panelGrid id="pngEditarProveedor" columns="2">
+                            <h:outputText value="Nombres:"/>
+                            <p:inputText value="#{proveedorControlador.proveedorSel.nombre_proveedor}" title="ej: Luz" 
+                                         required="true" requiredMessage="Ingrese el nombre"/>
+
+                            <h:outputText value="Direcioin:"/>
+                            <p:inputText value="#{proveedorControlador.proveedorSel.direcion_proveedor}" title="ej: A"
+                                         required="true" requiredMessage="Ingrese el apellido"/>
+
+                            <h:outputText value="Cedula:"/>
+                            <p:inputText value="#{estudianteControlador.estudianteSel.cedula}" title="ej: 0604017897"
+                                         required="true" requiredMessage="Ingrese la cedula"/>
+
+                            <h:outputText value="Codigo sicoa:"/>
+                            <p:inputText value="#{estudianteControlador.estudianteSel.codigo_sicoa}" title="ej: 0000"
+                                         required="true" requiredMessage="Ingrese el codigo sicoa"/>
+
+                            <h:outputText value="Periodo:"/>
+                            <p:selectOneMenu id="cmbPeriodo" value="#{estudianteControlador.valorPSeleccionado}">
+                                <f:selectItem itemLabel="Elija un periodo" itemValue="#{null}"/>
+                                <f:selectItems value="#{estudianteControlador.lstPeriodos}" var="periodos" itemLabel="#{periodos.nombre}" itemValue="#{periodos.codigo}"/>
+                            </p:selectOneMenu>
+
+                            <h:outputText id="otxtNiveles" value="Nivel:"/>                           
+                            <p:selectOneMenu id="cmdNiveles" value="#{estudianteControlador.valorNSeleccionado}">
+                                <f:selectItem itemValue="0" itemLabel="--Elija una opción--"/>
+                                <f:selectItems value="#{estudianteControlador.lstNiveles}" var="niveles" itemLabel="#{niveles.nombre} #{niveles.paralelo}" itemValue="#{niveles.codigo}"/> 
+                            </p:selectOneMenu>
+
+
+                        </p:panelGrid>
+                        <p:commandButton value="Aceptar" action="#{estudianteControlador.actualizarEstudiante()}" 
+                                         update=":frmestudiante:pnlEstudiante"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgEditarEstudiante.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+
+                <p:dialog id="dlgEliminarProveedor" header="Eliminar Proveedor" widgetVar="wdlgEliminarProveedor" 
+                          modal="true" closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEliminarEstudiante">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <h:outputText value="¿Desea Eliminar el Estudiante?"/>
+                        <p:panelGrid id="pngEliminarEstudiante" columns="2">
+                            <h:outputText value="Nombre:"/>
+                            <p:inputText value="#{proveedor}" title="ej: Sandra" 
+                                         required="true" requiredMessage="Ingrese el nombre" disabled="true"/>
+
+                            <h:outputText value="Apellido:"/>
+                            <p:inputText value="#{estudianteControlador.estudianteSel.apellido}" title="ej: Contento"
+                                         required="true" requiredMessage="Ingrese el apellido" disabled="true"/>
+
+                            <h:outputText value="Cedula:"/>
+                            <p:inputText value="#{estudianteControlador.estudianteSel.cedula}" title="ej: 0604017897"
+                                         required="true" requiredMessage="Ingrese la cedula" disabled="true"/>
+
+                            <h:outputText value="Codigo sicoa:"/>
+                            <p:inputText value="#{estudianteControlador.estudianteSel.codigo_sicoa}" title="ej: 0000"
+                                         required="true" requiredMessage="Ingrese el codigo sicoa" disabled="true"/>
+
+                            <h:outputText value="Periodo:"/>
+                            <h:inputText value="#{estudianteControlador.estudianteSel.codigo_periodo.nombre}"
+                                         disabled="true"/>
+
+                            <h:outputText value="Nivel:"/>
+                            <h:inputText value="#{estudianteControlador.estudianteSel.codigo_nivel.nombre}"
+                                         disabled="true"/>
+
+                        </p:panelGrid>
+                        <p:commandButton value="Aceptar" action="#{estudianteControlador.eliminarEstudiante()}" 
+                                         update=":frmestudiante:pnlEstudiante"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgEliminarEstudiante.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+                <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
+                          resizable="false"> 
+                    <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
+                </p:dialog>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
