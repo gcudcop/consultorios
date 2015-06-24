@@ -57,7 +57,8 @@ public class FacturaControlador {
         this.mostrarActualizar = mostrarActualizar;
     }
 
-    public FacturaControlador() {
+    public FacturaControlador(){
+    reinit();
     }
 
     public void reinit(){
