@@ -104,7 +104,7 @@ public class ProductoControlador {
         mostrarActualizar = true;
     }
         
-     public void actualizarProveedor() {
+     public void actualizarProducto() {
         try {
             
                        

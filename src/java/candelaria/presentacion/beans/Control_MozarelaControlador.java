@@ -81,7 +81,7 @@ public class Control_MozarelaControlador {
         try {
             this.lstControl_Mozarela = FControl_Mozarela.ObtenerControl_Mozarelas();
             this.control_MozarelaSel = lstControl_Mozarela.get(0);
-            System.out.println(lstControl_Mozarela.get(0).getId_producto());
+            System.out.println(lstControl_Mozarela.get(0).getId_control_mozarela());
         } catch (Exception e) {
             Util.addErrorMessage("private void cargarControl_Mozarela dice: " + e.getMessage());
             System.out.println("private void cargarControl_Mozarela dice: " + e.getMessage());
@@ -111,7 +111,7 @@ public class Control_MozarelaControlador {
         mostrarActualizar = true;
     }
         
-     public void actualizarProveedor() {
+     public void actualizarControl_Mozarela() {
         try {
             
                        
@@ -132,7 +132,7 @@ public class Control_MozarelaControlador {
         }
     }
 
-    public void eliminarProducto() {
+    public void eliminarControl_Mozarela() {
         try {
             if (FControl_Mozarela.eliminar((int) control_MozarelaSel.getId_control_mozarela())) {
                 this.reinit();
