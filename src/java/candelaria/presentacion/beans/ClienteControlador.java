@@ -79,7 +79,7 @@ public class ClienteControlador {
     }
     public void cargarCliente() {
         try {
-            this.lstCliente = FCliente.ObtenerCliente();
+            this.lstCliente = FCliente.ObtenerClientes();
             this.clienteSel = lstCliente.get(0);
             System.out.println(lstCliente.get(0).getId_cliente());
         } catch (Exception e) {
