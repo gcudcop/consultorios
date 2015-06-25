@@ -23,14 +23,14 @@ public class FControl_Mozarela {
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
             String sql = "select * from sgflc.f_insert_control_mozarela(?,?,?,?,?,?,?,?)";
-            lstP.add(new Parametro(2, control_mozarela.getId_producto()));
-            lstP.add(new Parametro(3, control_mozarela.getPh_mozarela()));
-            lstP.add(new Parametro(4, control_mozarela.getHumedad_mozarela()));
-            lstP.add(new Parametro(5, control_mozarela.getCenizas_mozarela()));
-            lstP.add(new Parametro(6, control_mozarela.getGrasas_mozarela()));
-            lstP.add(new Parametro(7, control_mozarela.getProteinas_mozarela()));
-            lstP.add(new Parametro(8, control_mozarela.getSolidos_totales()));
-            lstP.add(new Parametro(9, control_mozarela.getRendimiento_mozarela()));
+            lstP.add(new Parametro(1, control_mozarela.getId_producto()));
+            lstP.add(new Parametro(2, control_mozarela.getPh_mozarela()));
+            lstP.add(new Parametro(3, control_mozarela.getHumedad_mozarela()));
+            lstP.add(new Parametro(4, control_mozarela.getCenizas_mozarela()));
+            lstP.add(new Parametro(5, control_mozarela.getGrasas_mozarela()));
+            lstP.add(new Parametro(6, control_mozarela.getProteinas_mozarela()));
+            lstP.add(new Parametro(7, control_mozarela.getSolidos_totales()));
+            lstP.add(new Parametro(8, control_mozarela.getRendimiento_mozarela()));
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             while (rs.next()) {
                 if (rs.getString(0).equals("true"));
@@ -119,7 +119,7 @@ public class FControl_Mozarela {
         return lst;
     }
 
-    public static Control_Mozarela ObtenerControl_Mozarela(int codigo) throws Exception {
+    public static Control_Mozarela ObtenerControl_MozarelaDadoCodigo(int codigo) throws Exception {
         Control_Mozarela lst;
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
