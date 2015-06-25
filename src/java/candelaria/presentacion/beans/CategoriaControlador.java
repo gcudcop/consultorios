@@ -79,7 +79,7 @@ public class CategoriaControlador {
         }
     }
     
-    public void insertarPedido() {
+    public void insertarCategoria() {
         try {
             
                         
@@ -123,7 +123,7 @@ public class CategoriaControlador {
         }
     }
 
-    public void eliminarProducto() {
+    public void eliminarCategoria() {
         try {
             if (FCategoria.eliminar((int) categoriaSel.getId_categoria())) {
                 this.reinit();
