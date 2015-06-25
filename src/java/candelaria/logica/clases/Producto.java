@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class Producto {
   private Integer  id_producto;
-  private Integer id_categoria; 
+  private Categoria id_categoria; 
   private Date fecha_fabricacion; 
   private Date fecha_caducidad;
   private String peso_producto;
@@ -24,7 +24,7 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(Integer id_producto, Integer id_categoria, Date fecha_fabricacion, Date fecha_caducidad, String peso_producto, String color_producto, String sabor_producto, String forma_producto) {
+    public Producto(Integer id_producto, Categoria id_categoria, Date fecha_fabricacion, Date fecha_caducidad, String peso_producto, String color_producto, String sabor_producto, String forma_producto) {
         this.id_producto = id_producto;
         this.id_categoria = id_categoria;
         this.fecha_fabricacion = fecha_fabricacion;
@@ -43,11 +43,11 @@ public class Producto {
         this.id_producto = id_producto;
     }
 
-    public Integer getId_categoria() {
+    public Categoria getId_categoria() {
         return id_categoria;
     }
 
-    public void setId_categoria(Integer id_categoria) {
+    public void setId_categoria(Categoria id_categoria) {
         this.id_categoria = id_categoria;
     }
 
@@ -98,6 +98,8 @@ public class Producto {
     public void setForma_producto(String forma_producto) {
         this.forma_producto = forma_producto;
     }
+
+   
     
   
 }
