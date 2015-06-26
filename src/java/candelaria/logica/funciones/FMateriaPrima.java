@@ -101,7 +101,7 @@ public class FMateriaPrima {
         return lst;
     }
 
-    public static ArrayList<MateriaPrima> ObtenerProveedor() throws Exception {
+    public static ArrayList<MateriaPrima> ObtenerMateriaPrima() throws Exception {
         ArrayList<MateriaPrima> lst = new ArrayList<MateriaPrima>();
         try {
             String sql = "select * from  sgflc.f_select_materia_prima()";
