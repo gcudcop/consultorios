@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>
+            <ui:define name="MateriaPrima">Gestión de MateriaPrima</ui:define>
+        </title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../../templates/plantillaInternaCenter.xhtml">
+            <ui:define name="top">Gestión de MateriaPrima </ui:define>
+            <ui:define name="contenido">
+                <p:growl id="mensajes" autoUpdate="true" showDetail="true"/>
+                <h:form id="frmmateriaprima">
+                    <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                    <p:panel id="pnlMateriaPrima">
+                        <p:dataTable id="tblMateriaPrima" value="#{materiaPrimaControlador.lstMateriaPrima}" 
+                                     var="proveedor" 
+                                     paginator="true" rows="10" rowKey="#{materiaprima.id_materiaprima}" selectionMode="single" 
+                                     selection="#{materiaprimaControlador.materiprimaSel}">
+
+                            <p:column headerText="Nombres MateriaPrima">
+                                <h:outputText value="#{MateriaPrima.nombre_MateriaPrima}"/>
+                            </p:column>
+
+                            <p:column headerText="Cantidad">
+                                <h:outputText value="#{MateriaPrima.cantidad_MateriaPrima}"/>
+
+
+
+                            <p:column exportable="false">
+                                <p:commandButton id="btnEditarMatriaPrima" icon="ui-icon-pencil"  title="Editar MatriaPrima" 
+                                                 oncomplete="wdlgEditarMatriaPrima.show()" 
+                                                 process="@this" update=":dlgEditarMatriaPrima, @form">                                   
+                                    <f:setPropertyActionListener value="#{materiaprima}" 
+                                                                 target="#{materiaprimaControlador.materiaprimaSel}"/>
+                                </p:commandButton>
+
+
+                                <p:commandButton id="btnEliminarMatriaPrima" icon="ui-icon-close"  title="Eliminar MatriaPrima"
+                                                 oncomplete="wdlgEliminarMatriaPrima.show()" 
+                                                 update=":dlgEliminarMatriaPrima">                                   
+                                    <f:setPropertyActionListener value="#{materiaprima}" 
+                                                                 target="#{materiaprimaControlador.materiaprimaSel}"/>
+                                </p:commandButton>
+                            </p:column>
+
+
+
+                            <f:facet name="footer">  
+                                <p:commandButton id="btnNuevoMatriaPrima" value="Nuevo" icon="ui-icon-newwin"
+                                                 oncomplete="wdlgNuevoMatriaPrima.show()" title="Nuevo MatriaPrima"/>  
+
+                                <h:commandLink>
+                                    <img src="../../resources/images/excel.png" alt=""/>
+                                    <p:dataExporter type="xls" target="tblMatriaPrima" fileName="MatriaPrima" pageOnly="true" />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <img src="../../resources/images/pdf.png" alt=""/>
+                                    <p:dataExporter type="pdf" target="tblMatriaPrima" fileName="MatriaPrima" pageOnly="true" />
+                                </h:commandLink>
+
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="dialogos">
+                <p:dialog id="dlgNuevoMatriaPrima" header="Nuevo MatriaPrima" widgetVar="wdlgNuevoMatriaPrima" 
+                          modal="true" closable="false" resizable="false"
+                          showEffect="clip" hideEffect="fold"> 
+
+
+
+                    <h:form id="frmNuevoMatriaPrima">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:panelGrid id="pngNuevoMatriaPrima" columns="2">
+                            <h:outputText value="Nombres:"/>
+                            <p:inputText value="#{materiaprimaControlador.objPMatriaPrima.nombre_materiaprima}" placeholder="Ingrese un Nombre" 
+                                         required="true" requiredMessage="Ingrese el nombre"/>
+
+                            <h:outputText value="Cantidad:"/>
+                            <p:inputText value="#{materiaprimaControlador.objMateriPrima.direcion_materiaprima}" placeholder="Ingrese una cantidad"  
+                                         required="true" requiredMessage="Ingrese la cantidad"/>
+
+                          
+                        </p:panelGrid>
+
+                        <p:commandButton value="Aceptar" action="#{materiaprimaControlador.insertarmateriaprima()}" 
+                                         update=":frmproveedor:pnlMateriaPrima"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgNuevoMateriaPrima.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+
+
+
+
+
+                <p:dialog id="dlgEditarMateriaPrima" header="Editar MateriaPrima" widgetVar="wdlgEditarMateriaPrima" 
+                          modal="true" 
+                          closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEditarMateriaPrima">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:messages id="messages" autoUpdate="true"/>  
+                        <p:panelGrid id="pngEditarProveedor" columns="2">
+                            <h:outputText value="Nombres:"/>
+                            <p:inputText value="#{materiaprimaControlador.materiaprimaSel.nombre_materiaprima}" title="ej: Luz" 
+                                         required="true" requiredMessage="Ingrese el nombre"/>
+
+                            <h:outputText value="Cantidad:"/>
+                            <p:inputText value="#{materiaprimaControlador.materiaprimaSel.direcion_materiaprima}" title="ej: "
+                                         required="true" requiredMessage="Ingrese el cantidad"/>
+
+                  
+                        </p:panelGrid>
+                    </h:form> 
+                </p:dialog>
+
+                <p:dialog id="dlgEliminarMateriaPrima" header="Eliminar MateriaPrima" widgetVar="wdlgEliminarMateriaPrima" 
+                          modal="true" closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEliminarMateriaPrima">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <h:outputText value="¿Desea Eliminar el MateriaPrima?"/>
+                        <p:panelGrid id="pngEliminarEstudiante" columns="2">
+                            <h:outputText value="Nombre:"/>
+                            <p:inputText value="#{materiaprima}" title="ej: Sandra" 
+                                         required="true" requiredMessage="Ingrese el nombre" disabled="true"/>
+
+                            <h:outputText value="Cantidad:"/>
+                            <p:inputText value="#{materiaprimaControlador.materiaprimaSel.direcion_materiaprima}" title="ej: "
+                                         required="true" requiredMessage="Ingrese el cantidad" disabled="true"/>
+
+                     
+
+                        </p:panelGrid>
+                        <p:commandButton value="Aceptar" action="#{materiaprimaControlador.eliminarMateriaPrima()}" 
+                                         update=":frmproveedor:pnlMateriaPrima"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgEliminarMateriaPrima.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+                <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
+                          resizable="false"> 
+                    <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
+                </p:dialog>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
