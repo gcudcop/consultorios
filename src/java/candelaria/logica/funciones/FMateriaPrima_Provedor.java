@@ -62,7 +62,7 @@ public class FMateriaPrima_Provedor {
          try
         {
         ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-        String sql = "select * from sgflc.f_deletemateria_proveedor(?)";
+        String sql = "select * from sgflc.f_delete_materia_proveedor(?)";
         lstP.add(new Parametro(1,codigo));
         ConjuntoResultado rs= AccesoDatos.ejecutaQuery(sql,lstP);
         while(rs.next() )
@@ -77,13 +77,15 @@ public class FMateriaPrima_Provedor {
     }
     
     
-     public static ArrayList<MateriaPrima_Proveedor> llenarMateriaPeima_Proveedo(ConjuntoResultado rs) throws Exception {
+     public static ArrayList<MateriaPrima_Proveedor> llenarMateriaPrima_Proveedor(ConjuntoResultado rs) throws Exception {
         ArrayList<MateriaPrima_Proveedor> lst = new ArrayList<MateriaPrima_Proveedor>();
-        MateriaPrima_Proveedor= null;
+        MateriaPrima_Proveedor materia_proveedor= null;
         try {
             while (rs.next()) {
-                materia_proveedor= new MateriaPrima_Proveedor(rs.getInt("pid_materia_proveedor"),FMateriaPrima.ObtenerMateriaPrimaDadoCodigo(rs.getInt("pid_materia_prima"), FProveedor.ObtenerProveedorDadoCodigo(rs.getInt("pid_proveedor")), 
-                        rs.getString("pfecha")rs.getString(pObservacion))
+                materia_proveedor= new MateriaPrima_Proveedor(rs.getInt("pid_materia_proveedor"),
+                        FProveedor.ObtenerProveedorDadoCodigo(rs.getInt("pid_proveedor")),
+                        FMateriaPrima.ObtenerMateriaPrimaDadoCodigo(rs.getInt("pid_materia_prima")),rs.getDate("pfecha"),rs.getString("pobservacion"));
+                lst.add(materia_proveedor);
             }
         } catch (Exception e) {
             lst.clear();
@@ -92,7 +94,7 @@ public class FMateriaPrima_Provedor {
         return lst;
     }
 
-    public static ArrayList<MateriaPrima_Proveedor> Obtener(MateriaPrima_Proveedor) throws Exception {
+    public static ArrayList<MateriaPrima_Proveedor> ObtenerMateriaPrima_Proveedor() throws Exception {
         ArrayList<MateriaPrima_Proveedor> lst = new ArrayList<MateriaPrima_Proveedor>();
         try {
             String sql = "select * from sgflc.f_select_materia_proveedor()";
