@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>
+            <ui:define name="Proveedor">Gestión de Producto</ui:define>
+        </title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../../templates/plantillaInternaCenter.xhtml">
+            <ui:define name="top">Gestión de Producto </ui:define>
+            <ui:define name="contenido">
+                <p:growl id="mensajes" autoUpdate="true" showDetail="true"/>
+                <h:form id="frmproducto">
+                    <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                    <p:panel id="pnlProducto">
+                        <p:dataTable id="tblProducto" value="#{productoControlador.lstProducto}" 
+                                     var="producto" 
+                                     paginator="true" rows="10" rowKey="#{producto.id_producto}" selectionMode="single" 
+                                     selection="#{productoControlador.productoSel}">
+
+                            <p:column headerText="Color">
+                                <h:outputText value="#{producto.color_producto}"/>
+                            </p:column>
+
+
+
+                            <p:column headerText="Nombre producto">
+                                <h:outputText value="#{producto.id_categoria.nombre_producto}"/>
+                            </p:column>
+
+
+                            <p:column headerText="Precio de Producto">
+                                <h:outputText value="#{producto.id_categoria.precio_producto}"/>
+                            </p:column>
+
+
+                            <p:column headerText="Fecha de Fabricación" 
+
+                                      <h:outputText value="#{producto.fecha_fabricacion}"/>
+                            </p:column>
+
+                            <p:column headerText="Fecha de Caducidad" 
+                                      <h:outputText value="#{producto.fecha_caducidad}"/>
+                            </p:column>
+
+                            <p:column headerText="Peso del Producto">
+                                <h:outputText value="#{producto.peso_producto}"/>
+                            </p:column> 
+
+                            <p:column headerText="Sabor del Producto">
+                                <h:outputText value="#{producto.sabor_producto}"/>
+                            </p:column> 
+
+                            <p:column headerText="Forma del Producto">
+                                <h:outputText value="#{producto.forma_producto}"/>
+                            </p:column> 
+
+
+                            <p:column exportable="false">
+                                <p:commandButton id="btnEditarProducto" icon="ui-icon-pencil"  title="Editar Producto" 
+                                                 oncomplete="wdlgEditarProducto.show()" 
+                                                 process="@this" update=":dlgEditarProducto, @form">                                   
+                                    <f:setPropertyActionListener value="#{producto}" 
+                                                                 target="#{productoControlador.productoSel}"/>
+                                </p:commandButton>
+
+
+                                <p:commandButton id="btnEliminarProducto" icon="ui-icon-close"  title="Eliminar Producto"
+                                                 oncomplete="wdlgEliminarProducto.show()" 
+                                                 update=":dlgEliminarProducto">                                   
+                                    <f:setPropertyActionListener value="#{producto}" 
+                                                                 target="#{productoControlador.productoSel}"/>
+                                </p:commandButton>
+                            </p:column>
+
+
+
+                            <f:facet name="footer">  
+                                <p:commandButton id="btnNuevoProducto" value="Nuevo" icon="ui-icon-newwin"
+                                                 oncomplete="wdlgNuevoProducto.show()" title="Nuevo Producto"/>  
+
+                                <h:commandLink>
+                                    <img src="../../resources/images/excel.png" alt=""/>
+                                    <p:dataExporter type="xls" target="tblProducto" fileName="producto" pageOnly="true" />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <img src="../../resources/images/pdf.png" alt=""/>
+                                    <p:dataExporter type="pdf" target="tblProducto" fileName="producto" pageOnly="true" />
+                                </h:commandLink>
+
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="dialogos">
+                <p:dialog id="dlgNuevoProducto" header="Nuevo Producto" widgetVar="wdlgNuevoProducto" 
+                          modal="true" closable="false" resizable="false"
+                          showEffect="clip" hideEffect="fold"> 
+                    <h:form id="frmNuevoProducto">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:panelGrid id="pngNuevoProducto" columns="2">
+                            <h:outputText value="Color de Producto:"/>
+                            <p:inputText value="#{productoControlador.objProducto.color_producto}" placeholder="Color Producto" 
+                                         required="true" requiredMessage="Color Producto"/>
+
+                            <h:outputText value="Nombre Producto:"/>
+                            <p:selectOneMenu id="cmbCategoria" value="#{productoControlador.valorCategoriaSeleccionado}">
+                                <f:selectItem itemLabel="Elija una categoria" itemValue="#{null}"/>
+                                <f:selectItems value="#{productoControlador.lstCategoria}" var="categoria" itemLabel="#{categoria.nombre_producto}" itemValue="#{categoria.id_categoria}"/>
+                            </p:selectOneMenu>
+
+                            <h:outputText value="Fecha De Fabricación:"/>
+                            <p:calendar id="effect" value="#{productoControlador.fecha_fa}" effect="fold" />
+
+                            <h:outputText value="Fecha De Caducidad:"/>
+                            <p:calendar id="effect1" value="#{productoControlador.fecha_cad}" effect="fold" />
+
+
+                            <h:outputText value="Sabor:"/>
+                            <p:inputText value="#{productoControlador.objProducto.sabor_producto}" placeholder="Ingrese una Ciudad"
+                                         required="true" requiredMessage="Ingrese una Ciudad"/>
+
+                            <h:outputText value="Peso:"/>
+                            <p:inputText value="#{productoControlador.objProducto.peso_producto}" placeholder="Ingrese el Telefono"
+                                         required="true" requiredMessage="Ingrese el Telefono"/>
+
+                            <h:outputText value="Forma:"/>
+                            <p:inputText value="#{productoControlador.objProducto.forma_producto}" placeholder="Ingrese el Producto"
+                                         required="true" requiredMessage="Ingrese el Telefono"/>
+
+                        </p:panelGrid>
+
+                        <p:commandButton value="Aceptar" action="#{productoControlador.insertarProducto()}" 
+                                         update=":frmproducto:pnlProducto"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgNuevoProducto.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+
+                <p:dialog id="dlgEditarProducto" header="Editar Producto" widgetVar="wdlgEditarProducto" 
+                          modal="true" 
+                          closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEditarProducto">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:messages id="messages" autoUpdate="true"/>  
+                        <p:panelGrid id="pngEditarProducto" columns="2">
+                            <h:outputText value="Color Producto:"/>
+                            <p:inputText value="#{productoControlador.productoSel.color_producto}" title="ej: Luz" 
+                                         required="true" requiredMessage="Ingrese el Color"/>
+
+                            <h:outputText value="Nombre Producto:"/>
+                            <p:inputText value="#{productoControlador.productoSel.id_categoria.nombre_producto}" title="ej: A"
+                                         required="true" requiredMessage="Ingrese el apellido"/>
+
+                            <h:outputText value="Fecha De Fabricación:"/>
+                            <p:calendar id="effect" value="#{productoControlador.productoSel.fecha_fabricacion}" effect="fold" />
+                            
+                             <h:outputText value="Fecha De Caducidad:"/>
+                             <p:calendar id="effect" value="#{productoControlador.productoSel.fecha_caducidad}" effect="fold" />
+                            
+                            <h:outputText value="Sabor:"/>
+                            <p:inputText value="#{productoControlador.productoSel.sabor_producto}" title="ej: A"
+                                         required="true" requiredMessage="Ingrese sabor del producto"/>
+                            
+                            <h:outputText value="Peso:"/>
+                            <p:inputText value="#{productoControlador.productoSel.peso_producto}" title="ej: A"
+                                         required="true" requiredMessage="Ingrese peso del producto"/>
+                            
+                            <h:outputText value="Forma:"/>
+                            <p:inputText value="#{productoControlador.productoSel.forma_producto}" title="ej: A"
+                                         required="true" requiredMessage="Ingrese forma del producto"/>
+
+
+                        </p:panelGrid>
+                        <p:commandButton value="Aceptar" action="#{productoControlador.actualizarProducto()}" 
+                                         update=":frmproducto:pnlProducto"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgEditarProducto.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+
+                <p:dialog id="dlgEliminarProducto" header="Eliminar Producto" widgetVar="wdlgEliminarProducto" 
+                          modal="true" closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEliminarProducto">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <h:outputText value="¿Desea Eliminar el Producto?"/>
+                        <p:panelGrid id="pngEliminarProducto" columns="2">
+                            <h:outputText value="Color del Producto:"/>
+                            <p:inputText value="#{producto}" title="ej: Blanco" 
+                                         required="true" requiredMessage="Ingrese el Color" disabled="true"/>
+
+                            <h:outputText value="Nombre del Producto:"/>
+                            <p:inputText value="#{productoControlador.productoSel.id_categoria.nombre_producto}" title="ej: Queso"
+                                         required="true" requiredMessage="Ingrese Nombre del Producto" disabled="true"/>
+
+                            <h:outputText value="Fecha Fabricación:"/>
+                            <p:inputText value="#{productoControlador.productoSel.fecha_fabricacion}"
+                                         required="true" disabled="true"/>
+                            
+                            <h:outputText value="Fecha Caducidad:"/>
+                            <p:inputText value="#{productoControlador.productoSel.fecha_caducidad}"
+                                         required="true" disabled="true"/>
+
+                            <h:outputText value="Sabor:"/>
+                            <p:inputText value="#{productoControlador.productoSel.sabor_producto}" title="ej: 0000"
+                                         required="true" requiredMessage="Ingrese el codigo sicoa" disabled="true"/>
+
+                            <h:outputText value="Peso:"/>
+                            <h:inputText value="#{productoControlador.productoSel.peso_producto}"
+                                         disabled="true"/>
+
+                            <h:outputText value="Forma:"/>
+                            <h:inputText value="#{productoControlador.productoSel.forma_producto}"
+                                         disabled="true"/>
+
+                        </p:panelGrid>
+                        <p:commandButton value="Aceptar" action="#{productoControlador.eliminarProducto()}" 
+                                         update=":frmestudiante:pnlProducto"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgEliminarProducto.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+                <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
+                          resizable="false"> 
+                    <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
+                </p:dialog>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
