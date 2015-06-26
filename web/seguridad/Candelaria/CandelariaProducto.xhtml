@@ -74,7 +74,6 @@ and open the template in the editor.
                                                                  target="#{productoControlador.productoSel}"/>
                                 </p:commandButton>
 
-
                                 <p:commandButton id="btnEliminarProducto" icon="ui-icon-close"  title="Eliminar Producto"
                                                  oncomplete="wdlgEliminarProducto.show()" 
                                                  update=":dlgEliminarProducto">                                   
@@ -83,9 +82,7 @@ and open the template in the editor.
                                 </p:commandButton>
                             </p:column>
 
-
-
-                            <f:facet name="footer">  
+                                <f:facet name="footer">  
                                 <p:commandButton id="btnNuevoProducto" value="Nuevo" icon="ui-icon-newwin"
                                                  oncomplete="wdlgNuevoProducto.show()" title="Nuevo Producto"/>  
 
@@ -130,16 +127,16 @@ and open the template in the editor.
 
 
                             <h:outputText value="Sabor:"/>
-                            <p:inputText value="#{productoControlador.objProducto.sabor_producto}" placeholder="Ingrese Sabor"
-                                         required="true" requiredMessage="Ingrese Sabor"/>
+                            <p:inputText value="#{productoControlador.objProducto.sabor_producto}" placeholder="Ingrese una Ciudad"
+                                         required="true" requiredMessage="Ingrese una Ciudad"/>
 
                             <h:outputText value="Peso:"/>
-                            <p:inputText value="#{productoControlador.objProducto.peso_producto}" placeholder="Ingrese Peso"
-                                         required="true" requiredMessage="Ingrese Peso"/>
+                            <p:inputText value="#{productoControlador.objProducto.peso_producto}" placeholder="Ingrese el Telefono"
+                                         required="true" requiredMessage="Ingrese el Telefono"/>
 
                             <h:outputText value="Forma:"/>
-                            <p:inputText value="#{productoControlador.objProducto.forma_producto}" placeholder="Ingrese Forma"
-                                         required="true" requiredMessage="Ingrese Forma"/>
+                            <p:inputText value="#{productoControlador.objProducto.forma_producto}" placeholder="Ingrese el Producto"
+                                         required="true" requiredMessage="Ingrese el Telefono"/>
 
                         </p:panelGrid>
 
