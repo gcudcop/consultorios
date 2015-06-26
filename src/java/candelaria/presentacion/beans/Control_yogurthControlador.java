@@ -6,7 +6,9 @@
 package candelaria.presentacion.beans;
 
 import candelaria.logica.clases.Control_Yogurth;
+import candelaria.logica.clases.Producto;
 import candelaria.logica.funciones.FControl_Yogurth;
+import candelaria.logica.funciones.FProducto;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -23,7 +25,34 @@ public class Control_yogurthControlador {
     private Control_Yogurth objControl_Yogurth;
     private Control_Yogurth control_yogurthSel;
     private ArrayList<Control_Yogurth> lstControl_Yougurth;
+    private ArrayList<Producto> lstProducto;
+    private int valorProductoSeleccionado;
+    private Producto productoSel;
     private boolean mostrarActualizar;
+
+    public Producto getProductoSel() {
+        return productoSel;
+    }
+
+    public void setProductoSel(Producto productoSel) {
+        this.productoSel = productoSel;
+    }
+
+    public int getValorProductoSeleccionado() {
+        return valorProductoSeleccionado;
+    }
+
+    public void setValorProductoSeleccionado(int valorProductoSeleccionado) {
+        this.valorProductoSeleccionado = valorProductoSeleccionado;
+    }
+
+    public ArrayList<Producto> getLstProducto() {
+        return lstProducto;
+    }
+
+    public void setLstProducto(ArrayList<Producto> lstProducto) {
+        this.lstProducto = lstProducto;
+    }
 
     public Control_Yogurth getObjControl_Yogurth() {
         return objControl_Yogurth;
@@ -70,6 +99,7 @@ public class Control_yogurthControlador {
 //        this.lstNiveles = new ArrayList<Nivel>();
         //this.ProveedorSel = this.lstProveedors.get(0);
         this.cargarControl_Yogurth();
+        this.cargarProducto();
         //this.cargarNiveles();
 //        this.cargarPeriodos();
 //        this.cargarFacultad();
@@ -87,6 +117,15 @@ public class Control_yogurthControlador {
         }
      }
             
+    public void cargarProducto() {
+        try {
+            this.lstProducto = FProducto.ObtenerProductos();
+            System.out.println(lstProducto.get(0).getId_producto());
+        } catch (Exception e) {
+            Util.addErrorMessage("private void cargarProducto dice: " + e.getMessage());
+            System.out.println("private void cargarProducto dice: " + e.getMessage());
+        }
+     }
         public void insertarControl_Yogurth() {
         try {
             
