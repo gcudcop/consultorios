@@ -12,83 +12,91 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>
-            <ui:define name="Control_Yogurth">Gestión de Control_Yogurth</ui:define>
+            <ui:define name="contenido">Gestión de Control_yogurth</ui:define>
         </title>
     </h:head>
     <h:body>
         <ui:composition template="../../templates/plantillaInternaCenter.xhtml">
-            <ui:define name="top">Gestión de Control_Yogurth </ui:define>
+            <ui:define name="top">Gestión de Control_yogurth </ui:define>
             <ui:define name="contenido">
                 <p:growl id="mensajes" autoUpdate="true" showDetail="true"/>
                 <h:form id="frmcontrol_yogurth">
                     <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                     <p:panel id="pnlControl_Yogurth">
-                        <p:dataTable id="tblControl_Yogurth" value="#{Control_YogurthControlador.lstControl_Yogurth}" 
-                                     var="control_yogurth" 
-                                     paginator="true" rows="10" rowKey="#{control_yogurth.id_control_yogurth}" selectionMode="single" 
+                        <p:dataTable id="tblControl_Yogurth" value="#{control_yogurthControlador.lstControl_Yougurth}" 
+                                     var="Control_yogurth" 
+                                     paginator="true" rows="10" rowKey="#{Control_yogurth.id_control_yogurth}" selectionMode="single" 
                                      selection="#{control_yogurthControlador.control_yogurthSel}">
 
-                            <p:column headerText="Nombres Proveedor">
-                                <h:outputText value="#{control_yogurth.nombre_proveedor}"/>
+                            <p:column headerText="Acido">
+                                <h:outputText value="#{Control_yogurth.acidos_organicos}"/>
+                            </p:column>
+
+                            <p:column headerText="Agua">
+                                <h:outputText value="#{Control_yogurth.agua_yogurth}"/>
                             </p:column>
 
 
-
-                            <p:column headerText="Direcciòn">
-                                <h:outputText value="#{proveedor.direcion_proveedor}"/>
+                            <p:column headerText="Cenizas">
+                                <h:outputText value="#{Control_yogurth.cenizas_yogurth}"/>
                             </p:column>
 
 
-                            <p:column headerText="Ciudad">
-                                <h:outputText value="#{proveedor.ciudad_proveedor}"/>
+                            <p:column headerText="Contenido Energetico" 
+
+                                      <h:outputText value="#{Control_yogurth.contenido_energetico}"/>
                             </p:column>
 
-
-                            <p:column headerText="Telefono" 
-
-                                      <h:outputText value="#{proveedor.telefono_provedor}"/>
+                            <p:column headerText="Fibra" 
+                                      <h:outputText value="#{Control_yogurth.fibras_yogurth}"/>
                             </p:column>
 
-                            <p:column headerText="Producto" 
-                                      <h:outputText value="#{proveedor.producto_provedor}"/>
-                            </p:column>
-
-                            <p:column headerText="Costo">
-                                <h:outputText value="#{proveedor.costo}"/>
+                            <p:column headerText="Glucido">
+                                <h:outputText value="#{Control_yogurth.glucidos_yogurth}"/>
                             </p:column>                         
 
+                            <p:column headerText="Nombre Producto">
+                                <h:outputText value="#{Control_yogurth.id_producto.id_categoria.nombre_producto}"/>
+                            </p:column> 
+                            
+                            <p:column headerText="Lipidos">
+                                <h:outputText value="#{Control_yogurth.lipidos_yogurth}"/>
+                            </p:column> 
 
+                            <p:column headerText="">
+                                <h:outputText value="#{Control_yogurth.proteinas_yogurth}"/>
+                            </p:column>                       
                             <p:column exportable="false">
-                                <p:commandButton id="btnEditarProveedor" icon="ui-icon-pencil"  title="Editar Proveedor" 
-                                                 oncomplete="wdlgEditarProveedor.show()" 
-                                                 process="@this" update=":dlgEditarProveedor, @form">                                   
-                                    <f:setPropertyActionListener value="#{proveedor}" 
-                                                                 target="#{proveedorControlador.proveedorSel}"/>
+                                <p:commandButton id="btnEditarControl_Yogurth" icon="ui-icon-pencil"  title="Editar Control_Yogurth" 
+                                                 oncomplete="wdlgEditarContol_yogurth.show()" 
+                                                 process="@this" update=":dlgEditarControl_yogurth, @form">                                   
+                                    <f:setPropertyActionListener value="#{Control_yogurth}" 
+                                                                 target="#{control_yogurthControlador.control_yogurthSel}"/>
                                 </p:commandButton>
 
 
-                                <p:commandButton id="btnEliminarProveedor" icon="ui-icon-close"  title="Eliminar Proveedor"
-                                                 oncomplete="wdlgEliminarProveedor.show()" 
-                                                 update=":dlgEliminarProveedor">                                   
-                                    <f:setPropertyActionListener value="#{proveedor}" 
-                                                                 target="#{proveedorControlador.proveedorSel}"/>
+                                <p:commandButton id="btnEliminarControl_yogurth" icon="ui-icon-close"  title="Eliminar Control_yogurth"
+                                                 oncomplete="wdlgEliminarControl_yogurth.show()" 
+                                                 update=":dlgEliminarControl_yogurth">                                   
+                                    <f:setPropertyActionListener value="#{control_yogurth}" 
+                                                                 target="#{control_yogurthControlador.control_yogurthSel}"/>
                                 </p:commandButton>
                             </p:column>
 
 
 
                             <f:facet name="footer">  
-                                <p:commandButton id="btnNuevoProveedor" value="Nuevo" icon="ui-icon-newwin"
-                                                 oncomplete="wdlgNuevoProveedor.show()" title="Nuevo Proveedor"/>  
+                                <p:commandButton id="btnNuevoControl_yogurth" value="Nuevo" icon="ui-icon-newwin"
+                                                 oncomplete="wdlgNuevoControl_yogurth.show()" title="Nuevo Control_yogurth"/>  
 
                                 <h:commandLink>
                                     <img src="../../resources/images/excel.png" alt=""/>
-                                    <p:dataExporter type="xls" target="tblProveedor" fileName="proveedor" pageOnly="true" />
+                                    <p:dataExporter type="xls" target="tblControl_yogurth" fileName="control_yogurth" pageOnly="true" />
                                 </h:commandLink>
 
                                 <h:commandLink>
                                     <img src="../../resources/images/pdf.png" alt=""/>
-                                    <p:dataExporter type="pdf" target="tblProveedor" fileName="proveedor" pageOnly="true" />
+                                    <p:dataExporter type="pdf" target="tblControl_yogurth" fileName="control_yogurth" pageOnly="true" />
                                 </h:commandLink>
 
                             </f:facet>
@@ -98,45 +106,60 @@ and open the template in the editor.
             </ui:define>
 
             <ui:define name="dialogos">
-                <p:dialog id="dlgNuevoProveedor" header="Nuevo Proveedor" widgetVar="wdlgNuevoProveedor" 
+                <p:dialog id="dlgNuevoControl_yogurth" header="Nuevo Control_yogurth" widgetVar="wdlgNuevoControl_yogurth" 
                           modal="true" closable="false" resizable="false"
                           showEffect="clip" hideEffect="fold"> 
 
 
 
-                    <h:form id="frmNuevoProveedor">
+                    <h:form id="frmNuevoControl_yogurth">
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
-                        <p:panelGrid id="pngNuevoProveedor" columns="2">
-                            <h:outputText value="Nombres:"/>
-                            <p:inputText value="#{proveedorControlador.objProveedor.nombre_proveedor}" placeholder="Ingrese un Nombre" 
-                                         required="true" requiredMessage="Ingrese el nombre"/>
+                        <p:panelGrid id="pngNuevoControl_yogurth" columns="2">
+                            <h:outputText value="Acido:"/>
+                            <p:inputText value="#{control_yogurthControlador.objControl_Yogurth.acidos_organicos}" placeholder="Ingrese la Acides" 
+                                         required="true" requiredMessage="Ingrese la Acides"/>
 
-                            <h:outputText value="Direcion:"/>
-                            <p:inputText value="#{proveedorControlador.objProveedor.direcion_proveedor}" placeholder="Ingrese una Direcioin"  
-                                         required="true" requiredMessage="Ingrese la Direcion"/>
+                            <h:outputText value="Agua:"/>
+                            <p:inputText value="#{control_yogurthControlador.objControl_Yogurth.agua_yogurth}" placeholder="Ingrese % de Agua"  
+                                         required="true" requiredMessage="Ingrese % de Agua"/>
 
-                            <h:outputText value="Ciudad:"/>
-                            <p:inputText value="#{proveedorControlador.objProveedor.ciudad_proveedor}" placeholder="Ingrese una Ciudad"
-                                         required="true" requiredMessage="Ingrese una Ciudad"/>
+                            <h:outputText value="Cenizas:"/>
+                            <p:inputText value="#{control_yogurthControlador.objControl_Yogurth.cenizas_yogurth}" placeholder="Ingrese Ceniza"
+                                         required="true" requiredMessage="Ingrese Ceneza"/>
 
-                            <h:outputText value="Telefono:"/>
-                            <p:inputText value="#{proveedorControlador.objProveedor.telefono_provedor}" placeholder="Ingrese el Telefono"
-                                         required="true" requiredMessage="Ingrese el Telefono"/>
+                            <h:outputText value="Contenido Energetico:"/>
+                            <p:inputText value="#{control_yogurthControlador.objControl_Yogurth.contenido_energetico}" placeholder="Ingrese Contenido Energetico"
+                                         required="true" requiredMessage="Ingrese Contenido Energetico"/>
 
-                            <h:outputText value="Producto:"/>
-                            <p:inputText value="#{proveedorControlador.objProveedor.producto_provedor}" placeholder="Ingrese el Producto"
-                                         required="true" requiredMessage="Ingrese el Telefono"/>
+                            <h:outputText value="Fibra:"/>
+                            <p:inputText value="#{control_yogurthControlador.objControl_Yogurth.fibras_yogurth}" placeholder="Ingrese la Fibra"
+                                         required="true" requiredMessage="Ingrese la fibra"/>
 
-                            <h:outputText value="Costo:"/>
-                            <p:inputText value="#{proveedorControlador.objProveedor.costo}" placeholder="Ingrese el Costo"
-                                         required="true" requiredMessage="Ingrese el Costo"/>
+                            <h:outputText value="Glucidos:"/>
+                            <p:inputText value="#{control_yogurthControlador.objControl_Yogurth.glucidos_yogurth}" placeholder="Ingrese el Glucido"
+                                         required="true" requiredMessage="Ingrese el Glucido"/>
+                            
+                            <h:outputText value="Nombre Producto:"/>
+                            <p:selectOneMenu id="cmbCategoria" value="#{control_yogurthControlador.valorProductoSeleccionado}">
+                                <f:selectItem itemLabel="Elija una categoria" itemValue="#{null}"/>
+                                <f:selectItems value="#{control_yogurthControlador.lstProducto}" var="producto" 
+                                               itemLabel="#{control_yogurthControlador.lstProducto}" itemValue="#{categoria.id_categoria}"/>
+                            </p:selectOneMenu>
+                            
+                            <h:outputText value="Lipidos:"/>
+                            <p:inputText value="#{control_yogurthControlador.objControl_Yogurth.lipidos_yogurth}" placeholder="Ingrese los Lipidos"
+                                         required="true" requiredMessage="Ingrese el Lipidos"/>
+                            
+                            <h:outputText value="Proteinas:"/>
+                            <p:inputText value="#{control_yogurthControlador.objControl_Yogurth.proteinas_yogurth}" placeholder="Ingrese las proteinas"
+                                         required="true" requiredMessage="Ingrese las Proteinas"/>
 
 
                         </p:panelGrid>
 
-                        <p:commandButton value="Aceptar" action="#{proveedorControlador.insertarProveedor()}" 
-                                         update=":frmproveedor:pnlProveedor"/>
-                        <p:commandButton value="Cancelar" onclick="wdlgNuevoProveedor.hide()" type="reset"/>
+                        <p:commandButton value="Aceptar" action="#{control_yogurthControlador.insertarControl_Yogurth()}" 
+                                         update=":frmcontrol_yogurth:pnlContol_yogurth"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgNuevoControl_yogurth.hide()" type="reset"/>
                     </h:form> 
                 </p:dialog>
 
@@ -144,83 +167,97 @@ and open the template in the editor.
 
 
 
-                <p:dialog id="dlgEditarProveedor" header="Editar Proveedor" widgetVar="wdlgEditarPeoveedor" 
+                <p:dialog id="dlgEditarControl_yogurth" header="Editar Control_yogurth" widgetVar="wdlgEditarControl_yogurth" 
                           modal="true" 
                           closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
-                    <h:form id="frmEditarProveedor">
+                    <h:form id="frmEditarControl_yogurth">
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                         <p:messages id="messages" autoUpdate="true"/>  
-                        <p:panelGrid id="pngEditarProveedor" columns="2">
-                            <h:outputText value="Nombres:"/>
-                            <p:inputText value="#{proveedorControlador.proveedorSel.nombre_proveedor}" title="ej: Luz" 
-                                         required="true" requiredMessage="Ingrese el nombre"/>
+                        <p:panelGrid id="pngEditarControl_yogurth" columns="2">
+                            <h:outputText value="Acido:"/>
+                            <p:inputText value="#{control_yogurthControlador.control_yogurthSel.acidos_organicos}"
+                                         required="true" requiredMessage="Ingrese el Acido"/>
 
-                            <h:outputText value="Direcioin:"/>
-                            <p:inputText value="#{proveedorControlador.proveedorSel.direcion_proveedor}" title="ej: A"
-                                         required="true" requiredMessage="Ingrese el apellido"/>
+                            <h:outputText value="Agua:"/>
+                            <p:inputText value="#{control_yogurthControlador.control_yogurthSel.agua_yogurth}" 
+                                         required="true" requiredMessage="Ingrese Agua"/>
 
-                            <h:outputText value="Cedula:"/>
-                            <p:inputText value="#{estudianteControlador.estudianteSel.cedula}" title="ej: 0604017897"
-                                         required="true" requiredMessage="Ingrese la cedula"/>
+                            <h:outputText value="Cenizas:"/>
+                            <p:inputText value="#{control_yogurthControlador.control_yogurthSel.cenizas_yogurth}" 
+                                         required="true" requiredMessage="Ingrese la cenizas"/>
 
-                            <h:outputText value="Codigo sicoa:"/>
-                            <p:inputText value="#{estudianteControlador.estudianteSel.codigo_sicoa}" title="ej: 0000"
-                                         required="true" requiredMessage="Ingrese el codigo sicoa"/>
+                            <h:outputText value="Contenido Energetico:"/>
+                            <p:inputText value="#{control_yogurthControlador.control_yogurthSel.contenido_energetico}"
+                                         required="true" requiredMessage="Ingrese contenido energetico"/>
 
-                            <h:outputText value="Periodo:"/>
-                            <p:selectOneMenu id="cmbPeriodo" value="#{estudianteControlador.valorPSeleccionado}">
-                                <f:selectItem itemLabel="Elija un periodo" itemValue="#{null}"/>
-                                <f:selectItems value="#{estudianteControlador.lstPeriodos}" var="periodos" itemLabel="#{periodos.nombre}" itemValue="#{periodos.codigo}"/>
-                            </p:selectOneMenu>
-
-                            <h:outputText id="otxtNiveles" value="Nivel:"/>                           
-                            <p:selectOneMenu id="cmdNiveles" value="#{estudianteControlador.valorNSeleccionado}">
-                                <f:selectItem itemValue="0" itemLabel="--Elija una opción--"/>
-                                <f:selectItems value="#{estudianteControlador.lstNiveles}" var="niveles" itemLabel="#{niveles.nombre} #{niveles.paralelo}" itemValue="#{niveles.codigo}"/> 
-                            </p:selectOneMenu>
-
-
+                            <h:outputText value="Fibra:"/>
+                            <p:inputText value="#{control_yogurthControlador.control_yogurthSel.fibras_yogurth}"
+                                         required="true" requiredMessage="Ingrese la fibra"/>
+                            
+                            <h:outputText value="Glucidos:"/>
+                            <p:inputText value="#{control_yogurthControlador.control_yogurthSel.glucidos_yogurth}"
+                                         required="true" requiredMessage="Ingrese el Glucido"/>
+                            
+                            <h:outputText value="Lipidos:"/>
+                            <p:inputText value="#{control_yogurthControlador.control_yogurthSel.lipidos_yogurth}"
+                                         required="true" requiredMessage="Ingrese Lipidos"/>
+                            
+                            <h:outputText value="Proteinas:"/>
+                            <p:inputText value="#{control_yogurthControlador.control_yogurthSel.proteinas_yogurth}"
+                                         required="true" requiredMessage="Ingrese Proteinas"/>
+                            
+                            
                         </p:panelGrid>
-                        <p:commandButton value="Aceptar" action="#{estudianteControlador.actualizarEstudiante()}" 
-                                         update=":frmestudiante:pnlEstudiante"/>
-                        <p:commandButton value="Cancelar" onclick="wdlgEditarEstudiante.hide()" type="reset"/>
+                        <p:commandButton value="Aceptar" action="#{control_yogurthControlador.actualizarControl_Yogurth()}" 
+                                         update=":frmcontrol_yogurth:pnlControl_yogurth"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgEditarControl_yogurth.hide()" type="reset"/>
                     </h:form> 
                 </p:dialog>
 
-                <p:dialog id="dlgEliminarProveedor" header="Eliminar Proveedor" widgetVar="wdlgEliminarProveedor" 
+                <p:dialog id="dlgEliminarControl_yogurth" header="Eliminar Control_yogurth" widgetVar="wdlgEliminarControl_yogurth" 
                           modal="true" closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
-                    <h:form id="frmEliminarEstudiante">
+                    <h:form id="frmEliminarControl_yogurth">
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
-                        <h:outputText value="¿Desea Eliminar el Estudiante?"/>
-                        <p:panelGrid id="pngEliminarEstudiante" columns="2">
-                            <h:outputText value="Nombre:"/>
-                            <p:inputText value="#{proveedor}" title="ej: Sandra" 
-                                         required="true" requiredMessage="Ingrese el nombre" disabled="true"/>
+                        <h:outputText value="¿Desea Eliminar el Control de Yogurth?"/>
+                        <p:panelGrid id="pngEliminarControl_yogurth" columns="2">
+                            
+                            <h:outputText value="Acido:"/>
+                            <p:inputText value="#{control_yogurthControlador.control_yogurthSel.acidos_organicos}"
+                                         required="true" requiredMessage="Ingrese el acido" disabled="true"/>
+                            
+                            <h:outputText value="Agua:"/>
+                            <p:inputText value="#{control_yogurthControlador.control_yogurthSel.agua_yogurth}" 
+                                         required="true" requiredMessage="Ingrese Agua" disabled="true"/>
 
-                            <h:outputText value="Apellido:"/>
-                            <p:inputText value="#{estudianteControlador.estudianteSel.apellido}" title="ej: Contento"
-                                         required="true" requiredMessage="Ingrese el apellido" disabled="true"/>
+                            <h:outputText value="Cenizas:"/>
+                            <p:inputText value="#{control_yogurthControlador.control_yogurthSel.cenizas_yogurth}" 
+                                         required="true" requiredMessage="Ingrese la cenizas" disabled="true"/>
 
-                            <h:outputText value="Cedula:"/>
-                            <p:inputText value="#{estudianteControlador.estudianteSel.cedula}" title="ej: 0604017897"
-                                         required="true" requiredMessage="Ingrese la cedula" disabled="true"/>
+                            <h:outputText value="Contenido Energetico:"/>
+                            <p:inputText value="#{control_yogurthControlador.control_yogurthSel.contenido_energetico}"
+                                         required="true" requiredMessage="Ingrese contenido energetico" disabled="true"/>
 
-                            <h:outputText value="Codigo sicoa:"/>
-                            <p:inputText value="#{estudianteControlador.estudianteSel.codigo_sicoa}" title="ej: 0000"
-                                         required="true" requiredMessage="Ingrese el codigo sicoa" disabled="true"/>
-
-                            <h:outputText value="Periodo:"/>
-                            <h:inputText value="#{estudianteControlador.estudianteSel.codigo_periodo.nombre}"
-                                         disabled="true"/>
-
-                            <h:outputText value="Nivel:"/>
-                            <h:inputText value="#{estudianteControlador.estudianteSel.codigo_nivel.nombre}"
-                                         disabled="true"/>
-
+                            <h:outputText value="Fibra:"/>
+                            <p:inputText value="#{control_yogurthControlador.control_yogurthSel.fibras_yogurth}"
+                                         required="true" requiredMessage="Ingrese la fibra" disabled="true"/>
+                            
+                            <h:outputText value="Glucidos:"/>
+                            <p:inputText value="#{control_yogurthControlador.control_yogurthSel.glucidos_yogurth}"
+                                         required="true" requiredMessage="Ingrese el Glucido" disabled="true"/>
+                            
+                            <h:outputText value="Lipidos:"/>
+                            <p:inputText value="#{control_yogurthControlador.control_yogurthSel.lipidos_yogurth}"
+                                         required="true" requiredMessage="Ingrese Lipidos" disabled="true"/>
+                            
+                            <h:outputText value="Proteinas:"/>
+                            <p:inputText value="#{control_yogurthControlador.control_yogurthSel.proteinas_yogurth}"
+                                         required="true" requiredMessage="Ingrese Proteinas" disabled="true"/>
+                            
+                                                
                         </p:panelGrid>
-                        <p:commandButton value="Aceptar" action="#{estudianteControlador.eliminarEstudiante()}" 
-                                         update=":frmestudiante:pnlEstudiante"/>
-                        <p:commandButton value="Cancelar" onclick="wdlgEliminarEstudiante.hide()" type="reset"/>
+                        <p:commandButton value="Aceptar" action="#{control_yogurthControlador.eliminarControl_Yogurth()}" 
+                                         update=":frmcontrol_yogurth:pnlControl_yogurth"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgEliminarControl_yogurth.hide()" type="reset"/>
                     </h:form> 
                 </p:dialog>
                 <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
