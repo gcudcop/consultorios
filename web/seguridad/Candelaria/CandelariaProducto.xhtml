@@ -44,12 +44,12 @@ and open the template in the editor.
                             </p:column>
 
 
-                            <p:column headerText="Fecha de Fabricación">
+                            <p:column headerText="Fecha de Fabricación" >
 
                                       <h:outputText value="#{producto.fecha_fabricacion}"/>
                             </p:column>
 
-                            <p:column headerText="Fecha de Caducidad"> 
+                            <p:column headerText="Fecha de Caducidad" >
                                       <h:outputText value="#{producto.fecha_caducidad}"/>
                             </p:column>
 
@@ -165,10 +165,10 @@ and open the template in the editor.
                                          required="true" requiredMessage="Ingrese el apellido"/>
 
                             <h:outputText value="Fecha De Fabricación:"/>
-                            <p:calendar id="effect" value="#{productoControlador.productoSel.fecha_fabricacion}" effect="fold" />
+                            <p:calendar id="effect3" value="#{productoControlador.productoSel.fecha_fabricacion}" effect="fold" />
                             
                              <h:outputText value="Fecha De Caducidad:"/>
-                             <p:calendar id="effect" value="#{productoControlador.productoSel.fecha_caducidad}" effect="fold" />
+                             <p:calendar id="effect2" value="#{productoControlador.productoSel.fecha_caducidad}" effect="fold" />
                             
                             <h:outputText value="Sabor:"/>
                             <p:inputText value="#{productoControlador.productoSel.sabor_producto}" title="ej: A"
@@ -226,7 +226,7 @@ and open the template in the editor.
 
                         </p:panelGrid>
                         <p:commandButton value="Aceptar" action="#{productoControlador.eliminarProducto()}" 
-                                         update=":frmProducto:pnlProducto"/>
+                                         update=":frmproducto:pnlProducto"/>
                         <p:commandButton value="Cancelar" onclick="wdlgEliminarProducto.hide()" type="reset"/>
                     </h:form> 
                 </p:dialog>
