@@ -20,7 +20,7 @@ and open the template in the editor.
             <ui:define name="top">Gestión de Empleado </ui:define>
             <ui:define name="contenido">
                 <p:growl id="mensajes" autoUpdate="true" showDetail="true"/>
-                <h:form id="frmproveedor">
+                <h:form id="frmempleado">
                     <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                     <p:panel id="pnlEmpleado">
                         <p:dataTable id="tblEmpleado" value="#{empleadoControlador.lstEmpleado}" 
