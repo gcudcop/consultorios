@@ -44,12 +44,12 @@ and open the template in the editor.
                             </p:column>
 
 
-                            <p:column headerText="Fecha de Fabricación" 
+                            <p:column headerText="Fecha de Fabricación">
 
                                       <h:outputText value="#{producto.fecha_fabricacion}"/>
                             </p:column>
 
-                            <p:column headerText="Fecha de Caducidad" 
+                            <p:column headerText="Fecha de Caducidad"> 
                                       <h:outputText value="#{producto.fecha_caducidad}"/>
                             </p:column>
 
@@ -226,7 +226,7 @@ and open the template in the editor.
 
                         </p:panelGrid>
                         <p:commandButton value="Aceptar" action="#{productoControlador.eliminarProducto()}" 
-                                         update=":frmestudiante:pnlProducto"/>
+                                         update=":frmProducto:pnlProducto"/>
                         <p:commandButton value="Cancelar" onclick="wdlgEliminarProducto.hide()" type="reset"/>
                     </h:form> 
                 </p:dialog>
