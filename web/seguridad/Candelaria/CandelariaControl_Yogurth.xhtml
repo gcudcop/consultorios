@@ -12,12 +12,12 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>
-            <ui:define name="contenido">Gestión de Control_yogurth</ui:define>
+            <ui:define name="contenido">Gestión de Control Yogurth</ui:define>
         </title>
     </h:head>
     <h:body>
         <ui:composition template="../../templates/plantillaInternaCenter.xhtml">
-            <ui:define name="top">Gestión de Control_yogurth </ui:define>
+            <ui:define name="top">Gestión de Control Yogurth </ui:define>
             <ui:define name="contenido">
                 <p:growl id="mensajes" autoUpdate="true" showDetail="true"/>
                 <h:form id="frmcontrol_yogurth">
@@ -75,7 +75,7 @@ and open the template in the editor.
                                 </p:commandButton>
 
 
-                                <p:commandButton id="btnEliminarControl_yogurth" icon="ui-icon-close"  title="Eliminar Control_yogurth"
+                                <p:commandButton id="btnEliminarControl_yogurth" icon="ui-icon-close"  title="Eliminar Control Yogurth"
                                                  oncomplete="wdlgEliminarControl_yogurth.show()" 
                                                  update=":dlgEliminarControl_yogurth">                                   
                                     <f:setPropertyActionListener value="#{control_yogurth}" 
@@ -87,16 +87,16 @@ and open the template in the editor.
 
                             <f:facet name="footer">  
                                 <p:commandButton id="btnNuevoControl_yogurth" value="Nuevo" icon="ui-icon-newwin"
-                                                 oncomplete="wdlgNuevoControl_yogurth.show()" title="Nuevo Control_yogurth"/>  
+                                                 oncomplete="wdlgNuevoControl_yogurth.show()" title="Nuevo Control Yogurth"/>  
 
                                 <h:commandLink>
                                     <img src="../../resources/images/excel.png" alt=""/>
-                                    <p:dataExporter type="xls" target="tblControl_yogurth" fileName="control_yogurth" pageOnly="true" />
+                                    <p:dataExporter type="xls" target="tblControl_yogurth" fileName="control yogurth" pageOnly="true" />
                                 </h:commandLink>
 
                                 <h:commandLink>
                                     <img src="../../resources/images/pdf.png" alt=""/>
-                                    <p:dataExporter type="pdf" target="tblControl_yogurth" fileName="control_yogurth" pageOnly="true" />
+                                    <p:dataExporter type="pdf" target="tblControl_yogurth" fileName="control yogurth" pageOnly="true" />
                                 </h:commandLink>
 
                             </f:facet>
@@ -106,7 +106,7 @@ and open the template in the editor.
             </ui:define>
 
             <ui:define name="dialogos">
-                <p:dialog id="dlgNuevoControl_yogurth" header="Nuevo Control_yogurth" widgetVar="wdlgNuevoControl_yogurth" 
+                <p:dialog id="dlgNuevoControl_yogurth" header="Nuevo Control Yogurth" widgetVar="wdlgNuevoControl_yogurth" 
                           modal="true" closable="false" resizable="false"
                           showEffect="clip" hideEffect="fold"> 
 
@@ -141,9 +141,9 @@ and open the template in the editor.
                             
                             <h:outputText value="Nombre Producto:"/>
                             <p:selectOneMenu id="cmbCategoria" value="#{control_yogurthControlador.valorProductoSeleccionado}">
-                                <f:selectItem itemLabel="Elija una categoria" itemValue="#{null}"/>
+                                <f:selectItem itemLabel="Elija un Producto" itemValue="#{null}"/>
                                 <f:selectItems value="#{control_yogurthControlador.lstProducto}" var="producto" 
-                                               itemLabel="#{control_yogurthControlador.lstProducto}" itemValue="#{categoria.id_categoria}"/>
+                                               itemLabel="#{producto.id_categoria.nombre_producto}" itemValue="#{producto.id_categoria.id_categoria}"/>
                             </p:selectOneMenu>
                             
                             <h:outputText value="Lipidos:"/>
@@ -158,7 +158,7 @@ and open the template in the editor.
                         </p:panelGrid>
 
                         <p:commandButton value="Aceptar" action="#{control_yogurthControlador.insertarControl_Yogurth()}" 
-                                         update=":frmcontrol_yogurth:pnlContol_Yogurth"/>
+                                         update=":frmcontrol_yogurth:pnlControl_Yogurth"/>
                         <p:commandButton value="Cancelar" onclick="wdlgNuevoControl_yogurth.hide()" type="reset"/>
                     </h:form> 
                 </p:dialog>
@@ -167,7 +167,7 @@ and open the template in the editor.
 
 
 
-                <p:dialog id="dlgEditarControl_yogurth" header="Editar Control_yogurth" widgetVar="wdlgEditarControl_yogurth" 
+                <p:dialog id="dlgEditarControl_yogurth" header="Editar Control Yogurth" widgetVar="wdlgEditarControl_yogurth" 
                           modal="true" 
                           closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
                     <h:form id="frmEditarControl_yogurth">
@@ -198,6 +198,13 @@ and open the template in the editor.
                             <p:inputText value="#{control_yogurthControlador.control_yogurthSel.glucidos_yogurth}"
                                          required="true" requiredMessage="Ingrese el Glucido"/>
                             
+                            <h:outputText value="Nombre Producto:"/>
+                            <p:selectOneMenu id="cmbCategoria" value="#{control_yogurthControlador.valorProductoSeleccionado}">
+                                <f:selectItem itemLabel="Elija un Producto" itemValue="#{null}"/>
+                                <f:selectItems value="#{control_yogurthControlador.lstProducto}" var="producto" 
+                                               itemLabel="#{producto.id_categoria.nombre_producto}" itemValue="#{producto.id_categoria.id_categoria}"/>
+                            </p:selectOneMenu>
+                            
                             <h:outputText value="Lipidos:"/>
                             <p:inputText value="#{control_yogurthControlador.control_yogurthSel.lipidos_yogurth}"
                                          required="true" requiredMessage="Ingrese Lipidos"/>
@@ -214,7 +221,7 @@ and open the template in the editor.
                     </h:form> 
                 </p:dialog>
 
-                <p:dialog id="dlgEliminarControl_yogurth" header="Eliminar Control_yogurth" widgetVar="wdlgEliminarControl_yogurth" 
+                <p:dialog id="dlgEliminarControl_yogurth" header="Eliminar Control Yogurth" widgetVar="wdlgEliminarControl_yogurth" 
                           modal="true" closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
                     <h:form id="frmEliminarControl_yogurth">
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
@@ -243,6 +250,10 @@ and open the template in the editor.
                             
                             <h:outputText value="Glucidos:"/>
                             <p:inputText value="#{control_yogurthControlador.control_yogurthSel.glucidos_yogurth}"
+                                         required="true" requiredMessage="Ingrese el Glucido" disabled="true"/>
+                            
+                            <h:outputText value="Nombre:"/>
+                            <p:inputText value="#{control_yogurthControlador.control_yogurthSel.id_producto.id_categoria.nombre_producto}"
                                          required="true" requiredMessage="Ingrese el Glucido" disabled="true"/>
                             
                             <h:outputText value="Lipidos:"/>
