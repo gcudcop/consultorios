@@ -42,12 +42,12 @@ and open the template in the editor.
                             </p:column>
 
 
-                            <p:column headerText="Contenido Energetico" 
+                            <p:column headerText="Contenido Energetico">
 
                                       <h:outputText value="#{Control_yogurth.contenido_energetico}"/>
                             </p:column>
 
-                            <p:column headerText="Fibra" 
+                            <p:column headerText="Fibra">
                                       <h:outputText value="#{Control_yogurth.fibras_yogurth}"/>
                             </p:column>
 
@@ -158,7 +158,7 @@ and open the template in the editor.
                         </p:panelGrid>
 
                         <p:commandButton value="Aceptar" action="#{control_yogurthControlador.insertarControl_Yogurth()}" 
-                                         update=":frmcontrol_yogurth:pnlContol_yogurth"/>
+                                         update=":frmcontrol_yogurth:pnlContol_Yogurth"/>
                         <p:commandButton value="Cancelar" onclick="wdlgNuevoControl_yogurth.hide()" type="reset"/>
                     </h:form> 
                 </p:dialog>
@@ -209,7 +209,7 @@ and open the template in the editor.
                             
                         </p:panelGrid>
                         <p:commandButton value="Aceptar" action="#{control_yogurthControlador.actualizarControl_Yogurth()}" 
-                                         update=":frmcontrol_yogurth:pnlControl_yogurth"/>
+                                         update=":frmcontrol_yogurth:pnlControl_Yogurth"/>
                         <p:commandButton value="Cancelar" onclick="wdlgEditarControl_yogurth.hide()" type="reset"/>
                     </h:form> 
                 </p:dialog>
@@ -256,7 +256,7 @@ and open the template in the editor.
                                                 
                         </p:panelGrid>
                         <p:commandButton value="Aceptar" action="#{control_yogurthControlador.eliminarControl_Yogurth()}" 
-                                         update=":frmcontrol_yogurth:pnlControl_yogurth"/>
+                                         update=":frmcontrol_yogurth:pnlControl_Yogurth"/>
                         <p:commandButton value="Cancelar" onclick="wdlgEliminarControl_yogurth.hide()" type="reset"/>
                     </h:form> 
                 </p:dialog>
