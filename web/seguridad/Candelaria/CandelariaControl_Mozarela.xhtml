@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>
+            <ui:define name="contenido">Gestión de Control Mozarela</ui:define>
+        </title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../../templates/plantillaInternaCenter.xhtml">
+            <ui:define name="top">Gestión de Control Mozarela </ui:define>
+            <ui:define name="contenido">
+                <p:growl id="mensajes" autoUpdate="true" showDetail="true"/>
+                <h:form id="frmcontrol_mozarela">
+                    <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                    <p:panel id="pnlControl_Mozarela">
+                        <p:dataTable id="tblControl_Mozarela" value="#{control_MozarelaControlador.lstControl_Mozarela}" 
+                                     var="Control_mozarela" 
+                                     paginator="true" rows="10" rowKey="#{Control_mozarela.id_control_mozarela}" selectionMode="single" 
+                                     selection="#{control_MozarelaControlador.control_MozarelaSel}">
+                            
+                             <p:column headerText="Nombre Producto">
+                                <h:outputText value="#{Control_mozarela.id_producto.id_categoria.nombre_producto}"/>
+                            </p:column> 
+
+                            <p:column headerText="Cenizas">
+                                <h:outputText value="#{Control_mozarela.cenizas_mozarela}"/>
+                            </p:column>
+
+                            <p:column headerText="Grasa">
+                                <h:outputText value="#{Control_mozarela.grasas_mozarela}"/>
+                            </p:column>
+
+
+                            <p:column headerText="Humedad">
+                                <h:outputText value="#{Control_mozarela.humedad_mozarela}"/>
+                            </p:column>
+
+
+                            <p:column headerText="PH">
+                                <h:outputText value="#{Control_mozarela.ph_mozarela}"/>
+                            </p:column>
+
+                            <p:column headerText="Proteinas">
+                                <h:outputText value="#{Control_mozarela.proteinas_mozarela}"/>
+                            </p:column>
+
+                            <p:column headerText="Rendimiento">
+                                <h:outputText value="#{Control_mozarela.rendimiento_mozarela}"/>
+                            </p:column>                         
+                           
+                            <p:column headerText="Solidos Totales">
+                                <h:outputText value="#{Control_mozarela.solidos_totales}"/>
+                            </p:column> 
+                            
+                                                                             
+                            <p:column exportable="false">
+                                <p:commandButton id="btnEditarControl_Mozarela" icon="ui-icon-pencil"  title="Editar Control Mozarela" 
+                                                 oncomplete="wdlgEditarContol_mozarela.show()" 
+                                                 process="@this" update=":dlgEditarControl_mozarela, @form">                                   
+                                    <f:setPropertyActionListener value="#{Control_mozarela}" 
+                                                                 target="#{control_MozarelaControlador.control_MozarelaSel}"/>
+                                </p:commandButton>
+
+
+                                <p:commandButton id="btnEliminarControl_mozarela" icon="ui-icon-close"  title="Eliminar Control Mozarela"
+                                                 oncomplete="wdlgEliminarControl_mozarela.show()" 
+                                                 update=":dlgEliminarControl_mozarela">                                   
+                                    <f:setPropertyActionListener value="#{Control_mozarela}" 
+                                                                 target="#{control_MozarelaControlador.control_MozarelaSel}"/>
+                                </p:commandButton>
+                            </p:column>
+
+                            <f:facet name="footer">  
+                                <p:commandButton id="btnNuevoControl_mozarela" value="Nuevo" icon="ui-icon-newwin"
+                                                 oncomplete="wdlgNuevoControl_mozarela.show()" title="Nuevo Control Mozarela"/>  
+
+                                <h:commandLink>
+                                    <img src="../../resources/images/excel.png" alt=""/>
+                                    <p:dataExporter type="xls" target="tblControl_mozarela" fileName="Control Mozarela" pageOnly="true" />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <img src="../../resources/images/pdf.png" alt=""/>
+                                    <p:dataExporter type="pdf" target="tblControl_mozarela" fileName="Control Mozarela" pageOnly="true" />
+                                </h:commandLink>
+
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="dialogos">
+                <p:dialog id="dlgNuevoControl_mozarela" header="Nuevo Control Mozarela" widgetVar="wdlgNuevoControl_mozarela" 
+                          modal="true" closable="false" resizable="false"
+                          showEffect="clip" hideEffect="fold"  height="400px" width="600px"> 
+
+
+
+                    <h:form id="frmNuevoControl_mozarela" style="max-width: 600px;max-height: 400px">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:panelGrid id="pngNuevoControl_mozarela" columns="2">
+                            
+                             <h:outputText value="Nombre Producto:"/>
+                            <p:selectOneMenu id="cmbCategoria" value="#{control_mozarelaControlador.valorProductoSeleccionado}">
+                                <f:selectItem itemLabel="Elija un Producto" itemValue="#{null}"/>
+                                <f:selectItems value="#{control_mozarelaControlador.lstProducto}" var="producto" 
+                                               itemLabel="#{producto.id_categoria.nombre_producto}" itemValue="#{producto.id_categoria.id_categoria}"/>
+                            </p:selectOneMenu>
+                             
+                            <h:outputText value="Cenizas:"/>
+                            <p:inputText value="#{control_MozarelaControlador.objControl_mozarela.cenizas_mozarela}" placeholder="Ingrese Cenizas" 
+                                         required="true" requiredMessage="Ingrese Cenizas" />
+
+                            <h:outputText value="Grasa:"/>
+                            <p:inputText value="#{control_MozarelaControlador.objControl_mozarela.grasas_mozarela}" placeholder="Ingrese % de Grasa"  
+                                         required="true" requiredMessage="Ingrese % de Grasa"/>
+
+                            <h:outputText value="Humedad:"/>
+                            <p:inputText value="#{control_MozarelaControlador.objControl_mozarela.humedad_mozarela}" placeholder="Ingrese Humedad"
+                                         required="true" requiredMessage="Ingrese Humedad"/>
+
+                            <h:outputText value="PH:"/>
+                            <p:inputText value="#{control_MozarelaControlador.objControl_mozarela.ph_mozarela}" placeholder="Ingrese el PH"
+                                         required="true" requiredMessage="Ingrese el PH"/>
+
+                            <h:outputText value="Proteinas:"/>
+                            <p:inputText value="#{control_MozarelaControlador.objControl_mozarela.proteinas_mozarela}" placeholder="Ingrese las Proteinas"
+                                         required="true" requiredMessage="Ingrese las Proteinas"/>
+
+                            <h:outputText value="Rendimiento:"/>
+                            <p:inputText value="#{control_MozarelaControlador.objControl_mozarela.rendimiento_mozarela}" placeholder="Ingrese el Rendimiento"
+                                         required="true" requiredMessage="Ingrese el Rendimiento"/>
+                                                                               
+                            <h:outputText value="Solido Total:"/>
+                            <p:inputText value="#{control_MozarelaControlador.objControl_mozarela.solidos_totales}" placeholder="Ingrese Solido Total"
+                                         required="true" requiredMessage="Ingrese Solido Total"/>
+                            
+                           
+                        </p:panelGrid>
+
+                        <p:commandButton value="Aceptar" action="#{control_MozarelaControlador.insertarControl_Mozarela()}" 
+                                         update=":frmcontrol_mozarela:pnlControl_Mozarela"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgNuevoControl_mozarela.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+
+
+                <p:dialog id="dlgEditarControl_mozarela" header="Editar Control Mozarela" widgetVar="wdlgEditarControl_mozarela" 
+                          modal="true" 
+                          closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEditarControl_mozarela">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:messages id="messages" autoUpdate="true"/>  
+                        <p:panelGrid id="pngEditarControl_mozarela" columns="2">
+
+                                                        
+                            <h:outputText value="Nombre Producto:"/>
+                            <p:selectOneMenu id="cmbCategoria" value="#{control_MozarelaControlador.valorProductoSeleccionado}">
+                                <f:selectItem itemLabel="Elija un Producto" itemValue="#{null}"/>
+                                <f:selectItems value="#{control_MozarelaControlador.lstProducto}" var="producto" 
+                                               itemLabel="#{producto.id_categoria.nombre_producto}" itemValue="#{producto.id_categoria.id_categoria}"/>
+                            </p:selectOneMenu>
+                            
+                            <h:outputText value="Cenizas:"/>
+                            <p:inputText value="#{control_MozarelaControlador.control_MozarelaSel.cenizas_mozarela}"
+                                         required="true" requiredMessage="Ingrese Cenizas" />
+
+                            <h:outputText value="Grasa:"/>
+                            <p:inputText value="#{control_MozarelaControlador.control_MozarelaSel.grasas_mozarela}"  
+                                         required="true" requiredMessage="Ingrese % de Grasa"/>
+
+                            <h:outputText value="Humedad:"/>
+                            <p:inputText value="#{control_MozarelaControlador.control_MozarelaSel.humedad_mozarela}"
+                                         required="true" requiredMessage="Ingrese Humedad"/>
+
+                            <h:outputText value="PH:"/>
+                            <p:inputText value="#{control_MozarelaControlador.control_MozarelaSel.ph_mozarela}"
+                                         required="true" requiredMessage="Ingrese el PH"/>
+
+                            <h:outputText value="Proteinas:"/>
+                            <p:inputText value="#{control_MozarelaControlador.control_MozarelaSel.proteinas_mozarela}"
+                                         required="true" requiredMessage="Ingrese las Proteinas"/>
+
+                            <h:outputText value="Rendimiento:"/>
+                            <p:inputText value="#{control_MozarelaControlador.control_MozarelaSel.rendimiento_mozarela}" 
+                                         required="true" requiredMessage="Ingrese el Rendimiento"/>
+                                                                               
+                            <h:outputText value="Solido Total:"/>
+                            <p:inputText value="#{control_MozarelaControlador.control_MozarelaSel.solidos_totales}"
+                                         required="true" requiredMessage="Ingrese Solido Total"/>
+                                                        
+                        </p:panelGrid>
+                        <p:commandButton value="Aceptar" action="#{control_MozarelaControlador.actualizarControl_Mozarela()}" 
+                                         update=":frmcontrol_mozarela:pnlControl_Mozarela"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgEditarControl_mozarela.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+
+                <p:dialog id="dlgEliminarControl_mozarela" header="Eliminar Control Mozarela" widgetVar="wdlgEliminarControl_mozarela" 
+                          modal="true" closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEliminarControl_mozarela">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <h:outputText value="¿Desea Eliminar el Control de Mozarela?"/>
+                        <p:panelGrid id="pngEliminarControl_mozarela" columns="2">
+                                                      
+                            <h:outputText value="Nombre:"/>
+                            <p:inputText value="#{control_MozarelaControlador.control_MozarelaSel.id_producto.id_categoria.nombre_producto}"
+                                         required="true" requiredMessage="Ingrese el Glucido" disabled="true"/>
+                            
+                            <h:outputText value="Cenizas:"/>
+                            <p:inputText value="#{control_MozarelaControlador.control_MozarelaSel.cenizas_mozarela}"
+                                         required="true" requiredMessage="Ingrese Cenizas" disabled="true"/>
+
+                            <h:outputText value="Grasa:"/>
+                            <p:inputText value="#{control_MozarelaControlador.control_MozarelaSel.grasas_mozarela}"  
+                                         required="true" requiredMessage="Ingrese % de Grasa" disabled="true"/>
+
+                            <h:outputText value="Humedad:"/>
+                            <p:inputText value="#{control_MozarelaControlador.control_MozarelaSel.humedad_mozarela}"
+                                         required="true" requiredMessage="Ingrese Humedad" disabled="true"/>
+
+                            <h:outputText value="PH:"/>
+                            <p:inputText value="#{control_MozarelaControlador.control_MozarelaSel.ph_mozarela}"
+                                         required="true" requiredMessage="Ingrese el PH" disabled="true"/>
+
+                            <h:outputText value="Proteinas:"/>
+                            <p:inputText value="#{control_MozarelaControlador.control_MozarelaSel.proteinas_mozarela}"
+                                         required="true" requiredMessage="Ingrese las Proteinas" disabled="true"/>
+
+                            <h:outputText value="Rendimiento:"/>
+                            <p:inputText value="#{control_MozarelaControlador.control_MozarelaSel.rendimiento_mozarela}" 
+                                         required="true" requiredMessage="Ingrese el Rendimiento" disabled="true"/>
+                                                                               
+                            <h:outputText value="Solido Total:"/>
+                            <p:inputText value="#{control_MozarelaControlador.control_MozarelaSel.solidos_totales}"
+                                         required="true" requiredMessage="Ingrese Solido Total" disabled="true"/>
+                            
+                            
+                                                
+                        </p:panelGrid>
+                        <p:commandButton value="Aceptar" action="#{control_MozarelaControlador.eliminarControl_Mozarela()}" 
+                                         update=":frmcontrol_mozarela:pnlControl_Mozarela"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgEliminarControl_mozarela.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+                <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
+                          resizable="false"> 
+                    <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
+                </p:dialog>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

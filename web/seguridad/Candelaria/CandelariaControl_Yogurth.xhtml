@@ -28,6 +28,10 @@ and open the template in the editor.
                                      paginator="true" rows="10" rowKey="#{Control_yogurth.id_control_yogurth}" selectionMode="single" 
                                      selection="#{control_yogurthControlador.control_yogurthSel}">
 
+                            <p:column headerText="Nombre Producto">
+                                <h:outputText value="#{Control_yogurth.id_producto.id_categoria.nombre_producto}"/>
+                            </p:column> 
+
                             <p:column headerText="Acido">
                                 <h:outputText value="#{Control_yogurth.acidos_organicos}"/>
                             </p:column>
@@ -36,34 +40,28 @@ and open the template in the editor.
                                 <h:outputText value="#{Control_yogurth.agua_yogurth}"/>
                             </p:column>
 
-
                             <p:column headerText="Cenizas">
                                 <h:outputText value="#{Control_yogurth.cenizas_yogurth}"/>
                             </p:column>
 
-
                             <p:column headerText="Contenido Energetico">
 
-                                      <h:outputText value="#{Control_yogurth.contenido_energetico}"/>
+                                <h:outputText value="#{Control_yogurth.contenido_energetico}"/>
                             </p:column>
 
                             <p:column headerText="Fibra">
-                                      <h:outputText value="#{Control_yogurth.fibras_yogurth}"/>
+                                <h:outputText value="#{Control_yogurth.fibras_yogurth}"/>
                             </p:column>
 
                             <p:column headerText="Glucido">
                                 <h:outputText value="#{Control_yogurth.glucidos_yogurth}"/>
                             </p:column>                         
 
-                            <p:column headerText="Nombre Producto">
-                                <h:outputText value="#{Control_yogurth.id_producto.id_categoria.nombre_producto}"/>
-                            </p:column> 
-                            
                             <p:column headerText="Lipidos">
                                 <h:outputText value="#{Control_yogurth.lipidos_yogurth}"/>
                             </p:column> 
 
-                            <p:column headerText="">
+                            <p:column headerText="Proteinas">
                                 <h:outputText value="#{Control_yogurth.proteinas_yogurth}"/>
                             </p:column>                       
                             <p:column exportable="false">
@@ -108,16 +106,24 @@ and open the template in the editor.
             <ui:define name="dialogos">
                 <p:dialog id="dlgNuevoControl_yogurth" header="Nuevo Control Yogurth" widgetVar="wdlgNuevoControl_yogurth" 
                           modal="true" closable="false" resizable="false"
-                          showEffect="clip" hideEffect="fold"> 
+                          showEffect="clip" hideEffect="fold"  height="400px" width="600px"> 
 
 
 
-                    <h:form id="frmNuevoControl_yogurth">
+                    <h:form id="frmNuevoControl_yogurth" style="max-width: 600px;max-height: 400px">
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                         <p:panelGrid id="pngNuevoControl_yogurth" columns="2">
+
+                            <h:outputText value="Nombre Producto:"/>
+                            <p:selectOneMenu id="cmbCategoria" value="#{control_yogurthControlador.valorProductoSeleccionado}">
+                                <f:selectItem itemLabel="Elija un Producto" itemValue="#{null}"/>
+                                <f:selectItems value="#{control_yogurthControlador.lstProducto}" var="producto" 
+                                               itemLabel="#{producto.id_categoria.nombre_producto}" itemValue="#{producto.id_categoria.id_categoria}"/>
+                            </p:selectOneMenu>
+
                             <h:outputText value="Acido:"/>
                             <p:inputText value="#{control_yogurthControlador.objControl_Yogurth.acidos_organicos}" placeholder="Ingrese la Acides" 
-                                         required="true" requiredMessage="Ingrese la Acides"/>
+                                         required="true" requiredMessage="Ingrese la Acides" />
 
                             <h:outputText value="Agua:"/>
                             <p:inputText value="#{control_yogurthControlador.objControl_Yogurth.agua_yogurth}" placeholder="Ingrese % de Agua"  
@@ -138,18 +144,11 @@ and open the template in the editor.
                             <h:outputText value="Glucidos:"/>
                             <p:inputText value="#{control_yogurthControlador.objControl_Yogurth.glucidos_yogurth}" placeholder="Ingrese el Glucido"
                                          required="true" requiredMessage="Ingrese el Glucido"/>
-                            
-                            <h:outputText value="Nombre Producto:"/>
-                            <p:selectOneMenu id="cmbCategoria" value="#{control_yogurthControlador.valorProductoSeleccionado}">
-                                <f:selectItem itemLabel="Elija un Producto" itemValue="#{null}"/>
-                                <f:selectItems value="#{control_yogurthControlador.lstProducto}" var="producto" 
-                                               itemLabel="#{producto.id_categoria.nombre_producto}" itemValue="#{producto.id_categoria.id_categoria}"/>
-                            </p:selectOneMenu>
-                            
+
                             <h:outputText value="Lipidos:"/>
                             <p:inputText value="#{control_yogurthControlador.objControl_Yogurth.lipidos_yogurth}" placeholder="Ingrese los Lipidos"
                                          required="true" requiredMessage="Ingrese el Lipidos"/>
-                            
+
                             <h:outputText value="Proteinas:"/>
                             <p:inputText value="#{control_yogurthControlador.objControl_Yogurth.proteinas_yogurth}" placeholder="Ingrese las proteinas"
                                          required="true" requiredMessage="Ingrese las Proteinas"/>
@@ -174,6 +173,14 @@ and open the template in the editor.
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                         <p:messages id="messages" autoUpdate="true"/>  
                         <p:panelGrid id="pngEditarControl_yogurth" columns="2">
+
+                            <h:outputText value="Nombre Producto:"/>
+                            <p:selectOneMenu id="cmbCategoria" value="#{control_yogurthControlador.valorProductoSeleccionado}">
+                                <f:selectItem itemLabel="Elija un Producto" itemValue="#{null}"/>
+                                <f:selectItems value="#{control_yogurthControlador.lstProducto}" var="producto" 
+                                               itemLabel="#{producto.id_categoria.nombre_producto}" itemValue="#{producto.id_categoria.id_categoria}"/>
+                            </p:selectOneMenu>
+
                             <h:outputText value="Acido:"/>
                             <p:inputText value="#{control_yogurthControlador.control_yogurthSel.acidos_organicos}"
                                          required="true" requiredMessage="Ingrese el Acido"/>
@@ -193,27 +200,20 @@ and open the template in the editor.
                             <h:outputText value="Fibra:"/>
                             <p:inputText value="#{control_yogurthControlador.control_yogurthSel.fibras_yogurth}"
                                          required="true" requiredMessage="Ingrese la fibra"/>
-                            
+
                             <h:outputText value="Glucidos:"/>
                             <p:inputText value="#{control_yogurthControlador.control_yogurthSel.glucidos_yogurth}"
                                          required="true" requiredMessage="Ingrese el Glucido"/>
-                            
-                            <h:outputText value="Nombre Producto:"/>
-                            <p:selectOneMenu id="cmbCategoria" value="#{control_yogurthControlador.valorProductoSeleccionado}">
-                                <f:selectItem itemLabel="Elija un Producto" itemValue="#{null}"/>
-                                <f:selectItems value="#{control_yogurthControlador.lstProducto}" var="producto" 
-                                               itemLabel="#{producto.id_categoria.nombre_producto}" itemValue="#{producto.id_categoria.id_categoria}"/>
-                            </p:selectOneMenu>
-                            
+
                             <h:outputText value="Lipidos:"/>
                             <p:inputText value="#{control_yogurthControlador.control_yogurthSel.lipidos_yogurth}"
                                          required="true" requiredMessage="Ingrese Lipidos"/>
-                            
+
                             <h:outputText value="Proteinas:"/>
                             <p:inputText value="#{control_yogurthControlador.control_yogurthSel.proteinas_yogurth}"
                                          required="true" requiredMessage="Ingrese Proteinas"/>
-                            
-                            
+
+
                         </p:panelGrid>
                         <p:commandButton value="Aceptar" action="#{control_yogurthControlador.actualizarControl_Yogurth()}" 
                                          update=":frmcontrol_yogurth:pnlControl_Yogurth"/>
@@ -227,11 +227,15 @@ and open the template in the editor.
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                         <h:outputText value="¿Desea Eliminar el Control de Yogurth?"/>
                         <p:panelGrid id="pngEliminarControl_yogurth" columns="2">
-                            
+
+                            <h:outputText value="Nombre Producto:"/>
+                            <p:inputText value="#{control_yogurthControlador.control_yogurthSel.id_producto.id_categoria.nombre_producto}"
+                                         required="true" requiredMessage="Ingrese el Nombre del Producto" disabled="true"/>
+
                             <h:outputText value="Acido:"/>
                             <p:inputText value="#{control_yogurthControlador.control_yogurthSel.acidos_organicos}"
                                          required="true" requiredMessage="Ingrese el acido" disabled="true"/>
-                            
+
                             <h:outputText value="Agua:"/>
                             <p:inputText value="#{control_yogurthControlador.control_yogurthSel.agua_yogurth}" 
                                          required="true" requiredMessage="Ingrese Agua" disabled="true"/>
@@ -247,24 +251,20 @@ and open the template in the editor.
                             <h:outputText value="Fibra:"/>
                             <p:inputText value="#{control_yogurthControlador.control_yogurthSel.fibras_yogurth}"
                                          required="true" requiredMessage="Ingrese la fibra" disabled="true"/>
-                            
+
                             <h:outputText value="Glucidos:"/>
                             <p:inputText value="#{control_yogurthControlador.control_yogurthSel.glucidos_yogurth}"
                                          required="true" requiredMessage="Ingrese el Glucido" disabled="true"/>
-                            
-                            <h:outputText value="Nombre:"/>
-                            <p:inputText value="#{control_yogurthControlador.control_yogurthSel.id_producto.id_categoria.nombre_producto}"
-                                         required="true" requiredMessage="Ingrese el Glucido" disabled="true"/>
-                            
+
                             <h:outputText value="Lipidos:"/>
                             <p:inputText value="#{control_yogurthControlador.control_yogurthSel.lipidos_yogurth}"
                                          required="true" requiredMessage="Ingrese Lipidos" disabled="true"/>
-                            
+
                             <h:outputText value="Proteinas:"/>
                             <p:inputText value="#{control_yogurthControlador.control_yogurthSel.proteinas_yogurth}"
                                          required="true" requiredMessage="Ingrese Proteinas" disabled="true"/>
-                            
-                                                
+
+
                         </p:panelGrid>
                         <p:commandButton value="Aceptar" action="#{control_yogurthControlador.eliminarControl_Yogurth()}" 
                                          update=":frmcontrol_yogurth:pnlControl_Yogurth"/>

@@ -28,21 +28,13 @@ and open the template in the editor.
                                      paginator="true" rows="10" rowKey="#{producto.id_producto}" selectionMode="single" 
                                      selection="#{productoControlador.productoSel}">
 
-                            <p:column headerText="Color">
-                                <h:outputText value="#{producto.color_producto}"/>
-                            </p:column>
-
-
-
                             <p:column headerText="Nombre producto">
                                 <h:outputText value="#{producto.id_categoria.nombre_producto}"/>
                             </p:column>
 
-
                             <p:column headerText="Precio de Producto">
                                 <h:outputText value="#{producto.id_categoria.precio_producto}"/>
                             </p:column>
-
 
                             <p:column headerText="Fecha de Fabricación" >
 
@@ -56,6 +48,10 @@ and open the template in the editor.
                             <p:column headerText="Peso del Producto">
                                 <h:outputText value="#{producto.peso_producto}"/>
                             </p:column> 
+                            
+                            <p:column headerText="Color del Producto">
+                                <h:outputText value="#{producto.color_producto}"/>
+                            </p:column>
 
                             <p:column headerText="Sabor del Producto">
                                 <h:outputText value="#{producto.sabor_producto}"/>
@@ -109,9 +105,6 @@ and open the template in the editor.
                     <h:form id="frmNuevoProducto">
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                         <p:panelGrid id="pngNuevoProducto" columns="2">
-                            <h:outputText value="Color de Producto:"/>
-                            <p:inputText value="#{productoControlador.objProducto.color_producto}" placeholder="Color Producto" 
-                                         required="true" requiredMessage="Color Producto"/>
 
                             <h:outputText value="Nombre Producto:"/>
                             <p:selectOneMenu id="cmbCategoria" value="#{productoControlador.valorCategoriaSeleccionado}">
@@ -119,24 +112,27 @@ and open the template in the editor.
                                 <f:selectItems value="#{productoControlador.lstCategoria}" var="categoria" itemLabel="#{categoria.nombre_producto}" itemValue="#{categoria.id_categoria}"/>
                             </p:selectOneMenu>
 
-                            <h:outputText value="Fecha De Fabricación:"/>
+                            <h:outputText value="Fecha de Fabricación:"/>
                             <p:calendar id="effect" value="#{productoControlador.fecha_fa}" effect="fold" />
 
-                            <h:outputText value="Fecha De Caducidad:"/>
+                            <h:outputText value="Fecha de Caducidad:"/>
                             <p:calendar id="effect1" value="#{productoControlador.fecha_cad}" effect="fold" />
 
+                            <h:outputText value="Color de Producto:"/>
+                            <p:inputText value="#{productoControlador.objProducto.color_producto}" placeholder="Ingrese el Color" 
+                                         required="true" requiredMessage="Ingrese el Color"/>
 
                             <h:outputText value="Sabor:"/>
-                            <p:inputText value="#{productoControlador.objProducto.sabor_producto}" placeholder="Ingrese una Ciudad"
-                                         required="true" requiredMessage="Ingrese una Ciudad"/>
+                            <p:inputText value="#{productoControlador.objProducto.sabor_producto}" placeholder="Ingrese el Sabor"
+                                         required="true" requiredMessage="Ingrese el Sabor"/>
 
                             <h:outputText value="Peso:"/>
-                            <p:inputText value="#{productoControlador.objProducto.peso_producto}" placeholder="Ingrese el Telefono"
-                                         required="true" requiredMessage="Ingrese el Telefono"/>
+                            <p:inputText value="#{productoControlador.objProducto.peso_producto}" placeholder="Ingrese el Peso"
+                                         required="true" requiredMessage="Ingrese el Peso"/>
 
                             <h:outputText value="Forma:"/>
-                            <p:inputText value="#{productoControlador.objProducto.forma_producto}" placeholder="Ingrese el Producto"
-                                         required="true" requiredMessage="Ingrese el Telefono"/>
+                            <p:inputText value="#{productoControlador.objProducto.forma_producto}" placeholder="Ingrese la Forma"
+                                         required="true" requiredMessage="Ingrese la Forma"/>
 
                         </p:panelGrid>
 
