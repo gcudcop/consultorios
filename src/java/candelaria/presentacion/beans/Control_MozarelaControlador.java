@@ -6,7 +6,9 @@
 package candelaria.presentacion.beans;
 
 import candelaria.logica.clases.Control_Mozarela;
+import candelaria.logica.clases.Producto;
 import candelaria.logica.funciones.FControl_Mozarela;
+import candelaria.logica.funciones.FProducto;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -23,6 +25,9 @@ public class Control_MozarelaControlador {
     private Control_Mozarela objControl_mozarela;
     private Control_Mozarela control_MozarelaSel;
     private ArrayList<Control_Mozarela> lstControl_Mozarela;
+    private ArrayList<Producto> lstProducto;
+    private int valorProductoSeleccionado;
+    private Producto productoSel;
     private boolean mostrarActualizar;
 
     public Control_Mozarela getObjControl_mozarela() {
@@ -49,6 +54,30 @@ public class Control_MozarelaControlador {
         this.lstControl_Mozarela = lstControl_Mozarela;
     }
 
+    public ArrayList<Producto> getLstProducto() {
+        return lstProducto;
+    }
+
+    public void setLstProducto(ArrayList<Producto> lstProducto) {
+        this.lstProducto = lstProducto;
+    }
+
+    public int getValorProductoSeleccionado() {
+        return valorProductoSeleccionado;
+    }
+
+    public void setValorProductoSeleccionado(int valorProductoSeleccionado) {
+        this.valorProductoSeleccionado = valorProductoSeleccionado;
+    }
+
+    public Producto getProductoSel() {
+        return productoSel;
+    }
+
+    public void setProductoSel(Producto productoSel) {
+        this.productoSel = productoSel;
+    }
+
     public boolean isMostrarActualizar() {
         return mostrarActualizar;
     }
@@ -58,8 +87,10 @@ public class Control_MozarelaControlador {
     }
 
     public Control_MozarelaControlador() {
-        reinit();
+         reinit();
     }
+
+
     
     private void reinit(){
         this.objControl_mozarela = new Control_Mozarela();
@@ -71,6 +102,7 @@ public class Control_MozarelaControlador {
 //        this.lstNiveles = new ArrayList<Nivel>();
         //this.ProveedorSel = this.lstProveedors.get(0);
         this.cargarControl_Mozarela();
+        this.cargarProducto();
         //this.cargarNiveles();
 //        this.cargarPeriodos();
 //        this.cargarFacultad();
@@ -85,6 +117,16 @@ public class Control_MozarelaControlador {
         } catch (Exception e) {
             Util.addErrorMessage("private void cargarControl_Mozarela dice: " + e.getMessage());
             System.out.println("private void cargarControl_Mozarela dice: " + e.getMessage());
+        }
+     }
+    
+        public void cargarProducto() {
+        try {
+            this.lstProducto = FProducto.ObtenerProductos();
+            System.out.println(lstProducto.get(0).getId_producto());
+        } catch (Exception e) {
+            Util.addErrorMessage("private void cargarProducto dice: " + e.getMessage());
+            System.out.println("private void cargarProducto dice: " + e.getMessage());
         }
      }
             
