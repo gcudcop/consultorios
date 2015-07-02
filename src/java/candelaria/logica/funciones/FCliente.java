@@ -21,7 +21,7 @@ public class FCliente {
         boolean eje = false;
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from candelaria.f_insert_cliente(?,?,?,?,?,?,?)";
+            String sql = "select * from sgflc.f_insert_cliente(?,?,?,?,?,?,?)";
             lstP.add(new Parametro(1, cliente.getNombres_cliente()));
             lstP.add(new Parametro(2, cliente.getApellidos_cliente()));
             lstP.add(new Parametro(3, cliente.getDireccion_cliente()));
@@ -44,7 +44,7 @@ public class FCliente {
         boolean eje = false;
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from candelaria.f_update_cliente(?,?,?,?,?,?,?,?)";
+            String sql = "select * from sgflc.f_update_cliente(?,?,?,?,?,?,?,?)";
             lstP.add(new Parametro(1, cliente.getId_cliente()));
             lstP.add(new Parametro(2, cliente.getNombres_cliente()));
             lstP.add(new Parametro(3, cliente.getApellidos_cliente()));
@@ -70,7 +70,7 @@ public class FCliente {
          try
         {
         ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-        String sql = "select * from candelaria.f_delete_cliente(?)";
+        String sql = "select * from sgflc.f_delete_cliente(?)";
         lstP.add(new Parametro(1,codigo));
         ConjuntoResultado rs= AccesoDatos.ejecutaQuery(sql,lstP);
         while(rs.next() )
@@ -105,7 +105,7 @@ public class FCliente {
     public static ArrayList<Cliente> ObtenerClientes() throws Exception {
         ArrayList<Cliente> lst = new ArrayList<Cliente>();
         try {
-            String sql = "select * from master.f_select_cliente()";
+            String sql = "select * from sgflc.f_select_cliente()";
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
             lst = llenarCliente(rs);
             rs = null;
@@ -119,7 +119,7 @@ public class FCliente {
         Cliente lst;
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from master.f_select_estudiante_dado_codigo(?)";
+            String sql = "select * from sgflc.f_select_cliente_dado_codigo(?)";
             lstP.add(new Parametro(1, codigo));
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             lst = new Cliente();

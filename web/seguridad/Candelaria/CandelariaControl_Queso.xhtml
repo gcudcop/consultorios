@@ -118,7 +118,12 @@ and open the template in the editor.
                                 <f:selectItems value="#{control_quesoControlador.lstProducto}" var="producto" 
                                                itemLabel="#{producto.id_categoria.nombre_producto}" itemValue="#{producto.id_categoria.id_categoria}"/>
                             </p:selectOneMenu>
-                                                         
+                                                 
+                             <p:selectOneMenu id="cmbCategoria" value="#{productoControlador.valorCategoriaSeleccionado}">
+                                <f:selectItem itemLabel="Elija una categoria" itemValue="#{null}"/>
+                                <f:selectItems value="#{productoControlador.lstCategoria}" var="categoria" itemLabel="#{categoria.nombre_producto}" itemValue="#{categoria.id_categoria}"/>
+                            </p:selectOneMenu>
+                             
                              
                             <h:outputText value="Olor"/>
                             <p:inputText value="#{control_QuesoControlador.objControl_Queso.olor_queso}" placeholder="Ingrese Olor" 
