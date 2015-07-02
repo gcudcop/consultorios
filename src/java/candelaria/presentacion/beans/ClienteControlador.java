@@ -6,9 +6,7 @@
 package candelaria.presentacion.beans;
 
 import candelaria.logica.clases.Cliente;
-import candelaria.logica.clases.Empleado;
 import candelaria.logica.funciones.FCliente;
-import candelaria.logica.funciones.FEmpleado;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -83,8 +81,8 @@ public class ClienteControlador {
             this.clienteSel = lstCliente.get(0);
             System.out.println(lstCliente.get(0).getId_cliente());
         } catch (Exception e) {
-            Util.addErrorMessage("private void cargarEmpleado dice: " + e.getMessage());
-            System.out.println("private void cargarEmpleado dice: " + e.getMessage());
+            Util.addErrorMessage("private void cargarCliente dice: " + e.getMessage());
+            System.out.println("private void cargarCliente dice: " + e.getMessage());
         }
      }
             

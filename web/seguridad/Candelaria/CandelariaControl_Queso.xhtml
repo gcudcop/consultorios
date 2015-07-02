@@ -25,7 +25,7 @@ and open the template in the editor.
                     <p:panel id="pnlControl_Queso">
                         <p:dataTable id="tblControl_Queso" value="#{control_QuesoControlador.lstControl_Queso}" 
                                      var="Control_queso" 
-                                     paginator="true" rows="10" rowKey="#{Control_queso.id_control_queso}" selectionMode="single" 
+                                     paginator="true" rows="10" rowKey="#{Control_Queso.id_control_queso}" selectionMode="single" 
                                      selection="#{control_QuesoControlador.control_QuesoSel}">
                             
                              <p:column headerText="Nombre Producto">
@@ -106,20 +106,17 @@ and open the template in the editor.
                           modal="true" closable="false" resizable="false"
                           showEffect="clip" hideEffect="fold"  height="400px" width="600px"> 
 
-
-
                     <h:form id="frmNuevoControl_queso" style="max-width: 600px;max-height: 400px">
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                         <p:panelGrid id="pngNuevoControl_queso" columns="2">
-                            
+                                                     
                              <h:outputText value="Nombre Producto:"/>
-                            <p:selectOneMenu id="cmbCategoria" value="#{control_quesoControlador.valorProductoSeleccionado}">
+                            <p:selectOneMenu id="cmbProducto2" value="#{control_QuesoControlador.valorProductoSeleccionado}">
                                 <f:selectItem itemLabel="Elija un Producto" itemValue="#{null}"/>
-                                <f:selectItems value="#{control_quesoControlador.lstProducto}" var="producto" 
+                                <f:selectItems value="#{control_QuesoControlador.lstProducto}" var="producto" 
                                                itemLabel="#{producto.id_categoria.nombre_producto}" itemValue="#{producto.id_categoria.id_categoria}"/>
                             </p:selectOneMenu>
-                                                         
-                             
+                                                                                    
                             <h:outputText value="Olor"/>
                             <p:inputText value="#{control_QuesoControlador.objControl_Queso.olor_queso}" placeholder="Ingrese Olor" 
                                          required="true" requiredMessage="Ingrese Olor" />
@@ -153,9 +150,9 @@ and open the template in the editor.
                            
                         </p:panelGrid>
 
-                        <p:commandButton value="Aceptar" action="#{control_QuesoaControlador.insertarControl_Queso()}" 
+                        <p:commandButton value="Aceptar" action="#{control_QuesoControlador.insertarControl_Queso()}" 
                                          update=":frmcontrol_queso:pnlControl_Queso"/>
-                        <p:commandButton value="Cancelar" onclick="wdlgNuevoControl_queso.hide()" type="reset"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgNuevoControl_Queso.hide()" type="reset"/>
                     </h:form> 
                 </p:dialog>
 
@@ -170,7 +167,7 @@ and open the template in the editor.
 
                                                         
                             <h:outputText value="Nombre Producto:"/>
-                            <p:selectOneMenu id="cmbCategoria" value="#{control_quesoControlador.valorProductoSeleccionado}">
+                            <p:selectOneMenu id="cmbProducto1" value="#{control_QuesoControlador.valorProductoSeleccionado}">
                                 <f:selectItem itemLabel="Elija un Producto" itemValue="#{null}"/>
                                 <f:selectItems value="#{control_quesoControlador.lstProducto}" var="producto" 
                                                itemLabel="#{producto.id_categoria.nombre_producto}" itemValue="#{producto.id_categoria.id_categoria}"/>
