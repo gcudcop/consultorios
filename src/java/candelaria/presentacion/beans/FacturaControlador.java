@@ -5,7 +5,9 @@
  */
 package candelaria.presentacion.beans;
 
+import candelaria.logica.clases.Cliente;
 import candelaria.logica.clases.Factura;
+import candelaria.logica.funciones.FCliente;
 import candelaria.logica.funciones.FFactura;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
@@ -23,8 +25,80 @@ public class FacturaControlador {
     private Factura objFactura;
     private Factura facturaSel;
     private ArrayList<Factura> lstFacturas;
+    private ArrayList<Cliente> lstClientes;
     private boolean mostrarActualizar;
+    private int cantidad;
+    private double resultado;
+    private double precio;
+    private String fecha_cambiada;
+    private int valorFSeleccionado;
+    private int valorSSeleccionado;
+    private double totalHoja;
 
+    public ArrayList<Cliente> getLstClientes() {
+        return lstClientes;
+    }
+
+    public void setLstClientes(ArrayList<Cliente> lstClientes) {
+        this.lstClientes = lstClientes;
+    }
+    
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public double getResultado() {
+        return resultado;
+    }
+
+    public void setResultado(double resultado) {
+        this.resultado = resultado;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
+    public String getFecha_cambiada() {
+        return fecha_cambiada;
+    }
+
+    public void setFecha_cambiada(String fecha_cambiada) {
+        this.fecha_cambiada = fecha_cambiada;
+    }
+
+    public int getValorFSeleccionado() {
+        return valorFSeleccionado;
+    }
+
+    public void setValorFSeleccionado(int valorFSeleccionado) {
+        this.valorFSeleccionado = valorFSeleccionado;
+    }
+
+    public int getValorSSeleccionado() {
+        return valorSSeleccionado;
+    }
+
+    public void setValorSSeleccionado(int valorSSeleccionado) {
+        this.valorSSeleccionado = valorSSeleccionado;
+    }
+
+    public double getTotalHoja() {
+        return totalHoja;
+    }
+
+    public void setTotalHoja(double totalHoja) {
+        this.totalHoja = totalHoja;
+    }
+    
     public Factura getObjFactura() {
         return objFactura;
     }
@@ -79,50 +153,16 @@ public class FacturaControlador {
         }
     }
     
-    public void insertarFactura() {
-        try {
-            
-                        
-            if (FFactura.Insertar(objFactura)) {
-                this.reinit();
-                DefaultRequestContext.getCurrentInstance().execute("wdlgNuevaFactura.hide()");
-                Util.addSuccessMessage("Información guardada con éxito");
-                System.out.println("public void insertarFactura dice: Error al guardar la información");
-           } else { 
-                Util.addSuccessMessage("Error al guardar la información");
-                System.out.println("public void insertarFactura dice: Error al guardar la información");
-           }
+    public void cargarClientes(){
+         try {
+            this.lstClientes = FCliente.ObtenerClientes();
+            //this.facturaSel = lstFacturas.get(0);
+            System.out.println(lstClientes.get(0).getId_cliente());
         } catch (Exception e) {
-            Util.addErrorMessage("private void insertarFactura dice: " + e.getMessage());
-            System.out.println("private void insertarFactura dice: " + e.getMessage());
-                }
-        }
-
-    public void cambiarEstadoMostrarActualizar(){
-        mostrarActualizar = true;
-    }
-        
-     public void actualizarFactura() {
-        try {
-            
-                       
-            if (FFactura.actualizar(facturaSel)) {
-                facturaSel = new Factura();
-                mostrarActualizar = false;
-                this.reinit();
-                DefaultRequestContext.getCurrentInstance().execute("wdlgEditarFactura.hide()");
-                Util.addSuccessMessage("Información guardada con éxito");
-                System.out.println("public void actualizarFactura dice: Información guardada con éxito!!");
-            } else {
-                Util.addErrorMessage("Error al guardar la información");
-                System.out.println("public void actualizarFactura dice: Error al guardar la información");
-            }
-        } catch (Exception e) {
-            Util.addErrorMessage("private void actualizarFactura dice: " + e.getMessage());
-            System.out.println("private void actualizarFactura dice: " + e.getMessage());
+            Util.addErrorMessage("private void cargarClientes dice: " + e.getMessage());
+            System.out.println("private void cargarClientes dice: " + e.getMessage());
         }
     }
-
     public void eliminarFactura() {
         try {
             if (FFactura.eliminar((int) facturaSel.getId_factura())) {
@@ -140,4 +180,5 @@ public class FacturaControlador {
         }
         
     }
+    
 }

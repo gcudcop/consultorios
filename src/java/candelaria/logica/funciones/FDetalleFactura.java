@@ -124,4 +124,20 @@ public class FDetalleFactura {
         }
         return lst;
     }
+    
+    public static ArrayList<Detalle_Factura> ObtenerDetalleDadoCodigoFactura(int codigo) throws Exception {
+        ArrayList<Detalle_Factura> lst = new ArrayList<Detalle_Factura>();
+        try {
+            String sql = "select * from sgflc.f_select_detalle_factura_dado_codigo_factura(?)";
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();            
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            //lst = new Cliente();
+            lst = llenarDetalle_Factura(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
 }
