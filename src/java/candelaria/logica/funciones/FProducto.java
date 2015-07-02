@@ -115,6 +115,8 @@ public class FProducto {
         }
         return lst;
     }
+    
+  
 
     public static Producto ObtenerProductoDadoCodigo(int codigo) throws Exception {
         Producto lst;

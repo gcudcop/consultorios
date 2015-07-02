@@ -6,8 +6,10 @@
 package candelaria.presentacion.beans;
 
 import candelaria.logica.clases.Detalle_Factura;
+import candelaria.logica.clases.Factura;
 import candelaria.logica.clases.Producto;
 import candelaria.logica.funciones.FDetalleFactura;
+import candelaria.logica.funciones.FFactura;
 import candelaria.logica.funciones.FProducto;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
@@ -27,8 +29,26 @@ public class DetalleFacturaControlador {
     private Detalle_Factura detalleFacturaSel;
     private ArrayList<Detalle_Factura> lstDetalleFactura;
     private ArrayList<Producto> lstProductos;
+    private ArrayList<Factura> facturaUltima;
+    private Factura facturaSel;
     private boolean mostrarActualizar;
     private int valorProductoSeleccionado;
+
+    public Factura getFacturaSel() {
+        return facturaSel;
+    }
+
+    public void setFacturaSel(Factura facturaSel) {
+        this.facturaSel = facturaSel;
+    }
+
+    public ArrayList<Factura> getFacturaUltima() {
+        return facturaUltima;
+    }
+
+    public void setFacturaUltima(ArrayList<Factura> facturaUltima) {
+        this.facturaUltima = facturaUltima;
+    }
 
     public int getValorProductoSeleccionado() {
         return valorProductoSeleccionado;
@@ -81,11 +101,11 @@ public class DetalleFacturaControlador {
     public DetalleFacturaControlador() {
         reinit();
     }
-    
-    public void reinit(){
-        this.objDetalleFactura=new Detalle_Factura();
-        this.detalleFacturaSel=new Detalle_Factura();
-        this.lstDetalleFactura=new ArrayList<Detalle_Factura>();
+
+    public void reinit() {
+        this.objDetalleFactura = new Detalle_Factura();
+        this.detalleFacturaSel = new Detalle_Factura();
+        this.lstDetalleFactura = new ArrayList<Detalle_Factura>();
         cargarDetalleFactura();
         cargarProductos();
     }
@@ -100,6 +120,17 @@ public class DetalleFacturaControlador {
         }
     }
 
+    public void cargarFacturaUltima() {
+        try {
+            this.facturaUltima = FFactura.ObtenerFacturaUltima();
+            this.facturaSel= facturaUltima.get(0);
+            System.out.println(facturaUltima.get(0).getId_factura());
+        } catch (Exception e) {
+            Util.addErrorMessage("private void cargarFactura dice: " + e.getMessage());
+            System.out.println("private void cargarFactura dice: " + e.getMessage());
+        }
+    }
+
     public void cargarDetalleFactura() {
         try {
             this.lstDetalleFactura = FDetalleFactura.ObtenerDetalle_Facturas();
@@ -110,37 +141,37 @@ public class DetalleFacturaControlador {
             System.out.println("private void cargarDetalleFactura dice: " + e.getMessage());
         }
     }
-    
+
     public void insertarDetalleFactura() {
         try {
-            
+
             Producto producto = new Producto();
             producto.setId_producto(valorProductoSeleccionado);
             objDetalleFactura.setId_producto(producto);
-                                    
+
             if (FDetalleFactura.Insertar(objDetalleFactura)) {
                 this.reinit();
                 DefaultRequestContext.getCurrentInstance().execute("wdlgNuevoDetalleFactura.hide()");
                 Util.addSuccessMessage("Información guardada con éxito");
                 System.out.println("public void insertarDetalleFactura dice: Error al guardar la información");
-           } else { 
+            } else {
                 Util.addSuccessMessage("Error al guardar la información");
                 System.out.println("public void insertarDetalleFactura dice: Error al guardar la información");
-           }
+            }
         } catch (Exception e) {
             Util.addErrorMessage("private void insertarDetalleFactura dice: " + e.getMessage());
             System.out.println("private void insertarDetalleFactura dice: " + e.getMessage());
-                }
         }
+    }
 
-    public void cambiarEstadoMostrarActualizar(){
+    public void cambiarEstadoMostrarActualizar() {
         mostrarActualizar = true;
     }
-        
-     public void actualizarDetalleFactura() {
+
+    public void actualizarDetalleFactura() {
         try {
             detalleFacturaSel.setId_producto(FProducto.ObtenerProductoDadoCodigo(detalleFacturaSel.getId_producto().getId_producto()));
-                       
+
             if (FDetalleFactura.actualizar(detalleFacturaSel)) {
                 detalleFacturaSel = new Detalle_Factura();
                 mostrarActualizar = false;
@@ -173,6 +204,6 @@ public class DetalleFacturaControlador {
             Util.addErrorMessage("private void eliminarDetalleFactura dice: " + e.getMessage());
             System.out.println("private void eliminarDetalleFactura dice: " + e.getMessage());
         }
-        
+
     }
 }
