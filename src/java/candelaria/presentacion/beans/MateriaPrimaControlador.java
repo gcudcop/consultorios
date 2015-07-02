@@ -7,7 +7,6 @@ package candelaria.presentacion.beans;
 
 import candelaria.logica.clases.MateriaPrima;
 import candelaria.logica.funciones.FMateriaPrima;
-import candelaria.logica.funciones.FMateriaPrima;
 import java.util.ArrayList;
 import javax.inject.Named;
 import javax.faces.bean.ViewScoped;
@@ -24,15 +23,7 @@ public class MateriaPrimaControlador {
     private MateriaPrima objMateriaPrima;
     private MateriaPrima materiaPrimaSel;
     private ArrayList<MateriaPrima> lstMateriaPrima;
-//    private ArrayList<Periodos> LstPeriodos;
-//    private ArrayList<Nivel> lstNiveles;
-//    private ArrayList<Escuela> lstEscuelas;
-//    private ArrayList<Facultad> lstFacultades;
     private boolean mostrarActualizar;
-//    private int valorPSeleccionado;
-//    private int valorNSeleccionado;
-//    private int valorESeleccionada;
-//    private int valorFSeleccionada;  
 
     public MateriaPrima getObjMateriaPrima() {
         return objMateriaPrima;
@@ -65,8 +56,6 @@ public class MateriaPrimaControlador {
     public void setMostrarActualizar(boolean mostrarActualizar) {
         this.mostrarActualizar = mostrarActualizar;
     }
-
-    
     
       public MateriaPrimaControlador() {
           reinit();
@@ -76,15 +65,7 @@ public class MateriaPrimaControlador {
         this.objMateriaPrima = new MateriaPrima();
         this.materiaPrimaSel = new MateriaPrima();
         this.lstMateriaPrima = new ArrayList<MateriaPrima>();
-//        this.LstPeriodos = new ArrayList<Periodos>();  
-//        this.lstFacultades = new ArrayList<Facultad>();
-//        this.lstEscuelas = new ArrayList<Escuela>();
-//        this.lstNiveles = new ArrayList<Nivel>();
-        //this.ProveedorSel = this.lstProveedors.get(0);
         this.cargarMateriaPrima();
-        //this.cargarNiveles();
-//        this.cargarPeriodos();
-//        this.cargarFacultad();
         
     }
     
@@ -94,63 +75,11 @@ public class MateriaPrimaControlador {
             this.materiaPrimaSel = lstMateriaPrima.get(0);
             System.out.println(lstMateriaPrima.get(0).getId_MateriaPrima());
         } catch (Exception e) {
-            Util.addErrorMessage("private void cargarMateriaPrimadice: " + e.getMessage());
+            Util.addErrorMessage("private void cargarMateriaPrima dice: " + e.getMessage());
             System.out.println("private void cargarMateriaPrima dice: " + e.getMessage());
         }
      }
-    
-    
-//    private void cargarPeriodos(){
-//        try {
-//            this.LstPeriodos= FPeriodos.ObtenerPeriodos();
-//            System.out.println(LstPeriodos.get(0).getNombre());
-//        } catch (Exception e) {
-//            Util.addErrorMessage("private void cargarPeriodos dice: " + e.getMessage());
-//            System.out.println("private void cargarPeriodos dice: " + e.getMessage());
-//            }
-//        }
-//    
-//    private void cargarNiveles(){
-//        try {
-//            this.lstNiveles = FNivel.ObtenerNiveles();
-//            System.out.println(lstNiveles.get(0).getNombre());
-//        } catch (Exception e) {
-//            Util.addErrorMessage("private void cargarNiveles dice: " + e.getMessage());
-//            System.out.println("private void cargarNiveles dice: " + e.getMessage());
-//            }
-//        }
-//    
-//    private void cargarFacultad() {
-//        try {
-//            this.lstFacultades = FFacultad.ObtenerFacultades();
-//            System.out.println(lstFacultades.get(0).getNombre());
-//        } catch (Exception e) {
-//            Util.addErrorMessage("private void cargarFacultad dice: " + e.getMessage());
-//            System.out.println("private void cargarFacultad dice: " + e.getMessage());
-//        }
-//    }
-//        
-//     public void obtenerEscuelasDadoCodigoFacultad() {
-//        try {
-//            lstEscuelas.clear();
-//            lstEscuelas = FEscuela.ObtenerEscuelaDadoCodigoFacultad(valorFSeleccionada);
-//        } catch (Exception e) {
-//            Util.addErrorMessage("private void cargarEscuelasDadoCodigoFacultad: " + e.getMessage());
-//            System.out.println("private void cargarEscuelasDadoCodigoFacultad: " + e.getMessage());
-//        }
-//    }
      
-//        public void obtenerNivelDadoCodigoEscuela() {
-//        try {
-//            lstNiveles.clear();
-//            lstNiveles = FNivel.ObtenerNivelesDadoCodigoEscuela(valorESeleccionada);
-//        } catch (Exception e) {
-//            Util.addErrorMessage("private void obtenerNivelDadoCodigoEscuela: " + e.getMessage());
-//            System.out.println("private void obtenerNivelDadoCodigoEscuela: " + e.getMessage());
-//        }
-//    }
-//        
-        
         public void insertarMateriaPrima() {
         try {
             

@@ -12,39 +12,36 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>
-            <ui:define name="MateriaPrima">Gestión de MateriaPrima</ui:define>
+            <ui:define name="MateriaPrima">Gestión de Materia Prima</ui:define>
         </title>
     </h:head>
     <h:body>
         <ui:composition template="../../templates/plantillaInternaCenter.xhtml">
-            <ui:define name="top">Gestión de MateriaPrima </ui:define>
+            <ui:define name="top">Gestión de Materia Prima </ui:define>
             <ui:define name="contenido">
                 <p:growl id="mensajes" autoUpdate="true" showDetail="true"/>
                 <h:form id="frmmateriaprima">
                     <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                     <p:panel id="pnlMateriaPrima">
                         <p:dataTable id="tblMateriaPrima" value="#{materiaPrimaControlador.lstMateriaPrima}" 
-                                     var="proveedor" 
-                                     paginator="true" rows="10" rowKey="#{materiaprima.id_materiaprima}" selectionMode="single" 
-                                     selection="#{materiaprimaControlador.materiprimaSel}">
+                                     var="materiaprima" 
+                                     paginator="true" rows="10" rowKey="#{materiaprima.id_MateriaPrima}" selectionMode="single" 
+                                     selection="#{materiaPrimaControlador.materiaPrimaSel}">
 
-                            <p:column headerText="Nombres MateriaPrima">
-                                <h:outputText value="#{MateriaPrima.nombre_MateriaPrima}"/>
+                            <p:column headerText="Nombres Materia Prima">
+                                <h:outputText value="#{materiaprima.nombre_MateriaPrima}"/>
                             </p:column>
 
                             <p:column headerText="Cantidad">
-                                <h:outputText value="#{MateriaPrima.cantidad_MateriaPrima}"/>
+                                <h:outputText value="#{materiaprima.cantidad_Materiaprima}"/>
                             </p:column>
-
-
-
 
                             <p:column exportable="false">
                                 <p:commandButton id="btnEditarMateriaPrima" icon="ui-icon-pencil"  title="Editar MateriaPrima" 
                                                  oncomplete="wdlgEditarMateriaPrima.show()" 
                                                  process="@this" update=":dlgEditarMateriaPrima, @form">                                   
                                     <f:setPropertyActionListener value="#{materiaprima}" 
-                                                                 target="#{materiaprimaControlador.materiaprimaSel}"/>
+                                                                 target="#{materiaPrimaControlador.materiaPrimaSel}"/>
                                 </p:commandButton>
 
 
@@ -52,7 +49,7 @@ and open the template in the editor.
                                                  oncomplete="wdlgEliminarMateriaPrima.show()" 
                                                  update=":dlgEliminarMateriaPrima">                                   
                                     <f:setPropertyActionListener value="#{materiaprima}" 
-                                                                 target="#{materiaprimaControlador.materiaprimaSel}"/>
+                                                                 target="#{materiaPrimaControlador.materiaPrimaSel}"/>
                                 </p:commandButton>
                             </p:column>
 
@@ -99,7 +96,7 @@ and open the template in the editor.
 
                         </p:panelGrid>
 
-                        <p:commandButton value="Aceptar" action="#{materiaprimaControlador.insertarmateriaprima()}" 
+                        <p:commandButton value="Aceptar" action="#{materiaPrimaControlador.insertarMateriaPrima()}" 
                                          update=":frmmateriaprima:pnlMateriaPrima"/>
                         <p:commandButton value="Cancelar" onclick="wdlgNuevoMateriaPrima.hide()" type="reset"/>
                     </h:form> 
@@ -124,7 +121,7 @@ and open the template in the editor.
                             <p:inputText value="#{materiaPrimaControlador.materiaPrimaSel.cantidad_Materiaprima}" title="ej: "
                                          required="true" requiredMessage="Ingrese el cantidad"/>
 
-                            
+
                         </p:panelGrid>
                         <p:commandButton value="Aceptar" action="#{materiaPrimaControlador.actualizarMateriaPrima()}" 
                                          update=":frmmateriaprima:pnlMateriaPrima"/>

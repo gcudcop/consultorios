@@ -23,9 +23,7 @@ public class FMateriaPrima {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
             String sql = "select * from sgflc.f_insert_materia_prima(?,?)";
             lstP.add(new Parametro(1, materiaprima.getNombre_MateriaPrima()));
-            lstP.add(new Parametro(2, materiaprima.getCantidad_Materiaprima()));
-           
-            
+            lstP.add(new Parametro(2, materiaprima.getCantidad_Materiaprima()));           
        
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             while (rs.next()) {
@@ -79,18 +77,12 @@ public class FMateriaPrima {
           return eje;
     }
     
-    /**
-     *
-     * @param rs
-     * @return
-     * @throws Exception
-     */
     public static ArrayList<MateriaPrima> llenarMateriaPrima(ConjuntoResultado rs) throws Exception {
         ArrayList<MateriaPrima> lst = new ArrayList<MateriaPrima>();
         MateriaPrima materiaprima = null;
         try {
             while (rs.next()) {
-                materiaprima = new MateriaPrima(rs.getInt("pid_materiaprima"), rs.getString("pnombre_materiaprima"), rs.getString("pcantidad_materiaprima")
+                materiaprima = new MateriaPrima(rs.getInt("pid_materia_prima"), rs.getString("pnombre_materia_prima"), rs.getInt("pcantidad_materia_prima")
                         );
                 lst.add(materiaprima);
             }
