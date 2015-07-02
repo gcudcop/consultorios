@@ -29,8 +29,21 @@ and open the template in the editor.
                                      selection="#{empleadoControlador.empleadoSel}">
 
                             <p:column headerText="Nombres Empleado">
-                                <h:outputText value="#{empleado.nombres_empleado} #{empleado.apellido_paterno} #{empleado.apellido_materno} #{empleado.telefono_empleado} #{empleado.cedula_empleado} #{empleado.numero_credencial}"/>
+                                <h:outputText value="#{empleado.nombres_empleado} #{empleado.apellido_paterno} #{empleado.apellido_materno}"/>
                             </p:column>
+                            
+                            <p:column headerText="Télefono">
+                                <h:outputText value="#{empleado.telefono_empleado}"/>
+                            </p:column>
+                            
+                            <p:column headerText="Cedula">
+                                <h:outputText value="#{empleado.cedula_empleado} #{empleado.numero_credencial}"/>
+                            </p:column>
+                            
+                             <p:column headerText="Numero de Credencial">
+                                <h:outputText value="#{empleado.numero_credencial}"/>
+                            </p:column>
+                            
 
 
                            <p:column exportable="false">
@@ -83,35 +96,35 @@ and open the template in the editor.
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                         <p:panelGrid id="pngNuevoEmpleado" columns="2">
                             <h:outputText value="Nombre:"/>
-                            <p:inputText value="#{empleadoControlador.objEmpleado.nombres_empleado}" placeholder="Ingrese un Nombre" 
+                            <p:inputText value="#{empleadoControlador.objEmpleado.nombres_empleado}" placeholder="Ingrese Nombre" 
                                          required="true" requiredMessage="Ingrese el nombre"/>
 
                             <h:outputText value="Apellido Paterno:"/>
-                            <p:inputText value="#{empleadoControlador.objEmpleado.apellido_paterno}" placeholder="Ingrese su Apellido Paterno"  
+                            <p:inputText value="#{empleadoControlador.objEmpleado.apellido_paterno}" placeholder="Ingrese Apellido Paterno"  
                                          required="true" requiredMessage="Ingrese la Direcion"/>
                             
                              <h:outputText value="Apellido Materno:"/>
-                            <p:inputText value="#{empleadoControlador.objEmpleado.apellido_materno}" placeholder="Ingrese su Apellido Materno"  
+                            <p:inputText value="#{empleadoControlador.objEmpleado.apellido_materno}" placeholder="Ingrese Apellido Materno"  
                                          required="true" requiredMessage="Ingrese la Direcion"/>
 
                             <h:outputText value="Estado Civil:"/>
-                            <p:inputText value="#{empleadoControlador.objEmpleado.estado_civil}" placeholder="Ingrese su Estado Civil"
+                            <p:inputText value="#{empleadoControlador.objEmpleado.estado_civil}" placeholder="Estado Civil"
                                          required="true" requiredMessage="Ingrese una Ciudad"/>
 
                             <h:outputText value="Email:"/>
-                            <p:inputText value="#{empleadoControlador.objEmpleado.email_empleado}" placeholder="Ingrese su correo electronico"
+                            <p:inputText value="#{empleadoControlador.objEmpleado.email_empleado}" placeholder="Correo Electronico"
                                          required="true" requiredMessage="Ingrese el Telefono"/>
 
                             <h:outputText value="Telefono:"/>
-                            <p:inputText value="#{empleadoControlador.objEmpleado.telefono_empleado}" placeholder="Ingrese su telefono"
+                            <p:inputText value="#{empleadoControlador.objEmpleado.telefono_empleado}" placeholder="Telefono"
                                          required="true" requiredMessage="Ingrese el Telefono"/>
                             
                             <h:outputText value="Cedula:"/>
-                            <p:inputText value="#{empleadoControlador.objEmpleado.cedula_empleado}" placeholder="Ingrese su numero de cedula"
+                            <p:inputText value="#{empleadoControlador.objEmpleado.cedula_empleado}" placeholder="Numero de Cedula"
                                          required="true" requiredMessage="Ingrese el Telefono"/>
                             
                             <h:outputText value="Credencial:"/>
-                            <p:inputText value="#{empleadoControlador.objEmpleado.numero_credencial}" placeholder="Ingrese su numero de Credencial"
+                            <p:inputText value="#{empleadoControlador.objEmpleado.numero_credencial}" placeholder="Numero de Credencial"
                                          required="true" requiredMessage="Ingrese el Telefono"/>
 
                            
@@ -140,19 +153,19 @@ and open the template in the editor.
                             
                             <h:outputText value="Apellido Paterno:"/>
                             <p:inputText value="#{empleadoControlador.empleadoSel.apellido_paterno}" title="ej: Luz" 
-                                         required="true" requiredMessage="Ingrese el apellido paterno"/>
+                                         required="true" requiredMessage="Apellido Paterno"/>
                             
                             <h:outputText value="Apellido Materno:"/>
                             <p:inputText value="#{empleadoControlador.empleadoSel.apellido_materno}" title="ej: Luz" 
-                                         required="true" requiredMessage="Ingrese el apellido materno"/>
+                                         required="true" requiredMessage="Apellido Materno"/>
                             
                             <h:outputText value="Estado Civil:"/>
                             <p:inputText value="#{empleadoControlador.objEmpleado.estado_civil}" placeholder="Ingrese su Estado Civil"
-                                         required="true" requiredMessage="Ingrese una Ciudad"/>
+                                         required="true" requiredMessage="Ciudad"/>
 
                             <h:outputText value="Email:"/>
                             <p:inputText value="#{empleadoControlador.objEmpleado.email_empleado}" placeholder="Ingrese su correo electronico"
-                                         required="true" requiredMessage="Ingrese el Telefono"/>
+                                         required="true" requiredMessage="Correo Electronico"/>
 
                             <h:outputText value="Telefono:"/>
                             <p:inputText value="#{empleadoControlador.objEmpleado.telefono_empleado}" placeholder="Ingrese su telefono"
@@ -160,11 +173,11 @@ and open the template in the editor.
                             
                             <h:outputText value="Cedula:"/>
                             <p:inputText value="#{empleadoControlador.objEmpleado.cedula_empleado}" placeholder="Ingrese su numero de cedula"
-                                         required="true" requiredMessage="Ingrese el Telefono"/>
+                                         required="true" requiredMessage="Ingrese la Cedula"/>
                             
                             <h:outputText value="Credencial:"/>
                             <p:inputText value="#{empleadoControlador.objEmpleado.numero_credencial}" placeholder="Ingrese su numero de Credencial"
-                                         required="true" requiredMessage="Ingrese el Telefono"/>
+                                         required="true" requiredMessage="Ingrese la Credencial"/>
                             
                           </p:panelGrid>                 
                                               
