@@ -167,23 +167,23 @@ and open the template in the editor.
                                          required="true" requiredMessage="Apellido Materno"/>
                             
                             <h:outputText value="Estado Civil:"/>
-                            <p:inputText value="#{empleadoControlador.objEmpleado.estado_civil}" placeholder="Ingrese su Estado Civil"
+                            <p:inputText value="#{empleadoControlador.empleadoSel.estado_civil}" placeholder="Ingrese su Estado Civil"
                                          required="true" requiredMessage="Ciudad"/>
 
                             <h:outputText value="Email:"/>
-                            <p:inputText value="#{empleadoControlador.objEmpleado.email_empleado}" placeholder="Ingrese su correo electronico"
+                            <p:inputText value="#{empleadoControlador.empleadoSel.email_empleado}" placeholder="Ingrese su correo electronico"
                                          required="true" requiredMessage="Correo Electronico"/>
 
                             <h:outputText value="Telefono:"/>
-                            <p:inputText value="#{empleadoControlador.objEmpleado.telefono_empleado}" placeholder="Ingrese su telefono"
+                            <p:inputText value="#{empleadoControlador.empleadoSel.telefono_empleado}" placeholder="Ingrese su telefono"
                                          required="true" requiredMessage="Ingrese el Telefono"/>
                             
                             <h:outputText value="Cedula:"/>
-                            <p:inputText value="#{empleadoControlador.objEmpleado.cedula_empleado}" placeholder="Ingrese su numero de cedula"
+                            <p:inputText value="#{empleadoControlador.empleadoSel.cedula_empleado}" placeholder="Ingrese su numero de cedula"
                                          required="true" requiredMessage="Ingrese la Cedula"/>
                             
                             <h:outputText value="Credencial:"/>
-                            <p:inputText value="#{empleadoControlador.objEmpleado.numero_credencial}" placeholder="Ingrese su numero de Credencial"
+                            <p:inputText value="#{empleadoControlador.empleadoSel.numero_credencial}" placeholder="Ingrese su numero de Credencial"
                                          required="true" requiredMessage="Ingrese la Credencial"/>
                             
                           </p:panelGrid>                 
@@ -191,7 +191,7 @@ and open the template in the editor.
                 
                         <p:commandButton value="Aceptar" action="#{empleadoControlador.actualizarEmpleado()}" 
                                          update=":frmempleado:pnlEmpleado"/>
-                        <p:commandButton value="Cancelar" onclick="wdlgEditar.hide()" type="reset"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgEditarEmpleado.hide()" type="reset"/>
                     </h:form> 
                 </p:dialog>
 

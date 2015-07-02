@@ -14,6 +14,8 @@ import master.logica.clases.Usuario;
 import master.logica.funciones.*;
 import recursos.Util;
 import java.util.Date;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import recursos.Tools;
 
 /**
@@ -99,7 +101,11 @@ public class LoginUsuario {
                 return "/login";
             }
         } catch (Exception e) {
-            Util.addErrorMessage(e, String.format(recurso.getString("errorCatch"), "Autentificacion"));
+           
+            FacesMessage mensaje = new FacesMessage(FacesMessage.SEVERITY_FATAL, "INCORRECTO", "Usuario o Contraseña Incorrecta");
+            FacesMessage mensaje1 = new FacesMessage(FacesMessage.SEVERITY_FATAL, "VERIFICAR", "Solicitar Acceso");
+            FacesContext.getCurrentInstance().addMessage(null, mensaje);
+            FacesContext.getCurrentInstance().addMessage(null, mensaje1);
             return "/login";
         }
 
