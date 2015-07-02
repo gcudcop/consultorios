@@ -21,7 +21,7 @@ public class FCategoria {
         boolean eje = false;
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from candelaria.f_insert_categoria(?,?,?)";
+            String sql = "select * from sgflc.f_insert_categoria(?,?,?)";
             lstP.add(new Parametro(1, categoria.getNombre_producto()));
             lstP.add(new Parametro(2, categoria.getDescripcion_producto()));
             lstP.add(new Parametro(3, categoria.getPrecio_producto()));
@@ -41,7 +41,7 @@ public class FCategoria {
         boolean eje = false;
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from candelaria.f_update_categoria(?,?,?,?)";
+            String sql = "select * from sgflc.f_update_categoria(?,?,?,?)";
             lstP.add(new Parametro(1, categoria.getId_categoria()));
             lstP.add(new Parametro(2, categoria.getNombre_producto()));
             lstP.add(new Parametro(3, categoria.getDescripcion_producto()));
@@ -63,7 +63,7 @@ public class FCategoria {
          try
         {
         ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-        String sql = "select * from candelaria.f_delete_categoria(?)";
+        String sql = "select * from sgflc.f_delete_categoria(?)";
         lstP.add(new Parametro(1,codigo));
         ConjuntoResultado rs= AccesoDatos.ejecutaQuery(sql,lstP);
         while(rs.next() )
@@ -97,7 +97,7 @@ public class FCategoria {
     public static ArrayList<Categoria> ObtenerCategoria() throws Exception {
         ArrayList<Categoria> lst = new ArrayList<Categoria>();
         try {
-            String sql = "select * from master.f_select_categoria()";
+            String sql = "select * from sgflc.f_select_categoria()";
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
             lst = llenarCategoria(rs);
             rs = null;
@@ -111,7 +111,7 @@ public class FCategoria {
         Categoria lst;
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from master.f_select_categoria_dado_codigo(?)";
+            String sql = "select * from sgflc.f_select_categoria_dado_codigo(?)";
             lstP.add(new Parametro(1, codigo));
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             lst = new Categoria();

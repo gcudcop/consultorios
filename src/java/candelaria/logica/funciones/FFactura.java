@@ -108,6 +108,19 @@ public class FFactura {
         }
         return lst;
     }
+    
+       public static ArrayList<Factura> ObtenerFacturaUltima() throws Exception {
+        ArrayList<Factura> lst = new ArrayList<Factura>();
+        try {
+            String sql = "select * from sgflc.f_select_factura_ultima()";
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
+            lst = llenarFactura(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
 
     public static Factura ObtenerFacturaDadoCodigo(int codigo) throws Exception {
         Factura lst;
