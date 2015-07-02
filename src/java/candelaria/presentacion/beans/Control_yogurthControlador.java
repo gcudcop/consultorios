@@ -129,7 +129,10 @@ public class Control_yogurthControlador {
         public void insertarControl_Yogurth() {
         try {
             
-                        
+              Producto producto = new Producto();
+              producto.setId_producto(valorProductoSeleccionado);
+              objControl_Yogurth.setId_producto(producto);
+              
             if (FControl_Yogurth.Insertar(objControl_Yogurth)) {
                 this.reinit();
                 DefaultRequestContext.getCurrentInstance().execute("wdlgNuevoControl_Yogurth.hide()");
