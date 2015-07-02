@@ -46,7 +46,7 @@ public class FControl_Queso {
         boolean eje = false;
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from sgflc.f_update_cliente(?,?,?,?,?,?,?,?,?)";
+            String sql = "select * from sgflc.f_update_contro_queso(?,?,?,?,?,?,?,?,?)";
             lstP.add(new Parametro(1, control_queso.getId_control_queso()));
             lstP.add(new Parametro(2, control_queso.getId_producto()));
             lstP.add(new Parametro(3, control_queso.getCorteza_queso()));

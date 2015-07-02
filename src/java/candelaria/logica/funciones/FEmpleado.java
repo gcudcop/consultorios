@@ -8,7 +8,6 @@ package candelaria.logica.funciones;
 import accesodatos.AccesoDatos;
 import accesodatos.ConjuntoResultado;
 import accesodatos.Parametro;
-import candelaria.logica.clases.Cliente;
 import candelaria.logica.clases.Empleado;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ public class FEmpleado {
         boolean eje = false;
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from candelaria.f_insert_cliente(?,?,?,?,?,?,?,?)";
+            String sql = "select * from sgflc.f_insert_empleado(?,?,?,?,?,?,?,?)";
             lstP.add(new Parametro(1, empleado.getNombres_empleado()));
             lstP.add(new Parametro(2, empleado.getApellido_paterno()));
             lstP.add(new Parametro(3, empleado.getApellido_materno()));
@@ -47,7 +46,7 @@ public class FEmpleado {
         boolean eje = false;
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from candelaria.f_update_cliente(?,?,?,?,?,?,?,?,?)";
+            String sql = "select * from sgflc.f_update_empleado(?,?,?,?,?,?,?,?,?)";
             lstP.add(new Parametro(1, empleado.getId_empleado()));
             lstP.add(new Parametro(2, empleado.getNombres_empleado()));
             lstP.add(new Parametro(3, empleado.getApellido_paterno()));
@@ -74,7 +73,7 @@ public class FEmpleado {
          try
         {
         ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-        String sql = "select * from candelaria.f_delete_empleado(?)";
+        String sql = "select * from sgflc.f_delete_empleado(?)";
         lstP.add(new Parametro(1,codigo));
         ConjuntoResultado rs= AccesoDatos.ejecutaQuery(sql,lstP);
         while(rs.next() )
@@ -96,7 +95,7 @@ public class FEmpleado {
             while (rs.next()) {
                 empleado = new Empleado(rs.getInt("pid_empleado"), rs.getString("pnombres_nombre_empleado"), rs.getString("papellido_paterno"), 
                         rs.getString("papellido_materno"), rs.getString("pestado_civil"),rs.getString("pemail_empleado"),
-                        rs.getString("ptelefono_empleado"),rs.getString(" pcedula_empleado "), rs.getString("pnumero_credencial"));
+                        rs.getString("ptelefono_empleado"),rs.getString("pcedula_empleado"), rs.getString("pnumero_credencial"));
                 lst.add(empleado);
             }
         } catch (Exception e) {
@@ -109,7 +108,7 @@ public class FEmpleado {
     public static ArrayList<Empleado> ObtenerEmpleado() throws Exception {
         ArrayList<Empleado> lst = new ArrayList<Empleado>();
         try {
-            String sql = "select * from candelaria.f_select_empleado()";
+            String sql = "select * from sgflc.f_select_empleado()";
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
             lst = llenarEmpleado(rs);
             rs = null;
@@ -123,7 +122,7 @@ public class FEmpleado {
         Empleado lst;
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from master.f_select_estudiante_dado_codigo(?)";
+            String sql = "select * from sgflc.f_select_empleado_dado_codigo(?)";
             lstP.add(new Parametro(1, codigo));
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             lst = new Empleado();

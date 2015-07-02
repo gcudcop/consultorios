@@ -6,7 +6,10 @@
 package candelaria.presentacion.beans;
 
 import candelaria.logica.clases.Control_Queso;
+import candelaria.logica.clases.Producto;
+import candelaria.logica.funciones.FCategoria;
 import candelaria.logica.funciones.FControl_Queso;
+import candelaria.logica.funciones.FProducto;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -23,7 +26,34 @@ public class Control_QuesoControlador {
     private Control_Queso objControl_Queso;
     private Control_Queso control_QuesoSel;
     private ArrayList<Control_Queso> lstControl_Queso;
-    private boolean mostrarActualizar;
+    private ArrayList<Producto> lstProducto;
+     private int valorProductoSeleccionado;
+    private Producto productoSel;
+   private boolean mostrarActualizar;
+
+    public ArrayList<Producto> getLstProducto() {
+        return lstProducto;
+    }
+
+    public void setLstProducto(ArrayList<Producto> lstProducto) {
+        this.lstProducto = lstProducto;
+    }
+
+    public int getValorProductoSeleccionado() {
+        return valorProductoSeleccionado;
+    }
+
+    public void setValorProductoSeleccionado(int valorProductoSeleccionado) {
+        this.valorProductoSeleccionado = valorProductoSeleccionado;
+    }
+
+    public Producto getProductoSel() {
+        return productoSel;
+    }
+
+    public void setProductoSel(Producto productoSel) {
+        this.productoSel = productoSel;
+    }
 
     public Control_Queso getObjControl_Queso() {
         return objControl_Queso;
@@ -64,12 +94,14 @@ public class Control_QuesoControlador {
         this.objControl_Queso = new Control_Queso();
         this.control_QuesoSel = new Control_Queso();
         this.lstControl_Queso = new ArrayList<Control_Queso>();
-//        this.LstPeriodos = new ArrayList<Periodos>();  
+     //  this.LstPeriodos = new ArrayList<Periodos>();  
 //        this.lstFacultades = new ArrayList<Facultad>();
 //        this.lstEscuelas = new ArrayList<Escuela>();
 //        this.lstNiveles = new ArrayList<Nivel>();
         //this.ProveedorSel = this.lstProveedors.get(0);
         this.cargarControl_Queso();
+        this.cargarProducto();
+
         //this.cargarNiveles();
 //        this.cargarPeriodos();
 //        this.cargarFacultad();
@@ -86,6 +118,17 @@ public class Control_QuesoControlador {
             System.out.println("private void cargarControl_Queso dice: " + e.getMessage());
         }
      }
+    
+     public void cargarProducto() {
+        try {
+            this.lstProducto = FProducto.ObtenerProductos();
+            System.out.println(lstProducto.get(0).getId_producto());
+        } catch (Exception e) {
+            Util.addErrorMessage("private void cargarProducto dice: " + e.getMessage());
+            System.out.println("private void cargarProducto dice: " + e.getMessage());
+        }
+     }
+   
             
         public void insertarControl_Queso() {
         try {

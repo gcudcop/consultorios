@@ -29,7 +29,27 @@ and open the template in the editor.
                                      selection="#{clienteControlador.clienteSel}">
 
                             <p:column headerText="Nombres Cliente">
-                                <h:outputText value="#{cliente.nombres_cliente} #{cliente.apellidos_cliente} #{cliente.direccion_cliente} #{cliente.telefono_cliente} #{cliente.email_cliente} #{cliente.nombre_empresa} #{cliente.ruc_cliente}"/>
+                                <h:outputText value="#{cliente.nombres_cliente} #{cliente.apellidos_cliente}"/>
+                            </p:column>
+                            
+                            <p:column headerText="Direcciôn">
+                                <h:outputText value="#{cliente.direccion_cliente}"/>
+                            </p:column>
+                            
+                            <p:column headerText="Telefono">
+                                <h:outputText value="#{cliente.telefono_cliente}"/>
+                            </p:column>
+                            
+                            <p:column headerText="Correo Electrônico">
+                                <h:outputText value="#{cliente.email_cliente}"/>
+                            </p:column>
+                            
+                            <p:column headerText="Nombre Empresa">
+                                <h:outputText value="##{cliente.nombre_empresa}"/>
+                            </p:column>
+                            ´
+                            <p:column headerText="RUC Cliente">
+                                <h:outputText value="#{cliente.ruc_cliente}"/>
                             </p:column>
 
                            <p:column exportable="false">
@@ -87,7 +107,7 @@ and open the template in the editor.
 
                             <h:outputText value="Apellido:"/>
                             <p:inputText value="#{clienteControlador.objCliente.apellidos_cliente}" placeholder="Ingrese el Apellido"  
-                                         required="true" requiredMessage="Ingrese la Direcion"/>
+                                         required="true" requiredMessage="Ingrese Apellido"/>
                             
                              <h:outputText value="Direccion:"/>
                             <p:inputText value="#{clienteControlador.objCliente.direccion_cliente}" placeholder="Ingrese la Direccion"  
@@ -103,7 +123,7 @@ and open the template in the editor.
                             
                              <h:outputText value="Nombre Emresa:"/>
                             <p:inputText value="#{clienteControlador.objCliente.nombre_empresa}" placeholder="Ingrese el nombre de la empresa"
-                                         required="true" requiredMessage="Ingrese el nombre de la empresa"/>
+                                         required="true" requiredMessage="Ingrese la empresa"/>
                             
                              <h:outputText value="Ruc:"/>
                             <p:inputText value="#{clienteControlador.objCliente.ruc_cliente}" placeholder="Ingrese el RUC"
@@ -135,7 +155,7 @@ and open the template in the editor.
 
                             <h:outputText value="Apellido:"/>
                             <p:inputText value="#{clienteControlador.objCliente.apellidos_cliente}" placeholder="Ingrese el Apellido"  
-                                         required="true" requiredMessage="Ingrese la Direcion"/>
+                                         required="true" requiredMessage="Ingrese Apellido"/>
                             
                             <h:outputText value="Direccion:"/>
                             <p:inputText value="#{clienteControlador.objCliente.direccion_cliente}" placeholder="Ingrese la Direccion"  
@@ -150,8 +170,8 @@ and open the template in the editor.
                                          required="true" requiredMessage="Ingrese el email"/>
                             
                             <h:outputText value="Nombre Emresa:"/>
-                            <p:inputText value="#{clienteControlador.objCliente.nombre_empresa}" placeholder="Ingrese el nombre de la empresa"
-                                         required="true" requiredMessage="Ingrese el nombre de la empresa"/>
+                            <p:inputText value="#{clienteControlador.objCliente.nombre_empresa}" placeholder="Nombre de la empresa"
+                                         required="true" requiredMessage="Nombre de la empresa"/>
                             
                             <h:outputText value="Ruc:"/>
                             <p:inputText value="#{clienteControlador.objCliente.ruc_cliente}" placeholder="Ingrese el RUC"
