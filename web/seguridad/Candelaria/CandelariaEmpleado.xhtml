@@ -32,15 +32,22 @@ and open the template in the editor.
                                 <h:outputText value="#{empleado.nombres_empleado} #{empleado.apellido_paterno} #{empleado.apellido_materno}"/>
                             </p:column>
                             
+                            <p:column headerText="Cedula">
+                                <h:outputText value="#{empleado.cedula_empleado}"/>
+                            </p:column>
+                            
+                            <p:column headerText="Estado Civil">
+                                <h:outputText value="#{empleado.estado_civil}"/>
+                            </p:column>
+                            
                             <p:column headerText="Télefono">
                                 <h:outputText value="#{empleado.telefono_empleado}"/>
                             </p:column>
-                            
-                            <p:column headerText="Cedula">
-                                <h:outputText value="#{empleado.cedula_empleado} #{empleado.numero_credencial}"/>
+                            <p:column headerText="Correo Electronico">
+                                <h:outputText value="#{empleado.email_empleado}"/>
                             </p:column>
                             
-                             <p:column headerText="Numero de Credencial">
+                            <p:column headerText="Numero de Credencial">
                                 <h:outputText value="#{empleado.numero_credencial}"/>
                             </p:column>
                             
