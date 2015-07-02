@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>
+            <ui:define name="contenido">Gestión de Control Queso</ui:define>
+        </title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../../templates/plantillaInternaCenter.xhtml">
+            <ui:define name="top">Gestión de Control Queso </ui:define>
+            <ui:define name="contenido">
+                <p:growl id="mensajes" autoUpdate="true" showDetail="true"/>
+                <h:form id="frmcontrol_queso">
+                    <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                    <p:panel id="pnlControl_Queso">
+                        <p:dataTable id="tblControl_Queso" value="#{control_QuesoControlador.lstControl_Queso}" 
+                                     var="Control_queso" 
+                                     paginator="true" rows="10" rowKey="#{Control_queso.id_control_queso}" selectionMode="single" 
+                                     selection="#{control_QuesoControlador.control_QuesoSel}">
+                            
+                             <p:column headerText="Nombre Producto">
+                                <h:outputText value="#{Control_queso.id_producto.id_categoria.nombre_producto}"/>
+                            </p:column> 
+
+                            <p:column headerText="Olor">
+                                <h:outputText value="#{Control_queso.olor_queso}"/>
+                            </p:column>
+
+                            <p:column headerText="Corteza">
+                                <h:outputText value="#{Control_queso.corteza_queso}"/>
+                            </p:column>
+
+
+                            <p:column headerText="Elasticidad">
+                                <h:outputText value="#{Control_queso.elasticidad_queso}"/>
+                            </p:column>
+
+
+                            <p:column headerText="Sabor">
+                                <h:outputText value="#{Control_queso.sabor_queso}"/>
+                            </p:column>
+                            
+                            <p:column headerText="Masticabilidad Global">
+                                <h:outputText value="#{Control_queso.masticabilidad_queso}"/>
+                            </p:column>
+                            
+                            <p:column headerText="Acidez">
+                                <h:outputText value="#{Control_queso.acidez_queso}"/>
+                            </p:column>
+
+                            <p:column headerText="Calidad Global">
+                                <h:outputText value="#{Control_queso.calidad_global}"/>
+                            </p:column>
+
+                                                       
+                                                                             
+                            <p:column exportable="false">
+                                <p:commandButton id="btnEditarControl_Queso" icon="ui-icon-pencil"  title="Editar Control Queso" 
+                                                 oncomplete="wdlgEditarContol_queso.show()" 
+                                                 process="@this" update=":dlgEditarControl_queso, @form">                                   
+                                    <f:setPropertyActionListener value="#{Control_queso}" 
+                                                                 target="#{control_QuesoControlador.control_QuesoSel}"/>
+                                </p:commandButton>
+
+
+                                <p:commandButton id="btnEliminarControl_queso" icon="ui-icon-close"  title="Eliminar Control Queso"
+                                                 oncomplete="wdlgEliminarControl_queso.show()" 
+                                                 update=":dlgEliminarControl_queso">                                   
+                                    <f:setPropertyActionListener value="#{Control_queso}" 
+                                                                 target="#{control_QuesoControlador.control_QuesoSel}"/>
+                                </p:commandButton>
+                            </p:column>
+
+                            <f:facet name="footer">  
+                                <p:commandButton id="btnNuevoControl_queso" value="Nuevo" icon="ui-icon-newwin"
+                                                 oncomplete="wdlgNuevoControl_queso.show()" title="Nuevo Control Queso"/>  
+
+                                <h:commandLink>
+                                    <img src="../../resources/images/excel.png" alt=""/>
+                                    <p:dataExporter type="xls" target="tblControl_queso" fileName="Control Queso" pageOnly="true" />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <img src="../../resources/images/pdf.png" alt=""/>
+                                    <p:dataExporter type="pdf" target="tblControl_queso" fileName="Control Queso" pageOnly="true" />
+                                </h:commandLink>
+
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="dialogos">
+                <p:dialog id="dlgNuevoControl_queso" header="Nuevo Control Queso" widgetVar="wdlgNuevoControl_queso" 
+                          modal="true" closable="false" resizable="false"
+                          showEffect="clip" hideEffect="fold"  height="400px" width="600px"> 
+
+
+
+                    <h:form id="frmNuevoControl_queso" style="max-width: 600px;max-height: 400px">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:panelGrid id="pngNuevoControl_queso" columns="2">
+                            
+                             <h:outputText value="Nombre Producto:"/>
+                            <p:selectOneMenu id="cmbCategoria" value="#{control_quesoControlador.valorProductoSeleccionado}">
+                                <f:selectItem itemLabel="Elija un Producto" itemValue="#{null}"/>
+                                <f:selectItems value="#{control_quesoControlador.lstProducto}" var="producto" 
+                                               itemLabel="#{producto.id_categoria.nombre_producto}" itemValue="#{producto.id_categoria.id_categoria}"/>
+                            </p:selectOneMenu>
+                                                         
+                             
+                            <h:outputText value="Olor"/>
+                            <p:inputText value="#{control_QuesoControlador.objControl_Queso.olor_queso}" placeholder="Ingrese Olor" 
+                                         required="true" requiredMessage="Ingrese Olor" />
+                            
+                            <h:outputText value="Corteza"/>
+                            <p:inputText value="#{control_QuesoControlador.objControl_Queso.corteza_queso}" placeholder="Ingrese Corteza" 
+                                         required="true" requiredMessage="Ingrese Corteza" />
+                            
+                            <h:outputText value="Elasticidad"/>
+                            <p:inputText value="#{control_QuesoControlador.objControl_Queso.elasticidad_queso}" placeholder="Ingrese Elasticidad" 
+                                         required="true" requiredMessage="Ingrese Elasticidad" />
+                            
+                            <h:outputText value="Sabor"/>
+                            <p:inputText value="#{control_QuesoControlador.objControl_Queso.sabor_queso}" placeholder="Ingrese Sabor" 
+                                         required="true" requiredMessage="Ingrese Sabor" />
+                            
+                            <h:outputText value="Masticabilidad"/>
+                            <p:inputText value="#{control_QuesoControlador.objControl_Queso.masticabilidad_queso}" placeholder="Ingrese Masticabilidad" 
+                                         required="true" requiredMessage="Ingrese Masticabilidad" />
+                            
+                            <h:outputText value="Acidez"/>
+                            <p:inputText value="#{control_QuesoControlador.objControl_Queso.acidez_queso}" placeholder="Ingrese Acidez" 
+                                         required="true" requiredMessage="Ingrese Acidez" />
+                                                        
+                                                        
+                            <h:outputText value="Calidad Global"/>
+                            <p:inputText value="#{control_QuesoControlador.objControl_Queso.calidad_global}" placeholder="Ingrese Calidad Global" 
+                                         required="true" requiredMessage="Ingrese Calidad Global" />
+
+                            
+                           
+                        </p:panelGrid>
+
+                        <p:commandButton value="Aceptar" action="#{control_QuesoaControlador.insertarControl_Queso()}" 
+                                         update=":frmcontrol_queso:pnlControl_Queso"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgNuevoControl_queso.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+
+
+                <p:dialog id="dlgEditarControl_queso" header="Editar Control Queso" widgetVar="wdlgEditarControl_queso" 
+                          modal="true" 
+                          closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEditarControl_queso">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:messages id="messages" autoUpdate="true"/>  
+                        <p:panelGrid id="pngEditarControl_queso" columns="2">
+
+                                                        
+                            <h:outputText value="Nombre Producto:"/>
+                            <p:selectOneMenu id="cmbCategoria" value="#{control_quesoControlador.valorProductoSeleccionado}">
+                                <f:selectItem itemLabel="Elija un Producto" itemValue="#{null}"/>
+                                <f:selectItems value="#{control_quesoControlador.lstProducto}" var="producto" 
+                                               itemLabel="#{producto.id_categoria.nombre_producto}" itemValue="#{producto.id_categoria.id_categoria}"/>
+                            </p:selectOneMenu>
+                            
+                            <h:outputText value="Olor"/>
+                            <p:inputText value="#{control_QuesoControlador.control_QuesoSel.olor_queso}"  
+                                         required="true" requiredMessage="Ingrese Olor" />
+                            
+                            <h:outputText value="Corteza"/>
+                            <p:inputText value="#{control_QuesoControlador.control_QuesoSel.corteza_queso}" 
+                                         required="true" requiredMessage="Ingrese Corteza" />
+                            
+                            <h:outputText value="Elasticidad"/>
+                            <p:inputText value="#{control_QuesoControlador.control_QuesoSel.elasticidad_queso}" 
+                                         required="true" requiredMessage="Ingrese Elasticidad" />
+                            
+                            <h:outputText value="Sabor"/>
+                            <p:inputText value="#{control_QuesoControlador.control_QuesoSel.sabor_queso}" 
+                                         required="true" requiredMessage="Ingrese Sabor" />
+                            
+                            <h:outputText value="Masticabilidad"/>
+                            <p:inputText value="#{control_QuesoControlador.control_QuesoSel.masticabilidad_queso}" 
+                                         required="true" requiredMessage="Ingrese Masticabilidad" />
+                            
+                            <h:outputText value="Acidez"/>
+                            <p:inputText value="#{control_QuesoControlador.control_QuesoSel.acidez_queso}" 
+                                         required="true" requiredMessage="Ingrese Acidez" />
+                                                        
+                                                        
+                            <h:outputText value="Calidad Global"/>
+                            <p:inputText value="#{control_QuesoControlador.control_QuesoSel.calidad_global}" 
+                                         required="true" requiredMessage="Ingrese Calidad Global" />
+                            
+                           
+                                                        
+                        </p:panelGrid>
+                        <p:commandButton value="Aceptar" action="#{control_QuesoControlador.actualizarControl_Queso()}" 
+                                         update=":frmcontrol_queso:pnlControl_Queso"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgEditarControl_queso.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+
+                <p:dialog id="dlgEliminarControl_queso" header="Eliminar Control Queso" widgetVar="wdlgEliminarControl_queso" 
+                          modal="true" closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEliminarControl_queso">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <h:outputText value="¿Desea Eliminar el Control de Queso?"/>
+                        <p:panelGrid id="pngEliminarControl_queso" columns="2">
+                            
+                            <h:outputText value="Nombre:"/>
+                            <p:inputText value="#{control_QuesoControlador.control_QuesoSel.id_producto.id_categoria.nombre_producto}"
+                                         required="true" requiredMessage="Ingrese el Nombre" disabled="true"/>
+                            
+                              <h:outputText value="Olor"/>
+                            <p:inputText value="#{control_QuesoControlador.control_QuesoSel.olor_queso}"  
+                                         required="true" requiredMessage="Ingrese Olor" disabled="true"/>
+                            
+                            <h:outputText value="Corteza"/>
+                            <p:inputText value="#{control_QuesoControlador.control_QuesoSel.corteza_queso}" 
+                                         required="true" requiredMessage="Ingrese Corteza" disabled="true" />
+                            
+                            <h:outputText value="Elasticidad"/>
+                            <p:inputText value="#{control_QuesoControlador.control_QuesoSel.elasticidad_queso}" 
+                                         required="true" requiredMessage="Ingrese Elasticidad" disabled="true" />
+                            
+                            <h:outputText value="Sabor"/>
+                            <p:inputText value="#{control_QuesoControlador.control_QuesoSel.sabor_queso}" 
+                                         required="true" requiredMessage="Ingrese Sabor" disabled="true" />
+                            
+                            <h:outputText value="Masticabilidad"/>
+                            <p:inputText value="#{control_QuesoControlador.control_QuesoSel.masticabilidad_queso}" 
+                                         required="true" requiredMessage="Ingrese Masticabilidad" disabled="true"/>
+                            
+                            <h:outputText value="Acidez"/>
+                            <p:inputText value="#{control_QuesoControlador.control_QuesoSel.acidez_queso}" 
+                                         required="true" requiredMessage="Ingrese Acidez" disabled="true"/>
+                                                        
+                                                        
+                            <h:outputText value="Calidad Global"/>
+                            <p:inputText value="#{control_QuesoControlador.control_QuesoSel.calidad_global}" 
+                                         required="true" requiredMessage="Ingrese Calidad Global" disabled="true"/>
+                                                                                
+                                              
+                        </p:panelGrid>
+                        <p:commandButton value="Aceptar" action="#{control_QuesoControlador.eliminarControl_Queso()}" 
+                                         update=":frmcontrol_queso:pnlControl_Queso"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgEliminarControl_queso.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+                <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
+                          resizable="false"> 
+                    <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
+                </p:dialog>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
