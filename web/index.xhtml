@@ -9,8 +9,14 @@
         <ui:define name="tituloNavegador">Control de Gestión y Facturación</ui:define>
         <ui:define name="content">
             <h:form id="frmIndex">
-                <h:panelGrid id="pnlIndexPrincipal" columns="1" class="center_content">
-                    
+                <h:panelGrid id="pnlIndexPrincipal" columns="1" class="center_content" >
+                    <h:panelGrid cellpadding="0" cellspacing="0">
+                        <p:galleria value="#{detallePedidoControlador.images}" var="image" panelWidth="820" panelHeight="413" showCaption="false" 
+                                    effectSpeed="5" style="alignment-adjust: central">
+                            <p:graphicImage value="/resources/images/magap/#{image}" alt="CANDELARIA - SIGFLC - UNACH #{image}" title="#{image}" />
+                        </p:galleria>
+
+                    </h:panelGrid>
                 </h:panelGrid>                           
             </h:form>           
         </ui:define>

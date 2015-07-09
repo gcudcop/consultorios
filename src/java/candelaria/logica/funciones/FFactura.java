@@ -23,11 +23,10 @@ public class FFactura {
         boolean eje = false;
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from sgflc.f_insert_factura(?,?,?,?)";
+            String sql = "select * from sgflc.f_insert_factura1(?,?,?)";
             lstP.add(new Parametro(1, factura.getId_cliente().getId_cliente()));
-            lstP.add(new Parametro(2, factura.getFecha()));
-            lstP.add(new Parametro(3, factura.getSubtotal()));
-            lstP.add(new Parametro(4, factura.getPrecisiontotal()));
+            lstP.add(new Parametro(2, factura.getSubtotal()));
+            lstP.add(new Parametro(3, factura.getPrecisiontotal()));
 
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             while (rs.next()) {
@@ -86,7 +85,7 @@ public class FFactura {
         try {
             while (rs.next()) {
                 factura = new Factura(rs.getInt("pid_factura"),FCliente.ObtenerClienteDadoCodigo(rs.getInt("pid_cliente")),
-                        rs.getDate("pfecha"), rs.getDouble("psubtotal"),rs.getDouble("ptotal"));
+                        rs.getTimeStamp("pfecha"), rs.getDouble("psubtotal"),rs.getDouble("ptotal"));
                 lst.add(factura);
             }
         } catch (Exception e) {
@@ -112,7 +111,7 @@ public class FFactura {
        public static ArrayList<Factura> ObtenerFacturaUltima() throws Exception {
         ArrayList<Factura> lst = new ArrayList<Factura>();
         try {
-            String sql = "select * from sgflc.f_select_factura_ultima()";
+            String sql = "select * from sgflc.f_select_factura_ultima1()";
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
             lst = llenarFactura(rs);
             rs = null;

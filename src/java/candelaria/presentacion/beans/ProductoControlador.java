@@ -7,6 +7,7 @@ import candelaria.logica.funciones.FCategoria;
 import candelaria.logica.funciones.FProducto;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.context.DefaultRequestContext;
@@ -207,5 +208,6 @@ public class ProductoControlador {
         }
         
     }
+    
     
 }
