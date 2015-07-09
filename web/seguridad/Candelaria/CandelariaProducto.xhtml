@@ -71,12 +71,12 @@ and open the template in the editor.
                                                                  target="#{productoControlador.productoSel}"/>
                                 </p:commandButton>
 
-                                <p:commandButton id="btnEliminarProducto" icon="ui-icon-close"  title="Eliminar Producto"
+                               <!-- <p:commandButton id="btnEliminarProducto" icon="ui-icon-close"  title="Eliminar Producto"
                                                  oncomplete="wdlgEliminarProducto.show()" 
                                                  update=":dlgEliminarProducto">                                   
                                     <f:setPropertyActionListener value="#{producto}" 
                                                                  target="#{productoControlador.productoSel}"/>
-                                </p:commandButton>
+                                </p:commandButton>-->
                             </p:column>
 
                                 <f:facet name="footer">  
@@ -188,10 +188,11 @@ and open the template in the editor.
                           modal="true" closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
                     <h:form id="frmEliminarProducto">
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
-                        <h:outputText value="¿Desea Eliminar el Producto?"/>
+                        <h:outputText value="¿Está Seguro de Eliminar el Producto?"/>
                         <p:panelGrid id="pngEliminarProducto" columns="2">
+                            
                             <h:outputText value="Color del Producto:"/>
-                            <p:inputText value="#{producto}" title="ej: Blanco" 
+                            <p:inputText value="#{productoControlador.productoSel.color_producto}" title="ej: blanco"
                                          required="true" requiredMessage="Ingrese el Color" disabled="true"/>
 
                             <h:outputText value="Nombre del Producto:"/>
