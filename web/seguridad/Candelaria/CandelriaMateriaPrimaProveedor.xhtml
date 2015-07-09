@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>
+            <ui:define name="contenido">Gestión de MateriaPrima Proveedor</ui:define>
+        </title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../../templates/plantillaInternaCenter.xhtml">
+            <ui:define name="top">Gestión de MateriaPrimaProveedor </ui:define>
+            <ui:define name="contenido">
+                <p:growl id="mensajes" autoUpdate="true" showDetail="true"/>
+                <h:form id="frmcontrol_MateriaPrimaProveedor">
+                    <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                    <p:panel id="pnlControl_MateriaPrimaProveedor">
+                        <p:dataTable id="tblControl_MateriaPrimaProveedor" value="#{materiaPrimaControlador.lstMateriaPrimaPproveedor}" 
+                                     var="cmateriaprimaproveedor" 
+                                     paginator="true" rows="10" rowKey="#{cmateriaprimaproveedor.codigoMateriaProveedor}" selectionMode="single" 
+                                     selection="#{materiaPrimaControlador.materiaPrimaProveedorSel}">
+
+                            <p:column headerText="Nombre Materia Prima">
+                                <h:outputText value="#{cmateriaprimaproveedor.codigoMateriaPrima.nombre_MateriaPrima}"/>
+                            </p:column> 
+                            
+                            <p:column headerText="Proveedor">
+                                <h:outputText value="#{cmateriaprimaproveedor.codigoProveedor.nombre_proveedor}"/>
+                            </p:column> 
+                            
+                            <p:column headerText="Producto">
+                                <h:outputText value="#{cmateriaprimaproveedor.codigoProveedor.producto_provedor}"/>
+                            </p:column> 
+
+                            <p:column headerText="Cantidad">
+                                <h:outputText value="#{cmateriaprimaproveedor.codigoMateriaPrima.cantidad_Materiaprima}"/>
+                            </p:column>
+
+                                                                       
+                            <p:column exportable="false">
+                                <p:commandButton id="btnEditarControl_MateriaPrimaProveedor" icon="ui-icon-pencil"  title="Editar Control_MateriaPrimaProveedor" 
+                                                 oncomplete="wdlgEditarContol_materiaprimaproveedor.show()" 
+                                                 oncomplete="wdlgEditarContol.show()"
+                                                 process="@this" update=":dlgEditarControl_materiaprimaproveedor, @form">                                   
+                                    <f:setPropertyActionListener value="#{materiaPrimaControlador.actualizarMateriaPrimaProveedor()}" 
+                                                                 target="#{materiaPrimaControlador.actualizarMateriaPrimaProveedor()}"/>
+                                                                
+                                </p:commandButton>
+
+
+                                <p:commandButton id="btnEliminarControl_materiaprimaproveedor" icon="ui-icon-close"  title="Eliminar Control Materiaprimaproveedor"
+                                                 oncomplete="wdlgEliminarControl_materiaprima.show()" 
+                                                 update=":dlgEliminarControl_materiaprimaproveedor">                                   
+                                    <f:setPropertyActionListener value="#{control_materiaprimaproveedor}" 
+                                                                 target="#{control_materiaprimaproveedorControlador.control_materiaprimaproveedorSel}"/>
+                                </p:commandButton>
+                            </p:column>
+
+
+
+                            <f:facet name="footer">  
+                                <p:commandButton id="btnNuevoControl_materiaprimaproveedor" value="Nuevo" icon="ui-icon-newwin"
+                                                 oncomplete="wdlgNuevoControl_materiaprima.show()" title="Nuevo Control MateriaPrimaproveedor"/>  
+
+                                <h:commandLink>
+                                    <img src="../../resources/images/excel.png" alt=""/>
+                                    <p:dataExporter type="xls" target="tblControl_materiaprimaproveedor" fileName="control materiaprimaproveedor" pageOnly="true" />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <img src="../../resources/images/pdf.png" alt=""/>
+                                    <p:dataExporter type="pdf" target="tblControl_materiaprimaproveedor" fileName="control materiaprimaproveedor" pageOnly="true" />
+                                </h:commandLink>
+
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="dialogos">
+                <p:dialog id="dlgNuevoControl_materiaprimaproveedor" header="Nuevo Control MateriaPrimaProveedor" widgetVar="wdlgNuevoControl_materiaprimaproveedor" 
+                          modal="true" closable="false" resizable="false"
+                          showEffect="clip" hideEffect="fold"  height="400px" width="600px"> 
+
+
+
+                    <h:form id="frmNuevoControl_materiaprimaproveedor" style="max-width: 600px;max-height: 400px">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:panelGrid id="pngNuevoControl_yogurth" columns="2">
+
+                            <h:outputText value="Nombre materiaprimaproveedor:"/>
+                            <p:selectOneMenu id="cmbCategoria" value="#{control_materiaPrimaproveedorControlador.valorproveedorSeleccionado}">
+                                <f:selectItem itemLabel="Elija un proveedor" itemValue="#{null}"/>
+                                <f:selectItems value="#{control_materiaprimaproveedorControlador.lstproveedor}" var="proveedor"
+                                               itemLabel="#{proveedor.id_categoria.nombre_proveedor}" itemValue="#{proveedor.id_}"/>
+                            </p:selectOneMenu>
+
+                            <h:outputText value="Cantidad:"/>
+                            <p:inputText value="#{control_materiaprimaproveedorControlador.objControl_materiaprimaproveedor}" placeholder="  " 
+                                         required="true" requiredMessage="Ingrese la cantidad" />
+
+                        </p:panelGrid>
+
+                        <p:commandButton value="Aceptar" action="#{Control_materiaprimaproveedor.insertarControl_MateriaPrimaProveedor()}" 
+                                         update=":frmcontrol_MateriaPrimaProveedor:pnlControl_MateriaPrimaProveedor"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgNuevoControl_materiaprimaproveedor.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+
+
+
+
+
+                <p:dialog id="dlgEditarControl_materiaprimaproveedor" header="Editar Control MateriaPrimaProveedor" widgetVar="wdlgEditarControl_materiaprimaproveedor" 
+                          modal="true" 
+                          closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEditarControl_MateriaPrimaProveedor">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:messages id="messages" autoUpdate="true"/>  
+                        <p:panelGrid id="pngEditarControl_materiaprimaproveedor" columns="2">
+
+                            <h:outputText value="Nombre MateriaPrimaProveedor:"/>
+                            <p:selectOneMenu id="cmbCategoria" value="#{Control_materiaprimaproveedor.valorProveedorSeleccionado}">
+                                <f:selectItem itemLabel="Elija un Poveedor" itemValue="#{null}"/>
+                                <f:selectItems value="#{Control_materiaprimaproveedorControlador.lstproveedor}" var="proveedor" 
+                                               itemLabel="#{proveedor.id_categoria.nombre_proveedor}" itemValue="#{proveedor.id_categoria.id_categoria}"/>
+                            </p:selectOneMenu>
+
+                            <h:outputText value="Cantidad:"/>
+                            <p:inputText value="#{Control_materiaprimaproveedor.control_materiaprimaproveedorthSel}"
+                                         required="true" requiredMessage="Ingrese el cantidad"/>
+
+
+                        </p:panelGrid>
+                        <p:commandButton value="Aceptar" action="#{Control_materiaprimaproveedor.actualizarControl_MateriaPrimaProveedor()}" 
+                                         update=":frmcontrol_MateriaPrimaProveedor:pnlControl_MateriaPrimaProveedor"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgEditarControl_materiaprimaproveedor.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+
+                <p:dialog id="dlgEliminarControl_materiaprimaproveedor" header="Eliminar Control MateriaPrimaProveedor" widgetVar="wdlgEliminarControl_MateriaPrimaProveedor" 
+                          modal="true" closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEliminarControl_materiaprimaproveedor">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <h:outputText value="¿Desea Eliminar el Control de MateriaPrimaProveedor?"/>
+                        <p:panelGrid id="pngEliminarControl_materiaprimaproveedor" columns="2">
+
+                            <h:outputText value="Nombre Producto:"/>
+                            <p:inputText value="#{Control_materiaprimaproveedor.control_materiaprimaproveedorSel.id_proveedor.id_categoria.nombre_proveedor}"
+                                         required="true" requiredMessage="Ingrese el Nombre del Producto" disabled="true"/>
+
+                            <h:outputText value="Cantidad:"/>
+                            <p:inputText value="#{Control_materiaprimaproveedor.control_materiaprimaproveedorSel.acidos_organicos}"
+                                         required="true" requiredMessage="Ingrese el cantidad" disabled="true"/>
+
+                            
+                        </p:panelGrid>
+                        <p:commandButton value="Aceptar" action="#{Control_materiaprimaproveedor.eliminarControl_MateriaPrimaProveedor()}" 
+                                         update=":frmcontrol_MateriaPrimaProveedor:pnlControl_MateriaPrimaProveedor"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgEliminarControl_materiaprimaproveedor.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+                <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
+                          resizable="false"> 
+                    <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
+                </p:dialog>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
