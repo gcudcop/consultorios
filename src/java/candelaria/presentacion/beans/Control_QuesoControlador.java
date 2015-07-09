@@ -7,7 +7,6 @@ package candelaria.presentacion.beans;
 
 import candelaria.logica.clases.Control_Queso;
 import candelaria.logica.clases.Producto;
-import candelaria.logica.funciones.FCategoria;
 import candelaria.logica.funciones.FControl_Queso;
 import candelaria.logica.funciones.FProducto;
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class Control_QuesoControlador {
     private Control_Queso control_QuesoSel;
     private ArrayList<Control_Queso> lstControl_Queso;
     private ArrayList<Producto> lstProducto;
-     private int valorProductoSeleccionado;
+    private int valorProductoSeleccionado;
     private Producto productoSel;
    private boolean mostrarActualizar;
 

@@ -101,19 +101,19 @@ and open the template in the editor.
                     <h:form id="frmNuevoCliente">
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                         <p:panelGrid id="pngNuevoCliente" columns="2">
-                            <h:outputText value="Nombre:"/>
+                            <h:outputText value="Nombre: *"/>
                             <p:inputText value="#{clienteControlador.objCliente.nombres_cliente}" placeholder="Ingrese el Nombre" 
                                          required="true" requiredMessage="Ingrese el nombre"/>
 
-                            <h:outputText value="Apellido:"/>
+                            <h:outputText value="Apellido: *"/>
                             <p:inputText value="#{clienteControlador.objCliente.apellidos_cliente}" placeholder="Ingrese el Apellido"  
                                          required="true" requiredMessage="Ingrese Apellido"/>
                             
-                             <h:outputText value="Direccion:"/>
+                             <h:outputText value="Direccion: *"/>
                             <p:inputText value="#{clienteControlador.objCliente.direccion_cliente}" placeholder="Ingrese la Direccion"  
                                          required="true" requiredMessage="Ingrese la Direcion"/>
 
-                            <h:outputText value="Telefono:"/>
+                            <h:outputText value="Telefono: "/>
                             <p:inputText value="#{clienteControlador.objCliente.telefono_cliente}" placeholder="Ingrese el telefono"
                                          required="true" requiredMessage="Ingrese el telefono"/>
                             
@@ -125,7 +125,7 @@ and open the template in the editor.
                             <p:inputText value="#{clienteControlador.objCliente.nombre_empresa}" placeholder="Ingrese el nombre de la empresa"
                                          required="true" requiredMessage="Ingrese la empresa"/>
                             
-                             <h:outputText value="Ruc:"/>
+                             <h:outputText value="Ruc: *"/>
                             <p:inputText value="#{clienteControlador.objCliente.ruc_cliente}" placeholder="Ingrese el RUC"
                                          required="true" requiredMessage="Ingrese el RUC"/>
 
@@ -149,15 +149,15 @@ and open the template in the editor.
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                         <p:messages id="messages" autoUpdate="true"/>  
                         <p:panelGrid id="pngEditarCliente" columns="2">
-                            <h:outputText value="Nombre:"/>
+                            <h:outputText value="Nombre: *"/>
                             <p:inputText value="#{clienteControlador.clienteSel.nombres_cliente}" placeholder="Ingrese el Nombre" 
                                          required="true" requiredMessage="Ingrese el nombre"/>
 
-                            <h:outputText value="Apellido:"/>
+                            <h:outputText value="Apellido: *"/>
                             <p:inputText value="#{clienteControlador.clienteSel.apellidos_cliente}" placeholder="Ingrese el Apellido"  
                                          required="true" requiredMessage="Ingrese Apellido"/>
                             
-                            <h:outputText value="Direccion:"/>
+                            <h:outputText value="Direccion: *"/>
                             <p:inputText value="#{clienteControlador.clienteSel.direccion_cliente}" placeholder="Ingrese la Direccion"  
                                          required="true" requiredMessage="Ingrese la Direcion"/>
 
@@ -169,11 +169,11 @@ and open the template in the editor.
                             <p:inputText value="#{clienteControlador.clienteSel.email_cliente}" placeholder="Ingrese el email"
                                          required="true" requiredMessage="Ingrese el email"/>
                             
-                            <h:outputText value="Nombre Emresa:"/>
+                            <h:outputText value="Nombre Empresa:"/>
                             <p:inputText value="#{clienteControlador.clienteSel.nombre_empresa}" placeholder="Nombre de la empresa"
                                          required="true" requiredMessage="Nombre de la empresa"/>
                             
-                            <h:outputText value="Ruc:"/>
+                            <h:outputText value="Ruc: *"/>
                             <p:inputText value="#{clienteControlador.clienteSel.ruc_cliente}" placeholder="Ingrese el RUC"
                                          required="true" requiredMessage="Ingrese el RUC"/>
                             

@@ -21,9 +21,19 @@ import recursos.Util;
 @ViewScoped
 public class EmpleadoControlador {
     private Empleado objEmpleado;
+    private String estadoCivil; 
     private Empleado empleadoSel;
     private ArrayList<Empleado> lstEmpleado;
     private boolean mostrarActualizar;
+
+    public String getEstadoCivil() {
+        return estadoCivil;
+    }
+
+    public void setEstadoCivil(String estadoCivil) {
+        this.estadoCivil = estadoCivil;
+    }
+    
 
     public Empleado getObjEmpleado() {
         return objEmpleado;

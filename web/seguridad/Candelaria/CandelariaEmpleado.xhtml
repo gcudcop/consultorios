@@ -106,16 +106,21 @@ and open the template in the editor.
                             <p:inputText value="#{empleadoControlador.objEmpleado.nombres_empleado}" placeholder="Ingrese Nombre" 
                                          required="true" requiredMessage="Ingrese el nombre"/>
 
-                            <h:outputText value="Apellidos: *"/>
-                            <p:inputText value="#{empleadoControlador.objEmpleado.apellido_paterno} #{empleadoControlador.objEmpleado.apellido_materno}" placeholder="Ingrese"  
-                                         required="true" requiredMessage="Apellidos"/>
+                            <h:outputText value="Apellido: *"/>
+                            <p:inputText value="#{empleadoControlador.objEmpleado.apellido_paterno} #{empleadoControlador.objEmpleado.apellido_materno}" placeholder="Ingrese el apellido"  
+                                         required="true" requiredMessage="Apellido"/>
+                            
+                                                                                   
+                            <h:outputText value="Estado Civil"/>
+                            <p:selectOneMenu id="cmbEstadoCivil" value="#{empleadoControlador.estadoCivil}">
+                                <f:selectItem itemLabel="Elija el Estado Civil" itemValue="#{null}"/>
+                                <f:selectItem itemLabel="Soltero" itemValue="Soltero" />
+                                <f:selectItem itemLabel="Casado" itemValue="Casado" />
+                               
+                             </p:selectOneMenu>
                             
                             
-
-                            <h:outputText value="Estado Civil:"/>
-                            <p:inputText value="#{empleadoControlador.objEmpleado.estado_civil}" placeholder="Estado Civil"
-                                         required="true" requiredMessage="Estado Civil"/>
-
+                                               
                             <h:outputText value="Email:"/>
                             <p:inputText value="#{empleadoControlador.objEmpleado.email_empleado}" placeholder="Correo Electronico"
                                          required="true" requiredMessage="Email"/>
@@ -156,13 +161,11 @@ and open the template in the editor.
                             <p:inputText value="#{empleadoControlador.empleadoSel.nombres_empleado}" placeholder="Ingrese el Nombre" 
                                          required="true" requiredMessage="Ingrese el nombre"/>
                             
-                            <h:outputText value="Apellido Paterno:"/>
-                            <p:inputText value="#{empleadoControlador.empleadoSel.apellido_paterno}" placeholder="Apelldo Paterno"
-                                         required="true" requiredMessage="Apellido Paterno"/>
+                            <h:outputText value="Apellido:"/>
+                            <p:inputText value="#{empleadoControlador.empleadoSel.apellido_paterno} #{empleadoControlador.empleadoSel.apellido_materno}" placeholder="Apelldo Paterno"
+                                         required="true" requiredMessage="Apellido"/>
                             
-                            <h:outputText value="Apellido Materno:"/>
-                            <p:inputText value="#{empleadoControlador.empleadoSel.apellido_materno}" placeholder="Apellido Materno"
-                                         required="true" requiredMessage="Apellido Materno"/>
+                           
                             
                             <h:outputText value="Estado Civil:"/>
                             <p:inputText value="#{empleadoControlador.empleadoSel.estado_civil}" placeholder="Ingrese su Estado Civil"

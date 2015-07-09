@@ -8,7 +8,6 @@ package candelaria.logica.funciones;
 import accesodatos.AccesoDatos;
 import accesodatos.ConjuntoResultado;
 import accesodatos.Parametro;
-import candelaria.logica.clases.Control_Mozarela;
 import candelaria.logica.clases.Control_Queso;
 import java.sql.SQLException;
 import java.util.ArrayList;
