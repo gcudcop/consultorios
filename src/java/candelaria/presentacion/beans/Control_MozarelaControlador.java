@@ -96,6 +96,7 @@ public class Control_MozarelaControlador {
         this.objControl_mozarela = new Control_Mozarela();
         this.control_MozarelaSel = new Control_Mozarela();
         this.lstControl_Mozarela = new ArrayList<Control_Mozarela>();
+        this.lstProducto=new ArrayList<Producto>();
 //        this.LstPeriodos = new ArrayList<Periodos>();  
 //        this.lstFacultades = new ArrayList<Facultad>();
 //        this.lstEscuelas = new ArrayList<Escuela>();

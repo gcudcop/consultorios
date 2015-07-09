@@ -10,6 +10,7 @@ import candelaria.logica.clases.Producto;
 import candelaria.logica.funciones.FDetallePedido;
 import candelaria.logica.funciones.FProducto;
 import java.util.ArrayList;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.context.DefaultRequestContext;
@@ -29,6 +30,7 @@ public class DetallePedidoControlador {
     private ArrayList<Producto> lstProductos;
     private boolean mostrarActualizar;
     private int valorProductoSeleccionado;
+    private ArrayList<String> images;
 
     public Detalle_Pedido getObjDetallePedido() {
         return objDetallePedido;
@@ -87,6 +89,7 @@ public class DetallePedidoControlador {
         this.lstDetallePedido = new ArrayList<Detalle_Pedido>();
         cargarDetallePedido();
         cargarProductos();
+        init();
     }
 
     public void cargarProductos() {
@@ -172,5 +175,17 @@ public class DetallePedidoControlador {
             Util.addErrorMessage("private void eliminarDetallePedido dice: " + e.getMessage());
             System.out.println("private void eliminarDetallePedido dice: " + e.getMessage());
         }
+    }
+    
+    @PostConstruct
+    public void init() {
+        images = new ArrayList<String>();
+        for (int i = 1; i <= 5; i++) {
+            images.add("magap" + i + ".jpg");
+        }
+    }
+ 
+    public ArrayList<String> getImages() {
+        return images;
     }
 }

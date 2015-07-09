@@ -5,6 +5,7 @@
  */
 package candelaria.logica.clases;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -15,14 +16,14 @@ public class Factura {
 
     private int id_factura;
     private Cliente id_cliente;
-    private Date fecha;
+    private Timestamp fecha;
     private double subtotal;
     private double precisiontotal;
 
     public Factura() {
     }
 
-    public Factura(int id_factura, Cliente id_cliente, Date fecha, double subtotal, double precisiontotal) {
+    public Factura(int id_factura, Cliente id_cliente, Timestamp fecha, double subtotal, double precisiontotal) {
         this.id_factura = id_factura;
         this.id_cliente = id_cliente;
         this.fecha = fecha;
@@ -46,11 +47,11 @@ public class Factura {
         this.id_cliente = id_cliente;
     }
 
-    public Date getFecha() {
+    public Timestamp getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(Timestamp fecha) {
         this.fecha = fecha;
     }
 
@@ -69,6 +70,8 @@ public class Factura {
     public void setPrecisiontotal(double precisiontotal) {
         this.precisiontotal = precisiontotal;
     }
+
+    
     
     
 }

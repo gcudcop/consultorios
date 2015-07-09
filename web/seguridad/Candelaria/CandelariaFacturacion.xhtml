@@ -20,25 +20,74 @@ and open the template in the editor.
             <ui:define name="top">Modulo de Facturación </ui:define>
             <ui:define name="contenido">
                 <p:growl id="mensajes" autoUpdate="true" showDetail="true"/>
-                <h:form id="frmfacturación">
+                <h:form id="frmfacturacion">
                     <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                     <p:panel id="pnlFormulario"  style="text-align: center" >
                         <p:panel id="pnlFacturacion">
-                            <p:dataTable id="tblHoja" value="#{detalleFacturaControlador.facturaUltima}" var="factura" rowKey="#{factura.id_factura}" 
-                                         selectionMode="single"  selection="#{detalleFacturaControlador.facturaSel}" style="text-align: center"> 
-                                <p:column headerText="Fecha "  >
-                                    <h:outputText value="#{factura.fecha}" />
+
+                            <p:dataTable id="tblHoja" value="#{facturaControlador.lstFacturas}" var="factura" rowKey="#{factura.id_factura}" 
+                                         selectionMode="single"  selection="#{facturaControlador.facturaSel}" style="text-align: center"> 
+                                <p:column headerText="Fecha"  >
+                                    <h:outputText value="#{facturaControlador.fechaLetras}" />
                                 </p:column>
                                 <p:column headerText="Factura" >
 
                                     <h:outputText value="#{factura.id_factura}" />
                                 </p:column>
                             </p:dataTable>
+                            <p:panelGrid columns="2" >
+                                <f:facet name="header" >
+                                    <h:outputText value="Datos Cliente" />
+                                </f:facet>
+
+                                <h:outputText value="Nombres:" />
+                                <h:outputText value="#{facturaControlador.facturaSel.id_cliente.nombres_cliente} 
+                                              #{facturaControlador.facturaSel.id_cliente.apellidos_cliente} " />
+
+                                <h:outputText value="Cédula / R.U.C:" />
+                                <h:outputText value="#{detalleFacturaControlador.facturaSel.id_cliente.ruc_cliente}" />
+
+                                <h:outputText value="Dirección:" />
+                                <h:outputText value="#{facturaControlador.facturaSel.id_cliente.direccion_cliente}" />
+
+                            </p:panelGrid>
                             <p:commandButton id="btnNuevaFactura" value="Nueva Factura" icon="ui-icon-newwin"
                                              oncomplete="wdlgNuevaFactura.show()" title="Nueva Factura"/>  
 
                         </p:panel>
-                        <p:panel id="pnlDetalle" >
+                        <p:fieldset id="productosdisponibles" legend="Productos Disponibles"  >
+                            <p:dataGrid id="productos" var="producto" value="#{detalleFacturaControlador.lstProductos}" columns="3" >
+                                <p:panel id="pnl" header="#{producto.id_producto}" style="text-align:center" footer="Arrastre a la tabla Detalles">
+                                    <h:panelGrid columns="2" style="width:100%">
+                                        <h:outputText value="Nombre:" />
+                                        <h:outputText value="#{producto.id_categoria.nombre_producto}" />
+
+                                        <h:outputText value="Precio:" />
+                                        <h:outputText value="#{producto.id_categoria.precio_producto}" />
+
+                                        <h:outputText value="Peso:" />
+                                        <h:outputText value="#{producto.peso_producto}" />
+
+                                        <h:outputText value="Sabor:" />
+                                        <h:outputText value="#{producto.sabor_producto}" />
+                                    </h:panelGrid>
+                                </p:panel>
+                                <p:draggable for="pnl" revert="true" handle=".ui-panel-titlebar" stack=".ui-panel"/>
+                            </p:dataGrid>
+
+                        </p:fieldset>
+
+                        <!--Scrip -->
+                        <script type="text/javascript">
+                            function handleDrop(event, ui) {
+                                var droppedCar = ui.draggable;
+
+                                droppedCar.fadeOut('fast');
+                            }
+                        </script>
+                        <!--Scrip -->
+                        <p:panel id="pnlDetalle"  >
+
                             <p:dataTable id="tblDetalles" value="#{detalleFacturaControlador.lstDetalleFactura}" 
                                          var="detalle" 
                                          rows="10" rowKey="#{detalle.id_detalle_factura}" selectionMode="single" 
@@ -98,7 +147,7 @@ and open the template in the editor.
                                                     style="margin-bottom:40px; min-width:40px;min-height:40px;max-height: 50px;max-width: 150px;"
                                                     >
                                             <p:outputLabel  value="$"/>
-                                            <p:outputLabel  value="#{detalleFacturaControlador.impuestoFactura}"/>
+                                            <p:outputLabel  value="#{facturaControlador.impuestoFactura}"/>
 
                                         </p:fieldset>
 
@@ -106,7 +155,7 @@ and open the template in the editor.
                                                     style="margin-bottom:40px; min-width:40px;min-height:40px;max-height: 50px;max-width: 150px;"
                                                     >
                                             <p:outputLabel  value="$"/>
-                                            <p:outputLabel  value="#{detalleFacturaControlador.totalFactura}"/>
+                                            <p:outputLabel  value="#{facturaControlador.totalFactura}"/>
 
                                         </p:fieldset>
                                     </p:panelGrid>
@@ -143,7 +192,7 @@ and open the template in the editor.
             </ui:define>
 
             <ui:define name="dialogos">
-               <p:dialog id="dlgNuevaFactura" header="Nueva Factura" widgetVar="wdlgNuevaFactura" 
+                <p:dialog id="dlgNuevaFactura" header="Nueva Factura" widgetVar="wdlgNuevaFactura" 
                           modal="true" closable="false" resizable="false"
                           showEffect="clip" hideEffect="fold"> 
 
@@ -152,18 +201,19 @@ and open the template in the editor.
                         <p:panelGrid id="pngNuevaFactura" columns="2">
 
                             <h:outputText value="Fecha:"/>
-                            <p:inputText value="#{detalleFacturaControlador.fecha_cambiada}" disabled="true"  /> 
+                            <p:inputText value="#{facturaControlador.fecha_cambiada}" disabled="true"  /> 
                             <h:outputText value="Cliente:"/>
-                            <p:selectOneMenu id="cmbCliente" value="#{detalleFacturaControlador.valorSSeleccionado}">
-                                        <f:selectItem itemLabel="Elija un cliente" itemValue="#{null}"/>
-                                        <f:selectItems value="#{detalleFacturaControlador.lstClientes}" var="clientes" itemLabel="#{clientes.nombres_cliente} #{clientes.apellidos_cliente}"
-                                                       itemValue="#{clientes.id_cliente}"/>
-                                    </p:selectOneMenu>
+                            <p:selectOneMenu id="cmbCliente" value="#{facturaControlador.valorSSeleccionado}">
+                                <f:selectItem itemLabel="Elija un cliente" itemValue="#{null}"/>
+                                <f:selectItems value="#{facturaControlador.lstClientes}" var="clientes" 
+                                               itemLabel="#{clientes.nombres_cliente} #{clientes.apellidos_cliente}"
+                                               itemValue="#{clientes.id_cliente}"/>
+                            </p:selectOneMenu>
 
                         </p:panelGrid>
 
-                        <p:commandButton value="Aceptar" action="#{detalleFacturaControlador.insertarFactura()}" 
-                                         update="@form ,@this" />
+                        <p:commandButton value="Aceptar" action="#{facturaControlador.insertarFactura()}" 
+                                         update=":frmfacturacion:pnlFormulario" />
                         <p:commandButton value="Cancelar" onclick="wdlgNuevaFactura.hide()" type="reset"/>
                     </h:form> 
                 </p:dialog>
@@ -297,10 +347,10 @@ and open the template in the editor.
                     </h:form> 
                 </p:dialog>
 
-                    <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
-                              resizable="false"> 
-                        <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
-                    </p:dialog>
+                <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
+                          resizable="false"> 
+                    <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
+                </p:dialog>
             </ui:define>
         </ui:composition>
     </h:body>

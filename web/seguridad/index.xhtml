@@ -8,7 +8,7 @@
     <h:head>
         <h:outputScript name="/jwplayer/jwplayer.js"/>
         <title>
-           Sistema de Gestión y Facturación
+            Sistema de Gestión y Facturación
         </title>
         <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
         <link rel="shortcut icon" href="/resources/images/favicon.gif" />
@@ -38,13 +38,19 @@
     <h:body>
         <p:layout fullPage="true">
             <p:layoutUnit position="north" size="50" gutter="0" collapsible="true">
+
                 <ui:include src="datosUsuario.xhtml" />
             </p:layoutUnit>
-            <p:layoutUnit position="south" size="35" gutter="1">
+            <!--<p:layoutUnit position="south" size="35" gutter="1">
                 <h:form>
-                    <ui:include src="datosPie.xhtml" />
+
+                    <p:outputPanel >
+                        <ui:include src="datosPie.xhtml" /> 
+                    </p:outputPanel> 
+
+
                 </h:form>
-            </p:layoutUnit>
+            </p:layoutUnit>-->
             <p:layoutUnit position="west" size="250" resizable="true" collapsible="true" header="Menu Principal" gutter="2">
                 <p:messages id="messages" showDetail="true"/>  
                 <h:form id="frmMenuUsuario">
@@ -72,18 +78,39 @@
                                         </p:commandLink> <hr style="color: antiquewhite;"/>
                                     </c:if>
                                 </c:forEach>
+
+                                <p:accordionPanel style="padding-left: 10px; width: 95%">
+                                    <p:tab title="PERSONALIZAR AMBIENTE" >  <hr style="color: antiquewhite;"/>
+                                        <p:themeSwitcher style="width:150px" id="defaultSwitcher" value="#{indexMasterControlador.dm.temaSitio}">  
+                                            <f:selectItem itemLabel="Choose Theme" itemValue="" />  
+                                            <f:selectItem itemLabel="glass-x" itemValue="glass-x"/>
+                                            <f:selectItem itemLabel="temaDefault" itemValue="temaDefault"/>
+                                            <f:selectItem itemLabel="black-tie" itemValue="black-tie"/>
+                                            <f:selectItem itemLabel="blitzer" itemValue="blitzer"/>
+                                            <f:selectItem itemLabel="cupertino" itemValue="cupertino"/>
+                                            <f:selectItem itemLabel="humanity" itemValue="humanity"/>
+                                            <p:ajax event="change" process="defaultSwitcher" update=":paginas"/>
+                                        </p:themeSwitcher>
+
+                                    </p:tab>
+                                </p:accordionPanel>
+
                             </p:tab>
                         </c:forEach>
+
                     </p:accordionPanel>
+
                 </h:form> 
-            </p:layoutUnit>
-            <p:layoutUnit position="center" gutter="1" >
+            </p:layoutUnit >
+
+            <p:layoutUnit position="center" gutter="1" style="background-position: center"  >
                 <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                 <h:panelGroup id="paginas">
-                    <iframe name="paginas" width="99.8%" height="99%" src="#{indexMasterControlador.dm.paginaActual}" style="border: 0"/>
+                    <iframe name="paginas" width="99.8%" height="99%" src="#{indexMasterControlador.dm.paginaActual}" style="border: 0" />
                 </h:panelGroup>
             </p:layoutUnit>
         </p:layout>
+
         <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" resizable="false"> 
             <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
         </p:dialog>
