@@ -31,19 +31,19 @@ and open the template in the editor.
                             <p:column headerText="Nombres Cliente">
                                 <h:outputText value="#{cliente.nombres_cliente} #{cliente.apellidos_cliente}"/>
                             </p:column>
-                            
+
                             <p:column headerText="Direcciôn">
                                 <h:outputText value="#{cliente.direccion_cliente}"/>
                             </p:column>
-                            
+
                             <p:column headerText="Telefono">
                                 <h:outputText value="#{cliente.telefono_cliente}"/>
                             </p:column>
-                            
+
                             <p:column headerText="Correo Electrônico">
                                 <h:outputText value="#{cliente.email_cliente}"/>
                             </p:column>
-                            
+
                             <p:column headerText="Nombre Empresa">
                                 <h:outputText value="#{cliente.nombre_empresa}"/>
                             </p:column>
@@ -52,7 +52,7 @@ and open the template in the editor.
                                 <h:outputText value="#{cliente.ruc_cliente}"/>
                             </p:column>
 
-                           <p:column exportable="false">
+                            <p:column exportable="false">
                                 <p:commandButton id="btnEditarCliente" icon="ui-icon-pencil"  title="Editar Cliente" 
                                                  oncomplete="wdlgEditarCliente.show()" 
                                                  process="@this" update=":dlgEditarCliente, @form">                                   
@@ -74,14 +74,14 @@ and open the template in the editor.
                             <f:facet name="footer">  
                                 <p:commandButton id="btnNuevoCliente" value="Nuevo" icon="ui-icon-newwin"
                                                  oncomplete="wdlgNuevoCliente.show()" title="Nuevo Cliente"/>  
-
-                                <h:commandLink>
-                                    <img src="../../resources/images/excel.png" alt=""/>
-                                    <p:dataExporter type="xls" target="tblCliente" fileName="cliente" pageOnly="true" />
+                                <h:commandLink >
+                                    <img src="../../resources/images/excel.png" alt="" title="Exportar a Excel"/>
+                                    <p:dataExporter type="xls" target="tblCliente" fileName="cliente" pageOnly="true"  />
                                 </h:commandLink>
 
+
                                 <h:commandLink>
-                                    <img src="../../resources/images/pdf.png" alt=""/>
+                                    <img src="../../resources/images/pdf.png" alt="" title="Exportar a Pdf"/>
                                     <p:dataExporter type="pdf" target="tblCliente" fileName="Cliente" pageOnly="true" />
                                 </h:commandLink>
 
@@ -116,20 +116,24 @@ and open the template in the editor.
                             <h:outputText value="Telefono: "/>
                             <p:inputText value="#{clienteControlador.objCliente.telefono_cliente}" placeholder="Ingrese el telefono"
                                          required="true" requiredMessage="Ingrese el telefono"/>
-                            
+
                             <h:outputText value="Email:"/>
                             <p:inputText value="#{clienteControlador.objCliente.email_cliente}" placeholder="Ingrese el email"
-                                         required="true" requiredMessage="Ingrese el email"/>
-                            
-                             <h:outputText value="Nombre Emresa:"/>
+                                         required="true" requiredMessage="Ingrese el email">
+                                
+                            </p:inputText>
+
+                            <h:outputText value="Nombre Emresa:"/>
                             <p:inputText value="#{clienteControlador.objCliente.nombre_empresa}" placeholder="Ingrese el nombre de la empresa"
                                          required="true" requiredMessage="Ingrese la empresa"/>
                             
                              <h:outputText value="Ruc: *"/>
+
+                            <h:outputText value="Ruc:"/>
                             <p:inputText value="#{clienteControlador.objCliente.ruc_cliente}" placeholder="Ingrese el RUC"
                                          required="true" requiredMessage="Ingrese el RUC"/>
 
-                                                                                
+
                         </p:panelGrid>
 
                         <p:commandButton value="Aceptar" action="#{clienteControlador.insertarCliente()}" 
@@ -158,28 +162,30 @@ and open the template in the editor.
                                          required="true" requiredMessage="Ingrese Apellido"/>
                             
                             <h:outputText value="Direccion: *"/>
+
+                            <h:outputText value="Direccion:"/>
                             <p:inputText value="#{clienteControlador.clienteSel.direccion_cliente}" placeholder="Ingrese la Direccion"  
                                          required="true" requiredMessage="Ingrese la Direcion"/>
 
                             <h:outputText value="Telefono:"/>
                             <p:inputText value="#{clienteControlador.clienteSel.telefono_cliente}" placeholder="Ingrese el telefono"
                                          required="true" requiredMessage="Ingrese el telefono"/>
-                            
+
                             <h:outputText value="Email:"/>
                             <p:inputText value="#{clienteControlador.clienteSel.email_cliente}" placeholder="Ingrese el email"
                                          required="true" requiredMessage="Ingrese el email"/>
-                            
-                            <h:outputText value="Nombre Empresa:"/>
                             <p:inputText value="#{clienteControlador.clienteSel.nombre_empresa}" placeholder="Nombre de la empresa"
                                          required="true" requiredMessage="Nombre de la empresa"/>
                             
-                            <h:outputText value="Ruc: *"/>
+                            <h:outputText value="Nombre Empresa:"/>
+
+                            <h:outputText value="Nombre Emresa:"/>
                             <p:inputText value="#{clienteControlador.clienteSel.ruc_cliente}" placeholder="Ingrese el RUC"
                                          required="true" requiredMessage="Ingrese el RUC"/>
-                            
-                          </p:panelGrid>                 
-                                              
-                
+
+                        </p:panelGrid>                 
+
+
                         <p:commandButton value="Aceptar" action="#{clienteControlador.actualizarCliente()}" 
                                          update=":frmcliente:pnlCliente"/>
                         <p:commandButton value="Cancelar" onclick="wdlgEditarCliente.hide()" type="reset"/>
@@ -194,30 +200,30 @@ and open the template in the editor.
                         <p:panelGrid id="pngEliminarCliente" columns="2">
                             <h:outputText value="Nombre:"/>
                             <p:inputText value="#{clienteControlador.clienteSel.nombres_cliente}" disabled="true"/>
-                            
+
                             <h:outputText value="Apellido:"/>
                             <p:inputText value="#{clienteControlador.clienteSel.apellidos_cliente}" disabled="true"/>
-                            
+
                             <h:outputText value="Direccion:"/>
                             <p:inputText value="#{clienteControlador.clienteSel.direccion_cliente}" disabled="true"/>
-                            
-                             <h:outputText value="Telefono:"/>
+
+                            <h:outputText value="Telefono:"/>
                             <p:inputText value="#{clienteControlador.clienteSel.telefono_cliente}" disabled="true"/>
-                            
-                                                   
+
+
                             <h:outputText value="Email:"/>
                             <p:inputText value="#{clienteControlador.clienteSel.email_cliente}" disabled="true"/>
-                            
+
                             <h:outputText value="Nombre de la Empresa:"/>
                             <p:inputText value="#{clienteControlador.clienteSel.nombre_empresa}" disabled="true"/>
-                            
+
                             <h:outputText value="RUC:"/>
                             <p:inputText value="#{clienteControlador.clienteSel.ruc_cliente}" disabled="true"/>
-                            
-                                                           
+
+
                         </p:panelGrid>
-                        
-                        
+
+
                         <p:commandButton value="Aceptar" action="#{clienteControlador.eliminarCliente()}" 
                                          update=":frmcliente:pnlCliente"/>
                         <p:commandButton value="Cancelar" onclick="wdlgEliminarCliente.hide()" type="reset"/>

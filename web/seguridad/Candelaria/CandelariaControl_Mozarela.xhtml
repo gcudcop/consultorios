@@ -103,19 +103,19 @@ and open the template in the editor.
             <ui:define name="dialogos">
                 <p:dialog id="dlgNuevoControl_mozarela" header="Nuevo Control Mozarela" widgetVar="wdlgNuevoControl_mozarela" 
                           modal="true" closable="false" resizable="false"
-                          showEffect="clip" hideEffect="fold"  height="400px" width="600px"> 
+                          showEffect="clip" hideEffect="fold" > 
 
 
 
-                    <h:form id="frmNuevoControl_mozarela" style="max-width: 600px;max-height: 400px">
+                    <h:form id="frmNuevoControl_mozarela">
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                         <p:panelGrid id="pngNuevoControl_mozarela" columns="2">
                             
                              <h:outputText value="Nombre Producto:"/>
                             <p:selectOneMenu id="cmbCategoria" value="#{control_mozarelaControlador.valorProductoSeleccionado}">
                                 <f:selectItem itemLabel="Elija un Producto" itemValue="#{null}"/>
-                                <f:selectItems value="#{control_mozarelaControlador.lstProducto}" var="producto" 
-                                               itemLabel="#{producto.id_categoria.nombre_producto}" itemValue="#{producto.id_categoria.id_categoria}"/>
+                                <f:selectItems value="#{control_MozarelaControlador.lstProducto}" var="producto" 
+                                               itemLabel="#{producto.id_categoria.nombre_producto}" itemValue="#{producto.id_categoria.}"/>
                             </p:selectOneMenu>
                              
                             <h:outputText value="Cenizas:"/>

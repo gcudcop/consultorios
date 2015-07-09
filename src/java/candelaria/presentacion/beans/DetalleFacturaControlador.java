@@ -13,10 +13,13 @@ import candelaria.logica.funciones.FCliente;
 import candelaria.logica.funciones.FDetalleFactura;
 import candelaria.logica.funciones.FFactura;
 import candelaria.logica.funciones.FProducto;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.context.DefaultRequestContext;
+import org.primefaces.model.DualListModel;
 import recursos.Util;
 
 /**
@@ -26,28 +29,56 @@ import recursos.Util;
 @ManagedBean
 @ViewScoped
 public class DetalleFacturaControlador {
-
+    
+    Date fecha = new java.util.Date();
     private Factura objFactura;
+    private Factura facturaSel;
     private Detalle_Factura objDetalleFactura;
     private Detalle_Factura detalleFacturaSel;
     private Producto productoSel;
     private ArrayList<Detalle_Factura> lstDetalleFactura;
+    private DualListModel<Producto> Productos;
     private ArrayList<Producto> lstProductos;
     private ArrayList<Factura> facturaUltima;
     private ArrayList<Cliente> lstClientes;
-    private Factura facturaSel;
     private boolean mostrarActualizar;
     private int valorProductoSeleccionado;
     private int cantidad;
     private double resultado;
     private double precio;
     private String fecha_cambiada;
+    private String fechaLetras;
     private int valorFSeleccionado;
     private int valorSSeleccionado;
     private double totalHoja;
     private double totalFactura;
     private double impuestoFactura;
 
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getFechaLetras() {
+        return fechaLetras;
+    }
+
+    public void setFechaLetras(String fechaLetras) {
+        this.fechaLetras = fechaLetras;
+    }
+
+      
+    public DualListModel<Producto> getProductos() {
+        return Productos;
+    }
+
+    public void setProductos(DualListModel<Producto> Productos) {
+        this.Productos = Productos;
+    }
+    
     public ArrayList<Cliente> getLstClientes() {
         return lstClientes;
     }
@@ -210,8 +241,10 @@ public class DetalleFacturaControlador {
 
     public DetalleFacturaControlador() {
         reinit();
+        
     }
-
+      
+  
     public void reinit() {
         this.objDetalleFactura = new Detalle_Factura();
         this.detalleFacturaSel = new Detalle_Factura();
@@ -225,6 +258,7 @@ public class DetalleFacturaControlador {
         cargarProductos();
         cargarFacturaUltima();
         cargarClientes();
+       
     }
 
     public void cargarProductos() {
@@ -238,6 +272,10 @@ public class DetalleFacturaControlador {
     }
 
     public void cargarFacturaUltima() {
+        java.text.SimpleDateFormat sdf1 = new java.text.SimpleDateFormat("dd/MM/yyyy");
+        fecha_cambiada = sdf1.format(fecha);
+        DateFormat sdf2 = DateFormat.getDateInstance(DateFormat.FULL);
+        fechaLetras = sdf2.format(fecha);
         try {
             this.facturaUltima = FFactura.ObtenerFacturaUltima();
             this.facturaSel = facturaUltima.get(0);
@@ -276,6 +314,7 @@ public class DetalleFacturaControlador {
             Producto producto = new Producto();
             producto.setId_producto(valorProductoSeleccionado);
             objDetalleFactura.setId_producto(producto);
+            
 
             if (FDetalleFactura.Insertar(objDetalleFactura)) {
                 this.reinit();
@@ -335,7 +374,7 @@ public class DetalleFacturaControlador {
 
     }
 
-    public double sumaColumaPrecio() {
+   public double sumaColumaPrecio() {
         totalHoja = 0.0;
         try {
             this.lstDetalleFactura = FDetalleFactura.ObtenerDetalleDadoCodigoFactura(facturaSel.getId_factura());
@@ -352,55 +391,5 @@ public class DetalleFacturaControlador {
         return totalHoja;
     }
     
-    public double Iva() {
-        //impuestoFactura=0.0;
-        impuestoFactura = totalHoja * 0.12;
-
-        return impuestoFactura;
-    }
-
-    public double Total() {
-        totalFactura = 0.0;
-        totalFactura = totalHoja + impuestoFactura;
-
-        return totalFactura;
-    }
-
-    public void insertarFactura() {
-        try {
-
-            if (FFactura.Insertar(objFactura)) {
-                this.reinit();
-                DefaultRequestContext.getCurrentInstance().execute("wdlgNuevaFactura.hide()");
-                Util.addSuccessMessage("Información guardada con éxito");
-                System.out.println("public void insertarFactura dice: Error al guardar la información");
-            } else {
-                Util.addSuccessMessage("Error al guardar la información");
-                System.out.println("public void insertarFactura dice: Error al guardar la información");
-            }
-        } catch (Exception e) {
-            Util.addErrorMessage("private void insertarFactura dice: " + e.getMessage());
-            System.out.println("private void insertarFactura dice: " + e.getMessage());
-        }
-    }
-
-    public void actualizarFactura() {
-        try {
-
-            if (FFactura.actualizar(facturaSel)) {
-                facturaSel = new Factura();
-                mostrarActualizar = false;
-                this.reinit();
-                DefaultRequestContext.getCurrentInstance().execute("wdlgEditarFactura.hide()");
-                Util.addSuccessMessage("Información guardada con éxito");
-                System.out.println("public void actualizarFactura dice: Información guardada con éxito!!");
-            } else {
-                Util.addErrorMessage("Error al guardar la información");
-                System.out.println("public void actualizarFactura dice: Error al guardar la información");
-            }
-        } catch (Exception e) {
-            Util.addErrorMessage("private void actualizarFactura dice: " + e.getMessage());
-            System.out.println("private void actualizarFactura dice: " + e.getMessage());
-        }
-    }
+    
 }
