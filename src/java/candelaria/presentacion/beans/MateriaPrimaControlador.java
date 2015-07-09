@@ -6,7 +6,11 @@
 package candelaria.presentacion.beans;
 
 import candelaria.logica.clases.MateriaPrima;
+import candelaria.logica.clases.MateriaPrima_Proveedor;
+import candelaria.logica.clases.Proveedor;
 import candelaria.logica.funciones.FMateriaPrima;
+import candelaria.logica.funciones.FMateriaPrima_Provedor;
+import candelaria.logica.funciones.FProveedor;
 import java.util.ArrayList;
 import javax.inject.Named;
 import javax.faces.bean.ViewScoped;
@@ -21,10 +25,66 @@ import recursos.Util;
 @Named
 public class MateriaPrimaControlador {
     private MateriaPrima objMateriaPrima;
+    private MateriaPrima_Proveedor objMateriaPrimaProveedor;
+    private MateriaPrima_Proveedor materiaPrimaProveedorSel;
     private MateriaPrima materiaPrimaSel;
     private ArrayList<MateriaPrima> lstMateriaPrima;
+    private ArrayList<MateriaPrima_Proveedor> lstMateriaPrimaPproveedor;
+    private ArrayList<Proveedor> lstProveedor;
     private boolean mostrarActualizar;
+    private int valorProveedorSeleccionado;
+    private int valorMateriaSeleccionado;
+    
 
+    public MateriaPrima_Proveedor getObjMateriaPrimaProveedor() {
+        return objMateriaPrimaProveedor;
+    }
+
+    public void setObjMateriaPrimaProveedor(MateriaPrima_Proveedor objMateriaPrimaProveedor) {
+        this.objMateriaPrimaProveedor = objMateriaPrimaProveedor;
+    }
+
+    public MateriaPrima_Proveedor getMateriaPrimaProveedorSel() {
+        return materiaPrimaProveedorSel;
+    }
+
+    public void setMateriaPrimaProveedorSel(MateriaPrima_Proveedor materiaPrimaProveedorSel) {
+        this.materiaPrimaProveedorSel = materiaPrimaProveedorSel;
+    }
+
+    public ArrayList<MateriaPrima_Proveedor> getLstMateriaPrimaPproveedor() {
+        return lstMateriaPrimaPproveedor;
+    }
+
+    public void setLstMateriaPrimaPproveedor(ArrayList<MateriaPrima_Proveedor> lstMateriaPrimaPproveedor) {
+        this.lstMateriaPrimaPproveedor = lstMateriaPrimaPproveedor;
+    }
+
+    public int getValorProveedorSeleccionado() {
+        return valorProveedorSeleccionado;
+    }
+
+    public void setValorProveedorSeleccionado(int valorProveedorSeleccionado) {
+        this.valorProveedorSeleccionado = valorProveedorSeleccionado;
+    }
+
+    public int getValorMateriaSeleccionado() {
+        return valorMateriaSeleccionado;
+    }
+
+    public void setValorMateriaSeleccionado(int valorMateriaSeleccionado) {
+        this.valorMateriaSeleccionado = valorMateriaSeleccionado;
+    }
+    
+    public ArrayList<Proveedor> getLstProveedor() {
+        return lstProveedor;
+    }
+
+    public void setLstProveedor(ArrayList<Proveedor> lstProveedor) {
+        this.lstProveedor = lstProveedor;
+    }
+    
+    
     public MateriaPrima getObjMateriaPrima() {
         return objMateriaPrima;
     }
@@ -65,8 +125,11 @@ public class MateriaPrimaControlador {
         this.objMateriaPrima = new MateriaPrima();
         this.materiaPrimaSel = new MateriaPrima();
         this.lstMateriaPrima = new ArrayList<MateriaPrima>();
+        this.lstMateriaPrimaPproveedor=new ArrayList<MateriaPrima_Proveedor>();
+        this.lstProveedor=new ArrayList<Proveedor>();
         this.cargarMateriaPrima();
-        
+        this.cargarProveedor();
+        this.cargarMateriaPrimaProveedor();
     }
     
     public void cargarMateriaPrima() {
@@ -79,7 +142,28 @@ public class MateriaPrimaControlador {
             System.out.println("private void cargarMateriaPrima dice: " + e.getMessage());
         }
      }
+    
+    public void cargarMateriaPrimaProveedor() {
+        try {
+            this.lstMateriaPrimaPproveedor = FMateriaPrima_Provedor.ObtenerMateriaPrima_Proveedor();
+            this.materiaPrimaProveedorSel = lstMateriaPrimaPproveedor.get(0);
+            System.out.println(lstMateriaPrimaPproveedor.get(0).getCodigoMateriaProveedor());
+        } catch (Exception e) {
+            Util.addErrorMessage("private void cargarMateriaPrimaProveedor dice: " + e.getMessage());
+            System.out.println("private void cargarMateriaPrimaProveedor dice: " + e.getMessage());
+        }
+     }
      
+       public void cargarProveedor() {
+        try {
+            this.lstProveedor = FProveedor.ObtenerProveedor();
+            //this.materiaPrimaSel = lstMateriaPrima.get(0);
+            System.out.println(lstProveedor.get(0).getId_proveedor());
+        } catch (Exception e) {
+            Util.addErrorMessage("private void cargarMateriaPrima dice: " + e.getMessage());
+            System.out.println("private void cargarMateriaPrima dice: " + e.getMessage());
+        }
+     }
         public void insertarMateriaPrima() {
         try {
             
@@ -96,6 +180,25 @@ public class MateriaPrimaControlador {
         } catch (Exception e) {
             Util.addErrorMessage("private void insertarMateriaPrima dice: " + e.getMessage());
             System.out.println("private void insertarMateriaPrima dice: " + e.getMessage());
+                }
+        }
+        
+        public void insertarMateriaPrimaProveedor() {
+        try {
+            
+                        
+            if (FMateriaPrima_Provedor.Insertar(objMateriaPrimaProveedor)) {
+                this.reinit();
+                DefaultRequestContext.getCurrentInstance().execute("wdlgNuevoMateriaPrimaProveedor.hide()");
+                Util.addSuccessMessage("Información guardada con éxito");
+                System.out.println("public void insertarMateriaprimaproveedor dice: Error al guardar la información");
+           } else { 
+                Util.addSuccessMessage("Error al guardar la información");
+                System.out.println("public void insertarMateriaPrimaproveedor dice: Error al guardar la información");
+           }
+        } catch (Exception e) {
+            Util.addErrorMessage("private void insertarMateriaPrimaproveedor dice: " + e.getMessage());
+            System.out.println("private void insertarMateriaPrimaproveedor dice: " + e.getMessage());
                 }
         }
 
@@ -123,6 +226,27 @@ public class MateriaPrimaControlador {
             System.out.println("private void actualizarMateriaPrima dice: " + e.getMessage());
         }
     }
+     
+     public void actualizarMateriaPrimaProveedor() {
+        try {
+            
+                       
+            if (FMateriaPrima_Provedor.actualizar(materiaPrimaProveedorSel)) {
+                materiaPrimaProveedorSel = new MateriaPrima_Proveedor();
+                mostrarActualizar = false;
+                this.reinit();
+                DefaultRequestContext.getCurrentInstance().execute("wdlgEditarMateriaPrimaProveedor.hide()");
+                Util.addSuccessMessage("Información guardada con éxito");
+                System.out.println("public void actualizarMateriaPrimaProveedor dice: Información guardada con éxito!!");
+            } else {
+                Util.addErrorMessage("Error al guardar la información");
+                System.out.println("public void actualizarMateriaPrimaProveedor dice: Error al guardar la información");
+            }
+        } catch (Exception e) {
+            Util.addErrorMessage("private void actualizarMateriaPrimaProveedor dice: " + e.getMessage());
+            System.out.println("private void actualizarMateriaPrimaProveedor dice: " + e.getMessage());
+        }
+    }
 
     public void eliminarMateriaPrima() {
         try {
@@ -138,6 +262,24 @@ public class MateriaPrimaControlador {
         } catch (Exception e) {
             Util.addErrorMessage("private void eliminarMateriaPrima dice: " + e.getMessage());
             System.out.println("private void eliminarMateriaPrima dice: " + e.getMessage());
+        }
+        
+    }
+    
+     public void eliminarMateriaPrimaProveedor() {
+        try {
+            if (FMateriaPrima_Provedor.eliminar((int) materiaPrimaProveedorSel.getCodigoMateriaProveedor())) {
+                this.reinit();
+                DefaultRequestContext.getCurrentInstance().execute("wdlgEliminarMateriaPrimaProveedor.hide()");
+                Util.addSuccessMessage("Información eliminada.");
+                System.out.println("public void eliminarMateriaPrimaProveedor dice: Información eliminada.");
+            } else {
+                Util.addErrorMessage("Error al eliminar la información.");
+                System.out.println("public void eliminarMateriPrimaProveedor dice: Error al eliminar la información");
+            }
+        } catch (Exception e) {
+            Util.addErrorMessage("private void eliminarMateriaPrimaProveedor dice: " + e.getMessage());
+            System.out.println("private void eliminarMateriaPrimaProveedor dice: " + e.getMessage());
         }
         
     }

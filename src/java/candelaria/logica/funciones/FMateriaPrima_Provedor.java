@@ -15,6 +15,7 @@ import java.util.ArrayList;
  * @author Alexandra
  */
 public class FMateriaPrima_Provedor {
+    
      public static boolean Insertar(MateriaPrima_Proveedor materia_proveedor) throws Exception {
         boolean eje = false;
         try {
