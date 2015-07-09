@@ -12,6 +12,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.context.DefaultRequestContext;
 import recursos.Util;
+import recursos.utilBeans.ValidatorBean;
 
 /**
  *
@@ -24,6 +25,16 @@ public class ClienteControlador {
     private Cliente clienteSel;
     private ArrayList<Cliente> lstCliente;
     private boolean mostrarActualizar;
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
 
     public Cliente getObjCliente() {
         return objCliente;
@@ -87,7 +98,12 @@ public class ClienteControlador {
      }
             
         public void insertarCliente() {
+           boolean band =false;
         try {
+            while (band ==false){
+                
+            
+        }
             
                         
             if (FCliente.Insertar(objCliente)) {
