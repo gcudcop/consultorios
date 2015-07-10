@@ -94,7 +94,7 @@ public class FControl_Mozarela {
         Control_Mozarela control_mozarela = null;
         try {
             while (rs.next()) {
-                control_mozarela = new Control_Mozarela(rs.getInt("pid_control_mozarela"),FProducto.ObtenerProductoDadoCodigo(rs.getInt("pid_producto")), rs.getString("pph_mozarela"), 
+                control_mozarela = new Control_Mozarela(rs.getInt("pid_control_mozarela"),FCategoria.ObtenerCategoriaDadoCodigo(rs.getInt("pid_producto")), rs.getString("pph_mozarela"), 
                         rs.getString("phumedad_mozarela"), 
                         rs.getString("pcenizas_mozarela"), rs.getDouble("pgrasas_mozarela"),rs.getDouble("pproteinas_mozarela"),
                         rs.getDouble("psolidos_totales"),rs.getDouble("prendimiento_mozarela"));
@@ -107,22 +107,7 @@ public class FControl_Mozarela {
         return lst;
     }
 
-     public static ArrayList<Control_Mozarela> llenarMozarela(ConjuntoResultado rs) throws Exception {
-        ArrayList<Control_Mozarela> lst = new ArrayList<Control_Mozarela>();
-        Control_Mozarela mozarela = null;
-        try {
-            while (rs.next()) {
-                mozarela = new Control_Mozarela(rs.getInt("pid_categoria"),rs.getString("pnombre_producto"), 
-                        rs.getString("pdescripcion_producto"), 
-                        rs.getDouble("pprecio_producto"));
-                lst.add(mozarela);
-            }
-        } catch (Exception e) {
-            lst.clear();
-            throw e;
-        }
-        return lst;
-    }
+     
      
     public static ArrayList<Control_Mozarela> ObtenerControl_Mozarelas() throws Exception {
         ArrayList<Control_Mozarela> lst = new ArrayList<Control_Mozarela>();

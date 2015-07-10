@@ -9,6 +9,7 @@ import accesodatos.AccesoDatos;
 import accesodatos.ConjuntoResultado;
 import accesodatos.Parametro;
 import candelaria.logica.clases.Categoria;
+import candelaria.logica.clases.Control_Mozarela;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -93,7 +94,20 @@ public class FCategoria {
         }
         return lst;
     }
+     
 
+     public static ArrayList<Categoria> ObtenerlistaMozarela() throws Exception {
+        ArrayList<Categoria> lst = new ArrayList<Categoria>();
+        try {
+            String sql = "select * from sgflc.f_select_categoria_lista_queso_mozarela()";
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
+            lst = llenarCategoria(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }     
     public static ArrayList<Categoria> ObtenerCategoria() throws Exception {
         ArrayList<Categoria> lst = new ArrayList<Categoria>();
         try {

@@ -5,8 +5,10 @@
  */
 package candelaria.presentacion.beans;
 
+import candelaria.logica.clases.Categoria;
 import candelaria.logica.clases.Control_Mozarela;
 import candelaria.logica.clases.Producto;
+import candelaria.logica.funciones.FCategoria;
 import candelaria.logica.funciones.FControl_Mozarela;
 import candelaria.logica.funciones.FProducto;
 import java.util.ArrayList;
@@ -27,9 +29,20 @@ public class Control_MozarelaControlador {
     private ArrayList<Control_Mozarela> lstControl_Mozarela;
     private ArrayList<Control_Mozarela> lstMozarela;
     private ArrayList<Producto> lstProducto;
+    private ArrayList<Categoria> lstCategoria;
     private int valorProductoSeleccionado;
     private Producto productoSel;
     private boolean mostrarActualizar;
+
+    public ArrayList<Categoria> getLstCategoria() {
+        return lstCategoria;
+    }
+
+    public void setLstCategoria(ArrayList<Categoria> lstCategoria) {
+        this.lstCategoria = lstCategoria;
+    }
+    
+    
 
     public ArrayList<Control_Mozarela> getLstMozarela() {
         return lstMozarela;
@@ -107,6 +120,7 @@ public class Control_MozarelaControlador {
         this.lstControl_Mozarela = new ArrayList<Control_Mozarela>();
         this.lstMozarela = new ArrayList<Control_Mozarela>();
         this.lstProducto=new ArrayList<Producto>();
+        this.lstCategoria=new ArrayList<Categoria>();
 //        this.LstPeriodos = new ArrayList<Periodos>();  
 //        this.lstFacultades = new ArrayList<Facultad>();
 //        this.lstEscuelas = new ArrayList<Escuela>();
@@ -114,22 +128,13 @@ public class Control_MozarelaControlador {
         //this.ProveedorSel = this.lstProveedors.get(0);
         this.cargarControl_Mozarela();
         this.cargarProducto();
-        this.cargarMozarela();
+        this.cargarCategoria();
         //this.cargarNiveles();
 //        this.cargarPeriodos();
 //        this.cargarFacultad();
         
     }
-     public void cargarMozarela() {
-        try {
-            this.lstMozarela = FControl_Mozarela.ObtenerControl_Mozarelas();
-            this.control_MozarelaSel = lstControl_Mozarela.get(0);
-            System.out.println(lstControl_Mozarela.get(0).getId_control_mozarela());
-        } catch (Exception e) {
-            Util.addErrorMessage("private void cargarControl_Mozarela dice: " + e.getMessage());
-            System.out.println("private void cargarControl_Mozarela dice: " + e.getMessage());
-        }
-     }
+     
     
     public void cargarControl_Mozarela() {
         try {
@@ -151,10 +156,22 @@ public class Control_MozarelaControlador {
             System.out.println("private void cargarProducto dice: " + e.getMessage());
         }
      }
+        
+        public void cargarCategoria() {
+        try {
+            this.lstCategoria = FCategoria.ObtenerlistaMozarela();
+           // System.out.println(lstProducto.get(0).getId_producto());
+        } catch (Exception e) {
+            Util.addErrorMessage("private void cargarCategoria dice: " + e.getMessage());
+            System.out.println("private void cargarCategoria dice: " + e.getMessage());
+        }
+     }
             
         public void insertarControl_Mozarela() {
         try {
-            
+            Categoria categoria=new Categoria();
+            categoria.setId_categoria(valorProductoSeleccionado);
+            objControl_mozarela.setId_producto(categoria);
                         
             if (FControl_Mozarela.Insertar(objControl_mozarela)) {
                 this.reinit();
