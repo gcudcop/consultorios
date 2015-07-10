@@ -16,9 +16,11 @@ import candelaria.logica.funciones.FProducto;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.context.DefaultRequestContext;
+import org.primefaces.event.DragDropEvent;
 import org.primefaces.model.DualListModel;
 import recursos.Util;
 
@@ -29,7 +31,7 @@ import recursos.Util;
 @ManagedBean
 @ViewScoped
 public class DetalleFacturaControlador {
-    
+
     Date fecha = new java.util.Date();
     private Factura objFactura;
     private Factura facturaSel;
@@ -39,6 +41,7 @@ public class DetalleFacturaControlador {
     private ArrayList<Detalle_Factura> lstDetalleFactura;
     private DualListModel<Producto> Productos;
     private ArrayList<Producto> lstProductos;
+    private ArrayList<Producto> droppedCars;
     private ArrayList<Factura> facturaUltima;
     private ArrayList<Cliente> lstClientes;
     private boolean mostrarActualizar;
@@ -53,6 +56,14 @@ public class DetalleFacturaControlador {
     private double totalHoja;
     private double totalFactura;
     private double impuestoFactura;
+
+    public ArrayList<Producto> getDroppedCars() {
+        return droppedCars;
+    }
+
+    public void setDroppedCars(ArrayList<Producto> droppedCars) {
+        this.droppedCars = droppedCars;
+    }
 
     public Date getFecha() {
         return fecha;
@@ -70,7 +81,6 @@ public class DetalleFacturaControlador {
         this.fechaLetras = fechaLetras;
     }
 
-      
     public DualListModel<Producto> getProductos() {
         return Productos;
     }
@@ -78,7 +88,7 @@ public class DetalleFacturaControlador {
     public void setProductos(DualListModel<Producto> Productos) {
         this.Productos = Productos;
     }
-    
+
     public ArrayList<Cliente> getLstClientes() {
         return lstClientes;
     }
@@ -86,7 +96,7 @@ public class DetalleFacturaControlador {
     public void setLstClientes(ArrayList<Cliente> lstClientes) {
         this.lstClientes = lstClientes;
     }
-    
+
     public double getTotalFactura() {
         return totalFactura;
     }
@@ -241,11 +251,10 @@ public class DetalleFacturaControlador {
 
     public DetalleFacturaControlador() {
         reinit();
-        
+
     }
-      
-  
-    public void reinit() {
+ @PostConstruct
+    private void reinit() {
         this.objDetalleFactura = new Detalle_Factura();
         this.detalleFacturaSel = new Detalle_Factura();
         this.facturaSel = new Factura();
@@ -253,17 +262,28 @@ public class DetalleFacturaControlador {
         this.lstDetalleFactura = new ArrayList<Detalle_Factura>();
         this.lstClientes = new ArrayList<Cliente>();
         this.lstProductos = new ArrayList<Producto>();
+        this.droppedCars=new ArrayList<Producto>();
         this.facturaUltima = new ArrayList<Factura>();
+        this.cantidad=1;
         cargarDetalleFactura();
         cargarProductos();
         cargarFacturaUltima();
         cargarClientes();
-       
+        
+
+    }
+    
+    public void onCarDrop(DragDropEvent ddEvent) {
+        Producto car = ((Producto) ddEvent.getData());
+  
+        droppedCars.add(car);
+        lstProductos.remove(car);
     }
 
     public void cargarProductos() {
         try {
             this.lstProductos = FProducto.ObtenerProductos();
+            //this.productoSel = lstProductos.get(0);
             System.out.println(lstProductos.get(0).getId_producto());
         } catch (Exception e) {
             Util.addErrorMessage("private void cargarCategoria dice: " + e.getMessage());
@@ -285,7 +305,7 @@ public class DetalleFacturaControlador {
             System.out.println("private void cargarFactura dice: " + e.getMessage());
         }
     }
-    
+
     public void cargarClientes() {
         try {
             this.lstClientes = FCliente.ObtenerClientes();
@@ -314,7 +334,6 @@ public class DetalleFacturaControlador {
             Producto producto = new Producto();
             producto.setId_producto(valorProductoSeleccionado);
             objDetalleFactura.setId_producto(producto);
-            
 
             if (FDetalleFactura.Insertar(objDetalleFactura)) {
                 this.reinit();
@@ -374,7 +393,7 @@ public class DetalleFacturaControlador {
 
     }
 
-   public double sumaColumaPrecio() {
+    public double sumaColumaPrecio() {
         totalHoja = 0.0;
         try {
             this.lstDetalleFactura = FDetalleFactura.ObtenerDetalleDadoCodigoFactura(facturaSel.getId_factura());
@@ -390,6 +409,5 @@ public class DetalleFacturaControlador {
 
         return totalHoja;
     }
-    
-    
+
 }

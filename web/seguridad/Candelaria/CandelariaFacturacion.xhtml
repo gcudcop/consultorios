@@ -18,9 +18,9 @@ and open the template in the editor.
     <h:body>
         <ui:composition template="../../templates/plantillaInternaCenter.xhtml">
             <ui:define name="top">Modulo de Facturación </ui:define>
-            <ui:define name="contenido">
+            <ui:define name="contenido" >
                 <p:growl id="mensajes" autoUpdate="true" showDetail="true"/>
-                <h:form id="frmfacturacion">
+                <h:form id="frmfacturacion" >
                     <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                     <p:panel id="pnlFormulario"  style="text-align: center" >
                         <p:panel id="pnlFacturacion">
@@ -65,11 +65,6 @@ and open the template in the editor.
                                         <h:outputText value="Precio:" />
                                         <h:outputText value="#{producto.id_categoria.precio_producto}" />
 
-                                        <h:outputText value="Peso:" />
-                                        <h:outputText value="#{producto.peso_producto}" />
-
-                                        <h:outputText value="Sabor:" />
-                                        <h:outputText value="#{producto.sabor_producto}" />
                                     </h:panelGrid>
                                 </p:panel>
                                 <p:draggable for="pnl" revert="true" handle=".ui-panel-titlebar" stack=".ui-panel"/>
@@ -86,105 +81,106 @@ and open the template in the editor.
                             }
                         </script>
                         <!--Scrip -->
-                        <p:panel id="pnlDetalle"  >
 
-                            <p:dataTable id="tblDetalles" value="#{detalleFacturaControlador.lstDetalleFactura}" 
-                                         var="detalle" 
-                                         rows="10" rowKey="#{detalle.id_detalle_factura}" selectionMode="single" 
-                                         selection="#{detalleFacturaControlador.detalleFacturaSel}" emptyMessage="No se han ingresado detalles" >
+                        <!--SEGUNDA PARTE-->
+                        <p:panel id="productosSel" header="Productos Seleccionados" style="margin-top:20px"  >
+                            <p:outputPanel id="dropArea">
+                                <h:outputText value="!!!Arrastre Aqui!!!" rendered="#{empty detalleFacturaControlador.droppedCars}" style="font-size:24px;" />
+                                <p:dataTable id="selectedCarsTable" var="car" value="#{detalleFacturaControlador.droppedCars}" 
+                                             rendered="#{not empty detalleFacturaControlador.droppedCars}" >
 
-                                <p:column headerText="Cantidad">
-                                    <h:outputText value="#{detalle.cantidad}"/>
-                                </p:column>
+                                    <p:column headerText="Cantidad">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{detalleFacturaControlador.cantidad}" /></f:facet>
+                                            <f:facet name="input"><p:inputText id="modelInput" value="#{detalleFacturaControlador.cantidad}" style="width:96%"/></f:facet>
+                                        </p:cellEditor>
+                                        
+                                    </p:column>
 
-                                <p:column  headerText="Descripción">
-                                    <h:outputText value="#{detalle.id_producto.id_categoria.nombre_producto}"/>
-                                </p:column>                            
+                                    <p:column  headerText="Descripción">
+                                        <h:outputText value="#{car.id_categoria.nombre_producto}"/>
+                                    </p:column>                            
 
-                                <p:column  headerText="Precio">
-                                    <h:outputText value="#{detalle.id_producto.id_categoria.precio_producto}"/>
-                                </p:column>
+                                    <p:column  headerText="Precio">
+                                        <h:outputText value="#{car.id_categoria.precio_producto}"/>
+                                    </p:column>
 
-                                <p:column exportable="false">
-                                    <p:commandButton id="btnEditarDetalle" icon="ui-icon-pencil"  title="Editar Detalle" 
-                                                     oncomplete="wdlgEditarDetalle.show()" 
-                                                     process="@this" 
-                                                     update=":dlgEditarDetalle, @form">                                   
-                                        <f:setPropertyActionListener value="#{detalle}" 
-                                                                     target="#{detalleFacturaControlador.detalleFacturaSel}"/>
-                                    </p:commandButton>
-
-
-                                    <p:commandButton id="btnEliminarDetalle" icon="ui-icon-close"  title="Eliminar Detalle"
-                                                     oncomplete="wdlgEliminarDetalle.show()" 
-                                                     update=":dlgEliminarDetalle , @form">                                   
-                                        <f:setPropertyActionListener value="#{detalle}" 
-                                                                     target="#{detalleFacturaControlador.detalleFacturaSel}"/>
-                                    </p:commandButton>
-                                </p:column>
-
-                                <f:facet name="footer">  
-
-                                    <p:commandButton id="btnNuevoDetalle" value="Nuevo Detalle" icon="ui-icon-newwin"
-                                                     oncomplete="wdlgNuevoDetalle.show()" title="Nuevo Detalle"/>  
-
-                                    <p:fieldset legend="TOTAL" 
-                                                style="margin-bottom:40px; min-width:40px;min-height:40px;max-height: 50px;max-width: 150px;"
-                                                >
-                                        <p:outputLabel  value="$"/>
-                                        <p:outputLabel  value="#{detalleFacturaControlador.totalFactura}"/>
-
-                                    </p:fieldset>
-                                    <p:panelGrid columns="3" style="object-position: center">
-                                        <p:fieldset legend="SUBTOTAL" 
-                                                    style="margin-bottom:40px; min-width:40px;min-height:40px;max-height: 50px;max-width: 150px;"
-                                                    >
-                                            <p:outputLabel  value="$"/>
-                                            <p:outputLabel  value="#{detalleFacturaControlador.totalHoja}"/>
-
-                                        </p:fieldset>
-                                        <p:fieldset legend="IMPUESTO 12%" 
-                                                    style="margin-bottom:40px; min-width:40px;min-height:40px;max-height: 50px;max-width: 150px;"
-                                                    >
-                                            <p:outputLabel  value="$"/>
-                                            <p:outputLabel  value="#{facturaControlador.impuestoFactura}"/>
-
-                                        </p:fieldset>
-
-                                        <p:fieldset legend="TOTAL" 
-                                                    style="margin-bottom:40px; min-width:40px;min-height:40px;max-height: 50px;max-width: 150px;"
-                                                    >
-                                            <p:outputLabel  value="$"/>
-                                            <p:outputLabel  value="#{facturaControlador.totalFactura}"/>
-
-                                        </p:fieldset>
-                                    </p:panelGrid>
-
-                                    <p:commandButton id="btnGuardarFactura" value="Guardar"  icon="ui-icon-disk"
-                                                     oncomplete="wdlgGuardarFactura.show()" title="Guardar"
-                                                     process="@this " 
-                                                     update=":dlgGuardarFactura, @form"/>
-                                    <!--<p:commandButton value="Imprimir" id="ajax"  
-                                                     
-                                                     icon="ui-icon-print">
-                                    </p:commandButton>
+                                    <!--<p:column >
+                                        <p:commandButton update=":frmfacturacion:display" oncomplete="wdlgEditarDetalle.show()" icon="ui-icon-pencil">
+                                            <f:setPropertyActionListener value="#{car}" target="#{detalleFacturaControlador.productoSel}" />
+                                        </p:commandButton>
+    
+                                        <p:commandButton update=":frmfacturacion:display" oncomplete="wdlgEliminarDetalle.show()" icon="ui-icon-close">
+                                            <f:setPropertyActionListener value="#{car}" target="#{detalleFacturaControlador.productoSel}" />
+                                        </p:commandButton>
+                                    </p:column>-->
+                                </p:dataTable>
+                            </p:outputPanel>
+                        </p:panel>
+                        <!--FIN SEGUNDA PARTE-->
+                        <p:droppable for="productosSel" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="productos" onDrop="handleDrop">
+                            <p:ajax listener="#{detalleFacturaControlador.onCarDrop}" update="dropArea productos" oncomplete=""/>
+                        </p:droppable>
 
 
 
-                                    <p:commandButton id="btnGuardarFactura" value="Guardar" title="Guardar" icon="ui-icon-disk"
-                                                     oncomplete="wdlgGuardarFactura.show()" 
-                                                     process="@this" 
-                                                     update=":dlgGuardarFactura, @form">                                   
+                        <p:fieldset legend="TOTAL" 
+                                    style="margin-bottom:40px; min-width:40px;min-height:40px;max-height: 50px;max-width: 150px;"
+                                    >
+                            <p:outputLabel  value="$"/>
+                            <p:outputLabel  value="#{detalleFacturaControlador.totalFactura}"/>
 
-                                    </p:commandButton>-->
-                                    <!--<p:commandButton value="Imprimir" id="ajax"  
-                                                     
-                                                     icon="ui-icon-print">
-                                    </p:commandButton>-->
+                        </p:fieldset>
+                        <p:panelGrid columns="3" style="object-position: center">
+                            <p:fieldset legend="SUBTOTAL" 
+                                        style="margin-bottom:40px; min-width:40px;min-height:40px;max-height: 50px;max-width: 150px;"
+                                        >
+                                <p:outputLabel  value="$"/>
+                                <p:outputLabel  value="#{detalleFacturaControlador.totalHoja}"/>
 
-                                </f:facet>
-                            </p:dataTable>
-                        </p:panel> 
+                            </p:fieldset>
+                            <p:fieldset legend="IMPUESTO 12%" 
+                                        style="margin-bottom:40px; min-width:40px;min-height:40px;max-height: 50px;max-width: 150px;"
+                                        >
+                                <p:outputLabel  value="$"/>
+                                <p:outputLabel  value="#{facturaControlador.impuestoFactura}"/>
+
+                            </p:fieldset>
+
+                            <p:fieldset legend="TOTAL" 
+                                        style="margin-bottom:40px; min-width:40px;min-height:40px;max-height: 50px;max-width: 150px;"
+                                        >
+                                <p:outputLabel  value="$"/>
+                                <p:outputLabel  value="#{facturaControlador.totalFactura}"/>
+
+                            </p:fieldset>
+                        </p:panelGrid>
+
+                        <p:commandButton id="btnGuardarFactura" value="Guardar"  icon="ui-icon-disk"
+                                         oncomplete="wdlgGuardarFactura.show()" title="Guardar"
+                                         process="@this " 
+                                         update=":dlgGuardarFactura, @form"/>
+                        <p:commandButton value="Imprimir" id="ajax"  
+
+                                         icon="ui-icon-print">
+                        </p:commandButton>
+
+
+
+                        <!--   <p:commandButton id="btnGuardarFactura" value="Guardar" title="Guardar" icon="ui-icon-disk"
+                                            oncomplete="wdlgGuardarFactura.show()" 
+                                            process="@this" 
+                                            update=":dlgGuardarFactura, @form">                                   
+
+                           </p:commandButton>
+                         <p:commandButton value="Imprimir" id="ajax"  
+                                            
+                                            icon="ui-icon-print">
+                           </p:commandButton>-->
+
+
+
+
                     </p:panel>
 
 
@@ -213,7 +209,7 @@ and open the template in the editor.
                         </p:panelGrid>
 
                         <p:commandButton value="Aceptar" action="#{facturaControlador.insertarFactura()}" 
-                                         update=":frmfacturacion:pnlFormulario" />
+                                         update=":@form ,@this" />
                         <p:commandButton value="Cancelar" onclick="wdlgNuevaFactura.hide()" type="reset"/>
                     </h:form> 
                 </p:dialog>
@@ -267,33 +263,8 @@ and open the template in the editor.
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();" />
                         <p:messages id="messages" autoUpdate="true" />  
                         <p:panelGrid id="pngEditarDetalle" columns="2" >
-
-                            <p:accordionPanel >
-                                <p:tab title="Escoja una Cantitad">
-                                    <p:spinner  value="#{detalleFacturaControlador.detalleFacturaSel.cantidad}" title="ej: 5" 
-                                                required="true" requiredMessage="Escoja una Cantidad" />
-                                </p:tab>
-                                <p:tab title="Escoja un Producto">
-                                    <!--<h:panelGrid columns="1" cellpadding="10">-->
-                                    <p:dataTable id="tblServicios" value="#{detalleFacturaControlador.lstProductos}" var="producto" 
-                                                 rowKey="#{producto.id_producto}" 
-                                                 selectionMode="single"  rows="5" paginator="true"
-                                                 selection="#{detalleFacturaControlador.productoSel}" style="text-align: center"> 
-                                        <p:column  headerText="Trabajo">
-                                            <h:outputText value="#{producto.id_categoria.nombre_producto}" />
-                                        </p:column>
-                                        <p:column   headerText="Precio">
-                                            <h:outputText value="#{producto.id_categoria.precio_producto}" />
-                                        </p:column>
-
-                                    </p:dataTable>
-                                    <!--</h:panelGrid>-->
-                                </p:tab>
-
-
-                            </p:accordionPanel>
-
-
+                            <p:spinner  value="#{detalleFacturaControlador.detalleFacturaSel.cantidad}" title="ej: 5" 
+                                        required="true" requiredMessage="Escoja una Cantidad" />                    
                         </p:panelGrid>
                         <p:commandButton value="Aceptar" action="#{detalleFacturaControlador.actualizarDetalleFactura()}" 
                                          update="@form ,@this"/>
