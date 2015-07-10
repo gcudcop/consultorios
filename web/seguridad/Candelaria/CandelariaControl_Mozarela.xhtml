@@ -115,7 +115,7 @@ and open the template in the editor.
                             <p:selectOneMenu id="cmbCategoria" value="#{control_mozarelaControlador.valorProductoSeleccionado}">
                                 <f:selectItem itemLabel="Elija un Producto" itemValue="#{null}"/>
                                 <f:selectItems value="#{control_MozarelaControlador.lstProducto}" var="producto" 
-                                               itemLabel="#{producto.id_categoria.nombre_producto}" itemValue="#{producto.id_categoria.}"/>
+                                               itemLabel="#{producto.id_categoria.nombre_producto}" itemValue="#{producto.id_categoria.nombre_producto}"/>
                             </p:selectOneMenu>
                              
                             <h:outputText value="Cenizas:"/>

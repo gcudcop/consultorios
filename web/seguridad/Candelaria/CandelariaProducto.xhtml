@@ -127,9 +127,20 @@ and open the template in the editor.
                             <p:inputText value="#{productoControlador.objProducto.sabor_producto}" placeholder="Ingrese el Sabor"
                                          required="true" requiredMessage="Ingrese el Sabor"/>
 
-                            <h:outputText value="Peso:"/>
-                            <p:inputText value="#{productoControlador.objProducto.peso_producto}" placeholder="Ingrese el Peso"
-                                         required="true" requiredMessage="Ingrese el Peso"/>
+                            <h:outputText value="Peso"/>
+                            <p:selectOneMenu id="cmbPeso" value="#{productoControlador.peso_producto}">
+                                <f:selectItem itemLabel="Elija el peso" itemValue="#{null}"/>
+                                <f:selectItem itemLabel="50gr" itemValue="50gr" />
+                                <f:selectItem itemLabel="100gr" itemValue="100gr" />
+                                <f:selectItem itemLabel="200gr" itemValue="200gr" />
+                                <f:selectItem itemLabel="300gr" itemValue="300gr" />
+                                <f:selectItem itemLabel="400gr" itemValue="400gr" />
+                                <f:selectItem itemLabel="500gr" itemValue="500gr" />
+                                <f:selectItem itemLabel="1lt" itemValue="1lt" />
+                                <f:selectItem itemLabel="1.5lt" itemValue="1.5lt" />
+                                <f:selectItem itemLabel="2lt" itemValue="2lt" />
+                                <f:selectItem itemLabel="4lt" itemValue="4lt" />
+                            </p:selectOneMenu>
 
                             <h:outputText value="Forma:"/>
                             <p:inputText value="#{productoControlador.objProducto.forma_producto}" placeholder="Ingrese la Forma"

@@ -36,6 +36,15 @@ public class ProductoControlador {
     private Date fecha_fa, fecha_cad;
     private String fecha_cambiada;
     private String fecha_cambiada1;
+    private String peso_producto;
+
+    public String getPeso_producto() {
+        return peso_producto;
+    }
+
+    public void setPeso_producto(String peso_producto) {
+        this.peso_producto = peso_producto;
+    }
 
     public String getFecha_cambiada1() {
         return fecha_cambiada1;
