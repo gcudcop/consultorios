@@ -199,6 +199,7 @@ public class ProductoControlador {
             objProducto.setId_categoria(categoria);
             objProducto.setFecha_fabricacion(sqlDate2);
             objProducto.setFecha_caducidad(sqlDate1);
+            objProducto.setPeso_producto(peso_producto);
 
             if (FProducto.Insertar(objProducto)) {
                 this.reinit();
