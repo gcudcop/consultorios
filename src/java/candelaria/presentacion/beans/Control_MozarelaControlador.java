@@ -25,10 +25,19 @@ public class Control_MozarelaControlador {
     private Control_Mozarela objControl_mozarela;
     private Control_Mozarela control_MozarelaSel;
     private ArrayList<Control_Mozarela> lstControl_Mozarela;
+    private ArrayList<Control_Mozarela> lstMozarela;
     private ArrayList<Producto> lstProducto;
     private int valorProductoSeleccionado;
     private Producto productoSel;
     private boolean mostrarActualizar;
+
+    public ArrayList<Control_Mozarela> getLstMozarela() {
+        return lstMozarela;
+    }
+
+    public void setLstMozarela(ArrayList<Control_Mozarela> lstMozarela) {
+        this.lstMozarela = lstMozarela;
+    }
 
     public Control_Mozarela getObjControl_mozarela() {
         return objControl_mozarela;
@@ -96,6 +105,8 @@ public class Control_MozarelaControlador {
         this.objControl_mozarela = new Control_Mozarela();
         this.control_MozarelaSel = new Control_Mozarela();
         this.lstControl_Mozarela = new ArrayList<Control_Mozarela>();
+        this.lstMozarela = new ArrayList<Control_Mozarela>();
+        this.lstProducto=new ArrayList<Producto>();
 //        this.LstPeriodos = new ArrayList<Periodos>();  
 //        this.lstFacultades = new ArrayList<Facultad>();
 //        this.lstEscuelas = new ArrayList<Escuela>();
@@ -103,11 +114,22 @@ public class Control_MozarelaControlador {
         //this.ProveedorSel = this.lstProveedors.get(0);
         this.cargarControl_Mozarela();
         this.cargarProducto();
+        this.cargarMozarela();
         //this.cargarNiveles();
 //        this.cargarPeriodos();
 //        this.cargarFacultad();
         
     }
+     public void cargarMozarela() {
+        try {
+            this.lstMozarela = FControl_Mozarela.ObtenerControl_Mozarelas();
+            this.control_MozarelaSel = lstControl_Mozarela.get(0);
+            System.out.println(lstControl_Mozarela.get(0).getId_control_mozarela());
+        } catch (Exception e) {
+            Util.addErrorMessage("private void cargarControl_Mozarela dice: " + e.getMessage());
+            System.out.println("private void cargarControl_Mozarela dice: " + e.getMessage());
+        }
+     }
     
     public void cargarControl_Mozarela() {
         try {

@@ -9,6 +9,8 @@ import accesodatos.AccesoDatos;
 import accesodatos.ConjuntoResultado;
 import accesodatos.Parametro;
 import candelaria.logica.clases.Empleado;
+import candelaria.logica.clases.Producto;
+import static candelaria.logica.funciones.FProducto.llenarProductos;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -133,5 +135,7 @@ public class FEmpleado {
         }
         return lst;
     }
+  
+
     
 }
