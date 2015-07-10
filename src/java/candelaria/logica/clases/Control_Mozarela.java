@@ -11,7 +11,7 @@ package candelaria.logica.clases;
  */
 public class Control_Mozarela {
   private Integer id_control_mozarela;
-  private Categoria id_producto;
+  private Producto id_producto;
   private String ph_mozarela;
   private String humedad_mozarela;
   private String cenizas_mozarela;
@@ -23,7 +23,7 @@ public class Control_Mozarela {
     public Control_Mozarela() {
             }
 
-    public Control_Mozarela(Integer id_control_mozarela, Categoria id_producto, String ph_mozarela, String humedad_mozarela, String cenizas_mozarela, Double grasas_mozarela, Double proteinas_mozarela, Double solidos_totales, Double rendimiento_mozarela) {
+    public Control_Mozarela(Integer id_control_mozarela, Producto id_producto, String ph_mozarela, String humedad_mozarela, String cenizas_mozarela, Double grasas_mozarela, Double proteinas_mozarela, Double solidos_totales, Double rendimiento_mozarela) {
         this.id_control_mozarela = id_control_mozarela;
         this.id_producto = id_producto;
         this.ph_mozarela = ph_mozarela;
@@ -43,11 +43,11 @@ public class Control_Mozarela {
         this.id_control_mozarela = id_control_mozarela;
     }
 
-    public Categoria getId_producto() {
+    public Producto getId_producto() {
         return id_producto;
     }
 
-    public void setId_producto(Categoria id_producto) {
+    public void setId_producto(Producto id_producto) {
         this.id_producto = id_producto;
     }
 
@@ -106,6 +106,8 @@ public class Control_Mozarela {
     public void setRendimiento_mozarela(Double rendimiento_mozarela) {
         this.rendimiento_mozarela = rendimiento_mozarela;
     }
+
+    
 
    
     

@@ -77,6 +77,7 @@ public class CategoriaControlador {
         this.objCategoria=new Categoria();
         this.categoriaSel=new Categoria();
         this.cargarMozarela();
+        
         this.lstCategoria=new ArrayList<Categoria>();
         this.lstQuesoMozarela=new ArrayList<Categoria>();
 

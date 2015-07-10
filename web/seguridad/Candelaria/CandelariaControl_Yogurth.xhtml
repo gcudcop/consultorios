@@ -106,19 +106,19 @@ and open the template in the editor.
             <ui:define name="dialogos">
                 <p:dialog id="dlgNuevoControl_yogurth" header="Nuevo Control Yogurth" widgetVar="wdlgNuevoControl_yogurth" 
                           modal="true" closable="false" resizable="false"
-                          showEffect="clip" hideEffect="fold"  height="400px" width="600px"> 
+                          showEffect="clip" hideEffect="fold"> 
 
 
 
-                    <h:form id="frmNuevoControl_yogurth" style="max-width: 600px;max-height: 400px">
+                    <h:form id="frmNuevoControl_yogurth">
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                         <p:panelGrid id="pngNuevoControl_yogurth" columns="2">
 
                             <h:outputText value="Nombre Producto:"/>
                             <p:selectOneMenu id="cmbCategoria" value="#{control_yogurthControlador.valorProductoSeleccionado}">
                                 <f:selectItem itemLabel="Elija un Producto" itemValue="#{null}"/>
-                                <f:selectItems value="#{control_yogurthControlador.lstProducto}" var="producto" 
-                                               itemLabel="#{producto.id_categoria.nombre_producto}" itemValue="#{producto.id_categoria.id_categoria}"/>
+                                <f:selectItems value="#{control_yogurthControlador.lstCategoria}" var="producto" 
+                                               itemLabel="#{producto.nombre_producto}" itemValue="#{producto.id_categoria}"/>
                             </p:selectOneMenu>
 
                             <h:outputText value="Acido:"/>
@@ -177,8 +177,8 @@ and open the template in the editor.
                             <h:outputText value="Nombre Producto:"/>
                             <p:selectOneMenu id="cmbCategoria" value="#{control_yogurthControlador.valorProductoSeleccionado}">
                                 <f:selectItem itemLabel="Elija un Producto" itemValue="#{null}"/>
-                                <f:selectItems value="#{control_yogurthControlador.lstProducto}" var="producto" 
-                                               itemLabel="#{producto.id_categoria.nombre_producto}" itemValue="#{producto.id_categoria.id_categoria}"/>
+                                <f:selectItems value="#{control_yogurthControlador.lstCategoria}" var="producto" 
+                                               itemLabel="#{producto.nombre_producto}" itemValue="#{producto.id_categoria}"/>
                             </p:selectOneMenu>
 
                             <h:outputText value="Acido:"/>
