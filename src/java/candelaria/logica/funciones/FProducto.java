@@ -116,6 +116,33 @@ public class FProducto {
         return lst;
     }
     
+    public static ArrayList<Producto> ObtenerProductosListaMozarela() throws Exception {
+        ArrayList<Producto> lst = new ArrayList<Producto>();
+        try {
+            String sql = "select * from sgflc.f_select_producto_lista_mozarela()";
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
+            lst = llenarProductos(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+    
+     public static ArrayList<Producto> ObtenerProductosListaYogurth() throws Exception {
+        ArrayList<Producto> lst = new ArrayList<Producto>();
+        try {
+            String sql = "select * from sgflc.f_select_producto_lista_yogurth()";
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
+            lst = llenarProductos(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+    
+    
   
 
     public static Producto ObtenerProductoDadoCodigo(int codigo) throws Exception {
@@ -127,6 +154,38 @@ public class FProducto {
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             lst = new Producto();
             lst = llenarProductos(rs).get(0);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+    
+    public static Producto ObtenerProductoDadoCodigoCategoria(int codigo) throws Exception {
+        Producto lst;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from sgflc.f_select_producto_dado_codigo_categoria(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = new Producto();
+            lst = llenarProductos(rs).get(0);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+    
+    public static ArrayList<Producto> ObtenerProductoDadoCodigoCategoria1(int codigo) throws Exception {
+       ArrayList<Producto> lst = new ArrayList<Producto>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from sgflc.f_select_producto_dado_codigo_categoria(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+           // lst = new Producto();
+            lst = llenarProductos(rs);
             rs = null;
         } catch (SQLException exConec) {
             throw new Exception(exConec.getMessage());

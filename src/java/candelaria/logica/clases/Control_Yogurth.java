@@ -11,7 +11,7 @@ package candelaria.logica.clases;
  */
 public class Control_Yogurth {
   private Integer id_control_yogurth;
-  private Producto id_producto;
+  private Integer id_producto;
   private Double agua_yogurth;
   private Double proteinas_yogurth;
   private Double lipidos_yogurth;
@@ -24,7 +24,7 @@ public class Control_Yogurth {
     public Control_Yogurth() {
     }
 
-    public Control_Yogurth(Integer id_control_yogurth, Producto id_producto, Double agua_yogurth, Double proteinas_yogurth, Double lipidos_yogurth, Double glucidos_yogurth, Double acidos_organicos, Double cenizas_yogurth, Double fibras_yogurth, Double contenido_energetico) {
+    public Control_Yogurth(Integer id_control_yogurth, Integer id_producto, Double agua_yogurth, Double proteinas_yogurth, Double lipidos_yogurth, Double glucidos_yogurth, Double acidos_organicos, Double cenizas_yogurth, Double fibras_yogurth, Double contenido_energetico) {
         this.id_control_yogurth = id_control_yogurth;
         this.id_producto = id_producto;
         this.agua_yogurth = agua_yogurth;
@@ -45,11 +45,11 @@ public class Control_Yogurth {
         this.id_control_yogurth = id_control_yogurth;
     }
 
-    public Producto getId_producto() {
+    public Integer getId_producto() {
         return id_producto;
     }
 
-    public void setId_producto(Producto id_producto) {
+    public void setId_producto(Integer id_producto) {
         this.id_producto = id_producto;
     }
 
@@ -117,6 +117,4 @@ public class Control_Yogurth {
         this.contenido_energetico = contenido_energetico;
     }
 
-    
-  
 }

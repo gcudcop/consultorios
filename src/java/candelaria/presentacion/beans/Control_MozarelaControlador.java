@@ -24,6 +24,7 @@ import recursos.Util;
 @ManagedBean
 @ViewScoped
 public class Control_MozarelaControlador {
+
     private Control_Mozarela objControl_mozarela;
     private Control_Mozarela control_MozarelaSel;
     private ArrayList<Control_Mozarela> lstControl_Mozarela;
@@ -33,7 +34,16 @@ public class Control_MozarelaControlador {
     private int valorProductoSeleccionado;
     private Producto productoSel;
     private boolean mostrarActualizar;
+    private String queso;
 
+    public String getQueso() {
+        return queso;
+    }
+
+    public void setQueso(String queso) {
+        this.queso = queso;
+    }
+    
     public ArrayList<Categoria> getLstCategoria() {
         return lstCategoria;
     }
@@ -41,8 +51,6 @@ public class Control_MozarelaControlador {
     public void setLstCategoria(ArrayList<Categoria> lstCategoria) {
         this.lstCategoria = lstCategoria;
     }
-    
-    
 
     public ArrayList<Control_Mozarela> getLstMozarela() {
         return lstMozarela;
@@ -109,18 +117,17 @@ public class Control_MozarelaControlador {
     }
 
     public Control_MozarelaControlador() {
-         reinit();
+        reinit();
     }
 
-
-    
-    private void reinit(){
+    private void reinit() {
         this.objControl_mozarela = new Control_Mozarela();
         this.control_MozarelaSel = new Control_Mozarela();
         this.lstControl_Mozarela = new ArrayList<Control_Mozarela>();
         this.lstMozarela = new ArrayList<Control_Mozarela>();
-        this.lstProducto=new ArrayList<Producto>();
-        this.lstCategoria=new ArrayList<Categoria>();
+        this.lstProducto = new ArrayList<Producto>();
+        this.lstCategoria = new ArrayList<Categoria>();
+        this.productoSel = new Producto();
 //        this.LstPeriodos = new ArrayList<Periodos>();  
 //        this.lstFacultades = new ArrayList<Facultad>();
 //        this.lstEscuelas = new ArrayList<Escuela>();
@@ -129,13 +136,13 @@ public class Control_MozarelaControlador {
         this.cargarControl_Mozarela();
         this.cargarProducto();
         this.cargarCategoria();
+        this.queso="Queso mozarela";
         //this.cargarNiveles();
 //        this.cargarPeriodos();
 //        this.cargarFacultad();
-        
+
     }
-     
-    
+
     public void cargarControl_Mozarela() {
         try {
             this.lstControl_Mozarela = FControl_Mozarela.ObtenerControl_Mozarelas();
@@ -145,57 +152,62 @@ public class Control_MozarelaControlador {
             Util.addErrorMessage("private void cargarControl_Mozarela dice: " + e.getMessage());
             System.out.println("private void cargarControl_Mozarela dice: " + e.getMessage());
         }
-     }
-    
-        public void cargarProducto() {
+    }
+
+    public void cargarProducto() {
         try {
-            this.lstProducto = FProducto.ObtenerProductos();
-            System.out.println(lstProducto.get(0).getId_producto());
+            this.lstProducto = FProducto.ObtenerProductosListaMozarela();
+            //System.out.println(productoSel.getId_producto());
         } catch (Exception e) {
             Util.addErrorMessage("private void cargarProducto dice: " + e.getMessage());
             System.out.println("private void cargarProducto dice: " + e.getMessage());
         }
-     }
-        
-        public void cargarCategoria() {
+    }
+
+    public void cargarCategoria() {
         try {
             this.lstCategoria = FCategoria.ObtenerlistaMozarela();
-           // System.out.println(lstProducto.get(0).getId_producto());
+            // System.out.println(lstProducto.get(0).getId_producto());
         } catch (Exception e) {
             Util.addErrorMessage("private void cargarCategoria dice: " + e.getMessage());
             System.out.println("private void cargarCategoria dice: " + e.getMessage());
         }
-     }
-            
-        public void insertarControl_Mozarela() {
+    }
+
+    public void insertarControl_Mozarela() {
         try {
 //            Categoria categoria=new Categoria();
 //            categoria.setId_categoria(valorProductoSeleccionado);
 //            objControl_mozarela.setId_producto(categoria);
-                        
+            // productoSel=;
+
+            //Producto producto = new Producto();
+            //producto.setId_producto(valorProductoSeleccionado);
+            //objControl_mozarela.setId_producto(producto);
+            objControl_mozarela.setId_producto(11);
+
             if (FControl_Mozarela.Insertar(objControl_mozarela)) {
                 this.reinit();
                 DefaultRequestContext.getCurrentInstance().execute("wdlgNuevoControl_Mozarela.hide()");
                 Util.addSuccessMessage("Información guardada con éxito");
                 System.out.println("public void insertarControl_Mozarela dice: Error al guardar la información");
-           } else { 
+            } else {
                 Util.addSuccessMessage("Error al guardar la información");
                 System.out.println("public void insertarControl_Mozarela dice: Error al guardar la información");
-           }
+            }
         } catch (Exception e) {
             Util.addErrorMessage("private void insertarControl_Mozarela dice: " + e.getMessage());
             System.out.println("private void insertarControl_Mozarela dice: " + e.getMessage());
-                }
         }
+    }
 
-    public void cambiarEstadoMostrarActualizar(){
+    public void cambiarEstadoMostrarActualizar() {
         mostrarActualizar = true;
     }
-        
-     public void actualizarControl_Mozarela() {
+
+    public void actualizarControl_Mozarela() {
         try {
-            
-                       
+
             if (FControl_Mozarela.actualizar(control_MozarelaSel)) {
                 control_MozarelaSel = new Control_Mozarela();
                 mostrarActualizar = false;
@@ -228,7 +240,7 @@ public class Control_MozarelaControlador {
             Util.addErrorMessage("private void eliminarControl_Mozarela dice: " + e.getMessage());
             System.out.println("private void eliminarControl_Mozarela dice: " + e.getMessage());
         }
-        
+
     }
-    
+
 }

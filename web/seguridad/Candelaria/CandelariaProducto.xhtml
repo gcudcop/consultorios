@@ -107,27 +107,27 @@ and open the template in the editor.
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                         <p:panelGrid id="pngNuevoProducto" columns="2">
 
-                            <h:outputText value="Nombre Producto:"/>
+                            <h:outputText value="Nombre Producto: *"/>
                             <p:selectOneMenu id="cmbCategoria" value="#{productoControlador.valorCategoriaSeleccionado}">
                                 <f:selectItem itemLabel="Elija una categoria" itemValue="#{null}"/>
                                 <f:selectItems value="#{productoControlador.lstCategoria}" var="categoria" itemLabel="#{categoria.nombre_producto}" itemValue="#{categoria.id_categoria}"/>
                             </p:selectOneMenu>
 
-                            <h:outputText value="Fecha de Fabricación:"/>
+                            <h:outputText value="Fecha de Fabricación: *"/>
                             <p:calendar id="effect" value="#{productoControlador.fecha_fa}" effect="fold" />
 
-                            <h:outputText value="Fecha de Caducidad:"/>
+                            <h:outputText value="Fecha de Caducidad: *"/>
                             <p:calendar id="effect1" value="#{productoControlador.fecha_cad}" effect="fold" />
 
-                            <h:outputText value="Color de Producto:"/>
+                            <h:outputText value="Color de Producto: *"/>
                             <p:inputText value="#{productoControlador.objProducto.color_producto}" placeholder="Ingrese el Color" 
                                          required="true" requiredMessage="Ingrese el Color"/>
 
-                            <h:outputText value="Sabor:"/>
+                            <h:outputText value="Sabor: *"/>
                             <p:inputText value="#{productoControlador.objProducto.sabor_producto}" placeholder="Ingrese el Sabor"
                                          required="true" requiredMessage="Ingrese el Sabor"/>
 
-                            <h:outputText value="Peso"/>
+                            <h:outputText value="Peso: *"/>
                             <p:selectOneMenu id="cmbPeso" value="#{productoControlador.peso_producto}">
                                 <f:selectItem itemLabel="Elija el peso" itemValue="#{null}"/>
                                 <f:selectItem itemLabel="50gr" itemValue="50gr" />
@@ -142,7 +142,7 @@ and open the template in the editor.
                                 <f:selectItem itemLabel="4lt" itemValue="4lt" />
                             </p:selectOneMenu>
 
-                            <h:outputText value="Forma:"/>
+                            <h:outputText value="Forma: *"/>
                             <p:inputText value="#{productoControlador.objProducto.forma_producto}" placeholder="Ingrese la Forma"
                                          required="true" requiredMessage="Ingrese la Forma"/>
 
