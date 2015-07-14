@@ -17,38 +17,38 @@ and open the template in the editor.
     </h:head>
     <h:body>
         <ui:composition template="../../templates/plantillaInternaCenter.xhtml">
-            <ui:define name="top">Gestión de MateriaPrimaProveedor </ui:define>
+            <ui:define name="top">Gestión de MateriaPrimaProveedor</ui:define>
             <ui:define name="contenido">
                 <p:growl id="mensajes" autoUpdate="true" showDetail="true"/>
                 <h:form id="frmMateriaPrimaProveedor">
                     <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                     <p:panel id="pnlMateriaPrimaProveedor">
                         <p:dataTable id="tblMateriaPrimaProveedor" value="#{materiaPrimaProveedorControlador.lstMateriaPrimaPproveedor}" 
-                                     var="cmateriaprimaproveedor" 
-                                     paginator="true" rows="10" rowKey="#{cmateriaprimaproveedor.codigoMateriaProveedor}" selectionMode="single" 
+                                     var="primaproveedor" 
+                                     paginator="true" rows="10" rowKey="#{primaproveedor.codigoMateriaProveedor}" selectionMode="single" 
                                      selection="#{materiaPrimaProveedorControlador.materiaPrimaProveedorSel}">
 
                             <p:column headerText="Nombre Materia Prima">
-                                <h:outputText value="#{cmateriaprimaproveedor.codigoMateriaPrima.nombre_MateriaPrima}"/>
+                                <h:outputText value="#{primaproveedor.codigoMateriaPrima.nombre_MateriaPrima}"/>
                             </p:column> 
                             
                             <p:column headerText="Proveedor">
-                                <h:outputText value="#{cmateriaprimaproveedor.codigoProveedor.nombre_proveedor}"/>
+                                <h:outputText value="#{primaproveedor.codigoProveedor.nombre_proveedor}"/>
                             </p:column> 
                             
                             <p:column headerText="Producto">
-                                <h:outputText value="#{cmateriaprimaproveedor.codigoProveedor.producto_provedor}"/>
+                                <h:outputText value="#{primaproveedor.codigoProveedor.producto_provedor}"/>
                             </p:column> 
 
                             <p:column headerText="Cantidad">
-                                <h:outputText value="#{cmateriaprimaproveedor.codigoMateriaPrima.cantidad_Materiaprima}"/>
+                                <h:outputText value="#{primaproveedor.codigoMateriaPrima.cantidad_Materiaprima}"/>
                             </p:column>
                                                                        
                             <p:column exportable="false">
                                 <p:commandButton id="btnEditarControl_MateriaPrimaProveedor" icon="ui-icon-pencil"  title="Editar MateriaPrimaProveedor" 
                                                  oncomplete="wdlgEditarMateriaPrimaProveedor.show()" 
                                                  process="@this" update=":dlgEditarMateriaPrimaProveedor, @form">                                   
-                                    <f:setPropertyActionListener value="#{cmateriaprimaproveedor}" 
+                                    <f:setPropertyActionListener value="#{primaproveedor}" 
                                                                  target="#{materiaPrimaProveedorControlador.materiaPrimaProveedorSel}"/>
                                                                 
                                 </p:commandButton>
@@ -57,7 +57,7 @@ and open the template in the editor.
                                 <p:commandButton id="btnEliminarControl_materiaprimaproveedor" icon="ui-icon-close"  title="Eliminar  MateriaPrimaProveedor"
                                                  oncomplete="wdlgEliminarMateriaPrimaProveedor.show()" 
                                                  update=":dlgEliminarMateriaPrimaProveedor">                                   
-                                    <f:setPropertyActionListener value="#{cmateriaprimaproveedor}" 
+                                    <f:setPropertyActionListener value="#{primaproveedor}" 
                                                                  target="#{materiaPrimaProveedorControlador.materiaPrimaProveedorSel}"/>
                                 </p:commandButton>
                             </p:column>

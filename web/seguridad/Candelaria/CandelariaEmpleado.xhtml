@@ -43,9 +43,21 @@ and open the template in the editor.
                             <p:column headerText="Télefono">
                                 <h:outputText value="#{empleado.telefono_empleado}"/>
                             </p:column>
+                            
+                            
+                            
                             <p:column headerText="Correo Electronico">
                                 <h:outputText value="#{empleado.email_empleado}"/>
+                                <!--<h:outputLabel for="email1" value="Correo Electronico" />
+                                <p:inputText id="email1" value="#{empleadoControlador.text}">
+                                       <f:validator validatorId="custom.emailValidator" />
+                                </p:inputText>
+                                <p:message for="email1" display="tooltip" />
+                                <h:outputText value="#{empleadoControlador.text}" />-->
                             </p:column>
+                         
+                                      
+                          
                             
                             <p:column headerText="Numero de Credencial">
                                 <h:outputText value="#{empleado.numero_credencial}"/>
@@ -125,13 +137,22 @@ and open the template in the editor.
                                          required="true" requiredMessage="Email"/>
 
                             <h:outputText value="Telefono:"/>
-                            <p:inputText value="#{empleadoControlador.objEmpleado.telefono_empleado}" placeholder="Telefono"
-                                         required="true" requiredMessage="Telefono"/>
+                            <p:inputText value="#{empleadoControlador.telefono}" placeholder="Telefono"
+                                         required="true" requiredMessage="Telefono">
+                                <f:validateDoubleRange minimum="5" maximum="8" />
+                                </p:inputText>
+                          
+                            
+                                      
+                            
                             
                             <h:outputText value="Cedula: *"/>
-                            <p:inputText value="#{empleadoControlador.objEmpleado.cedula_empleado}" placeholder="Numero de Cedula"
+                            <p:inputText value="#{empleadoControlador.cedula}" placeholder="Cedula"
                                          required="true" requiredMessage="Ingrese la Cedula"/>
+                               
                             
+                                                               
+                                
                             <h:outputText value="Credencial:"/>
                             <p:inputText value="#{empleadoControlador.objEmpleado.numero_credencial}" placeholder="Numero de Credencial"
                                          required="true" requiredMessage="Ingrese el Telefono" />

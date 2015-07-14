@@ -102,7 +102,7 @@ and open the template in the editor.
             </ui:define>
 
             <ui:define name="dialogos">
-                <p:dialog id="dlgNuevoControl_queso" header="Nuevo Control Queso" widgetVar="wdlgNuevoControl_queso" 
+                <p:dialog id="dlgNuevoControl_queso" header="Nuevo Control Queso" widgetVar="wdlgNuevoControl_Queso" 
                           modal="true" closable="false" resizable="false"
                           showEffect="clip" hideEffect="fold"  height="400px" width="600px"> 
 
@@ -110,49 +110,49 @@ and open the template in the editor.
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                         <p:panelGrid id="pngNuevoControl_queso" columns="2">
                                                      
-                             <h:outputText value="Nombre Producto:"/>
+                             <h:outputText value="Nombre Producto: *"/>
                             <p:selectOneMenu id="cmbProducto2" value="#{control_QuesoControlador.valorProductoSeleccionado}">
                                 <f:selectItem itemLabel="Elija un Producto" itemValue="#{null}"/>
                                 <f:selectItems value="#{control_QuesoControlador.lstProducto}" var="producto" 
                                                itemLabel="#{producto.id_categoria.nombre_producto}" itemValue="#{producto.id_categoria.id_categoria}"/>
                             </p:selectOneMenu>
                                                                                     
-                            <h:outputText value="Olor"/>
+                            <h:outputText value="Olor: *"/>
                             <p:inputText value="#{control_QuesoControlador.objControl_Queso.olor_queso}" placeholder="Ingrese Olor" 
                                          required="true" requiredMessage="Ingrese Olor" />
                             
-                            <h:outputText value="Corteza"/>
+                            <h:outputText value="Corteza: *"/>
                             <p:inputText value="#{control_QuesoControlador.objControl_Queso.corteza_queso}" placeholder="Ingrese Corteza" 
                                          required="true" requiredMessage="Ingrese Corteza" />
                             
-                            <h:outputText value="Elasticidad"/>
+                            <h:outputText value="Elasticidad: *"/>
                             <p:inputText value="#{control_QuesoControlador.objControl_Queso.elasticidad_queso}" placeholder="Ingrese Elasticidad" 
                                          required="true" requiredMessage="Ingrese Elasticidad" />
                             
-                            <h:outputText value="Sabor"/>
+                            <h:outputText value="Sabor: *"/>
                             <p:inputText value="#{control_QuesoControlador.objControl_Queso.sabor_queso}" placeholder="Ingrese Sabor" 
                                          required="true" requiredMessage="Ingrese Sabor" />
                             
-                            <h:outputText value="Masticabilidad"/>
+                            <h:outputText value="Masticabilidad: *"/>
                             <p:inputText value="#{control_QuesoControlador.objControl_Queso.masticabilidad_queso}" placeholder="Ingrese Masticabilidad" 
                                          required="true" requiredMessage="Ingrese Masticabilidad" />
                             
-                            <h:outputText value="Acidez"/>
+                            <h:outputText value="Acidez: *"/>
                             <p:inputText value="#{control_QuesoControlador.objControl_Queso.acidez_queso}" placeholder="Ingrese Acidez" 
                                          required="true" requiredMessage="Ingrese Acidez" />
                                                         
                                                         
-                            <h:outputText value="Calidad Global"/>
+                            <h:outputText value="Calidad Global: *"/>
                             <p:inputText value="#{control_QuesoControlador.objControl_Queso.calidad_global}" placeholder="Ingrese Calidad Global" 
                                          required="true" requiredMessage="Ingrese Calidad Global" />
-
+                            
                             
                            
                         </p:panelGrid>
 
                         <p:commandButton value="Aceptar" action="#{control_QuesoControlador.insertarControl_Queso()}" 
                                          update=":frmcontrol_queso:pnlControl_Queso"/>
-                        <p:commandButton value="Cancelar" onclick="wdlgNuevoControl_queso.hide()" type="reset"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgNuevoControl_Queso.hide()" type="reset"/>
                     </h:form> 
                 </p:dialog>
 

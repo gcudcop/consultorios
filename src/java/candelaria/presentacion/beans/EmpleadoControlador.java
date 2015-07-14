@@ -10,6 +10,7 @@ import candelaria.logica.funciones.FEmpleado;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import org.hibernate.validator.constraints.Email;
 import org.primefaces.context.DefaultRequestContext;
 import recursos.Util;
 
@@ -30,7 +31,40 @@ public class EmpleadoControlador {
     private ArrayList<Empleado> lstEmpleadoUltimo;
     private boolean mostrarActualizar;
     private Integer credencial;
+    private String text;
+    private String telefono;
+    private String cedula;
+ 
+    
+    
 
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
+    }
+    
+    
+    @Email(message = "No ews un e-mail valido")
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+    
+    
     public Empleado getEmpleadoSel1() {
         return empleadoSel1;
     }
@@ -154,7 +188,11 @@ public class EmpleadoControlador {
 
             objEmpleado.setEstado_civil(estadoCivil);
             objEmpleado.setApellido_materno("N/A");
-            //objEmpleado.setNumero_credencial(credencial1);
+            objEmpleado.setCedula_empleado(cedula);
+            objEmpleado.setTelefono_empleado(telefono);
+         
+                       
+                        //objEmpleado.setNumero_credencial(credencial1);
 
             if (FEmpleado.Insertar(objEmpleado)) {
                 this.reinit();
