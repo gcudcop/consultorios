@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>
+            <ui:define name="Proveedor">Gestión de Producto</ui:define>
+        </title>
+    </h:head>
+    <h:body>
+        <!--<ui:composition template="../../templates/plantillaInternaCenter.xhtml">
+            <ui:define name="top">CONTACTOS </ui:define>
+            <ui:define name="contenido">
+                <p:growl id="mensajes" autoUpdate="true" showDetail="true"/>-->
+                <h:form id="frmproducto">
+                    <p:panelGrid columns="3" style="alignment-adjust: central">
+                        <f:facet name="header" >
+                            <h:outputText value="Desarrolladores:" />
+                        </f:facet>
+                        <p:panelGrid columns="2">
+                            <f:facet name="header">
+                                 <p:graphicImage value="/resources/images/rogelio1.png" />
+                            </f:facet>
+
+                            <h:outputText value="Nombre:" />
+                            <h:outputText value="Rogelio Arévalo" />
+
+                            <h:outputText value="Teléfono:" />
+                            <h:outputText value="0997121798" />
+
+                            <h:outputText value="Mail:" />
+                            <h:outputText value="rarevalo.fis@unach.edu.ec" />
+
+                        </p:panelGrid>
+                        
+                        <p:panelGrid columns="2">
+                            <f:facet name="header">
+                                <p:graphicImage value="/resources/images/alexa.png" />
+                            </f:facet>
+
+                           <h:outputText value="Nombre:" />
+                            <h:outputText value="Alexandra Galvez" />
+
+                            <h:outputText value="Teléfono:" />
+                            <h:outputText value="0996457918" />
+
+                            <h:outputText value="Mail:" />
+                            <h:outputText value="agalvez.fis@unach.edu.ec" />
+
+                        </p:panelGrid>
+                        
+                        <p:panelGrid columns="2">
+                            <f:facet name="header">
+                                <p:graphicImage value="/resources/images/gladys.png" />
+                            </f:facet>
+
+                            <h:outputText value="Nombre:" />
+                            <h:outputText value="Gladys Aushay" />
+
+                            <h:outputText value="Teléfono:" />
+                            <h:outputText value="0969844380" />
+
+                            <h:outputText value="Mail:" />
+                            <h:outputText value="gahushay.fis@unach.edu.ec" />
+
+                        </p:panelGrid>
+                        
+                        <p:panelGrid columns="2">
+                            <f:facet name="header">
+                                <p:graphicImage value="/resources/images/jona.png" />
+                            </f:facet>
+
+                            <h:outputText value="Nombre:" />
+                            <h:outputText value="Jonathan Dumancela" />
+
+                            <h:outputText value="Teléfono:" />
+                            <h:outputText value="0985797117" />
+
+                            <h:outputText value="Mail:" />
+                            <h:outputText value="jdumancela.fis@unach.edu.ec" />
+
+                        </p:panelGrid>
+                        
+                        <p:panelGrid columns="2">
+                            <f:facet name="header">
+                                <p:graphicImage value="/resources/images/edi1.png" />
+                            </f:facet>
+
+                            <h:outputText value="Nombre:" />
+                            <h:outputText value="Edison Guerra" />
+
+                            <h:outputText value="Teléfono:" />
+                            <h:outputText value="0984081471" />
+
+                            <h:outputText value="Mail:" />
+                            <h:outputText value="eguerra.fis@unach.edu.ec" />
+
+                        </p:panelGrid>
+
+
+
+
+
+
+                    </p:panelGrid>
+
+                    <div style="height:600px"></div>
+
+                    <p:outputPanel deferred="true" deferredMode="visible">
+                        <h3>Loaded after the panel becomes visible on page scroll.</h3>
+                        <p>Lorem ipsum dolor sit amet...</p>
+                    </p:outputPanel>
+                </h:form>
+             <!--</ui:define>
+            <ui:define name="dialogos">
+                <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
+                          resizable="false"> 
+                    <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
+                </p:dialog>
+            </ui:define>
+       </ui:composition>-->
+    </h:body>
+</html>

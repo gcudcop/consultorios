@@ -169,9 +169,9 @@ public class Control_MozarelaControlador {
             
         public void insertarControl_Mozarela() {
         try {
-            Categoria categoria=new Categoria();
-            categoria.setId_categoria(valorProductoSeleccionado);
-            objControl_mozarela.setId_producto(categoria);
+//            Categoria categoria=new Categoria();
+//            categoria.setId_categoria(valorProductoSeleccionado);
+//            objControl_mozarela.setId_producto(categoria);
                         
             if (FControl_Mozarela.Insertar(objControl_mozarela)) {
                 this.reinit();
