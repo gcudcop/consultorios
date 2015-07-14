@@ -4,11 +4,20 @@ import candelaria.logica.clases.Categoria;
 import candelaria.logica.clases.Producto;
 import candelaria.logica.funciones.FCategoria;
 import candelaria.logica.funciones.FProducto;
+import com.lowagie.text.BadElementException;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Image;
+import com.lowagie.text.PageSize;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import org.primefaces.context.DefaultRequestContext;
 import recursos.Util;
 
@@ -257,6 +266,17 @@ public class ProductoControlador {
             System.out.println("private void eliminarProducto dice: " + e.getMessage());
         }
 
+    }
+    
+    public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException {
+        Document pdf = (Document) document;
+        pdf.open();
+        pdf.setPageSize(PageSize.A4);
+ 
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String logo = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "images" + File.separator + "reportes" + File.separator + "productos.png";
+         
+        pdf.add(Image.getInstance(logo));
     }
 
     

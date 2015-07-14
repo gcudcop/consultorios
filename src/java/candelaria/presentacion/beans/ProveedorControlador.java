@@ -7,9 +7,18 @@ package candelaria.presentacion.beans;
 
 import candelaria.logica.clases.Proveedor;
 import candelaria.logica.funciones.FProveedor;
+import com.lowagie.text.BadElementException;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Image;
+import com.lowagie.text.PageSize;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import org.primefaces.context.DefaultRequestContext;
 import recursos.Util;
 
@@ -208,6 +217,16 @@ public class ProveedorControlador {
             System.out.println("private void eliminarProveedor dice: " + e.getMessage());
         }
         
+    }
+    public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException {
+        Document pdf = (Document) document;
+        pdf.open();
+        pdf.setPageSize(PageSize.A4);
+ 
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String logo = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "images" + File.separator + "reportes" + File.separator + "proveedores.png";
+         
+        pdf.add(Image.getInstance(logo));
     }
     
 }

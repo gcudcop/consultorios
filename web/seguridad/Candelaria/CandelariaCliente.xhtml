@@ -28,27 +28,47 @@ and open the template in the editor.
                                      paginator="true" rows="10" rowKey="#{cliente.id_cliente}" selectionMode="single" 
                                      selection="#{clienteControlador.clienteSel}">
 
-                            <p:column headerText="Nombres Cliente">
+                                                        
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Nombres" />
+                                </f:facet>
                                 <h:outputText value="#{cliente.nombres_cliente} #{cliente.apellidos_cliente}"/>
-                            </p:column>
+                            </p:column> 
 
-                            <p:column headerText="Direcciôn">
+
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Direccion" />
+                                </f:facet>
                                 <h:outputText value="#{cliente.direccion_cliente}"/>
                             </p:column>
 
-                            <p:column headerText="Telefono">
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Telefono" />
+                                </f:facet>
                                 <h:outputText value="#{cliente.telefono_cliente}"/>
                             </p:column>
 
-                            <p:column headerText="Correo Electrônico">
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Mail" />
+                                </f:facet>
                                 <h:outputText value="#{cliente.email_cliente}"/>
                             </p:column>
 
-                            <p:column headerText="Nombre Empresa">
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre de la Empresa" />
+                                </f:facet>
                                 <h:outputText value="#{cliente.nombre_empresa}"/>
                             </p:column>
                             ´
-                            <p:column headerText="RUC Cliente">
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="RUC Cliente" />
+                                </f:facet>
                                 <h:outputText value="#{cliente.ruc_cliente}"/>
                             </p:column>
 
@@ -82,7 +102,7 @@ and open the template in the editor.
 
                                 <h:commandLink>
                                     <img src="../../resources/images/pdf.png" alt="" title="Exportar a Pdf"/>
-                                    <p:dataExporter type="pdf" target="tblCliente" fileName="Cliente" pageOnly="true" />
+                                    <p:dataExporter type="pdf" target="tblCliente" fileName="Cliente" preProcessor="#{clienteControlador.preProcessPDF}" />
                                 </h:commandLink>
 
                             </f:facet>

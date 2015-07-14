@@ -111,42 +111,42 @@ and open the template in the editor.
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                         <p:panelGrid id="pngNuevoControl_yogurth" columns="2">
 
-                            <h:outputText value="Nombre Producto:"/>
+                            <h:outputText value="Nombre Producto: *"/>
                             <p:selectOneMenu id="cmbCategoria" value="#{control_yogurthControlador.valorProductoSeleccionado}">
                                 <f:selectItem itemLabel="Elija un Producto" itemValue="#{null}"/>
                                 <f:selectItems value="#{control_yogurthControlador.lstProducto}" var="producto" 
                                                itemLabel="#{producto.id_categoria.nombre_producto}" itemValue="#{producto.id_producto}"/>
                             </p:selectOneMenu>
 
-                            <h:outputText value="Acido:"/>
+                            <h:outputText value="Acido: *"/>
                             <p:inputText value="#{control_yogurthControlador.objControl_Yogurth.acidos_organicos}" placeholder="Ingrese la Acides" 
                                          required="true" requiredMessage="Ingrese la Acides" />
 
-                            <h:outputText value="Agua:"/>
+                            <h:outputText value="Agua: *"/>
                             <p:inputText value="#{control_yogurthControlador.objControl_Yogurth.agua_yogurth}" placeholder="Ingrese % de Agua"  
                                          required="true" requiredMessage="Ingrese % de Agua"/>
 
-                            <h:outputText value="Cenizas:"/>
+                            <h:outputText value="Cenizas: *"/>
                             <p:inputText value="#{control_yogurthControlador.objControl_Yogurth.cenizas_yogurth}" placeholder="Ingrese Ceniza"
                                          required="true" requiredMessage="Ingrese Ceneza"/>
 
-                            <h:outputText value="Contenido Energetico:"/>
+                            <h:outputText value="Contenido Energetico: *"/>
                             <p:inputText value="#{control_yogurthControlador.objControl_Yogurth.contenido_energetico}" placeholder="Ingrese Contenido Energetico"
                                          required="true" requiredMessage="Ingrese Contenido Energetico"/>
 
-                            <h:outputText value="Fibra:"/>
+                            <h:outputText value="Fibra: *"/>
                             <p:inputText value="#{control_yogurthControlador.objControl_Yogurth.fibras_yogurth}" placeholder="Ingrese la Fibra"
                                          required="true" requiredMessage="Ingrese la fibra"/>
 
-                            <h:outputText value="Glucidos:"/>
+                            <h:outputText value="Glucidos: *"/>
                             <p:inputText value="#{control_yogurthControlador.objControl_Yogurth.glucidos_yogurth}" placeholder="Ingrese el Glucido"
                                          required="true" requiredMessage="Ingrese el Glucido"/>
 
-                            <h:outputText value="Lipidos:"/>
+                            <h:outputText value="Lipidos: *"/>
                             <p:inputText value="#{control_yogurthControlador.objControl_Yogurth.lipidos_yogurth}" placeholder="Ingrese los Lipidos"
                                          required="true" requiredMessage="Ingrese el Lipidos"/>
 
-                            <h:outputText value="Proteinas:"/>
+                            <h:outputText value="Proteinas: *"/>
                             <p:inputText value="#{control_yogurthControlador.objControl_Yogurth.proteinas_yogurth}" placeholder="Ingrese las proteinas"
                                          required="true" requiredMessage="Ingrese las Proteinas"/>
 

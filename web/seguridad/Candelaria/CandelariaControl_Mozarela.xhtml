@@ -111,38 +111,38 @@ and open the template in the editor.
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                         
                         <p:panelGrid columns="2">
-                            <h:outputText value="Nombre Producto:"/>
+                            <h:outputText value="Nombre Producto: *"/>
                              <p:selectOneMenu id="cmbCategoria" value="#{control_MozarelaControlador.valorProductoSeleccionado}">
                                 <f:selectItem itemLabel="Elija un Producto" itemValue="#{null}"/>
                                 <f:selectItems value="#{control_MozarelaControlador.lstProducto}" var="producto" 
                                                itemLabel="#{producto.id_categoria.nombre_producto}" itemValue="#{producto.id_producto}"/>
                             </p:selectOneMenu>
                              
-                            <h:outputText value="Cenizas:"/>
+                            <h:outputText value="Cenizas: *"/>
                             <p:inputText value="#{control_MozarelaControlador.objControl_mozarela.cenizas_mozarela}" placeholder="Ingrese Cenizas" 
                                          required="true" requiredMessage="Ingrese Cenizas" />
 
-                            <h:outputText value="Humedad:"/>
+                            <h:outputText value="Humedad: *"/>
                             <p:inputText value="#{control_MozarelaControlador.objControl_mozarela.humedad_mozarela}" placeholder="Ingrese Humedad"
                                          required="true" requiredMessage="Ingrese Humedad"/>
 
-                            <h:outputText value="PH:"/>
+                            <h:outputText value="PH: *"/>
                             <p:inputText value="#{control_MozarelaControlador.objControl_mozarela.ph_mozarela}" placeholder="Ingrese el PH"
                                          required="true" requiredMessage="Ingrese el PH"/>
                             
-                            <h:outputText value="Grasa:"/>
+                            <h:outputText value="Grasa: *"/>
                             <p:inputText value="#{control_MozarelaControlador.objControl_mozarela.grasas_mozarela}" placeholder="Ingrese % de Grasa"  
                                          required="true" requiredMessage="Ingrese % de Grasa"/>
 
-                            <h:outputText value="Proteinas:"/>
+                            <h:outputText value="Proteinas: *"/>
                             <p:inputText value="#{control_MozarelaControlador.objControl_mozarela.proteinas_mozarela}" placeholder="Ingrese las Proteinas"
                                          required="true" requiredMessage="Ingrese las Proteinas"/>
 
-                            <h:outputText value="Rendimiento:"/>
+                            <h:outputText value="Rendimiento: *"/>
                             <p:inputText value="#{control_MozarelaControlador.objControl_mozarela.rendimiento_mozarela}" placeholder="Ingrese el Rendimiento"
                                          required="true" requiredMessage="Ingrese el Rendimiento"/>
                                                                                
-                            <h:outputText value="Solido Total:"/>
+                            <h:outputText value="Solido Total: *"/>
                             <p:inputText value="#{control_MozarelaControlador.objControl_mozarela.solidos_totales}" placeholder="Ingrese Solido Total"
                                          required="true" requiredMessage="Ingrese Solido Total"/>
                             
