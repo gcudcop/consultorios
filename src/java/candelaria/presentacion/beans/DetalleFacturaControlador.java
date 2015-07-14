@@ -56,7 +56,17 @@ public class DetalleFacturaControlador {
     private double totalHoja;
     private double totalFactura;
     private double impuestoFactura;
+    private int valorDSeleccionado;
 
+    public int getValorDSeleccionado() {
+        return valorDSeleccionado;
+    }
+
+    public void setValorDSeleccionado(int valorDSeleccionado) {
+        this.valorDSeleccionado = valorDSeleccionado;
+    }
+    
+    
     public ArrayList<Producto> getDroppedCars() {
         return droppedCars;
     }
@@ -319,7 +329,7 @@ public class DetalleFacturaControlador {
 
     public void cargarDetalleFactura() {
         try {
-            this.lstDetalleFactura = FDetalleFactura.ObtenerDetalle_Facturas();
+            this.lstDetalleFactura = FDetalleFactura.ObtenerDetalleDadoCodigoFactura(facturaSel.getId_factura());
             this.detalleFacturaSel = lstDetalleFactura.get(0);
             System.out.println(lstDetalleFactura.get(0).getId_producto());
         } catch (Exception e) {
@@ -332,9 +342,9 @@ public class DetalleFacturaControlador {
         try {
 
             Producto producto = new Producto();
-            producto.setId_producto(valorProductoSeleccionado);
+            producto.setId_producto(valorDSeleccionado);
             objDetalleFactura.setId_producto(producto);
-
+            objDetalleFactura.setValor_total(totalHoja);
             if (FDetalleFactura.Insertar(objDetalleFactura)) {
                 this.reinit();
                 DefaultRequestContext.getCurrentInstance().execute("wdlgNuevoDetalleFactura.hide()");

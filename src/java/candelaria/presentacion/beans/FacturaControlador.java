@@ -42,6 +42,17 @@ public class FacturaControlador {
     private double totalHoja;
     private double impuestoFactura;
     private double totalFactura;
+    private int codoigoCliente;
+
+    public int getCodoigoCliente() {
+        return codoigoCliente;
+    }
+
+    public void setCodoigoCliente(int codoigoCliente) {
+        this.codoigoCliente = codoigoCliente;
+    }
+    
+    
 
     public Date getFecha() {
         return fecha;
@@ -192,6 +203,7 @@ public class FacturaControlador {
         try {
             this.lstFacturas = FFactura.ObtenerFacturaUltima();
             this.facturaSel = lstFacturas.get(0);
+            codoigoCliente=facturaSel.getId_factura();
             fechaLetras = sdf2.format(facturaSel.getFecha());
             System.out.println(lstFacturas.get(0).getId_factura());
         } catch (Exception e) {
@@ -226,10 +238,11 @@ public class FacturaControlador {
     }
 
     public void insertarFactura() {
-
+        
         try {
+            
             Cliente cliente = new Cliente();
-            cliente.setId_cliente(valorSSeleccionado);
+            cliente.setId_cliente(codoigoCliente);
             objFactura.setId_cliente(cliente);
             //objFactura.setFecha(sdf2.parse(fecha_cambiada));
             objFactura.setSubtotal(0.0);
