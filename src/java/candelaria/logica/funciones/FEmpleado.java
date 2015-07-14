@@ -119,7 +119,19 @@ public class FEmpleado {
         }
         return lst;
     }
-
+    
+     public static ArrayList<Empleado> ObtenerEmpleadoUltimo() throws Exception {
+        ArrayList<Empleado> lst = new ArrayList<Empleado>();
+        try {
+            String sql = "select * from sgflc.f_select_empleado_ultimo()";
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
+            lst = llenarEmpleado(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
     public static Empleado ObtenerEmpleadoDadoCodigo(int codigo) throws Exception {
         Empleado lst;
         try {
