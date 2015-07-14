@@ -7,7 +7,6 @@ package candelaria.presentacion.beans;
 
 import candelaria.logica.clases.Categoria;
 import candelaria.logica.funciones.FCategoria;
-import candelaria.logica.funciones.FControl_Mozarela;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -25,7 +24,17 @@ public class CategoriaControlador {
     private Categoria categoriaSel;
     private ArrayList<Categoria> lstCategoria;
     private ArrayList<Categoria> lstQuesoMozarela;
+    private ArrayList<Categoria> lstQueso;
 
+    public ArrayList<Categoria> getLstQueso() {
+        return lstQueso;
+    }
+
+    public void setLstQueso(ArrayList<Categoria> lstQueso) {
+        this.lstQueso = lstQueso;
+    }
+    
+    
     public ArrayList<Categoria> getLstQuesoMozarela() {
         return lstQuesoMozarela;
     }
@@ -80,6 +89,7 @@ public class CategoriaControlador {
         
         this.lstCategoria=new ArrayList<Categoria>();
         this.lstQuesoMozarela=new ArrayList<Categoria>();
+        this.lstQueso=new ArrayList<Categoria>();
 
     }
     
@@ -88,6 +98,17 @@ public class CategoriaControlador {
             this.lstQuesoMozarela = FCategoria.ObtenerlistaMozarela();
             this.categoriaSel = lstQuesoMozarela.get(0);
             System.out.println(lstQuesoMozarela.get(0).getId_categoria());
+        } catch (Exception e) {
+            Util.addErrorMessage("private void cargarMozarela dice: " + e.getMessage());
+            System.out.println("private void cargarMozarela dice: " + e.getMessage());
+        }
+     }
+    
+    public void cargarQueso() {
+        try {
+            this.lstQuesoMozarela = FCategoria.ObtenerlistaQueso();
+            this.categoriaSel = lstQueso.get(0);
+            System.out.println(lstQueso.get(0).getId_categoria());
         } catch (Exception e) {
             Util.addErrorMessage("private void cargarMozarela dice: " + e.getMessage());
             System.out.println("private void cargarMozarela dice: " + e.getMessage());

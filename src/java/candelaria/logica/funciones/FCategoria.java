@@ -108,7 +108,21 @@ public class FCategoria {
             throw new Exception(exConec.getMessage());
         }
         return lst;
-    }     
+    }  
+     
+     public static ArrayList<Categoria> ObtenerlistaQueso() throws Exception {
+        ArrayList<Categoria> lst = new ArrayList<Categoria>();
+        try {
+            String sql = "select * from sgflc.f_select_categoria_lista_queso()";
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
+            lst = llenarCategoria(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }  
+     
     public static ArrayList<Categoria> ObtenerCategoria() throws Exception {
         ArrayList<Categoria> lst = new ArrayList<Categoria>();
         try {
