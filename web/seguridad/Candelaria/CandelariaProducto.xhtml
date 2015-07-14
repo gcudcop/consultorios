@@ -28,37 +28,63 @@ and open the template in the editor.
                                      paginator="true" rows="10" rowKey="#{producto.id_producto}" selectionMode="single" 
                                      selection="#{productoControlador.productoSel}">
 
-                            <p:column headerText="Nombre producto">
-                                <h:outputText value="#{producto.id_categoria.nombre_producto}"/>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre Producto" />
+                                </f:facet>
+                                <h:outputText value="#{producto.id_categoria.nombre_producto}" />
                             </p:column>
-                            
-                            <p:column headerText="Peso del Producto">
+
+                           
+
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Peso" />
+                                </f:facet>
                                 <h:outputText value="#{producto.peso_producto}"/>
                             </p:column> 
 
-                            <p:column headerText="Precio de Producto">
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Precio" />
+                                </f:facet>
                                 <h:outputText value="#{producto.id_categoria.precio_producto}"/>
                             </p:column>
 
-                            <p:column headerText="Fecha de Fabricación" >
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Fecha de Fabricacion" />
+                                </f:facet>
 
-                                      <h:outputText value="#{producto.fecha_fabricacion}"/>
+                                <h:outputText value="#{producto.fecha_fabricacion}"/>
                             </p:column>
 
-                            <p:column headerText="Fecha de Caducidad" >
-                                      <h:outputText value="#{producto.fecha_caducidad}"/>
+                            <p:column  >
+                                <f:facet name="header">
+                                    <h:outputText value="Fecha de Caducidad" />
+                                </f:facet>
+                                <h:outputText value="#{producto.fecha_caducidad}"/>
                             </p:column>
 
-                                                      
-                            <p:column headerText="Color del Producto">
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Color" />
+                                </f:facet>
                                 <h:outputText value="#{producto.color_producto}"/>
                             </p:column>
 
-                            <p:column headerText="Sabor del Producto">
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Sabor" />
+                                </f:facet>
                                 <h:outputText value="#{producto.sabor_producto}"/>
                             </p:column> 
 
-                            <p:column headerText="Forma del Producto">
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Forma" />
+                                </f:facet>
                                 <h:outputText value="#{producto.forma_producto}"/>
                             </p:column> 
 
@@ -71,15 +97,15 @@ and open the template in the editor.
                                                                  target="#{productoControlador.productoSel}"/>
                                 </p:commandButton>
 
-                               <!-- <p:commandButton id="btnEliminarProducto" icon="ui-icon-close"  title="Eliminar Producto"
-                                                 oncomplete="wdlgEliminarProducto.show()" 
-                                                 update=":dlgEliminarProducto">                                   
-                                    <f:setPropertyActionListener value="#{producto}" 
-                                                                 target="#{productoControlador.productoSel}"/>
-                                </p:commandButton>-->
+                                <!-- <p:commandButton id="btnEliminarProducto" icon="ui-icon-close"  title="Eliminar Producto"
+                                                  oncomplete="wdlgEliminarProducto.show()" 
+                                                  update=":dlgEliminarProducto">                                   
+                                     <f:setPropertyActionListener value="#{producto}" 
+                                                                  target="#{productoControlador.productoSel}"/>
+                                 </p:commandButton>-->
                             </p:column>
 
-                                <f:facet name="footer">  
+                            <f:facet name="footer">  
                                 <p:commandButton id="btnNuevoProducto" value="Nuevo" icon="ui-icon-newwin"
                                                  oncomplete="wdlgNuevoProducto.show()" title="Nuevo Producto"/>  
 
@@ -90,7 +116,7 @@ and open the template in the editor.
 
                                 <h:commandLink>
                                     <img src="../../resources/images/pdf.png" alt=""/>
-                                    <p:dataExporter type="pdf" target="tblProducto" fileName="producto" pageOnly="true" />
+                                    <p:dataExporter type="pdf" target="tblProducto" fileName="producto" preProcessor="#{productoControlador.preProcessPDF}" />
                                 </h:commandLink>
 
                             </f:facet>
@@ -171,18 +197,18 @@ and open the template in the editor.
 
                             <h:outputText value="Fecha De Fabricación:"/>
                             <p:calendar id="effect3" value="#{productoControlador.productoSel.fecha_fabricacion}" effect="fold" />
-                            
-                             <h:outputText value="Fecha De Caducidad:"/>
-                             <p:calendar id="effect2" value="#{productoControlador.productoSel.fecha_caducidad}" effect="fold" />
-                            
+
+                            <h:outputText value="Fecha De Caducidad:"/>
+                            <p:calendar id="effect2" value="#{productoControlador.productoSel.fecha_caducidad}" effect="fold" />
+
                             <h:outputText value="Sabor:"/>
                             <p:inputText value="#{productoControlador.productoSel.sabor_producto}" title="ej: A"
                                          required="true" requiredMessage="Ingrese sabor del producto"/>
-                            
+
                             <h:outputText value="Peso:"/>
                             <p:inputText value="#{productoControlador.productoSel.peso_producto}" title="ej: A"
                                          required="true" requiredMessage="Ingrese peso del producto"/>
-                            
+
                             <h:outputText value="Forma:"/>
                             <p:inputText value="#{productoControlador.productoSel.forma_producto}" title="ej: A"
                                          required="true" requiredMessage="Ingrese forma del producto"/>
@@ -201,7 +227,7 @@ and open the template in the editor.
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                         <h:outputText value="¿Está Seguro de Eliminar el Producto?"/>
                         <p:panelGrid id="pngEliminarProducto" columns="2">
-                            
+
                             <h:outputText value="Color del Producto:"/>
                             <p:inputText value="#{productoControlador.productoSel.color_producto}" title="ej: blanco"
                                          required="true" requiredMessage="Ingrese el Color" disabled="true"/>
@@ -213,7 +239,7 @@ and open the template in the editor.
                             <h:outputText value="Fecha Fabricación:"/>
                             <p:inputText value="#{productoControlador.productoSel.fecha_fabricacion}"
                                          required="true" disabled="true"/>
-                            
+
                             <h:outputText value="Fecha Caducidad:"/>
                             <p:inputText value="#{productoControlador.productoSel.fecha_caducidad}"
                                          required="true" disabled="true"/>

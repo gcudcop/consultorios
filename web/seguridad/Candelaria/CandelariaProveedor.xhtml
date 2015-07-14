@@ -28,32 +28,50 @@ and open the template in the editor.
                                      paginator="true" rows="10" rowKey="#{proveedor.id_proveedor}" selectionMode="single" 
                                      selection="#{proveedorControlador.proveedorSel}">
 
-                            <p:column headerText="Nombres Proveedor">
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre del proveedor" />
+                                </f:facet>
                                 <h:outputText value="#{proveedor.nombre_proveedor}"/>
                             </p:column>
 
 
 
-                            <p:column headerText="Direcciòn">
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Direccion" />
+                                </f:facet>
                                 <h:outputText value="#{proveedor.direcion_proveedor}"/>
                             </p:column>
 
 
-                            <p:column headerText="Ciudad">
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Ciudad" />
+                                </f:facet>
                                 <h:outputText value="#{proveedor.ciudad_proveedor}"/>
                             </p:column>
 
 
-                            <p:column headerText="Telefono" >
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Telefono" />
+                                </f:facet>
 
                                       <h:outputText value="#{proveedor.telefono_provedor}"/>
                             </p:column>
 
-                            <p:column headerText="Producto" >
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Producto" />
+                                </f:facet>
                                       <h:outputText value="#{proveedor.producto_provedor}"/>
                             </p:column>
 
-                            <p:column headerText="Costo">
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Costo" />
+                                </f:facet>
                                 <h:outputText value="#{proveedor.costo}"/>
                             </p:column>                         
 
@@ -88,7 +106,7 @@ and open the template in the editor.
 
                                 <h:commandLink>
                                     <img src="../../resources/images/pdf.png" alt=""/>
-                                    <p:dataExporter type="pdf" target="tblProveedor" fileName="proveedor" pageOnly="true" />
+                                    <p:dataExporter type="pdf" target="tblProveedor" fileName="proveedor" preProcessor="#{proveedorControlador.preProcessPDF}" />
                                 </h:commandLink>
 
                             </f:facet>

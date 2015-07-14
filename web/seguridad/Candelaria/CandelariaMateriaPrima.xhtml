@@ -28,11 +28,17 @@ and open the template in the editor.
                                      paginator="true" rows="10" rowKey="#{materiaprima.id_MateriaPrima}" selectionMode="single" 
                                      selection="#{materiaPrimaControlador.materiaPrimaSel}">
 
-                            <p:column headerText="Nombres Materia Prima">
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre Materia Prima" />
+                                </f:facet>
                                 <h:outputText value="#{materiaprima.nombre_MateriaPrima}"/>
                             </p:column>
 
-                            <p:column headerText="Cantidad">
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Cantidad" />
+                                </f:facet>
                                 <h:outputText value="#{materiaprima.cantidad_Materiaprima}"/>
                             </p:column>
 
@@ -66,7 +72,7 @@ and open the template in the editor.
 
                                 <h:commandLink>
                                     <img src="../../resources/images/pdf.png" alt=""/>
-                                    <p:dataExporter type="pdf" target="tblMateriaPrima" fileName="MateriaPrima" pageOnly="true" />
+                                    <p:dataExporter type="pdf" target="tblMateriaPrima" fileName="MateriaPrima" preProcessor="#{materiaPrimaControlador.preProcessPDF}" />
                                 </h:commandLink>
 
                             </f:facet>

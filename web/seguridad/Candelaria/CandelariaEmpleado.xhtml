@@ -28,38 +28,51 @@ and open the template in the editor.
                                      paginator="true" rows="10" rowKey="#{empleado.id_empleado}" selectionMode="single" 
                                      selection="#{empleadoControlador.empleadoSel}">
 
-                            <p:column headerText="Nombres Empleado">
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre Empleado" />
+                                </f:facet>
                                 <h:outputText value="#{empleado.nombres_empleado} #{empleado.apellido_paterno}"/>
                             </p:column>
                             
-                            <p:column headerText="Cedula">
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Cedula" />
+                                </f:facet>
                                 <h:outputText value="#{empleado.cedula_empleado}"/>
                             </p:column>
                             
-                            <p:column headerText="Estado Civil">
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Estado Civil" />
+                                </f:facet>
                                 <h:outputText value="#{empleado.estado_civil}"/>
                             </p:column>
                             
-                            <p:column headerText="Télefono">
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Telefono" />
+                                </f:facet>
                                 <h:outputText value="#{empleado.telefono_empleado}"/>
                             </p:column>
                             
                             
                             
-                            <p:column headerText="Correo Electronico">
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Mail" />
+                                </f:facet>
                                 <h:outputText value="#{empleado.email_empleado}"/>
-                                <!--<h:outputLabel for="email1" value="Correo Electronico" />
-                                <p:inputText id="email1" value="#{empleadoControlador.text}">
-                                       <f:validator validatorId="custom.emailValidator" />
-                                </p:inputText>
-                                <p:message for="email1" display="tooltip" />
-                                <h:outputText value="#{empleadoControlador.text}" />-->
+                             
                             </p:column>
                          
                                       
                           
                             
-                            <p:column headerText="Numero de Credencial">
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Numero de Credencial" />
+                                </f:facet>
                                 <h:outputText value="#{empleado.numero_credencial}"/>
                             </p:column>
                             
@@ -95,7 +108,7 @@ and open the template in the editor.
 
                                 <h:commandLink>
                                     <img src="../../resources/images/pdf.png" alt=""/>
-                                    <p:dataExporter type="pdf" target="tblEmpleado" fileName="Empleado" pageOnly="true" />
+                                    <p:dataExporter type="pdf" target="tblEmpleado" fileName="Empleado" preProcessor="#{empleadoControlador.preProcessPDF}"/>
                                 </h:commandLink>
 
                             </f:facet>
