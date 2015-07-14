@@ -21,6 +21,7 @@ import recursos.utilBeans.ValidatorBean;
 @ManagedBean
 @ViewScoped
 public class ClienteControlador {
+
     private Cliente objCliente;
     private Cliente clienteSel;
     private ArrayList<Cliente> lstCliente;
@@ -34,7 +35,6 @@ public class ClienteControlador {
     public void setEmail(String email) {
         this.email = email;
     }
-    
 
     public Cliente getObjCliente() {
         return objCliente;
@@ -71,7 +71,8 @@ public class ClienteControlador {
     public ClienteControlador() {
         reinit();
     }
-    private void reinit(){
+
+    private void reinit() {
         this.objCliente = new Cliente();
         this.clienteSel = new Cliente();
         this.lstCliente = new ArrayList<Cliente>();
@@ -84,8 +85,9 @@ public class ClienteControlador {
         //this.cargarNiveles();
 //        this.cargarPeriodos();
 //        this.cargarFacultad();
-        
+
     }
+
     public void cargarCliente() {
         try {
             this.lstCliente = FCliente.ObtenerClientes();
@@ -95,40 +97,33 @@ public class ClienteControlador {
             Util.addErrorMessage("private void cargarCliente dice: " + e.getMessage());
             System.out.println("private void cargarCliente dice: " + e.getMessage());
         }
-     }
-            
-        public void insertarCliente() {
-           boolean band =false;
+    }
+
+    public void insertarCliente() {
+
         try {
-            while (band ==false){
-                
-            
-        }
-            
-                        
             if (FCliente.Insertar(objCliente)) {
                 this.reinit();
                 DefaultRequestContext.getCurrentInstance().execute("wdlgNuevoCliente.hide()");
                 Util.addSuccessMessage("Información guardada con éxito");
                 System.out.println("public void insertarCliente dice: Error al guardar la información");
-           } else { 
+            } else {
                 Util.addSuccessMessage("Error al guardar la información");
                 System.out.println("public void insertarCliente dice: Error al guardar la información");
-           }
+            }
         } catch (Exception e) {
             Util.addErrorMessage("private void insertarCliente dice: " + e.getMessage());
             System.out.println("private void insertarCliente dice: " + e.getMessage());
-                }
         }
+    }
 
-    public void cambiarEstadoMostrarActualizar(){
+    public void cambiarEstadoMostrarActualizar() {
         mostrarActualizar = true;
     }
-        
-     public void actualizarCliente() {
+
+    public void actualizarCliente() {
         try {
-            
-                       
+
             if (FCliente.actualizar(clienteSel)) {
                 clienteSel = new Cliente();
                 mostrarActualizar = false;
@@ -161,6 +156,6 @@ public class ClienteControlador {
             Util.addErrorMessage("private void eliminarCliente dice: " + e.getMessage());
             System.out.println("private void eliminarCliente dice: " + e.getMessage());
         }
-        
+
     }
 }

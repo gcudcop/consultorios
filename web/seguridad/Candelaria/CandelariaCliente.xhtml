@@ -123,14 +123,12 @@ and open the template in the editor.
                                 
                             </p:inputText>
 
-                            <h:outputText value="Nombre Emresa:"/>
-                            <p:inputText value="#{clienteControlador.objCliente.nombre_empresa}" placeholder="Ingrese el nombre de la empresa"
+                            <h:outputText value="Nombre Empresa:"/>
+                            <p:inputText value="#{clienteControlador.objCliente.nombre_empresa}" placeholder="Nombre de la empresa"
                                          required="true" requiredMessage="Ingrese la empresa"/>
                             
                              <h:outputText value="Ruc: *"/>
-
-                            <h:outputText value="Ruc:"/>
-                            <p:inputText value="#{clienteControlador.objCliente.ruc_cliente}" placeholder="Ingrese el RUC"
+                             <p:inputText value="#{clienteControlador.objCliente.ruc_cliente}" placeholder="Ingrese el RUC"
                                          required="true" requiredMessage="Ingrese el RUC"/>
 
 
@@ -162,8 +160,6 @@ and open the template in the editor.
                                          required="true" requiredMessage="Ingrese Apellido"/>
                             
                             <h:outputText value="Direccion: *"/>
-
-                            <h:outputText value="Direccion:"/>
                             <p:inputText value="#{clienteControlador.clienteSel.direccion_cliente}" placeholder="Ingrese la Direccion"  
                                          required="true" requiredMessage="Ingrese la Direcion"/>
 
@@ -174,13 +170,13 @@ and open the template in the editor.
                             <h:outputText value="Email:"/>
                             <p:inputText value="#{clienteControlador.clienteSel.email_cliente}" placeholder="Ingrese el email"
                                          required="true" requiredMessage="Ingrese el email"/>
+                            
+                            <h:outputText value="Nombre Empresa:"/>
                             <p:inputText value="#{clienteControlador.clienteSel.nombre_empresa}" placeholder="Nombre de la empresa"
                                          required="true" requiredMessage="Nombre de la empresa"/>
                             
-                            <h:outputText value="Nombre Empresa:"/>
-
-                            <h:outputText value="Nombre Emresa:"/>
-                            <p:inputText value="#{clienteControlador.clienteSel.ruc_cliente}" placeholder="Ingrese el RUC"
+                            <h:outputText value="RUC:"/>
+                                <p:inputText value="#{clienteControlador.clienteSel.ruc_cliente}" placeholder="Ingrese el RUC"
                                          required="true" requiredMessage="Ingrese el RUC"/>
 
                         </p:panelGrid>                 

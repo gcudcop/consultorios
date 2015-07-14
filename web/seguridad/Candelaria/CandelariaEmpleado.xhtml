@@ -29,7 +29,7 @@ and open the template in the editor.
                                      selection="#{empleadoControlador.empleadoSel}">
 
                             <p:column headerText="Nombres Empleado">
-                                <h:outputText value="#{empleado.nombres_empleado} #{empleado.apellido_paterno} #{empleado.apellido_materno}"/>
+                                <h:outputText value="#{empleado.nombres_empleado} #{empleado.apellido_paterno}"/>
                             </p:column>
                             
                             <p:column headerText="Cedula">
@@ -98,7 +98,6 @@ and open the template in the editor.
                           showEffect="clip" hideEffect="fold"> 
 
 
-
                     <h:form id="frmNuevoEmpleado">
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                         <p:panelGrid id="pngNuevoEmpleado" columns="2">
@@ -106,8 +105,8 @@ and open the template in the editor.
                             <p:inputText value="#{empleadoControlador.objEmpleado.nombres_empleado}" placeholder="Ingrese Nombre" 
                                          required="true" requiredMessage="Ingrese el nombre"/>
 
-                            <h:outputText value="Apellido: *"/>
-                            <p:inputText value="#{empleadoControlador.objEmpleado.apellido_paterno} #{empleadoControlador.objEmpleado.apellido_materno}" placeholder="Ingrese el apellido"  
+                            <h:outputText value="Apellidos: *"/>
+                            <p:inputText value="#{empleadoControlador.objEmpleado.apellido_paterno}" placeholder="Ingrese el apellido"  
                                          required="true" requiredMessage="Apellido"/>
                             
                                                                                    
@@ -116,6 +115,7 @@ and open the template in the editor.
                                 <f:selectItem itemLabel="Elija el Estado Civil" itemValue="#{null}"/>
                                 <f:selectItem itemLabel="Soltero" itemValue="Soltero" />
                                 <f:selectItem itemLabel="Casado" itemValue="Casado" />
+                                <f:selectItem itemLabel="Divorciado" itemValue="Divorciado" />
                                
                              </p:selectOneMenu>
                             
@@ -133,8 +133,8 @@ and open the template in the editor.
                                          required="true" requiredMessage="Ingrese la Cedula"/>
                             
                             <h:outputText value="Credencial:"/>
-                            <p:inputText value="#{empleadoControlador.objEmpleado.id_empleado}" placeholder="Numero de Credencial"
-                                         required="true" requiredMessage="Ingrese el Telefono"/>
+                            <p:inputText value="#{empleadoControlador.objEmpleado.numero_credencial}" placeholder="Numero de Credencial"
+                                         required="true" requiredMessage="Ingrese el Telefono" />
 
                            
                         </p:panelGrid>

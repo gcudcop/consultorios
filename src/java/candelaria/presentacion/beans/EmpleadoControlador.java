@@ -20,11 +20,50 @@ import recursos.Util;
 @ManagedBean
 @ViewScoped
 public class EmpleadoControlador {
+
     private Empleado objEmpleado;
-    private String estadoCivil; 
+    private String estadoCivil;
+    private String credencial1;
     private Empleado empleadoSel;
+    private Empleado empleadoSel1;
     private ArrayList<Empleado> lstEmpleado;
+    private ArrayList<Empleado> lstEmpleadoUltimo;
     private boolean mostrarActualizar;
+    private Integer credencial;
+
+    public Empleado getEmpleadoSel1() {
+        return empleadoSel1;
+    }
+
+    public void setEmpleadoSel1(Empleado empleadoSel1) {
+        this.empleadoSel1 = empleadoSel1;
+    }
+     
+    
+    public String getCredencial1() {
+        return credencial1;
+        
+    }
+
+    public void setCredencial1(String credencial1) {
+        this.credencial1 = credencial1;
+    }
+
+    public ArrayList<Empleado> getLstEmpleadoUltimo() {
+        return lstEmpleadoUltimo;
+    }
+
+    public void setLstEmpleadoUltimo(ArrayList<Empleado> lstEmpleadoUltimo) {
+        this.lstEmpleadoUltimo = lstEmpleadoUltimo;
+    }
+
+    public Integer getCredencial() {
+        return credencial;
+    }
+
+    public void setCredencial(Integer credencial) {
+        this.credencial = credencial;
+    }
 
     public String getEstadoCivil() {
         return estadoCivil;
@@ -33,7 +72,6 @@ public class EmpleadoControlador {
     public void setEstadoCivil(String estadoCivil) {
         this.estadoCivil = estadoCivil;
     }
-    
 
     public Empleado getObjEmpleado() {
         return objEmpleado;
@@ -70,21 +108,20 @@ public class EmpleadoControlador {
     public EmpleadoControlador() {
         reinit();
     }
-    private void reinit(){
+
+    private void reinit() {
         this.objEmpleado = new Empleado();
         this.empleadoSel = new Empleado();
+        this.empleadoSel1 = new Empleado();
         this.lstEmpleado = new ArrayList<Empleado>();
-//        this.LstPeriodos = new ArrayList<Periodos>();  
-//        this.lstFacultades = new ArrayList<Facultad>();
-//        this.lstEscuelas = new ArrayList<Escuela>();
-//        this.lstNiveles = new ArrayList<Nivel>();
-        //this.ProveedorSel = this.lstProveedors.get(0);
+        this.lstEmpleadoUltimo = new ArrayList<Empleado>();
+
         this.cargarEmpleado();
-        //this.cargarNiveles();
-//        this.cargarPeriodos();
-//        this.cargarFacultad();
-        
+//        this.cargarEmpleadoUltimo();
+
+
     }
+
     public void cargarEmpleado() {
         try {
             this.lstEmpleado = FEmpleado.ObtenerEmpleado();
@@ -94,35 +131,53 @@ public class EmpleadoControlador {
             Util.addErrorMessage("private void cargarEmpleado dice: " + e.getMessage());
             System.out.println("private void cargarEmpleado dice: " + e.getMessage());
         }
-     }
-            
-        public void insertarEmpleado() {
+    }
+
+//    public void cargarEmpleadoUltimo() {
+//        //this.credencial=Integer.parseInt(credencial1);
+//        try {
+//            this.lstEmpleadoUltimo = FEmpleado.ObtenerEmpleadoUltimo();
+//            this.empleadoSel = lstEmpleadoUltimo.get(0);
+//            credencial = ((empleadoSel1.getId_empleado()) + 1);
+//            System.out.println(credencial);
+//            System.out.println(lstEmpleadoUltimo.get(0).getId_empleado());
+//        } catch (Exception e) {
+//            Util.addErrorMessage("private void cargarEmpleadoUltimo dice: " + e.getMessage());
+//            System.out.println("private void cargarEmpleadoUltimo dice: " + e.getMessage());
+//        }
+//    }
+
+    public void insertarEmpleado() {
+        //credencial = ((lstEmpleadoUltimo.get(0).getId_empleado()) + 1);
+        //credencial = Integer.parseInt(credencial1);
         try {
-            
-                        
+
+            objEmpleado.setEstado_civil(estadoCivil);
+            objEmpleado.setApellido_materno("N/A");
+            //objEmpleado.setNumero_credencial(credencial1);
+
             if (FEmpleado.Insertar(objEmpleado)) {
                 this.reinit();
                 DefaultRequestContext.getCurrentInstance().execute("wdlgNuevoEmpleado.hide()");
                 Util.addSuccessMessage("Información guardada con éxito");
                 System.out.println("public void insertarEmpleado dice: Error al guardar la información");
-           } else { 
+            } else {
                 Util.addSuccessMessage("Error al guardar la información");
                 System.out.println("public void insertarEmpleado dice: Error al guardar la información");
-           }
+            }
         } catch (Exception e) {
             Util.addErrorMessage("private void insertarEmpleado dice: " + e.getMessage());
             System.out.println("private void insertarEmpleado dice: " + e.getMessage());
-                }
         }
+    }
 
-    public void cambiarEstadoMostrarActualizar(){
+    public void cambiarEstadoMostrarActualizar() {
         mostrarActualizar = true;
     }
-        
-     public void actualizarEmpleado() {
+
+    public void actualizarEmpleado() {
         try {
-            
-                       
+
             if (FEmpleado.actualizar(empleadoSel)) {
                 empleadoSel = new Empleado();
                 mostrarActualizar = false;
@@ -155,7 +210,7 @@ public class EmpleadoControlador {
             Util.addErrorMessage("private void eliminarEmpleado dice: " + e.getMessage());
             System.out.println("private void eliminarEmpleado dice: " + e.getMessage());
         }
-        
+
     }
-    
+
 }
