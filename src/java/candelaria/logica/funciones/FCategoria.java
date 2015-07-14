@@ -10,6 +10,7 @@ import accesodatos.ConjuntoResultado;
 import accesodatos.Parametro;
 import candelaria.logica.clases.Categoria;
 import candelaria.logica.clases.Control_Mozarela;
+import candelaria.logica.clases.Producto;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -136,4 +137,6 @@ public class FCategoria {
         }
         return lst;
     }
+    
+    
 }

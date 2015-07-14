@@ -29,6 +29,16 @@ public class Control_yogurthControlador {
     private int valorProductoSeleccionado;
     private Producto productoSel;
     private boolean mostrarActualizar;
+    private String yogurth;
+
+    public String getYogurth() {
+        return yogurth;
+    }
+
+    public void setYogurth(String yogurth) {
+        this.yogurth = yogurth;
+    }
+    
 
     public Producto getProductoSel() {
         return productoSel;
@@ -103,7 +113,7 @@ public class Control_yogurthControlador {
         //this.cargarNiveles();
 //        this.cargarPeriodos();
 //        this.cargarFacultad();
-        
+        this.yogurth="Yogurth";
     }
     
     public void cargarControl_Yogurth() {
@@ -119,7 +129,7 @@ public class Control_yogurthControlador {
             
     public void cargarProducto() {
         try {
-            this.lstProducto = FProducto.ObtenerProductos();
+            this.lstProducto = FProducto.ObtenerProductosListaYogurth();
             System.out.println(lstProducto.get(0).getId_producto());
         } catch (Exception e) {
             Util.addErrorMessage("private void cargarProducto dice: " + e.getMessage());
@@ -129,9 +139,8 @@ public class Control_yogurthControlador {
         public void insertarControl_Yogurth() {
         try {
             
-              Producto producto = new Producto();
-              producto.setId_producto(valorProductoSeleccionado);
-              objControl_Yogurth.setId_producto(producto);
+              
+              objControl_Yogurth.setId_producto(6);
               
             if (FControl_Yogurth.Insertar(objControl_Yogurth)) {
                 this.reinit();

@@ -21,15 +21,16 @@ public class FControl_Yogurth {
         boolean eje = false;
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from sgflc.f_insert_control_yogurth(?,?,?,?,?,?,?,?)";
-            lstP.add(new Parametro(1, control_yogurth.getAgua_yogurth()));
-            lstP.add(new Parametro(2, control_yogurth.getProteinas_yogurth()));
-            lstP.add(new Parametro(3, control_yogurth.getLipidos_yogurth()));
-            lstP.add(new Parametro(4, control_yogurth.getGlucidos_yogurth()));
-            lstP.add(new Parametro(5, control_yogurth.getAcidos_organicos()));
-            lstP.add(new Parametro(6, control_yogurth.getCenizas_yogurth()));
-            lstP.add(new Parametro(7, control_yogurth.getFibras_yogurth()));
-            lstP.add(new Parametro(8, control_yogurth.getContenido_energetico()));
+            String sql = "select * from sgflc.f_insert_control_yogurth(?,?,?,?,?,?,?,?,?)";
+            lstP.add(new Parametro(1, control_yogurth.getId_producto()));
+            lstP.add(new Parametro(2, control_yogurth.getAgua_yogurth()));
+            lstP.add(new Parametro(3, control_yogurth.getProteinas_yogurth()));
+            lstP.add(new Parametro(4, control_yogurth.getLipidos_yogurth()));
+            lstP.add(new Parametro(5, control_yogurth.getGlucidos_yogurth()));
+            lstP.add(new Parametro(6, control_yogurth.getAcidos_organicos()));
+            lstP.add(new Parametro(7, control_yogurth.getCenizas_yogurth()));
+            lstP.add(new Parametro(8, control_yogurth.getFibras_yogurth()));
+            lstP.add(new Parametro(9, control_yogurth.getContenido_energetico()));
             
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             while (rs.next()) {
@@ -93,8 +94,10 @@ public class FControl_Yogurth {
         Control_Yogurth control_yogurth = null;
         try {
             while (rs.next()) {
-                control_yogurth= new Control_Yogurth(rs.getInt("pid_control_yogurth"),FProducto.ObtenerProductoDadoCodigo(rs.getInt("pid_producto")), rs.getDouble("pagua_yogurth"), rs.getDouble("pproteinas_yogurth"), 
-                        rs.getDouble("plipidos_yogurth"), rs.getDouble("pglucidos_yogurth"), rs.getDouble("pacidos_organicos"), rs.getDouble("pcenizas_yogurth"),
+                control_yogurth= new Control_Yogurth(rs.getInt("pid_control_yogurth"),(rs.getInt("pid_producto")), 
+                        rs.getDouble("pagua_yogurth"), rs.getDouble("pproteinas_yogurth"), 
+                        rs.getDouble("plipidos_yogurth"), rs.getDouble("pglucidos_yogurth"), 
+                        rs.getDouble("pacidos_organicos"), rs.getDouble("pcenizas_yogurth"),
                 rs.getDouble("pfibras_yogurth"), rs.getDouble("pcontenido_energetico"));
                 lst.add(control_yogurth);
             }
@@ -117,8 +120,8 @@ public class FControl_Yogurth {
         }
         return lst;
     }
-
-    public static Control_Yogurth ObtenerControl_YogurthDadoCodigo(int codigo) throws Exception {
+    
+       public static Control_Yogurth ObtenerControl_YogurthDadoCodigo(int codigo) throws Exception {
         Control_Yogurth lst;
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
