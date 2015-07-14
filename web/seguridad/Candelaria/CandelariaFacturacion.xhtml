@@ -55,75 +55,7 @@ and open the template in the editor.
                                              oncomplete="wdlgNuevaFactura.show()" title="Nueva Factura"/>  
 
                         </p:panel>
-                        <p:fieldset id="productosdisponibles" legend="Productos Disponibles"  >
-                            <p:dataGrid id="productos" var="producto" value="#{detalleFacturaControlador.lstProductos}" columns="3" >
-                                <p:panel id="pnl" header="#{producto.id_producto}" style="text-align:center" footer="Arrastre a la tabla Detalles">
-                                    <h:panelGrid columns="2" style="width:100%">
-                                        <h:outputText value="Nombre:" />
-                                        <h:outputText value="#{producto.id_categoria.nombre_producto}" />
-
-                                        <h:outputText value="Precio:" />
-                                        <h:outputText value="#{producto.id_categoria.precio_producto}" />
-
-                                    </h:panelGrid>
-                                </p:panel>
-                                <p:draggable for="pnl" revert="true" handle=".ui-panel-titlebar" stack=".ui-panel"/>
-                            </p:dataGrid>
-
-                        </p:fieldset>
-
-                        <!--Scrip -->
-                        <script type="text/javascript">
-                            function handleDrop(event, ui) {
-                                var droppedCar = ui.draggable;
-
-                                droppedCar.fadeOut('fast');
-                            }
-                        </script>
-                        <!--Scrip -->
-
-                        <!--SEGUNDA PARTE-->
-                        <p:panel id="productosSel" header="Productos Seleccionados" style="margin-top:20px"  >
-                            <p:outputPanel id="dropArea">
-                                <h:outputText value="!!!Arrastre Aqui!!!" rendered="#{empty detalleFacturaControlador.droppedCars}" style="font-size:24px;" />
-                                <p:dataTable id="selectedCarsTable" var="car" value="#{detalleFacturaControlador.droppedCars}" 
-                                             rendered="#{not empty detalleFacturaControlador.droppedCars}" >
-
-                                    <p:column headerText="Cantidad">
-                                        <p:cellEditor>
-                                            <f:facet name="output"><h:outputText value="#{detalleFacturaControlador.cantidad}" /></f:facet>
-                                            <f:facet name="input"><p:inputText id="modelInput" value="#{detalleFacturaControlador.cantidad}" style="width:96%"/></f:facet>
-                                        </p:cellEditor>
-                                        
-                                    </p:column>
-
-                                    <p:column  headerText="Descripción">
-                                        <h:outputText value="#{car.id_categoria.nombre_producto}"/>
-                                    </p:column>                            
-
-                                    <p:column  headerText="Precio">
-                                        <h:outputText value="#{car.id_categoria.precio_producto}"/>
-                                    </p:column>
-
-                                    <!--<p:column >
-                                        <p:commandButton update=":frmfacturacion:display" oncomplete="wdlgEditarDetalle.show()" icon="ui-icon-pencil">
-                                            <f:setPropertyActionListener value="#{car}" target="#{detalleFacturaControlador.productoSel}" />
-                                        </p:commandButton>
-    
-                                        <p:commandButton update=":frmfacturacion:display" oncomplete="wdlgEliminarDetalle.show()" icon="ui-icon-close">
-                                            <f:setPropertyActionListener value="#{car}" target="#{detalleFacturaControlador.productoSel}" />
-                                        </p:commandButton>
-                                    </p:column>-->
-                                </p:dataTable>
-                            </p:outputPanel>
-                        </p:panel>
-                        <!--FIN SEGUNDA PARTE-->
-                        <p:droppable for="productosSel" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="productos" onDrop="handleDrop">
-                            <p:ajax listener="#{detalleFacturaControlador.onCarDrop}" update="dropArea productos" oncomplete=""/>
-                        </p:droppable>
-
-
-
+                        
                         <p:fieldset legend="TOTAL" 
                                     style="margin-bottom:40px; min-width:40px;min-height:40px;max-height: 50px;max-width: 150px;"
                                     >
