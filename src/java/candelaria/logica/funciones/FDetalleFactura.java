@@ -21,12 +21,11 @@ public class FDetalleFactura {
         boolean eje = false;
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from sgflc.f_insert_detalle_factura(?,?,?,?,?)";
+            String sql = "select * from sgflc.f_insert_detalle_factura(?,?,?,?)";
             lstP.add(new Parametro(1, detallefactura.getId_factura().getId_factura()));
             lstP.add(new Parametro(2, detallefactura.getId_producto().getId_producto()));
             lstP.add(new Parametro(3, detallefactura.getCantidad()));
-            lstP.add(new Parametro(4, detallefactura.getCosto_unidad()));
-            lstP.add(new Parametro(5, detallefactura.getValor_total()));
+            lstP.add(new Parametro(4, detallefactura.getValor_total()));
 
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             while (rs.next()) {
@@ -43,12 +42,11 @@ public class FDetalleFactura {
         boolean eje = false;
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from sgflc.f_update_detalle_factura(?,?,?,?,?,?)";
+            String sql = "select * from sgflc.f_update_detalle_factura(?,?,?,?,?)";
             lstP.add(new Parametro(1, detallefactura.getId_detalle_factura()));
             lstP.add(new Parametro(2, detallefactura.getId_factura().getId_factura()));
             lstP.add(new Parametro(3, detallefactura.getId_producto().getId_producto()));
             lstP.add(new Parametro(4, detallefactura.getCantidad()));
-            lstP.add(new Parametro(5, detallefactura.getCosto_unidad()));
             lstP.add(new Parametro(6, detallefactura.getValor_total()));
 
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
@@ -86,7 +84,7 @@ public class FDetalleFactura {
         try {
             while (rs.next()) {
                 detallefactura = new Detalle_Factura(rs.getInt("pid_detalle_factura"),FFactura.ObtenerFacturaDadoCodigo(rs.getInt("pid_factura")),
-                FProducto.ObtenerProductoDadoCodigo(rs.getInt("pid_producto")),rs.getInt("pcantidad"), rs.getDouble("pcosto_unidad"),rs.getDouble("pvalor_total"));
+                FProducto.ObtenerProductoDadoCodigo(rs.getInt("pid_producto")),rs.getInt("pcantidad"), rs.getDouble("pvalor_total"));
                 lst.add(detallefactura);
             }
         } catch (Exception e) {

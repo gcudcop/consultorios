@@ -242,7 +242,7 @@ public class FacturaControlador {
         try {
             
             Cliente cliente = new Cliente();
-            cliente.setId_cliente(codoigoCliente);
+            cliente.setId_cliente(valorSSeleccionado);
             objFactura.setId_cliente(cliente);
             //objFactura.setFecha(sdf2.parse(fecha_cambiada));
             objFactura.setSubtotal(0.0);

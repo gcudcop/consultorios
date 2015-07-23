@@ -141,7 +141,18 @@ public class FProducto {
         }
         return lst;
     }
-    
+    public static ArrayList<Producto> ObtenerProductosListaQueso() throws Exception {
+        ArrayList<Producto> lst = new ArrayList<Producto>();
+        try {
+            String sql = "select * from sgflc.f_select_producto_lista_queso()";
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
+            lst = llenarProductos(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
     
   
 

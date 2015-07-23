@@ -15,18 +15,16 @@ public class Detalle_Factura {
     private Factura id_factura;
     private Producto id_producto;
     private int cantidad;
-    private double costo_unidad;
     private double valor_total;
 
     public Detalle_Factura() {
     }
 
-    public Detalle_Factura(int id_detalle_factura, Factura id_factura, Producto id_producto, int cantidad, double costo_unidad, double valor_total) {
+    public Detalle_Factura(int id_detalle_factura, Factura id_factura, Producto id_producto, int cantidad, double valor_total) {
         this.id_detalle_factura = id_detalle_factura;
         this.id_factura = id_factura;
         this.id_producto = id_producto;
         this.cantidad = cantidad;
-        this.costo_unidad = costo_unidad;
         this.valor_total = valor_total;
     }
 
@@ -62,14 +60,6 @@ public class Detalle_Factura {
         this.cantidad = cantidad;
     }
 
-    public double getCosto_unidad() {
-        return costo_unidad;
-    }
-
-    public void setCosto_unidad(double costo_unidad) {
-        this.costo_unidad = costo_unidad;
-    }
-
     public double getValor_total() {
         return valor_total;
     }
@@ -77,6 +67,8 @@ public class Detalle_Factura {
     public void setValor_total(double valor_total) {
         this.valor_total = valor_total;
     }
+
+   
     
     
 }
