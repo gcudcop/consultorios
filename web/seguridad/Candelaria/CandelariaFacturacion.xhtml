@@ -154,9 +154,8 @@ and open the template in the editor.
                                          oncomplete="wdlgGuardarFactura.show()" title="Guardar"
                                          process="@this " 
                                          update=":dlgGuardarFactura, @form"/>-->
-                        <p:commandButton value="Imprimir" id="ajax"  
-
-                                         icon="ui-icon-print">
+                       <p:commandButton value="Imprimir" id="ajax" actionListener="#{detalleFacturaControlador.imprimirFac()}"
+                                        ajax="false" icon="ui-icon-print">
                         </p:commandButton>
 
 

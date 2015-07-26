@@ -74,7 +74,7 @@ public class DetalleFacturaControlador {
     private double impuestoFactura;
     private int valorDSeleccionado;
     private int codigoFactura;
-    
+
     public double getSumaTotalCantidad() {
         return sumaTotalCantidad;
     }
@@ -554,7 +554,7 @@ public class DetalleFacturaControlador {
 
         return totalHoja;
     }
-    
+
     public double Iva() {
         //impuestoFactura=0.0;
         impuestoFactura = totalHoja * 0.12;
@@ -584,42 +584,94 @@ public class DetalleFacturaControlador {
             //new FileOutputStream("C:"));
 
             Paragraph paragraph = new Paragraph();
-
+            Paragraph paragraph1 = new Paragraph();
             PdfPTable table = new PdfPTable(4);
-            PdfPTable table1 = new PdfPTable(3);
+            PdfPTable table1 = new PdfPTable(2);
             PdfPTable table2 = new PdfPTable(1);
             PdfPTable table3 = new PdfPTable(2);
-            PdfPTable table5 = new PdfPTable(5);
+            PdfPTable table5 = new PdfPTable(4);
+            PdfPTable tablaF = new PdfPTable(1);
+            PdfPTable tablaF1 = new PdfPTable(3);
+            PdfPTable tablaF2 = new PdfPTable(3);
 
-            paragraph.add("\n\n\n\n\n\n\n\n\n\n\n\n\n");
+            paragraph.add("\n\n\n");
+            paragraph.setAlignment(Paragraph.ALIGN_CENTER);
+
+            paragraph.add("YUQUI OLGA");
+            paragraph.setAlignment(Paragraph.ALIGN_CENTER);
+            paragraph.add("\n");
+            paragraph.add("Dir. La Candelaria Barrio Nuevo");
+            paragraph.setAlignment(Paragraph.ALIGN_CENTER);
+            paragraph.add("\n");
+            paragraph.add("Telf: 3014019");
+            paragraph.setAlignment(Paragraph.ALIGN_CENTER);
+            paragraph.add("\n");
+            paragraph.add("Penipe - Ecuador");
+            paragraph.setAlignment(Paragraph.ALIGN_CENTER);
+            paragraph.add("\n");
+            paragraph.add("\n");
+            paragraph.setAlignment(Paragraph.ALIGN_CENTER);
+            paragraph.add("AUTORIZACION SRI __________ - RUC.: 0600750897001");
+            paragraph.setAlignment(Paragraph.ALIGN_CENTER);
+            paragraph.add("\n");
+            paragraph.add("FACTURA: " +facturaSel.getId_factura());
+            paragraph.setAlignment(Paragraph.ALIGN_CENTER);      
+            
+
+            paragraph.add("\n\n\n");
+            paragraph.setAlignment(Paragraph.ALIGN_CENTER);
+
+            paragraph1.add("\n\n");
             paragraph.setAlignment(Paragraph.ALIGN_CENTER);
 
             document.open();
 
             //primera linea   
-            PdfPCell cell5 = new PdfPCell(new Paragraph("Fecha: " + facturaSel.getFecha()));
-            PdfPCell cell6 = new PdfPCell(new Paragraph(""));
+            PdfPCell cell5 = new PdfPCell(new Paragraph("Fecha: " + fecha_cambiada));
+            //PdfPCell cell6 = new PdfPCell(new Paragraph("Factura #: " + facturaSel.getId_factura()));
             PdfPCell cell7 = new PdfPCell(new Paragraph("Cedula: " + facturaSel.getId_cliente().getRuc_cliente()));
             //segunda linea
-            PdfPCell cell8 = new PdfPCell(new Paragraph("Nombre Cliente: " + facturaSel.getId_cliente().getNombres_cliente()));
+            PdfPCell cell8 = new PdfPCell(new Paragraph("Nombre Cliente: " + facturaSel.getId_cliente().getNombres_cliente() + facturaSel.getId_cliente().getApellidos_cliente()));
             //tercera fila
             PdfPCell cell9 = new PdfPCell(new Paragraph("Dirección: " + facturaSel.getId_cliente().getDireccion_cliente()));
             PdfPCell cell10 = new PdfPCell(new Paragraph("Télefono: " + facturaSel.getId_cliente().getTelefono_cliente()));
+
+            PdfPCell cellf1 = new PdfPCell(new Paragraph("SubTotal     " + totalHoja));
+            PdfPCell cellf2 = new PdfPCell(new Paragraph("Impuesto Iva " + impuestoFactura));
+            PdfPCell cellf21 = new PdfPCell(new Paragraph("___________________"));
+            PdfPCell cellf22 = new PdfPCell(new Paragraph("___________________"));
+            PdfPCell cellf3 = new PdfPCell(new Paragraph("TOTAL        " + totalFactura));
+            PdfPCell cellf31 = new PdfPCell(new Paragraph("FIRMA AUTORIZADA"));
+            PdfPCell cellf32 = new PdfPCell(new Paragraph("FIRMA CLIENTE"));
             PdfPCell cell11 = new PdfPCell(new Paragraph("Cantidad"));
-            PdfPCell cell12 = new PdfPCell(new Paragraph("Producto"));
-            PdfPCell cell13 = new PdfPCell(new Paragraph("Precio"));
-            PdfPCell cell14 = new PdfPCell(new Paragraph("Total"));
+            PdfPCell cell12 = new PdfPCell(new Paragraph("Descripción"));
+            PdfPCell cell13 = new PdfPCell(new Paragraph("V. Unitario"));
+            PdfPCell cell14 = new PdfPCell(new Paragraph("V. Total"));
 
             cell5.setHorizontalAlignment(Element.ALIGN_LEFT);
-            cell6.setHorizontalAlignment(Element.ALIGN_CENTER);
+            //cell6.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell7.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+            cellf1.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            cellf2.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            cellf3.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            
+            cellf21.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cellf31.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cellf22.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cellf32.setHorizontalAlignment(Element.ALIGN_CENTER);
 
             cell8.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell9.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell10.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            
+            cellf21.setBorder(Rectangle.NO_BORDER);
+            cellf31.setBorder(Rectangle.NO_BORDER);
+            cellf22.setBorder(Rectangle.NO_BORDER);
+            cellf32.setBorder(Rectangle.NO_BORDER);
 
             cell5.setBorder(Rectangle.NO_BORDER);
-            cell6.setBorder(Rectangle.NO_BORDER);
+            //cell6.setBorder(Rectangle.NO_BORDER);
             cell7.setBorder(Rectangle.NO_BORDER);
             cell8.setBorder(Rectangle.NO_BORDER);
 
@@ -633,8 +685,17 @@ public class DetalleFacturaControlador {
             cell13.setBorder(Rectangle.NO_BORDER);
             cell14.setBorder(Rectangle.NO_BORDER);
 
+            cellf1.setBorder(Rectangle.NO_BORDER);
+            cellf2.setBorder(Rectangle.NO_BORDER);
+            cellf3.setBorder(Rectangle.NO_BORDER);
+
+            cell11.setHorizontalAlignment(Element.ALIGN_LEFT);
+            cell12.setHorizontalAlignment(Element.ALIGN_LEFT);
+            cell13.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            cell14.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
             table1.addCell(cell5);
-            table1.addCell(cell6);
+            //table1.addCell(cell6);
             table1.addCell(cell7);
             //añadir segunda fila
             table2.addCell(cell8);
@@ -646,6 +707,16 @@ public class DetalleFacturaControlador {
             table5.addCell(cell12);
             table5.addCell(cell13);
             table5.addCell(cell14);
+            tablaF.addCell(cellf1);
+            
+            tablaF1.addCell(cellf21);
+            tablaF1.addCell(cellf22);
+            tablaF1.addCell(cellf2);
+            tablaF2.addCell(cellf31);
+            tablaF2.addCell(cellf32);
+            tablaF2.addCell(cellf3);
+            
+            
 
             for (int x = 0; x < lstDetalleFactura.size(); x++) {
 
@@ -675,8 +746,8 @@ public class DetalleFacturaControlador {
                 table.addCell(cell2);
                 table.addCell(cell3);
                 table.addCell(cell4);
-                //añadir primera fila
 
+                //añadir primera fila
                 table.setSpacingBefore(30f);
                 table.setSpacingAfter(50f);
 
@@ -688,8 +759,12 @@ public class DetalleFacturaControlador {
             document.add(table1);
             document.add(table2);
             document.add(table3);
+            document.add(paragraph1);
             document.add(table5);
             document.add(table);
+            document.add(tablaF);
+            document.add(tablaF1);
+            document.add(tablaF2);
             //document.setFooter(event);
 
             document.close();

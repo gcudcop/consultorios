@@ -1,29 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>
-            <ui:define name="Proveedor">Gestión de Producto</ui:define>
-        </title>
-    </h:head>
-    <h:body>
-        <!--<ui:composition template="../../templates/plantillaInternaCenter.xhtml">
-            <ui:define name="top">CONTACTOS </ui:define>
-            <ui:define name="contenido">
-                <p:growl id="mensajes" autoUpdate="true" showDetail="true"/>-->
-                <h:form id="frmproducto">
-                    <p:panelGrid columns="3" style="alignment-adjust: central">
+
+    <ui:composition template="/templates/plantillaBase.xhtml">
+        <ui:define name="tituloNavegador">Control de Gestión y Facturación</ui:define>
+        <ui:define name="content">
+            <h:form id="frmContactos">
+                <h:panelGrid id="pnlIndexContactos" columns="1" class="center_content" >
+                    <h:panelGrid cellpadding="0" cellspacing="0">
+                        <p:panelGrid columns="3" style="alignment-adjust: central">
                         <f:facet name="header" >
-                            <h:outputText value="Desarrolladores:" />
+                            <h:outputText value="Desarrolladores" />
                         </f:facet>
                         <p:panelGrid columns="2">
                             <f:facet name="header">
@@ -105,7 +94,7 @@ and open the template in the editor.
 
                         </p:panelGrid>
                         
-                         <p:panelGrid columns="2">
+                        <!-- <p:panelGrid columns="2">
                             <f:facet name="header">
                                 <p:graphicImage value="/resources/images/soto.png" />
                             </f:facet>
@@ -119,7 +108,7 @@ and open the template in the editor.
                             <h:outputText value="Mail:" />
                             <h:outputText value="gustavo.soto.montoya@hotmail.com" />
 
-                        </p:panelGrid>
+                        </p:panelGrid>-->
 
 
 
@@ -128,20 +117,9 @@ and open the template in the editor.
 
                     </p:panelGrid>
 
-                    <div style="height:600px"></div>
-
-                    <p:outputPanel deferred="true" deferredMode="visible">
-                        <h3>Loaded after the panel becomes visible on page scroll.</h3>
-                        <p>Lorem ipsum dolor sit amet...</p>
-                    </p:outputPanel>
-                </h:form>
-             <!--</ui:define>
-            <ui:define name="dialogos">
-                <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
-                          resizable="false"> 
-                    <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
-                </p:dialog>
-            </ui:define>
-       </ui:composition>-->
-    </h:body>
+                    </h:panelGrid>
+                </h:panelGrid>                           
+            </h:form>           
+        </ui:define>
+    </ui:composition>
 </html>
