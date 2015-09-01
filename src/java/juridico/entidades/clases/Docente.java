@@ -12,43 +12,49 @@ import master.logica.clases.Escuela;
  *
  * @author Oscunach
  */
-public class Estudiante {
+public class Docente {
 
-    private int id_estudiante;
+    private int id_docente;
     private String nombres;
     private String apellidos;
     private String identificacion;
     private String sexo;
-    private Date fecha_nacimiento;
+    private String tercer_nivel;
+    private String cuarto_nivel;
     private Escuela id_escuela;
-    private int nivel;
     private Date fecha_ingreso;
     private Date fecha_salida;
     private int estado;
 
-    public Estudiante() {
+    /*
+     Constructores
+     */
+    public Docente() {
     }
 
-    public Estudiante(int id_estudiante, String nombres, String apellidos, String identificacion, String sexo, Date fecha_nacimiento, Escuela id_escuela, int nivel, Date fecha_ingreso, Date fecha_salida, int estado) {
-        this.id_estudiante = id_estudiante;
+    public Docente(int id_docente, String nombres, String apellidos, String identificacion, String sexo, String tercer_nivel, String cuarto_nivel, Escuela id_escuela, Date fecha_ingreso, Date fecha_salida, int estado) {
+        this.id_docente = id_docente;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.identificacion = identificacion;
         this.sexo = sexo;
-        this.fecha_nacimiento = fecha_nacimiento;
+        this.tercer_nivel = tercer_nivel;
+        this.cuarto_nivel = cuarto_nivel;
         this.id_escuela = id_escuela;
-        this.nivel = nivel;
         this.fecha_ingreso = fecha_ingreso;
         this.fecha_salida = fecha_salida;
         this.estado = estado;
     }
 
-    public int getId_estudiante() {
-        return id_estudiante;
+    /*
+     Getters y Setters
+     */
+    public int getId_docente() {
+        return id_docente;
     }
 
-    public void setId_estudiante(int id_estudiante) {
-        this.id_estudiante = id_estudiante;
+    public void setId_docente(int id_docente) {
+        this.id_docente = id_docente;
     }
 
     public String getNombres() {
@@ -83,12 +89,20 @@ public class Estudiante {
         this.sexo = sexo;
     }
 
-    public Date getFecha_nacimiento() {
-        return fecha_nacimiento;
+    public String getTercer_nivel() {
+        return tercer_nivel;
     }
 
-    public void setFecha_nacimiento(Date fecha_nacimiento) {
-        this.fecha_nacimiento = fecha_nacimiento;
+    public void setTercer_nivel(String tercer_nivel) {
+        this.tercer_nivel = tercer_nivel;
+    }
+
+    public String getCuarto_nivel() {
+        return cuarto_nivel;
+    }
+
+    public void setCuarto_nivel(String cuarto_nivel) {
+        this.cuarto_nivel = cuarto_nivel;
     }
 
     public Escuela getId_escuela() {
@@ -97,14 +111,6 @@ public class Estudiante {
 
     public void setId_escuela(Escuela id_escuela) {
         this.id_escuela = id_escuela;
-    }
-
-    public int getNivel() {
-        return nivel;
-    }
-
-    public void setNivel(int nivel) {
-        this.nivel = nivel;
     }
 
     public Date getFecha_ingreso() {
