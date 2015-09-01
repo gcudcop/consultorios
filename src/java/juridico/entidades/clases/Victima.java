@@ -10,27 +10,28 @@ package juridico.entidades.clases;
  * @author servidor
  */
 public class Victima {
+
     private int id_victima;
-  private String apellidos_victima;
-  private String nombres_victima ;
-  private String ci_identidad;
-  private int edad_victima ;
-  private String sexo_victima ;
-  private String etnia_victima ;
-  private String estado_civil ;
-  private String situacion_relacion ;
-  private String tiempo_relacion ;
-  private String instruccion_victima ;
-  private String ocupacion_victima ;
-  private String trabajo_remunerado ;
-  private int ingresos_mensuales ;
-  private String direccion_domicilio ;
-  private String num_telefonico_domicilio ;
-  private String situacion_vivienda ;
-  private String direccion_trabajo ;
-  private String num_telefonico_trabajo ;
-  private int num_hijos_varones ;
-  private int num_hijos_mujeres ;
+    private String apellidos_victima;
+    private String nombres_victima;
+    private String ci_identidad;
+    private int edad_victima;
+    private String sexo_victima;
+    private String etnia_victima;
+    private String estado_civil;
+    private String situacion_relacion;
+    private String tiempo_relacion;
+    private String instruccion_victima;
+    private String ocupacion_victima;
+    private String trabajo_remunerado;
+    private int ingresos_mensuales;
+    private String direccion_domicilio;
+    private String num_telefonico_domicilio;
+    private String situacion_vivienda;
+    private String direccion_trabajo;
+    private String num_telefonico_trabajo;
+    private int num_hijos_varones;
+    private int num_hijos_mujeres;
 
     public Victima() {
     }
@@ -226,7 +227,5 @@ public class Victima {
     public void setNum_hijos_mujeres(int num_hijos_mujeres) {
         this.num_hijos_mujeres = num_hijos_mujeres;
     }
-  
-  
-    
+
 }
