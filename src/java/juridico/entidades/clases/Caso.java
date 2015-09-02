@@ -25,6 +25,7 @@ public class Caso {
     private String descripcion;
     private String problema_juridico;
     private String observaciones_tutor;
+    private String estado;
 
     /*
      Constructores
@@ -32,7 +33,7 @@ public class Caso {
     public Caso() {
     }
 
-    public Caso(int id_caso, Date fecha_inicio, String numero_caso, String juzgado, String area, Docente id_docente, Estudiante id_estudiante, Victima id_victima, Agresor id_agresor, String descripcion, String problema_juridico, String observaciones_tutor) {
+    public Caso(int id_caso, Date fecha_inicio, String numero_caso, String juzgado, String area, Docente id_docente, Estudiante id_estudiante, Victima id_victima, Agresor id_agresor, String descripcion, String problema_juridico, String observaciones_tutor, String estado) {
         this.id_caso = id_caso;
         this.fecha_inicio = fecha_inicio;
         this.numero_caso = numero_caso;
@@ -45,12 +46,20 @@ public class Caso {
         this.descripcion = descripcion;
         this.problema_juridico = problema_juridico;
         this.observaciones_tutor = observaciones_tutor;
+        this.estado = estado;
+    }
+
+    public String getEstado() {
+        return estado;
     }
 
     /*
      getters y setters
      */
-    
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
     public int getId_caso() {
         return id_caso;
     }
