@@ -111,7 +111,7 @@ public class FVictima {
         return eje;
     }
 
-    public static ArrayList<Victima> llenarCliente(ConjuntoResultado rs) throws Exception {
+    public static ArrayList<Victima> llenarVictima(ConjuntoResultado rs) throws Exception {
         ArrayList<Victima> lst = new ArrayList<Victima>();
         Victima victima = null;
         try {
@@ -120,7 +120,7 @@ public class FVictima {
                         rs.getString("pci_identidad"), rs.getInt("pedad_victima"), rs.getString("psexo_victima"), rs.getString("petnia_victima"),
                         rs.getString("pestado_civil"), rs.getString("psituacion_relacion"), rs.getString("ptiempo_relacion"),
                         rs.getString("pinstruccion_victima"), rs.getString("pocupacion_victima"), rs.getString("ptrabajo_remunerado"),
-                        rs.getInt("pingresos_mensuales"), rs.getString("pdireccion_domicilio"), rs.getString("pnum_telefonico_domicilio"),
+                        rs.getDouble("pingresos_mensuales"), rs.getString("pdireccion_domicilio"), rs.getString("pnum_telefonico_domicilio"),
                         rs.getString("psituacion_vivienda"), rs.getString("pdireccion_trabajo"), rs.getString("pnum_teelefonico_trabajo"),
                         rs.getInt("pnum_hijos_varones"), rs.getInt("pnum_hijos_mujeres"));
                 lst.add(victima);
@@ -137,7 +137,7 @@ public class FVictima {
         try {
             String sql = "select * from juridico.f_select_victima()";
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
-            lst = llenarCliente(rs);
+            lst = llenarVictima(rs);
             rs = null;
         } catch (SQLException exConec) {
             throw new Exception(exConec.getMessage());
@@ -153,7 +153,7 @@ public class FVictima {
             lstP.add(new Parametro(1, codigo));
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             lst = new Victima();
-            lst = llenarCliente(rs).get(0);
+            lst = llenarVictima(rs).get(0);
             rs = null;
         } catch (SQLException exConec) {
             throw new Exception(exConec.getMessage());
