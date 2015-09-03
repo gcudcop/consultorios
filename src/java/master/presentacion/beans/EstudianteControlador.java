@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -39,7 +39,7 @@ public class EstudianteControlador {
     private int valorPSeleccionado;
     private int valorNSeleccionado;
     private int valorESeleccionada;
-    private int valorFSeleccionada;  
+    private int valorFSeleccionada;
 
     public ArrayList<Escuela> getLstEscuelas() {
         return lstEscuelas;
