@@ -24,7 +24,7 @@ public class Victima {
     private String instruccion_victima;
     private String ocupacion_victima;
     private String trabajo_remunerado;
-    private int ingresos_mensuales;
+    private double ingresos_mensuales;
     private String direccion_domicilio;
     private String num_telefonico_domicilio;
     private String situacion_vivienda;
@@ -36,7 +36,7 @@ public class Victima {
     public Victima() {
     }
 
-    public Victima(int id_victima, String apellidos_victima, String nombres_victima, String ci_identidad, int edad_victima, String sexo_victima, String etnia_victima, String estado_civil, String situacion_relacion, String tiempo_relacion, String instruccion_victima, String ocupacion_victima, String trabajo_remunerado, int ingresos_mensuales, String direccion_domicilio, String num_telefonico_domicilio, String situacion_vivienda, String direccion_trabajo, String num_telefonico_trabajo, int num_hijos_varones, int num_hijos_mujeres) {
+    public Victima(int id_victima, String apellidos_victima, String nombres_victima, String ci_identidad, int edad_victima, String sexo_victima, String etnia_victima, String estado_civil, String situacion_relacion, String tiempo_relacion, String instruccion_victima, String ocupacion_victima, String trabajo_remunerado, double ingresos_mensuales, String direccion_domicilio, String num_telefonico_domicilio, String situacion_vivienda, String direccion_trabajo, String num_telefonico_trabajo, int num_hijos_varones, int num_hijos_mujeres) {
         this.id_victima = id_victima;
         this.apellidos_victima = apellidos_victima;
         this.nombres_victima = nombres_victima;
@@ -164,11 +164,11 @@ public class Victima {
         this.trabajo_remunerado = trabajo_remunerado;
     }
 
-    public int getIngresos_mensuales() {
+    public double getIngresos_mensuales() {
         return ingresos_mensuales;
     }
 
-    public void setIngresos_mensuales(int ingresos_mensuales) {
+    public void setIngresos_mensuales(double ingresos_mensuales) {
         this.ingresos_mensuales = ingresos_mensuales;
     }
 
