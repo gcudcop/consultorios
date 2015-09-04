@@ -205,8 +205,9 @@ public class EstudianteControlador {
         
      public void obtenerEscuelasDadoCodigoFacultad() {
         try {
-            lstEscuelas.clear();
-            lstEscuelas = FEscuela.ObtenerEscuelaDadoCodigoFacultad(valorFSeleccionada);
+            //lstEscuelas.clear();
+            this.lstEscuelas = FEscuela.ObtenerEscuelaDadoCodigoFacultad(valorFSeleccionada);
+            System.out.println(lstEscuelas.get(0).getNombre());
         } catch (Exception e) {
             Util.addErrorMessage("private void cargarEscuelasDadoCodigoFacultad: " + e.getMessage());
             System.out.println("private void cargarEscuelasDadoCodigoFacultad: " + e.getMessage());

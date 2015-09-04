@@ -6,6 +6,7 @@
 package juridico.presentacion.beans;
 
 import java.util.ArrayList;
+import java.util.Date;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import juridico.entidades.clases.Estudiante;
@@ -16,6 +17,7 @@ import master.logica.funciones.FEscuela;
 import master.logica.funciones.FFacultad;
 import org.primefaces.context.DefaultRequestContext;
 import recursos.Util;
+import recursos.StringToDate;
 
 /**
  *
@@ -33,10 +35,91 @@ public class EstudianteBean {
     private boolean mostrarActualizar;
     private int valorESeleccionada;
     private int valorFSeleccionada;
-
+    private Date fechaNacimiento;
+    private String txtFechaNacimiento;
+    private int nivel;
+    private Date fechaIngreso;
+    private Date fechaSalida;
+    private String txtFechaIngreso;
+    private String txtFechaSalida;
+    private int estado;
+    private String sexo;
     /*
      * Métodos Get y Set
      */
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+
+    public Date getFechaIngreso() {
+        return fechaIngreso;
+    }
+
+    public void setFechaIngreso(Date fechaIngreso) {
+        this.fechaIngreso = fechaIngreso;
+    }
+
+    public Date getFechaSalida() {
+        return fechaSalida;
+    }
+
+    public void setFechaSalida(Date fechaSalida) {
+        this.fechaSalida = fechaSalida;
+    }
+
+    public String getTxtFechaIngreso() {
+        return txtFechaIngreso;
+    }
+
+    public void setTxtFechaIngreso(String txtFechaIngreso) {
+        this.txtFechaIngreso = txtFechaIngreso;
+    }
+
+    public String getTxtFechaSalida() {
+        return txtFechaSalida;
+    }
+
+    public void setTxtFechaSalida(String txtFechaSalida) {
+        this.txtFechaSalida = txtFechaSalida;
+    }
+
+    public int getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(int nivel) {
+        this.nivel = nivel;
+    }
+
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public String getTxtFechaNacimiento() {
+        return txtFechaNacimiento;
+    }
+
+    public void setTxtFechaNacimiento(String txtFechaNacimiento) {
+        this.txtFechaNacimiento = txtFechaNacimiento;
+    }
+
     public Estudiante getObjEstudiante() {
         return objEstudiante;
     }
@@ -104,22 +187,22 @@ public class EstudianteBean {
     /*
      * inicialización de las variables y métodos
      */
+    public EstudianteBean() {
+        this.reinit();
+    }
+
     private void reinit() {
-        this.estudianteSel = new Estudiante();
         this.objEstudiante = new Estudiante();
+        this.estudianteSel = new Estudiante();
         this.lstEstudiantes = new ArrayList<Estudiante>();
         this.lstFacultades = new ArrayList<Facultad>();
         this.lstEscuelas = new ArrayList<Escuela>();
         this.cargarEstudiantes();
         this.cargarFacultad();
-        this.obtenerEscuelasDadoCodigoFacultad();
+//        this.obtenerEscuelasDadoCodigoFacultad();
     }
 
-    public EstudianteBean() {
-        this.reinit();
-    }
-
-    private void cargarEstudiantes() {
+    public void cargarEstudiantes() {
         try {
             this.lstEstudiantes = FEstudiante.obtenerEstudiantes();
             this.estudianteSel = lstEstudiantes.get(0);
@@ -130,7 +213,7 @@ public class EstudianteBean {
         }
     }
 
-    private void cargarFacultad() {
+    public void cargarFacultad() {
         try {
             this.lstFacultades = FFacultad.ObtenerFacultades();
             System.out.println(lstFacultades.get(0).getNombre());
@@ -140,10 +223,11 @@ public class EstudianteBean {
         }
     }
 
-    private void obtenerEscuelasDadoCodigoFacultad() {
+    public void obtenerEscuelasDadoCodigoFacultad() {
         try {
             lstEscuelas.clear();
-            lstEscuelas = FEscuela.ObtenerEscuelaDadoCodigoFacultad(valorFSeleccionada);
+            this.lstEscuelas = FEscuela.ObtenerEscuelaDadoCodigoFacultad(valorFSeleccionada);
+            System.out.println(lstEscuelas.get(0).getNombre());
         } catch (Exception e) {
             Util.addErrorMessage("private void cargarEscuelasDadoCodigoFacultad: " + e.getMessage());
             System.out.println("private void cargarEscuelasDadoCodigoFacultad: " + e.getMessage());
@@ -151,7 +235,26 @@ public class EstudianteBean {
     }
 
     public void insertarEstudiante() {
+        
         try {
+            java.text.SimpleDateFormat sdf1 = new java.text.SimpleDateFormat("yyyy-MM-dd");
+            txtFechaNacimiento = sdf1.format(fechaNacimiento);
+            Date fecha = sdf1.parse(txtFechaNacimiento);
+            java.sql.Date varFechaNacimiento = new java.sql.Date(fecha.getTime());
+           
+            Escuela escuela = new Escuela();
+            escuela.setCodigo(valorESeleccionada);
+            objEstudiante.setId_escuela(escuela);
+            Facultad facultad = new Facultad();
+            facultad.setCodigo(valorFSeleccionada);
+            objEstudiante.setId_facultad(facultad);
+            objEstudiante.setFecha_nacimiento(varFechaNacimiento);
+            objEstudiante.setFecha_ingreso(StringToDate.devolverFecha(fechaIngreso));
+            objEstudiante.setFecha_salida(StringToDate.devolverFecha(fechaSalida));
+            objEstudiante.setNivel(nivel);
+            objEstudiante.setSexo(sexo);
+            objEstudiante.setEstado(estado);
+
             if (FEstudiante.insertarEstudiante(objEstudiante)) {
                 this.reinit();
                 DefaultRequestContext.getCurrentInstance().execute("wdlgNuevoEstudiante.hide()");
@@ -190,7 +293,7 @@ public class EstudianteBean {
             System.out.println("private void actualizarEstudiante dice: " + e.getMessage());
         }
     }
-    
+
     public void eliminarEstudiante() {
         try {
             if (FEstudiante.eliminarEstudiante((int) estudianteSel.getId_estudiante())) {
@@ -206,9 +309,7 @@ public class EstudianteBean {
             Util.addErrorMessage("private void eliminarEstudiante dice: " + e.getMessage());
             System.out.println("private void eliminarEstudiante dice: " + e.getMessage());
         }
-        
+
     }
-    
-    
 
 }

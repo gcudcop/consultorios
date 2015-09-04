@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import juridico.entidades.clases.Estudiante;
 import master.logica.funciones.FEscuela;
+import master.logica.funciones.FFacultad;
 
 /**
  *
@@ -32,10 +33,12 @@ public class FEstudiante {
                         rs.getString("psexo"),
                         rs.getDate("pfecha_nacimiento"),
                         FEscuela.ObtenerEscuelaDadoCodigo(rs.getInt("pid_escuela")),
-                        rs.getInt("pnivel integer"),
-                        rs.getDate("pfecha_ingreso date"),
-                        rs.getDate("pfecha_salida date"),
-                        rs.getInt("pestado integer"));
+                        rs.getInt("pnivel"),
+                        rs.getDate("pfecha_ingreso"),
+                        rs.getDate("pfecha_salida"),
+                        rs.getInt("pestado"),
+                        FFacultad.ObtenerFacultadDadoCodigo(rs.getInt("pid_facultad"))
+                );
                 lst.add(estudiante);
             }
         } catch (Exception e) {
@@ -68,7 +71,7 @@ public class FEstudiante {
         boolean eje = false;
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from juridico.f_insert_estudiante(?,?,?,?,?,?,?,?,?,?)";
+            String sql = "select * from juridico.f_insert_estudiante(?,?,?,?,?,?,?,?,?,?,?)";
             lstP.add(new Parametro(1, estudiante.getNombres()));
             lstP.add(new Parametro(2, estudiante.getApellidos()));
             lstP.add(new Parametro(3, estudiante.getIdentificacion()));
@@ -79,6 +82,7 @@ public class FEstudiante {
             lstP.add(new Parametro(8, estudiante.getFecha_ingreso()));
             lstP.add(new Parametro(9, estudiante.getFecha_salida()));
             lstP.add(new Parametro(10, estudiante.getEstado()));
+            lstP.add(new Parametro(11, estudiante.getId_facultad().getCodigo()));
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             while (rs.next()) {
                 if (rs.getString(0).equals("true"));
@@ -108,7 +112,8 @@ public class FEstudiante {
             lstP.add(new Parametro(8, estudiante.getFecha_ingreso()));
             lstP.add(new Parametro(9, estudiante.getFecha_salida()));
             lstP.add(new Parametro(10, estudiante.getEstado()));
-            lstP.add(new Parametro(11, estudiante.getId_estudiante()));
+            lstP.add(new Parametro(11, estudiante.getId_facultad().getCodigo()));
+            lstP.add(new Parametro(12, estudiante.getId_estudiante()));
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             while (rs.next()) {
                 if (rs.getString(0).equals("true"));
