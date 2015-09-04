@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package master.logica.clases;
 
 /**
@@ -11,11 +10,12 @@ package master.logica.clases;
  * @author Janneth GS
  */
 public class Escuela {
-  private int codigo; 
-  private Facultad codigo_facultad;
-  private String nombre;
-  private String descripcion;
-  private int codigo_sicoa;
+
+    private int codigo;
+    private Facultad codigo_facultad;
+    private String nombre;
+    private String descripcion;
+    private int codigo_sicoa;
 
     public Escuela(int codigo, Facultad codigo_facultad, String nombre, String descripcion, int codigo_sicoa) {
         this.codigo = codigo;

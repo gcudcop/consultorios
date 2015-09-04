@@ -7,6 +7,7 @@ package juridico.entidades.clases;
 
 import java.util.Date;
 import master.logica.clases.Escuela;
+import master.logica.clases.Facultad;
 
 /**
  *
@@ -25,11 +26,12 @@ public class Estudiante {
     private Date fecha_ingreso;
     private Date fecha_salida;
     private int estado;
+    private Facultad id_facultad;
 
     public Estudiante() {
     }
 
-    public Estudiante(int id_estudiante, String nombres, String apellidos, String identificacion, String sexo, Date fecha_nacimiento, Escuela id_escuela, int nivel, Date fecha_ingreso, Date fecha_salida, int estado) {
+    public Estudiante(int id_estudiante, String nombres, String apellidos, String identificacion, String sexo, Date fecha_nacimiento, Escuela id_escuela, int nivel, Date fecha_ingreso, Date fecha_salida, int estado, Facultad id_facultad) {
         this.id_estudiante = id_estudiante;
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -41,6 +43,17 @@ public class Estudiante {
         this.fecha_ingreso = fecha_ingreso;
         this.fecha_salida = fecha_salida;
         this.estado = estado;
+        this.id_facultad = id_facultad;
+    }
+
+    
+
+    public Facultad getId_facultad() {
+        return id_facultad;
+    }
+
+    public void setId_facultad(Facultad id_facultad) {
+        this.id_facultad = id_facultad;
     }
 
     public int getId_estudiante() {

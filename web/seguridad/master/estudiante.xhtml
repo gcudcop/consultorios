@@ -32,8 +32,6 @@ and open the template in the editor.
                                 <h:outputText value="#{estudiante.nombre}"/>
                             </p:column>
 
-
-
                             <p:column filterBy="#{estudiante.apellido}" filterMatchMode="startsWith" 
                                       sortBy="#{estudiante.apellido}" headerText="Apellidos">
                                 <h:outputText value="#{estudiante.apellido}"/>
@@ -117,8 +115,8 @@ and open the template in the editor.
                                     <p:dataExporter type="xml" target="tblEstudiante" fileName="estudiante" pageOnly="true" />
                                 </h:commandLink>
 
-
                             </f:facet>
+                            
                         </p:dataTable>
                     </p:panel>
                 </h:form>
@@ -128,8 +126,6 @@ and open the template in the editor.
                 <p:dialog id="dlgNuevoEstudiante" header="Nuevo Estudiante" widgetVar="wdlgNuevoEstudiante" 
                           modal="true" closable="false" resizable="false"
                           showEffect="clip" hideEffect="fold"> 
-
-
 
                     <h:form id="frmNuevoEstudiante">
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
@@ -181,7 +177,6 @@ and open the template in the editor.
                                                itemLabel="#{niveles.nombre} #{niveles.paralelo}" itemValue="#{niveles.codigo}"/> 
                             </p:selectOneMenu>
 
-
                         </p:panelGrid>
 
                         <p:commandButton value="Aceptar" action="#{estudianteControlador.insertarEstudiante()}" 
@@ -190,10 +185,7 @@ and open the template in the editor.
                     </h:form> 
                 </p:dialog>
 
-
-
-
-
+                
                 <p:dialog id="dlgEditarEstudiante" header="Editar Estudiante" widgetVar="wdlgEditarEstudiante" 
                           modal="true" 
                           closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
@@ -237,6 +229,8 @@ and open the template in the editor.
                     </h:form> 
                 </p:dialog>
 
+                
+                
                 <p:dialog id="dlgEliminarEstudiante" header="Eliminar Estudiante" widgetVar="wdlgEliminarEstudiante" 
                           modal="true" closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
                     <h:form id="frmEliminarEstudiante">
