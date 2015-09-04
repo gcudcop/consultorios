@@ -10,7 +10,7 @@ package juridico.entidades.clases;
  * @author servidor
  */
 public class Agresor {
-    
+
     private int id_agresor;
     private String apellidos_agresor;
     private String nombres_agresor;
@@ -22,7 +22,7 @@ public class Agresor {
     private String instruccion_agresor;
     private String ocupacion_agresor;
     private String trabajo_remunerado;
-    private int ingresos_mensuales;
+    private double ingresos_mensuales;
     private String direccion_domicilio;
     private String num_telefonico_domicilio;
     private String direccion_trabajo;
@@ -31,7 +31,7 @@ public class Agresor {
     public Agresor() {
     }
 
-    public Agresor(int id_agresor, String apellidos_agresor, String nombres_agresor, String ci_identidad, int edad_agresor, String sexo_agresor, String etnia_agresor, String estado_civil, String instruccion_agresor, String ocupacion_agresor, String trabajo_remunerado, int ingresos_mensuales, String direccion_domicilio, String num_telefonico_domicilio, String direccion_trabajo, String num_telefonico_trabajo) {
+    public Agresor(int id_agresor, String apellidos_agresor, String nombres_agresor, String ci_identidad, int edad_agresor, String sexo_agresor, String etnia_agresor, String estado_civil, String instruccion_agresor, String ocupacion_agresor, String trabajo_remunerado, double ingresos_mensuales, String direccion_domicilio, String num_telefonico_domicilio, String direccion_trabajo, String num_telefonico_trabajo) {
         this.id_agresor = id_agresor;
         this.apellidos_agresor = apellidos_agresor;
         this.nombres_agresor = nombres_agresor;
@@ -138,11 +138,11 @@ public class Agresor {
         this.trabajo_remunerado = trabajo_remunerado;
     }
 
-    public int getIngresos_mensuales() {
+    public double getIngresos_mensuales() {
         return ingresos_mensuales;
     }
 
-    public void setIngresos_mensuales(int ingresos_mensuales) {
+    public void setIngresos_mensuales(double ingresos_mensuales) {
         this.ingresos_mensuales = ingresos_mensuales;
     }
 
@@ -177,8 +177,5 @@ public class Agresor {
     public void setNum_telefonico_trabajo(String num_telefonico_trabajo) {
         this.num_telefonico_trabajo = num_telefonico_trabajo;
     }
-  
-   
-    
 
 }

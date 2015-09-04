@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>
+            <ui:define name="Agresores">Gestión de Agresores</ui:define>
+        </title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../../templates/plantillaInternaCenter.xhtml">
+            <ui:define name="top">Gestión de Agresores</ui:define>
+            <ui:define name="contenido">
+                <p:growl id="mensajes" autoUpdate="true" showDetail="true"/>
+                <h:form id="frmagresor">
+                    <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                    <p:panel id="pnlAgresor" >
+                        <p:dataTable id="tblAgresor" value="#{agresorBeans.lstAgresores}" 
+                                     var="agresor" 
+                                     paginator="true" rows="10" rowKey="#{agresor.id_agresor}" selectionMode="single" 
+                                     selection="#{agresorBeans.agresorSel}" style="text-align: center" 
+                                     emptyMessage="No se han encontrado Registros">
+
+
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Nombres" />
+                                </f:facet>
+                                <h:outputText value="#{agresor.apellidos_agresor} #{agresor.nombres_agresor}"/>
+                            </p:column> 
+
+
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Dirección" />
+                                </f:facet>
+                                <h:outputText value="#{agresor.direccion_domicilio}"/>
+                            </p:column>
+
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Teléfono" />
+                                </f:facet>
+                                <h:outputText value="#{agresor.num_telefonico_domicilio}"/>
+                            </p:column>
+
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Edad" />
+                                </f:facet>
+                                <h:outputText value="#{agresor.edad_agresor}"/>
+                            </p:column>
+
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="C.I" />
+                                </f:facet>
+                                <h:outputText value="#{agresor.ci_identidad}"/>
+                            </p:column>
+                            ´
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Estado Civil" />
+                                </f:facet>
+                                <h:outputText value="#{agresor.estado_civil}"/>
+                            </p:column>
+
+                            <p:column exportable="false">
+                                <p:commandButton id="btnEditarAgresor" icon="ui-icon-pencil"  title="Editar Agresor" 
+                                                 oncomplete="wdlgEditarAgresor.show()" 
+                                                 process="@this" update=":dlgEditarAgresor, @form">                                   
+                                    <f:setPropertyActionListener value="#{agresor}" 
+                                                                 target="#{agresorBeans.agresorSel}"/>
+                                </p:commandButton>
+
+
+
+                            </p:column>
+
+
+
+                            <f:facet name="footer">  
+                                <p:commandButton id="btnNuevoAgresor" value="Nuevo" icon="ui-icon-newwin"
+                                                 oncomplete="wdlgNuevoAgresor.show()" title="Nuevo Agresor"/>  
+                                <h:commandLink >
+                                    <img src="../../resources/images/excel.png" alt="" title="Exportar a Excel"/>
+                                    <p:dataExporter type="xls" target="tblAgresor" fileName="agresor" pageOnly="true"  />
+                                </h:commandLink>
+
+
+                                <h:commandLink>
+                                    <img src="../../resources/images/pdf.png" alt="" title="Exportar a Pdf"/>
+                                    <p:dataExporter type="pdf" target="tblAgresor" fileName="agresor"  />
+                                </h:commandLink>
+
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="dialogos">
+                <p:dialog id="dlgNuevoAgresor" header="Nuevo Agresor" widgetVar="wdlgNuevoAgresor" 
+                          modal="true" closable="false" resizable="false"
+                          showEffect="clip" hideEffect="fold"> 
+                    <h:form id="frmNuevoAgresor">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+
+                        <h:panelGrid columns="6" style="margin-bottom:10px" cellpadding="1" >
+                            <h:outputText value="Nombres:" style="font-family: sans-serif"/>
+                            <p:inputText value="#{agresorBeans.objAgresor.nombres_agresor}" placeholder="Ingrese los Nombres" 
+                                         required="true" requiredMessage="Ingrese los Nombres"/>
+
+                            <h:outputText value="Apellidos:" style="font-family: sans-serif"/>
+                            <p:inputText value="#{agresorBeans.objAgresor.apellidos_agresor}" placeholder="Ingrese los Apellidos"  
+                                         required="true" requiredMessage="Ingrese los Apellidos"/>
+
+                            <h:outputText value="# Cédula o Pasaporte:" style="font-family: sans-serif"/>
+                            <p:inputText value="#{agresorBeans.objAgresor.ci_identidad}" placeholder="Ingrese C.I o Pasaporte"  
+                                         required="true" requiredMessage="Ingrese los Apellidos"/>
+
+                            <h:outputText value="Edad:" style="font-family: sans-serif"/>
+                            <p:inputText value="#{agresorBeans.edad}" placeholder="Ingrese la Edad"  
+                                         required="true" requiredMessage="Ingrese la Edad"/>
+
+                            <h:outputText value="Dirección Domicilio:" style="font-family: sans-serif"/>
+                            <p:inputText value="#{agresorBeans.objAgresor.direccion_domicilio}" placeholder="Ingrese Dirección Domicilio"  
+                                         required="true" requiredMessage="Ingrese la Dirección del Domicilio"/>
+
+                            <h:outputText value="Dirección Trabajo:" style="font-family: sans-serif"/>
+                            <p:inputText value="#{agresorBeans.objAgresor.direccion_trabajo}" placeholder="Ingrese Dirección Trabajo"  
+                                         required="true" requiredMessage="Ingrese la Dirección del Trabajo"/>
+
+                            <h:outputText value="Número Telefónico Domicilio:" style="font-family: sans-serif"/>
+                            <p:inputText value="#{agresorBeans.objAgresor.num_telefonico_domicilio}" placeholder="Ingrese Número Telefónico"  
+                                         required="true" />
+                            <h:outputText value="Número Telefónico Trabajo:" style="font-family: sans-serif"/>
+                            <p:inputText value="#{agresorBeans.objAgresor.num_telefonico_trabajo}" placeholder="Ingrese Número Telefónico"  
+                                         required="true" />
+                            
+                            <p:outputLabel for="sexo" value="Sexo:" style="font-family: sans-serif" />
+                            <p:selectOneRadio id="sexo" value="#{agresorBeans.sexo}">
+                                <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+                                <f:selectItem itemLabel="Femenino" itemValue="Femenino" />
+                            </p:selectOneRadio>
+                            
+                            <p:outputLabel/>
+                            <p:outputLabel/>
+
+
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="4" style="margin-bottom:10px" cellpadding="1" >
+                            <p:outputLabel for="etnia" value="Etnia:" style="font-family: sans-serif" />
+                            <p:selectOneRadio id="etnia" value="#{agresorBeans.etnia}">
+                                <f:selectItem itemLabel="Blanco" itemValue="Blanco" />
+                                <f:selectItem itemLabel="Indio" itemValue="Indio" />
+                                <f:selectItem itemLabel="Mestizo" itemValue="Mestizo" />
+                                <f:selectItem itemLabel="Afroecuatoriano" itemValue="Afroecuatoriano" />
+                            </p:selectOneRadio>
+
+                            <p:outputLabel/>
+                            <p:outputLabel/>
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="4" style="margin-bottom:10px" cellpadding="1" >
+                            <p:outputLabel for="estado" value="Estado Civil:" style="font-family: sans-serif" />
+                            <p:selectOneRadio id="estado" value="#{agresorBeans.estadoCivil}">
+                                <f:selectItem itemLabel="Soltero" itemValue="Soltero" />
+                                <f:selectItem itemLabel="Casado" itemValue="Casado" />
+                                <f:selectItem itemLabel="Viudo" itemValue="Viudo" />
+                                <f:selectItem itemLabel="Divorciado" itemValue="Divorciado" />
+                                <f:selectItem itemLabel="Unión Libre" itemValue="Unión Libre" />
+                            </p:selectOneRadio>
+
+                            <p:outputLabel/>
+                            <p:outputLabel/>
+                        </h:panelGrid>
+
+
+                        <h:panelGrid columns="4" style="margin-bottom:10px" cellpadding="1" >
+                            <p:outputLabel for="instruccion" value="Instrucción:" style="font-family: sans-serif" />
+                            <p:selectOneRadio id="instruccion" value="#{agresorBeans.instruccion}">
+                                <f:selectItem itemLabel="Primaria" itemValue="Primaria" />
+                                <f:selectItem itemLabel="Secundaria" itemValue="Secundaria" />
+                                <f:selectItem itemLabel="Superior" itemValue="Superior" />
+                                <f:selectItem itemLabel="Ninguna" itemValue="Ninguna" />
+
+                            </p:selectOneRadio>
+                            <p:outputLabel/>
+                            <p:outputLabel/>
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="4" style="margin-bottom:10px" cellpadding="1" >
+                            <p:outputLabel for="ocupacion" value="Ocupación:" style="font-family: sans-serif" />
+                            <p:selectOneRadio id="ocupacion" value="#{agresorBeans.ocupacion}" layout="grid" columns="3">
+                                <f:selectItem itemLabel="Empleado Público" itemValue="Empleado Público" />
+                                <f:selectItem itemLabel="Empleado Privado" itemValue="Empleado Privado" />
+                                <f:selectItem itemLabel="Libre ejercicio profesional" itemValue="Libre ejercicio profesional" />
+                                <f:selectItem itemLabel="Profesional" itemValue="Profesional" />
+                                <f:selectItem itemLabel="Empleada Domestica" itemValue="Empleada Domestica" />
+                                <f:selectItem itemLabel="Estudiante" itemValue="Estudiante" />
+                                <f:selectItem itemLabel="Quehaceres Domesticos" itemValue="Quehaceres Domesticos" />
+                                <f:selectItem itemLabel="Trabajador Informal" itemValue="Trabajador Informal" />
+                                <f:selectItem itemLabel="Militar" itemValue="Militar" />
+                                <f:selectItem itemLabel="Policia" itemValue="Policia" />
+                            </p:selectOneRadio>
+                            <p:outputLabel/>
+                            <p:outputLabel/>
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="4" style="margin-bottom:10px" cellpadding="1" >
+                            <p:outputLabel for="remunerado" value="Trabajo Remunerado:" style="font-family: sans-serif" />
+                            <p:selectOneRadio id="remunerado" value="#{agresorBeans.trabajoRemunerado}">
+                                <f:selectItem itemLabel="SI" itemValue="SI" />
+                                <f:selectItem itemLabel="NO" itemValue="NO" />
+
+                            </p:selectOneRadio>
+                            <h:outputText value="Ingresos Mensuales:" style="font-family: sans-serif"/>
+                            <p:inputText value="#{agresorBeans.salarioMensual}" placeholder="Remuneración Mensual"  
+                                         required="true" requiredMessage="Remuneración Mensual"/>
+                        </h:panelGrid>
+
+
+                        <p:commandButton value="Aceptar" action="#{agresorBeans.insertarAgresor()}" 
+                                         update=":frmagresor:pnlAgresor"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgNuevoAgresor.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+
+                <p:dialog id="dlgEditarAgresor" header="Editar Agresor" widgetVar="wdlgEditarAgresor" 
+                          modal="true" 
+                          closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEditarAgresor">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:messages id="messages" autoUpdate="true"/>  
+                        <h:panelGrid columns="6" style="margin-bottom:10px" cellpadding="1" >
+                            <h:outputText value="Nombres:" style="font-family: sans-serif"/>
+                            <p:inputText value="#{agresorBeans.agresorSel.nombres_agresor}"/>
+
+                            <h:outputText value="Apellidos:" style="font-family: sans-serif"/>
+                            <p:inputText value="#{agresorBeans.agresorSel.apellidos_agresor}" />
+
+                            <h:outputText value="# Cédula o Pasaporte:" style="font-family: sans-serif"/>
+                            <p:inputText value="#{agresorBeans.agresorSel.ci_identidad}" disabled="true"/>
+
+                            <h:outputText value="Edad:" style="font-family: sans-serif"/>
+                            <p:inputText value="#{agresorBeans.agresorSel.edad_agresor}" />
+
+                            <h:outputText value="Dirección Domicilio:" style="font-family: sans-serif"/>
+                            <p:inputText value="#{agresorBeans.agresorSel.direccion_domicilio}" />
+
+                            <h:outputText value="Dirección Trabajo:" style="font-family: sans-serif"/>
+                            <p:inputText value="#{agresorBeans.agresorSel.direccion_trabajo}" />
+
+                            <h:outputText value="Número Telefónico Domicilio:" style="font-family: sans-serif"/>
+                            <p:inputText value="#{agresorBeans.agresorSel.num_telefonico_domicilio}"  />
+                            <h:outputText value="Número Telefónico Trabajo:" style="font-family: sans-serif"/>
+                            <p:inputText value="#{agresorBeans.agresorSel.num_telefonico_trabajo}"  />
+
+                            <p:outputLabel/>
+                            <p:outputLabel/>
+
+                            <p:outputLabel for="sexo" value="Sexo:" style="font-family: sans-serif"  />
+                            <p:selectOneRadio id="sexo" value="#{agresorBeans.agresorSel.sexo_agresor}" disabled="true">
+                                <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+                                <f:selectItem itemLabel="Femenino" itemValue="Femenino" />
+                            </p:selectOneRadio>
+                            
+
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="4" style="margin-bottom:10px" cellpadding="1" >
+                            <p:outputLabel for="etnia" value="Etnia:" style="font-family: sans-serif" />
+                            <p:selectOneRadio id="etnia" value="#{agresorBeans.agresorSel.etnia_agresor}" disabled="true">
+                                <f:selectItem itemLabel="Blanco" itemValue="Blanco" />
+                                <f:selectItem itemLabel="Indio" itemValue="Indio" />
+                                <f:selectItem itemLabel="Mestizo" itemValue="Mestizo" />
+                                <f:selectItem itemLabel="Afroecuatoriano" itemValue="Afroecuatoriano" />
+                            </p:selectOneRadio>
+
+                            <p:outputLabel/>
+                            <p:outputLabel/>
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="4" style="margin-bottom:10px" cellpadding="1" >
+                            <p:outputLabel for="estado" value="Estado Civil:" style="font-family: sans-serif" />
+                            <p:selectOneRadio id="estado" value="#{agresorBeans.agresorSel.estado_civil}">
+                                <f:selectItem itemLabel="Soltero" itemValue="Soltero" />
+                                <f:selectItem itemLabel="Casado" itemValue="Casado" />
+                                <f:selectItem itemLabel="Viudo" itemValue="Viudo" />
+                                <f:selectItem itemLabel="Divorciado" itemValue="Divorciado" />
+                                <f:selectItem itemLabel="Unión Libre" itemValue="Unión Libre" />
+                            </p:selectOneRadio>
+
+                            <p:outputLabel/>
+                            <p:outputLabel/>
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="4" style="margin-bottom:10px" cellpadding="1" >
+                            <p:outputLabel for="instruccion" value="Instrucción:" style="font-family: sans-serif" />
+                            <p:selectOneRadio id="instruccion" value="#{agresorBeans.agresorSel.instruccion_agresor}">
+                                <f:selectItem itemLabel="Primaria" itemValue="Primaria" />
+                                <f:selectItem itemLabel="Secundaria" itemValue="Secundaria" />
+                                <f:selectItem itemLabel="Superior" itemValue="Superior" />
+                                <f:selectItem itemLabel="Ninguna" itemValue="Ninguna" />
+
+                            </p:selectOneRadio>
+                            <p:outputLabel/>
+                            <p:outputLabel/>
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="4" style="margin-bottom:10px" cellpadding="1" >
+                            <p:outputLabel for="ocupacion" value="Ocupación:" style="font-family: sans-serif" />
+                            <p:selectOneRadio id="ocupacion" value="#{agresorBeans.agresorSel.ocupacion_agresor}" layout="grid" columns="3">
+                                <f:selectItem itemLabel="Empleado Público" itemValue="Empleado Público" />
+                                <f:selectItem itemLabel="Empleado Privado" itemValue="Empleado Privado" />
+                                <f:selectItem itemLabel="Libre ejercicio profesional" itemValue="Libre ejercicio profesional" />
+                                <f:selectItem itemLabel="Profesional" itemValue="Profesional" />
+                                <f:selectItem itemLabel="Empleada Domestica" itemValue="Empleada Domestica" />
+                                <f:selectItem itemLabel="Estudiante" itemValue="Estudiante" />
+                                <f:selectItem itemLabel="Quehaceres Domesticos" itemValue="Quehaceres Domesticos" />
+                                <f:selectItem itemLabel="Trabajador Informal" itemValue="Trabajador Informal" />
+                                <f:selectItem itemLabel="Militar" itemValue="Militar" />
+                                <f:selectItem itemLabel="Policia" itemValue="Policia" />
+                            </p:selectOneRadio>
+                            <p:outputLabel/>
+                            <p:outputLabel/>
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="4" style="margin-bottom:10px" cellpadding="1" >
+                            <p:outputLabel for="remunerado" value="Trabajo Remunerado:" style="font-family: sans-serif" />
+                            <p:selectOneRadio id="remunerado" value="#{agresorBeans.agresorSel.trabajo_remunerado}">
+                                <f:selectItem itemLabel="SI" itemValue="SI" />
+                                <f:selectItem itemLabel="NO" itemValue="NO" />
+
+                            </p:selectOneRadio>
+                            <h:outputText value="Ingresos Mensuales:" style="font-family: sans-serif"/>
+                            <p:inputText value="#{agresorBeans.agresorSel.ingresos_mensuales}" placeholder="Remuneración Mensual"  
+                                         required="true" requiredMessage="Remuneración Mensual"/>
+                        </h:panelGrid>
+
+
+                        <p:commandButton value="Aceptar" action="#{agresorBeans.actualizarAgresor()}" 
+                                         update=":frmagresor:pnlAgresor"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgEditarAgresor.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+
+                <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
+                          resizable="false"> 
+                    <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
+                </p:dialog>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
