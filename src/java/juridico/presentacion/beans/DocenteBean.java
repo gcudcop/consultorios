@@ -14,6 +14,7 @@ import juridico.entidades.funciones.FDocente;
 import master.logica.clases.Escuela;
 import master.logica.clases.Facultad;
 import master.logica.funciones.FEscuela;
+import master.logica.funciones.FFacultad;
 import org.primefaces.context.DefaultRequestContext;
 import recursos.Util;
 
@@ -39,7 +40,17 @@ public class DocenteBean {
     private String txtFechaIngreso;
     private String txtFechaSalida;
     private int escuelaSeleccionada;
+    private int faculatadSeleccionana;
 
+    public int getFaculatadSeleccionana() {
+        return faculatadSeleccionana;
+    }
+
+    public void setFaculatadSeleccionana(int faculatadSeleccionana) {
+        this.faculatadSeleccionana = faculatadSeleccionana;
+    }
+    
+    
     public ArrayList<Facultad> getLstFacultades() {
         return lstFacultades;
     }
@@ -137,6 +148,7 @@ public class DocenteBean {
         this.lstDocentes = new ArrayList<Docente>();
 
         this.cargarDocente();
+        this.cargarFacultad();
 
     }
 
@@ -151,14 +163,23 @@ public class DocenteBean {
         }
     }
 
-    public void cargarEscuela() {
+    private void cargarFacultad() {
         try {
-            this.lstEscuelas = FEscuela.ObtenerEscuelas();
-            //this.docenteSel = lstDocentes.get(0);
-            System.out.println(lstDocentes.get(0).getId_docente());
+            this.lstFacultades = FFacultad.ObtenerFacultades();
+            System.out.println(lstFacultades.get(0).getNombre());
         } catch (Exception e) {
-            Util.addErrorMessage("private void cargarEscuela dice: " + e.getMessage());
-            System.out.println("private void cargarEscuela dice: " + e.getMessage());
+            Util.addErrorMessage("private void cargarFacultad dice: " + e.getMessage());
+            System.out.println("private void cargarFacultad dice: " + e.getMessage());
+        }
+    }
+    
+    public void obtenerEscuelasDadoCodigoFacultad() {
+        try {
+            lstEscuelas.clear();
+            lstEscuelas = FEscuela.ObtenerEscuelaDadoCodigoFacultad(faculatadSeleccionana);
+        } catch (Exception e) {
+            Util.addErrorMessage("private void cargarEscuelasDadoCodigoFacultad: " + e.getMessage());
+            System.out.println("private void cargarEscuelasDadoCodigoFacultad: " + e.getMessage());
         }
     }
 
