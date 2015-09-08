@@ -18,13 +18,11 @@ import recursos.Util;
  *
  * @author Janneth GS
  */
-
 @ManagedBean
 @ViewScoped
 
-
 public class EscuelaControlador {
-    
+
     private Escuela objEscuela;
     private Escuela escuelaSel;
     private ArrayList<Escuela> lstEscuelas;
@@ -40,10 +38,6 @@ public class EscuelaControlador {
     public void setFSeleccionada(int FSeleccionada) {
         this.FSeleccionada = FSeleccionada;
     }
-
-   
-
-    
 
     public ArrayList<Facultad> getFacultades() {
         return facultades;
@@ -92,15 +86,12 @@ public class EscuelaControlador {
     public void setLstEscuelas(ArrayList<Escuela> lstEscuelas) {
         this.lstEscuelas = lstEscuelas;
     }
-    
-  
+
     public EscuelaControlador() {
         this.reinit();
     }
-    
-    
-    
-    private void reinit(){
+
+    private void reinit() {
         this.objEscuela = new Escuela();
         this.escuelaSel = new Escuela();
         this.lstEscuelas = new ArrayList<Escuela>();
@@ -109,65 +100,58 @@ public class EscuelaControlador {
         this.cargarEscuela();
         this.escuelaSel = this.lstEscuelas.get(0);
     }
-    
+
     public void cargarEscuela() {
         try {
-            this.lstEscuelas= FEscuela.ObtenerEscuelas();
+            this.lstEscuelas = FEscuela.ObtenerEscuelas();
             this.escuelaSel = lstEscuelas.get(0);
             System.out.println(lstEscuelas.get(0).getCodigo());
         } catch (Exception e) {
             Util.addErrorMessage("private void cargarEscuela dice: " + e.getMessage());
             System.out.println("private void cargarEscuela dice: " + e.getMessage());
         }
-     }
-      
-    
-    private void cargarFacultades(){
+    }
+
+    private void cargarFacultades() {
         try {
             this.facultades = FFacultad.ObtenerFacultades();
             System.out.println(facultades.get(0).getNombre());
         } catch (Exception e) {
             Util.addErrorMessage("private void cargarFacultades dice: " + e.getMessage());
             System.out.println("private void cargarFacultades dice: " + e.getMessage());
-            }
         }
-   
-        
+    }
+
     public void insertarEscuela() {
         try {
-            
-            
-            
+
             Facultad facultad = new Facultad();
             facultad.setCodigo(valorFSeleccionado);
             objEscuela.setCodigo_facultad(facultad);
-            
-                       
-            
-            if(FEscuela.Insertar(objEscuela)){
+
+            if (FEscuela.Insertar(objEscuela)) {
                 this.reinit();
                 DefaultRequestContext.getCurrentInstance().execute("wdlgNuevoEscuela.hide()");
                 Util.addSuccessMessage("Información guardada con éxito");
                 System.out.println("public void insertarEscuela dice: Error al guardar la información");
-           } else { 
+            } else {
                 Util.addSuccessMessage("Error al guardar la información");
                 System.out.println("public void insertarEscuela dice: Error al guardar la información");
-           }
+            }
         } catch (Exception e) {
             Util.addErrorMessage("private void insertarEscuela dice: " + e.getMessage());
             System.out.println("private void insertarEscuela dice: " + e.getMessage());
-                }
         }
+    }
 
-      public void cambiarEstadoMostrarActualizar(){
+    public void cambiarEstadoMostrarActualizar() {
         mostrarActualizar = true;
     }
-    
-    
-     public void actualizarEscuela() {
+
+    public void actualizarEscuela() {
         try {
             escuelaSel.setCodigo_facultad(FFacultad.ObtenerFacultadDadoCodigo(escuelaSel.getCodigo_facultad().getCodigo()));
-            if (FEscuela.actualizar(escuelaSel)){
+            if (FEscuela.actualizar(escuelaSel)) {
                 escuelaSel = new Escuela();
                 mostrarActualizar = false;
                 this.reinit();
@@ -186,7 +170,7 @@ public class EscuelaControlador {
 
     public void eliminarEscuela() {
         try {
-            if (FEscuela.eliminar(escuelaSel.getCodigo())){
+            if (FEscuela.eliminar(escuelaSel.getCodigo())) {
                 this.reinit();
                 DefaultRequestContext.getCurrentInstance().execute("wdlgEliminarEscuela.hide()");
                 Util.addSuccessMessage("Información eliminada.");
@@ -199,12 +183,7 @@ public class EscuelaControlador {
             Util.addErrorMessage("private void eliminarEscuela dice: " + e.getMessage());
             System.out.println("private void eliminarEscuela dice: " + e.getMessage());
         }
-        
+
     }
 
-   
-  
-    
-    
-    
 }

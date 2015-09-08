@@ -31,6 +31,7 @@ public class EstudianteBean {
     private Estudiante estudianteSel;
     private ArrayList<Estudiante> lstEstudiantes;
     private ArrayList<Escuela> lstEscuelas;
+    private ArrayList<Escuela> listEscuelas;
     private ArrayList<Facultad> lstFacultades;
     private boolean mostrarActualizar;
     private int valorESeleccionada;
@@ -44,9 +45,17 @@ public class EstudianteBean {
     private String txtFechaSalida;
     private int estado;
     private String sexo;
+
+    public ArrayList<Escuela> getListEscuelas() {
+        return listEscuelas;
+    }
+
     /*
      * Métodos Get y Set
      */
+    public void setListEscuelas(ArrayList<Escuela> listEscuelas) {
+        this.listEscuelas = listEscuelas;
+    }
 
     public String getSexo() {
         return sexo;
@@ -199,7 +208,17 @@ public class EstudianteBean {
         this.lstEscuelas = new ArrayList<Escuela>();
         this.cargarEstudiantes();
         this.cargarFacultad();
+        this.obtenerEscuelas();
 //        this.obtenerEscuelasDadoCodigoFacultad();
+    }
+
+    public void obtenerEscuelas() {
+        try {
+            this.lstEscuelas = FEscuela.ObtenerEscuelas();
+            System.out.println(lstEscuelas.get(0).getCodigo());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void cargarEstudiantes() {
@@ -225,28 +244,29 @@ public class EstudianteBean {
 
     public void obtenerEscuelasDadoCodigoFacultad() {
         try {
-            lstEscuelas.clear();
+            //lstEscuelas.clear();
             this.lstEscuelas = FEscuela.ObtenerEscuelaDadoCodigoFacultad(valorFSeleccionada);
             System.out.println(lstEscuelas.get(0).getNombre());
         } catch (Exception e) {
-            Util.addErrorMessage("private void cargarEscuelasDadoCodigoFacultad: " + e.getMessage());
-            System.out.println("private void cargarEscuelasDadoCodigoFacultad: " + e.getMessage());
+            Util.addErrorMessage("private void obtenerEscuelasDadoCodigoFacultad: " + e.getMessage());
+            System.out.println("private void obtenerEscuelasDadoCodigoFacultad: " + e.getMessage());
         }
     }
 
     public void insertarEstudiante() {
-        
+
         try {
             java.text.SimpleDateFormat sdf1 = new java.text.SimpleDateFormat("yyyy-MM-dd");
             txtFechaNacimiento = sdf1.format(fechaNacimiento);
             Date fecha = sdf1.parse(txtFechaNacimiento);
             java.sql.Date varFechaNacimiento = new java.sql.Date(fecha.getTime());
-           
+
             Escuela escuela = new Escuela();
             escuela.setCodigo(valorESeleccionada);
             objEstudiante.setId_escuela(escuela);
             Facultad facultad = new Facultad();
             facultad.setCodigo(valorFSeleccionada);
+
             objEstudiante.setId_facultad(facultad);
             objEstudiante.setFecha_nacimiento(varFechaNacimiento);
             objEstudiante.setFecha_ingreso(StringToDate.devolverFecha(fechaIngreso));

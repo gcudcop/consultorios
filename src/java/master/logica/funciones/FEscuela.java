@@ -69,9 +69,6 @@ public class FEscuela {
         return lst;
     }
 
- 
-    
-    
     public static Escuela ObtenerEscuelaDadoCodigo(int codigo) throws Exception {
         Escuela lst;
         try {
@@ -88,12 +85,8 @@ public class FEscuela {
         return lst;
     }
 
-   
-    
-    
-    
-   public static ArrayList<Escuela> ObtenerEscuelaDadoCodigoFacultad(int codigo) throws Exception {
-       ArrayList<Escuela> lst = new ArrayList<Escuela>();
+    public static ArrayList<Escuela> ObtenerEscuelaDadoCodigoFacultad(int codigo) throws Exception {
+        ArrayList<Escuela> lst = new ArrayList<Escuela>();
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
             String sql = "select * from master.f_select_escuela_dado_codigo_facultad(?)";
@@ -107,8 +100,7 @@ public class FEscuela {
         }
         return lst;
     }
-    
-    
+
     public static boolean actualizar(Escuela escuela) throws Exception {
         boolean eje = false;
         try {
@@ -146,7 +138,5 @@ public class FEscuela {
         }
         return eje;
     }
-    
-     
 
 }

@@ -141,5 +141,23 @@ public class FEstudiante {
         }
         return eje;
     }
+    
+     public static Estudiante ObtenerEstudianteDadoCodigo(int codigo) throws Exception {
+        Estudiante lst;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from juridico.f_select_estudiante_dado_codigo(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = new Estudiante();
+            lst = llenarEstudiante(rs).get(0);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+    
+    
 
 }
