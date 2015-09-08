@@ -16,6 +16,8 @@ import master.logica.clases.Facultad;
 import master.logica.funciones.FEscuela;
 import master.logica.funciones.FFacultad;
 import org.primefaces.context.DefaultRequestContext;
+import recursos.StringToDate;
+import recursos.Tools;
 import recursos.Util;
 
 /**
@@ -41,6 +43,24 @@ public class DocenteBean {
     private String txtFechaSalida;
     private int escuelaSeleccionada;
     private int faculatadSeleccionana;
+    private int estado;
+    private String sexo;
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
 
     public int getFaculatadSeleccionana() {
         return faculatadSeleccionana;
@@ -49,8 +69,7 @@ public class DocenteBean {
     public void setFaculatadSeleccionana(int faculatadSeleccionana) {
         this.faculatadSeleccionana = faculatadSeleccionana;
     }
-    
-    
+
     public ArrayList<Facultad> getLstFacultades() {
         return lstFacultades;
     }
@@ -140,15 +159,18 @@ public class DocenteBean {
     }
 
     public DocenteBean() {
+        reinit();
     }
 
     private void reinit() {
         this.objDocente = new Docente();
         this.docenteSel = new Docente();
         this.lstDocentes = new ArrayList<Docente>();
-
+        this.lstFacultades = new ArrayList<Facultad>();
+        this.lstEscuelas = new ArrayList<Escuela>();
         this.cargarDocente();
         this.cargarFacultad();
+        this.cargarEscuelas();
 
     }
 
@@ -163,6 +185,16 @@ public class DocenteBean {
         }
     }
 
+    public void cargarEscuelas() {
+        try {
+            this.lstEscuelas = FEscuela.ObtenerEscuelas();
+            System.out.println(lstEscuelas.get(0).getNombre());
+        } catch (Exception e) {
+            Util.addErrorMessage("private void cargarEscuelas dice: " + e.getMessage());
+            System.out.println("private void cargarEscuelas dice: " + e.getMessage());
+        }
+    }
+
     private void cargarFacultad() {
         try {
             this.lstFacultades = FFacultad.ObtenerFacultades();
@@ -172,7 +204,7 @@ public class DocenteBean {
             System.out.println("private void cargarFacultad dice: " + e.getMessage());
         }
     }
-    
+
     public void obtenerEscuelasDadoCodigoFacultad() {
         try {
             lstEscuelas.clear();
@@ -186,6 +218,16 @@ public class DocenteBean {
     public void insertarDocente() {
 
         try {
+            Escuela escuela = new Escuela();
+            escuela.setCodigo(escuelaSeleccionada);
+            objDocente.setId_escuela(escuela);
+            Facultad facultad = new Facultad();
+            facultad.setCodigo(faculatadSeleccionana);
+            objDocente.setId_facultad(facultad);
+            objDocente.setFecha_ingreso(StringToDate.devolverFecha(fechaIngreso));
+            objDocente.setFecha_salida(StringToDate.devolverFecha(fechaSalida));
+            objDocente.setSexo(sexo);
+            objDocente.setEstado(estado);
 
             if (FDocente.Insertar(objDocente)) {
                 this.reinit();

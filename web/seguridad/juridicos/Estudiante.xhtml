@@ -166,7 +166,7 @@ and open the template in the editor.
 
                             <h:outputText id="otxtEscuela" value="Escuela" />
                             <p:selectOneMenu id="menuEscuelas" value="#{estudianteBean.valorESeleccionada}">
-                                <f:selectItem itemLabel="--Escoja una escuela" itemValue="#{null}"/>
+                                <f:selectItem itemLabel="--Escoja una escuela" itemValue="0"/>
                                 <f:selectItems value="#{estudianteBean.lstEscuelas}" var="escuelas" itemLabel="#{escuelas.nombre}"
                                                itemValue="#{escuelas.codigo}" />
                             </p:selectOneMenu>
@@ -174,16 +174,16 @@ and open the template in the editor.
                             <h:outputText id="txtNivel" value="Nivel:"/> 
                             <p:selectOneMenu id="cmdSemestres" value="#{estudianteBean.nivel}">
                                 <f:selectItem itemValue="#{null}" itemLabel="--Elija una opción--"/>
-                                <f:selectItem itemLabel="Primer Semestre" itemValue="1" />
-                                <f:selectItem itemLabel="Segundo Semestre" itemValue="2" />
-                                <f:selectItem itemLabel="Tercer Semestre" itemValue="3" />
-                                <f:selectItem itemLabel="Cuarto Semestre" itemValue="4" />
-                                <f:selectItem itemLabel="Quinto Semestre" itemValue="5" />
-                                <f:selectItem itemLabel="Sexto Semestre" itemValue="6" />
-                                <f:selectItem itemLabel="Septimo Semestre" itemValue="7" />
-                                <f:selectItem itemLabel="Octavo Semestre" itemValue="8" />
-                                <f:selectItem itemLabel="Noveno Semestre" itemValue="9" />
-                                <f:selectItem itemLabel="Décimo Semestre" itemValue="10" />                                                              
+                                <f:selectItem itemLabel="Primer Semestre" itemValue="#{1}" />
+                                <f:selectItem itemLabel="Segundo Semestre" itemValue="#{2}" />
+                                <f:selectItem itemLabel="Tercer Semestre" itemValue="#{3}" />
+                                <f:selectItem itemLabel="Cuarto Semestre" itemValue="#{4}" />
+                                <f:selectItem itemLabel="Quinto Semestre" itemValue="#{5}" />
+                                <f:selectItem itemLabel="Sexto Semestre" itemValue="#{6}" />
+                                <f:selectItem itemLabel="Septimo Semestre" itemValue="#{7}" />
+                                <f:selectItem itemLabel="Octavo Semestre" itemValue="#{8}" />
+                                <f:selectItem itemLabel="Noveno Semestre" itemValue="#{9}" />
+                                <f:selectItem itemLabel="Décimo Semestre" itemValue="#{1}" />                                                              
                             </p:selectOneMenu>
 
                             <h:outputText value="Fecha de Ingreso:"/>
@@ -195,8 +195,8 @@ and open the template in the editor.
                             <h:outputText id="txtEstado" value="Estado:"/> 
                             <p:selectOneMenu value="#{estudianteBean.estado}">
                                 <f:selectItem itemValue="#{null}" itemLabel="--Elija una opción--"/>
-                                <f:selectItem itemLabel="Activo" itemValue="0" />
-                                <f:selectItem itemLabel="Pasivo" itemValue="1" />
+                                <f:selectItem itemLabel="Activo" itemValue="#{1}" />
+                                <f:selectItem itemLabel="Pasivo" itemValue="#{0}" />
                             </p:selectOneMenu>
 
                         </p:panelGrid> 

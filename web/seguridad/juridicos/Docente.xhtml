@@ -53,12 +53,10 @@ and open the template in the editor.
                             <p:column exportable="false">
 
                                 <p:commandButton id="btnVerTutor" value="Ver" icon="ui-icon-circle-plus" 
-                                                 oncomplete="wdlgEliminarTutor.show()" update=":dlgVerTutor" > 
+                                                 oncomplete="wdlgVerDocente.show()" update=":dlgVerDocente" > 
                                     <f:setPropertyActionListener value="#{tutor}" 
                                                                  target="#{docenteBean.docenteSel}"/>
                                 </p:commandButton>
-
-
 
                                 <p:commandButton id="btnEditarDocente" icon="ui-icon-pencil"  title="Editar Docente" 
                                                  oncomplete="wdlgEditarDocente.show()" 
@@ -97,9 +95,6 @@ and open the template in the editor.
                 </h:form>
 
 
-
-
-
             </ui:define>
             <ui:define name="dialogos">
                 <p:dialog id="dlgNuevoDocente" header="Nuevo Docente" widgetVar="wdlgNuevoDocente" 
@@ -126,8 +121,8 @@ and open the template in the editor.
                             <p:inputText size="30" value="#{docenteBean.objDocente.nombres}" />
 
                             <h:outputText value="Sexo:"/>
-                            <p:selectOneMenu id="cmbSexo" 
-                                             required="true" requiredMessage="Elija una opción">
+                            <p:selectOneMenu id="cmbSexo" value="#{docenteBean.sexo}"
+                                             required="true" requiredMessage="--Elija una opción--">
                                 <f:selectItem itemLabel="Elija una opción" itemValue="#{null}"/>
                                 <f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
                                 <f:selectItem itemLabel="Femenino" itemValue="Femenino"/>
@@ -141,14 +136,12 @@ and open the template in the editor.
                             <p:inputText size="30" value="#{docenteBean.objDocente.cuarto_nivel}"/>
 
                             <h:outputText value="Estado:"/>
-                            <p:selectOneMenu id="cmbEstado" 
-                                             required="true" requiredMessage="Elija una opción">
+                            <p:selectOneMenu id="cmbEstado" value="#{docenteBean.estado}"
+                                             required="true" requiredMessage="--Elija una opción--" >
                                 <f:selectItem itemLabel="Elija una opción" itemValue="#{null}"/>
                                 <f:selectItem itemLabel="Activo" itemValue="#{1}"/>
                                 <f:selectItem itemLabel="Inactivo" itemValue="#{0}"/>
                             </p:selectOneMenu>
-
-
 
                             <h:outputText id="otxtFacultad" value="Facultad:"/>
                             <p:selectOneMenu value="#{docenteBean.faculatadSeleccionana}">
@@ -157,13 +150,21 @@ and open the template in the editor.
                                                itemLabel="#{facultades.nombre}" itemValue="#{facultades.codigo}"/>
                                 <p:ajax event="change" listener="#{docenteBean.obtenerEscuelasDadoCodigoFacultad()}" update="cmdEscuelitas"/>
                             </p:selectOneMenu>
-
+                            
                             <h:outputText id="otxtEscuelas" value="Escuela:"/>                           
                             <p:selectOneMenu id="cmdEscuelitas" value="#{docenteBean.escuelaSeleccionada}">
-                                <f:selectItem itemValue="0" itemLabel="--Elija una opción--"/>
+                                <f:selectItem itemValue="0" itemLabel="--Elija una opción--" />
                                 <f:selectItems value="#{docenteBean.lstEscuelas}" var="escuelas" 
-                                               itemLabel="#{escuelas.nombre}" itemValue="#{escuelas.codigo}"/> 
+                                               itemLabel="#{escuelas.nombre}" itemValue="#{escuelas.codigo}" /> 
                             </p:selectOneMenu>
+                            
+                            <h:outputText value="Fecha de Ingreso:"/>
+                            <p:calendar id="fechaIngreso" value="#{docenteBean.fechaIngreso}" locale="de" 
+                                        navigator="true" pattern="yyyy/MM/dd" placeholder="yyyy/MM/dd" />
+
+                            <h:outputText value="Fecha de Salida:"/>
+                            <p:calendar id="fechaSalida" value="#{docenteBean.fechaSalida}" locale="de" 
+                                        navigator="true" pattern="yyyy/MM/dd" placeholder="yyyy/MM/dd" />
 
                         </p:panelGrid>
 
@@ -175,212 +176,176 @@ and open the template in the editor.
                     </h:form> 
                 </p:dialog>
 
-
-
-
-
-                <p:dialog id="dlgEditarTutor" header="Editar Tutor" widgetVar="wdlgEditarTutor" 
+                <p:dialog id="dlgEditarDocente" header="Editar Docente" widgetVar="wdlgEditarDocente" 
                           modal="true" 
                           closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
-                    <h:form id="frmEditarTutor">
+                    <h:form id="frmEditarDocente">
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                         <p:messages id="messages" autoUpdate="true"/>  
-                        <p:panelGrid id="pngEditarTutor" columns="2">
+                        <p:panelGrid id="pngEditarDocente" columns="2">
+                            
+                            <h:outputText value="Cédula Nº:" />
+                            <p:inputText size="30" value="#{docenteBean.docenteSel.identificacion}" />
 
 
+                            <h:outputText value="Apellidos:" />
+                            <p:inputText  value="#{docenteBean.docenteSel.apellidos}" />
 
-                            <h:outputText id="otxtFacultad" value="Facultad:"/>
-                            <p:selectOneMenu value="#{tutorControlador.valorFSeleccionada}">
+
+                            <h:outputText value="Nombres:"/>
+                            <p:inputText  value="#{docenteBean.docenteSel.nombres}" />
+
+                            <h:outputText value="Sexo:"/>
+                            <p:selectOneMenu id="cmbSexo1" value="#{docenteBean.docenteSel.sexo}"
+                                             required="true" requiredMessage="Elija una opción">
+                                <f:selectItem itemLabel="Elija una opción" itemValue="#{null}"/>
+                                <f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
+                                <f:selectItem itemLabel="Femenino" itemValue="Femenino"/>
+                            </p:selectOneMenu>
+
+
+                            <h:outputText value="Título Tercer Nivel:"/>
+                            <p:inputText value="#{docenteBean.docenteSel.tercer_nivel}"/>
+
+                            <h:outputText value="Título Cuarto Nivel:"/>
+                            <p:inputText value="#{docenteBean.docenteSel.cuarto_nivel}"/>
+
+                            <h:outputText value="Estado:"/>
+                            <p:selectOneMenu id="cmbEstado1" value="#{docenteBean.estado}"
+                                             required="true" requiredMessage="Elija una opción">
+                                <f:selectItem itemLabel="Elija una opción" itemValue="#{null}"/>
+                                <f:selectItem itemLabel="Activo" itemValue="#{1}"/>
+                                <f:selectItem itemLabel="Inactivo" itemValue="#{0}"/>
+                            </p:selectOneMenu>
+
+                            <h:outputText value="Facultad:"/>
+                            <p:selectOneMenu value="#{docenteBean.faculatadSeleccionana}">
                                 <f:selectItem itemValue="#{null}" itemLabel="--Elija una opción--"/>
-                                <f:selectItems value="#{tutorControlador.lstFacultades}" var="facultades" 
+                                <f:selectItems value="#{docenteBean.lstFacultades}" var="facultades" 
                                                itemLabel="#{facultades.nombre}" itemValue="#{facultades.codigo}"/>
-                                <p:ajax event="change" listener="#{tutorControlador.obtenerEscuelasDadoCodigoFacultad()}" update="cmdEscuelitas"/>
+                                <p:ajax event="change" listener="#{docenteBean.obtenerEscuelasDadoCodigoFacultad()}" update="cmdEscuelitas1"/>
                             </p:selectOneMenu>
 
-                            <h:outputText id="otxtEscuelas" value="Escuela:"/>                           
-                            <p:selectOneMenu id="cmdEscuelitas" value="#{tutorControlador.valorESeleccionada}">
+                            <h:outputText value="Escuela:"/>                           
+                            <p:selectOneMenu id="cmdEscuelitas1" value="#{docenteBean.escuelaSeleccionada}">
                                 <f:selectItem itemValue="0" itemLabel="--Elija una opción--"/>
-                                <f:selectItems value="#{tutorControlador.lstEscuelas}" var="escuelas" 
+                                <f:selectItems value="#{docenteBean.lstEscuelas}" var="escuelas" 
                                                itemLabel="#{escuelas.nombre}" itemValue="#{escuelas.codigo}"/> 
-                                <p:ajax event="change" listener="#{tutorControlador.obtenerNivelDadoCodigoEscuela()}" update="cmdEscuelitas, cmdNiveles"/>
                             </p:selectOneMenu>
+                            
+                            <h:outputText value="Fecha de Ingreso:"/>
+                            <p:calendar value="#{docenteBean.docenteSel.fecha_ingreso}" locale="de" 
+                                        navigator="true" pattern="yyyy/MM/dd" placeholder="yyyy/MM/dd" />
 
-                            <h:outputText id="otxtNiveles" value="Nivel:"/>                           
-                            <p:selectOneMenu id="cmdNiveles" value="#{tutorControlador.valorNSeleccionado}">
-                                <f:selectItem itemValue="0" itemLabel="--Elija una opción--"/>
-                                <f:selectItems value="#{tutorControlador.lstNiveles}" var="niveles" 
-                                               itemLabel="#{niveles.nombre} #{niveles.paralelo}" itemValue="#{niveles.codigo}"/> 
-                            </p:selectOneMenu>
-
-                            <h:outputText value="Periodo:"/>
-                            <p:selectOneMenu id="cmbPeriodo" value="#{tutorControlador.valorPSeleccionado}">
-                                <f:selectItem itemLabel="Elija un periodo" itemValue="#{null}"/>
-                                <f:selectItems value="#{tutorControlador.lstPeriodos}" var="periodos" itemLabel="#{periodos.nombre}" itemValue="#{periodos.codigo}"/>
-                            </p:selectOneMenu>
-
-                            <h:outputText value="Usuario:"/>
-                            <p:selectOneMenu id="cmbUsuario" value="#{tutorControlador.valorUSeleccionado}">
-                                <f:selectItem itemLabel="Elija un usuario" itemValue="#{null}"/>
-                                <f:selectItems value="#{tutorControlador.lstUsuario}" var="usuario" 
-                                               itemLabel="#{usuario.nombres} #{usuario.apellidos}" itemValue="#{usuario.codigo}"/>
-                                <p:ajax event="change" listener="#{tutorControlador.obtenerUsuariosRolesDadoCodigoUsuario()}" update="cmbRoles"/>
-                            </p:selectOneMenu>
-
-                            <h:outputText value="Rol del Usuario:"/>
-                            <p:selectOneMenu id="cmbRoles" value="#{tutorControlador.valorURSeleeccionado}">
-                                <f:selectItem itemLabel="Elija un rol de usuario" itemValue="#{null}"/>
-                                <f:selectItems value="#{tutorControlador.lstUsuarioRol}" var="rol" itemLabel="#{rol.codigo_rol.nombre}" itemValue="#{rol.codigo}"/>
-                            </p:selectOneMenu>
+                            <h:outputText value="Fecha de Salida:"/>
+                            <p:calendar value="#{docenteBean.docenteSel.fecha_salida}" locale="de" 
+                                        navigator="true" pattern="yyyy/MM/dd" placeholder="yyyy/MM/dd" />
 
                         </p:panelGrid>
-                        <p:commandButton value="Aceptar" action="#{tutorControlador.actualizarTutor()}" 
-                                         update=":frmtutor:pnlTutor"/>
-                        <p:commandButton value="Cancelar" onclick="wdlgEditarTutor.hide()" type="reset"/>
+                        <p:commandButton value="Aceptar" action="#{docenteBean.actualizarDocente()}" 
+                                         update=":frmdocente:pnlDocente"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgEditarDocente.hide()" type="reset"/>
                     </h:form> 
                 </p:dialog>
 
-                <p:dialog id="dlgEliminarTutor" header="Eliminar Tutor" widgetVar="wdlgEliminarTutor" 
+                <p:dialog id="dlgEliminarDocente" header="Eliminar Docente" widgetVar="wdlgEliminarDocente" 
                           modal="true" closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
-                    <h:form id="frmEliminarTutor">
+                    <h:form id="frmEliminarDocente">
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
-                        <h:outputText value="¿Desea Eliminar el Tutor?"/>
+                        <h:outputText value="¿Desea Eliminar el Docente?"/>
                         <p:panelGrid id="pngEliminarTutor" columns="2">
+                            
+                            <h:outputText value="Cédula Nº:" />
+                            <p:inputText  value="#{docenteBean.docenteSel.identificacion}" disabled="true" />
 
+
+                            <h:outputText value="Apellidos:" />
+                            <p:inputText  value="#{docenteBean.docenteSel.apellidos}" disabled="true" />
+
+
+                            <h:outputText value="Nombres:"/>
+                            <p:inputText value="#{docenteBean.docenteSel.nombres}" disabled="true" />
+
+                            <h:outputText value="Sexo:"/>
+                            <p:inputText value="#{docenteBean.docenteSel.sexo}" disabled="true"/>
+                          
+                            <h:outputText value="Título Tercer Nivel:"/>
+                            <p:inputText value="#{docenteBean.docenteSel.tercer_nivel}" disabled="true"/>
+
+                            <h:outputText value="Título Cuarto Nivel:"/>
+                            <p:inputText value="#{docenteBean.docenteSel.cuarto_nivel}" disabled="true"/>
+
+                            <h:outputText value="Estado:"/>
+                            <p:inputText value="#{docenteBean.docenteSel.estado}" disabled="true" />
+                           
                             <h:outputText value="Facultad:"/>
-                            <h:inputText value="#{tutorControlador.tutorSel.codigo_nivel.codigo_escuela.codigo_facultad.nombre}"
-                                         disabled="true"/>
+                            <p:inputText value="#{docenteBean.docenteSel.id_facultad.nombre}" disabled="true" />
 
-                            <h:outputText value="Escuela:"/>
-                            <h:inputText value="#{tutorControlador.tutorSel.codigo_nivel.codigo_escuela.nombre}"
-                                         disabled="true"/>
+                            <h:outputText value="Escuela:"/>                           
+                            <p:inputText value="#{docenteBean.docenteSel.id_escuela.nombre}" disabled="true"/>   
+                             
+                            <h:outputText value="Fecha de Ingreso:"/>
+                            <p:inputText value="#{docenteBean.docenteSel.fecha_ingreso}" disabled="true"/> 
 
-                            <h:outputText value="Nivel:"/>
-                            <h:inputText value="#{tutorControlador.tutorSel.codigo_nivel.nombre}"
-                                         disabled="true"/>
-
-                            <h:outputText value="Periodo:"/>
-                            <h:inputText value="#{tutorControlador.tutorSel.codigo_periodo.nombre}"
-                                         disabled="true"/>
-
-
-                            <h:outputText value="Tutor:"/>
-                            <h:inputText value="#{tutorControlador.tutorSel.codigo_usuario_rol.codigo_usuario.nombres} #{tutorControlador.tutorSel.codigo_usuario_rol.codigo_usuario.apellidos}"
-                                         disabled="true"/>  
+                            <h:outputText value="Fecha de Salida:"/>
+                            <p:inputText value="#{docenteBean.docenteSel.fecha_salida}" disabled="true"/> 
 
                         </p:panelGrid>
-                        <p:commandButton value="Aceptar" action="#{tutorControlador.eliminarTutor()}" 
-                                         update=":frmtutor:pnlTutor"/>
-                        <p:commandButton value="Cancelar" onclick="wdlgEliminarTutor.hide()" type="reset"/>
+                        <p:commandButton value="Aceptar" action="#{docenteBean.eliminarDocente()}" 
+                                         update=":frmdocente:pnlDocente"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgEliminarDocente.hide()" type="reset"/>
                     </h:form> 
                 </p:dialog>
 
 
 
 
-                <p:dialog id="dlgVerTutor" header="Ver Tutor" widgetVar="wdlgEliminarTutor" 
+                <p:dialog id="dlgVerDocente" header="Ver Docente" widgetVar="wdlgVerDocente" 
                           modal="true" closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
-                    <h:form id="frmVerTutor">
+                    <h:form id="frmVerDocente">
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
-                        <h:outputText value="Información del Tutor Asignado"/>
-                        <p:panelGrid id="pngVerTutor" columns="2">
+                        <h:outputText value="Información del Docente"/>
+                        <p:panelGrid id="pngVerDocente" columns="2">
 
+                            <h:outputText value="Cédula Nº:" />
+                            <p:inputText  value="#{docenteBean.docenteSel.identificacion}" disabled="true" />
+
+
+                            <h:outputText value="Apellidos:" />
+                            <p:inputText  value="#{docenteBean.docenteSel.apellidos}" disabled="true" />
+
+
+                            <h:outputText value="Nombres:"/>
+                            <p:inputText value="#{docenteBean.docenteSel.nombres}" disabled="true" />
+
+                            <h:outputText value="Sexo:"/>
+                            <p:inputText value="#{docenteBean.docenteSel.sexo}" disabled="true"/>
+                         
+                            <h:outputText value="Título Tercer Nivel:"/>
+                            <p:inputText value="#{docenteBean.docenteSel.tercer_nivel}" disabled="true"/>
+
+                            <h:outputText value="Título Cuarto Nivel:"/>
+                            <p:inputText value="#{docenteBean.docenteSel.cuarto_nivel}" disabled="true"/>
+
+                            <h:outputText value="Estado:"/>
+                            <p:inputText value="#{docenteBean.docenteSel.estado}" disabled="true" />
+                           
                             <h:outputText value="Facultad:"/>
-                            <h:inputText value="#{tutorControlador.tutorSel.codigo_nivel.codigo_escuela.codigo_facultad.nombre}"
-                                         disabled="true"/>
+                            <p:inputText value="#{docenteBean.docenteSel.id_facultad.nombre}" disabled="true" />
 
-                            <h:outputText value="Escuela:"/>
-                            <h:inputText value="#{tutorControlador.tutorSel.codigo_nivel.codigo_escuela.nombre}"
-                                         disabled="true"/>
+                            <h:outputText value="Escuela:"/>                           
+                            <p:inputText value="#{docenteBean.docenteSel.id_escuela.nombre}" disabled="true"/>   
+                             
+                            <h:outputText value="Fecha de Ingreso:"/>
+                            <p:inputText value="#{docenteBean.docenteSel.fecha_ingreso}" disabled="true"/> 
 
-                            <h:outputText value="Nivel:"/>
-                            <h:inputText value="#{tutorControlador.tutorSel.codigo_nivel.nombre}"
-                                         disabled="true"/>
-
-                            <h:outputText value="Periodo:"/>
-                            <h:inputText value="#{tutorControlador.tutorSel.codigo_periodo.nombre}"
-                                         disabled="true"/>
-
-
-                            <h:outputText value="Tutor:"/>
-                            <h:inputText value="#{tutorControlador.tutorSel.codigo_usuario_rol.codigo_usuario.nombres} #{tutorControlador.tutorSel.codigo_usuario_rol.codigo_usuario.apellidos}"
-                                         disabled="true"/>  
-
-                            <h:outputText value="Rol del Usuario:"/>
-                            <h:inputText value="#{tutorControlador.tutorSel.codigo_usuario_rol.codigo_rol.nombre}"
-                                         disabled="true"/>  
+                            <h:outputText value="Fecha de Salida:"/>
+                            <p:inputText value="#{docenteBean.docenteSel.fecha_salida}" disabled="true"/> 
                         </p:panelGrid>
-                        <p:commandButton value="Aceptar" onclick="wdlgEliminarTutor.hide()" type="reset"/>
+                        <p:commandButton value="Aceptar" onclick="wdlgVerDocente.hide()" type="reset"/>
                     </h:form> 
                 </p:dialog>
-
-
-
-                <p:dialog id="dlgBuscarTutor" header="Datos Tutor asignado" widgetVar="dlgBuscarTutor" 
-                          modal="true" closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
-                    <h:form id="frmBuscarTutor">
-                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
-                        <h:outputText value="Información del Tutor Asignado"/>
-
-                        <br></br>
-
-                        <p:dataTable id="tblTutorBuscar" value="#{tutorControlador.objTutorBuscar}" 
-                                     var="tutorBuscar" >
-
-                            <p:column headerText="Facultad">
-                                <h:outputText value="#{tutorBuscar.codigo_nivel.codigo_escuela.codigo_facultad.nombre}"/>
-                            </p:column>
-
-                            <p:column headerText="Escuela">
-                                <h:outputText value="#{tutorBuscar.codigo_nivel.codigo_escuela.nombre}"/>
-                            </p:column>
-
-                            <p:column headerText="Nivel">
-                                <h:outputText value="#{tutorBuscar.codigo_nivel.nombre}"/>
-                            </p:column>
-
-                            <p:column headerText="Periodo">
-                                <h:outputText value="#{tutorBuscar.codigo_periodo.nombre}"/>
-                            </p:column>
-
-
-                            <p:column headerText="Tutor">
-                                <h:outputText value="#{tutorBuscar.codigo_usuario_rol.codigo_usuario.nombres}  #{tutorBuscar.codigo_usuario_rol.codigo_usuario.apellidos}"/>
-                            </p:column>
-
-                        </p:dataTable>
-                        <br></br>
-                        <p:commandButton value="Aceptar" onclick="dlgBuscarTutor.hide()" type="reset" />
-
-
-
-                    </h:form> 
-                </p:dialog>
-
-
-
-
-
-                <p:dialog id="dlgBuscarUsuario" header="Buscar Usuario" widgetVar="dlgBuscarUsuario" 
-                          modal="true" closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
-                    <h:form id="frmBuscarUsuario">
-                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
-                        <h:outputText value="Datos Usuario"/>
-                        <p:panelGrid id="pngBuscarUsuario" columns="3">
-
-                            <h:outputText id="txtIdDocente" value="Ingrese C.I. Docente:"/>
-                            <p:inputText value="#{tutorControlador.valorIdentificacion}"/>     
-
-                            <p:commandButton id="btnBuscar" value="Buscar" 
-                                             action="#{tutorControlador.buscarUsuarioDadoIdentificacion()}" process="@form" oncomplete="wdlgNuevoTutor.show()" 
-                                             update="@form, @this,:dlgNuevoTutor">
-                            </p:commandButton>
-
-                        </p:panelGrid>
-                    </h:form> 
-                </p:dialog>
-
-
-
+                
                 <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
                           resizable="false"> 
                     <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
