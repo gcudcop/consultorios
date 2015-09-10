@@ -150,14 +150,14 @@ and open the template in the editor.
                                                itemLabel="#{facultades.nombre}" itemValue="#{facultades.codigo}"/>
                                 <p:ajax event="change" listener="#{docenteBean.obtenerEscuelasDadoCodigoFacultad()}" update="cmdEscuelitas"/>
                             </p:selectOneMenu>
-                            
+
                             <h:outputText id="otxtEscuelas" value="Escuela:"/>                           
                             <p:selectOneMenu id="cmdEscuelitas" value="#{docenteBean.escuelaSeleccionada}">
                                 <f:selectItem itemValue="0" itemLabel="--Elija una opción--" />
                                 <f:selectItems value="#{docenteBean.lstEscuelas}" var="escuelas" 
                                                itemLabel="#{escuelas.nombre}" itemValue="#{escuelas.codigo}" /> 
                             </p:selectOneMenu>
-                            
+
                             <h:outputText value="Fecha de Ingreso:"/>
                             <p:calendar id="fechaIngreso" value="#{docenteBean.fechaIngreso}" locale="de" 
                                         navigator="true" pattern="yyyy/MM/dd" placeholder="yyyy/MM/dd" />
@@ -183,7 +183,7 @@ and open the template in the editor.
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                         <p:messages id="messages" autoUpdate="true"/>  
                         <p:panelGrid id="pngEditarDocente" columns="2">
-                            
+
                             <h:outputText value="Cédula Nº:" />
                             <p:inputText size="30" value="#{docenteBean.docenteSel.identificacion}" />
 
@@ -232,7 +232,7 @@ and open the template in the editor.
                                 <f:selectItems value="#{docenteBean.lstEscuelas}" var="escuelas" 
                                                itemLabel="#{escuelas.nombre}" itemValue="#{escuelas.codigo}"/> 
                             </p:selectOneMenu>
-                            
+
                             <h:outputText value="Fecha de Ingreso:"/>
                             <p:calendar value="#{docenteBean.docenteSel.fecha_ingreso}" locale="de" 
                                         navigator="true" pattern="yyyy/MM/dd" placeholder="yyyy/MM/dd" />
@@ -254,7 +254,7 @@ and open the template in the editor.
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                         <h:outputText value="¿Desea Eliminar el Docente?"/>
                         <p:panelGrid id="pngEliminarTutor" columns="2">
-                            
+
                             <h:outputText value="Cédula Nº:" />
                             <p:inputText  value="#{docenteBean.docenteSel.identificacion}" disabled="true" />
 
@@ -268,7 +268,7 @@ and open the template in the editor.
 
                             <h:outputText value="Sexo:"/>
                             <p:inputText value="#{docenteBean.docenteSel.sexo}" disabled="true"/>
-                          
+
                             <h:outputText value="Título Tercer Nivel:"/>
                             <p:inputText value="#{docenteBean.docenteSel.tercer_nivel}" disabled="true"/>
 
@@ -277,13 +277,13 @@ and open the template in the editor.
 
                             <h:outputText value="Estado:"/>
                             <p:inputText value="#{docenteBean.docenteSel.estado}" disabled="true" />
-                           
+
                             <h:outputText value="Facultad:"/>
                             <p:inputText value="#{docenteBean.docenteSel.id_facultad.nombre}" disabled="true" />
 
                             <h:outputText value="Escuela:"/>                           
                             <p:inputText value="#{docenteBean.docenteSel.id_escuela.nombre}" disabled="true"/>   
-                             
+
                             <h:outputText value="Fecha de Ingreso:"/>
                             <p:inputText value="#{docenteBean.docenteSel.fecha_ingreso}" disabled="true"/> 
 
@@ -320,7 +320,7 @@ and open the template in the editor.
 
                             <h:outputText value="Sexo:"/>
                             <p:inputText value="#{docenteBean.docenteSel.sexo}" disabled="true"/>
-                         
+
                             <h:outputText value="Título Tercer Nivel:"/>
                             <p:inputText value="#{docenteBean.docenteSel.tercer_nivel}" disabled="true"/>
 
@@ -329,13 +329,13 @@ and open the template in the editor.
 
                             <h:outputText value="Estado:"/>
                             <p:inputText value="#{docenteBean.docenteSel.estado}" disabled="true" />
-                           
+
                             <h:outputText value="Facultad:"/>
                             <p:inputText value="#{docenteBean.docenteSel.id_facultad.nombre}" disabled="true" />
 
                             <h:outputText value="Escuela:"/>                           
                             <p:inputText value="#{docenteBean.docenteSel.id_escuela.nombre}" disabled="true"/>   
-                             
+
                             <h:outputText value="Fecha de Ingreso:"/>
                             <p:inputText value="#{docenteBean.docenteSel.fecha_ingreso}" disabled="true"/> 
 
@@ -345,7 +345,7 @@ and open the template in the editor.
                         <p:commandButton value="Aceptar" onclick="wdlgVerDocente.hide()" type="reset"/>
                     </h:form> 
                 </p:dialog>
-                
+
                 <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
                           resizable="false"> 
                     <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
