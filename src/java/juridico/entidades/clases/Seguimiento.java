@@ -18,28 +18,28 @@ public class Seguimiento {
   private Date fecha_inicio;
   private Date fecha_fin ;
   private int estado ;
-  private String docente_responsable ;
-  private String estudiante_responsable;
   private Caso id_caso;
   private String path ;
   private String dependencia ;
   private String responsable_dependencia;
+  private Docente id_docente;
+  private Estudiante id_estudiante;
 
     public Seguimiento() {
     }
 
-    public Seguimiento(int id_seguimiento, String descripcion, Date fecha_inicio, Date fecha_fin, int estado, String docente_responsable, String estudiante_responsable, Caso id_caso, String path, String dependencia, String responsable_dependencia) {
+    public Seguimiento(int id_seguimiento, String descripcion, Date fecha_inicio, Date fecha_fin, int estado, Caso id_caso, String path, String dependencia, String responsable_dependencia, Docente id_docente, Estudiante id_estudiante) {
         this.id_seguimiento = id_seguimiento;
         this.descripcion = descripcion;
         this.fecha_inicio = fecha_inicio;
         this.fecha_fin = fecha_fin;
         this.estado = estado;
-        this.docente_responsable = docente_responsable;
-        this.estudiante_responsable = estudiante_responsable;
         this.id_caso = id_caso;
         this.path = path;
         this.dependencia = dependencia;
         this.responsable_dependencia = responsable_dependencia;
+        this.id_docente = id_docente;
+        this.id_estudiante = id_estudiante;
     }
 
     public int getId_seguimiento() {
@@ -82,22 +82,6 @@ public class Seguimiento {
         this.estado = estado;
     }
 
-    public String getDocente_responsable() {
-        return docente_responsable;
-    }
-
-    public void setDocente_responsable(String docente_responsable) {
-        this.docente_responsable = docente_responsable;
-    }
-
-    public String getEstudiante_responsable() {
-        return estudiante_responsable;
-    }
-
-    public void setEstudiante_responsable(String estudiante_responsable) {
-        this.estudiante_responsable = estudiante_responsable;
-    }
-
     public Caso getId_caso() {
         return id_caso;
     }
@@ -129,7 +113,22 @@ public class Seguimiento {
     public void setResponsable_dependencia(String responsable_dependencia) {
         this.responsable_dependencia = responsable_dependencia;
     }
-  
-  
+
+    public Docente getId_docente() {
+        return id_docente;
+    }
+
+    public void setId_docente(Docente id_docente) {
+        this.id_docente = id_docente;
+    }
+
+    public Estudiante getId_estudiante() {
+        return id_estudiante;
+    }
+
+    public void setId_estudiante(Estudiante id_estudiante) {
+        this.id_estudiante = id_estudiante;
+    }
+
     
 }
