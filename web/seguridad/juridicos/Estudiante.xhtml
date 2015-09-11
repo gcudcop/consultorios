@@ -24,82 +24,107 @@ and open the template in the editor.
                     <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                     <p:panel id="pnlEstudiante">
                         <p:dataTable id="tblEstudiante" value="#{estudianteBean.lstEstudiantes}" 
-                                     var="estudiante" 
-                                     paginator="true" rows="10" rowKey="#{estudiante.id_estudiante}" selectionMode="single" 
+                                     var="estudiantes" 
+                                     paginator="true" rows="10" rowKey="#{estudiantes.id_estudiante}" selectionMode="single" 
                                      selection="#{estudianteBean.estudianteSel}">
 
                             <p:column >
                                 <f:facet name="header">
                                     <h:outputText value="Nombres" />
                                 </f:facet>
-                                <h:outputText value="#{estudiante.apellidos} #{estudiante.nombres}"/>
+                                <h:outputText value="#{estudiantes.nombres}"/>
+                            </p:column> 
+                            
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Apellidos" />
+                                </f:facet>
+                                <h:outputText value="#{estudiantes.apellidos}"/>
                             </p:column> 
 
                             <p:column >
                                 <f:facet name="header">
                                     <h:outputText value="Cédula de Ciudadanía" />
                                 </f:facet>
-                                <h:outputText value="#{estudiante.identificacion}"/>
+                                <h:outputText value="#{estudiantes.identificacion}"/>
                             </p:column> 
 
                             <p:column >
                                 <f:facet name="header">
                                     <h:outputText value="Sexo" />
                                 </f:facet>
-                                <h:outputText value="#{estudiante.sexo}"/>
+                                <h:outputText value="#{estudiantes.sexo}"/>
                             </p:column> 
 
                             <p:column >
                                 <f:facet name="header">
                                     <h:outputText value="Facultad" />
                                 </f:facet>
-                                <h:outputText value="#{estudiante.id_escuela.codigo_facultad.nombre}"/>
+                                <h:outputText value="#{estudiantes.id_escuela.codigo_facultad.nombre}"/>
                             </p:column>
 
                             <p:column >
                                 <f:facet name="header">
                                     <h:outputText value="Escuela" />
                                 </f:facet>
-                                <h:outputText value="#{estudiante.id_escuela.nombre}"/>
+                                <h:outputText value="#{estudiantes.id_escuela.nombre}"/>
                             </p:column>
 
                             <p:column >
                                 <f:facet name="header">
                                     <h:outputText value="Nivel" />
                                 </f:facet>
-                                <h:outputText value="#{estudiante.nivel}"/>
+                                <h:outputText value="#{estudiantes.nivel}"/>
                             </p:column>
 
                             <p:column >
                                 <f:facet name="header">
                                     <h:outputText value="Fecha Ingreso" />
                                 </f:facet>
-                                <h:outputText value="#{estudiante.fecha_ingreso}"/>
+                                <h:outputText value="#{estudiantes.fecha_ingreso}"/>
                             </p:column>
 
                             <p:column >
                                 <f:facet name="header">
                                     <h:outputText value="Fecha Salida" />
                                 </f:facet>
-                                <h:outputText value="#{estudiante.fecha_salida}"/>
+                                <h:outputText value="#{estudiantes.fecha_salida}"/>
                             </p:column>
 
                             <p:column >
                                 <f:facet name="header">
                                     <h:outputText value="Estado" />
                                 </f:facet>
-                                <h:outputText value="#{estudiante.estado}"/>
+                                <h:outputText value="#{estudiantes.estado==0 ? 'PASIVO':'ACTIVO'}"/>
                             </p:column>
 
+                            <p:column exportable="false">
+                                
+                                <p:commandButton id="btnVerTutor" value="Ver" icon="ui-icon-circle-plus" 
+                                                 oncomplete="wdlgVerEstudiante.show()" update=":dlgVerEstudiante" > 
+                                    <f:setPropertyActionListener value="#{estudiantes}" target="#{estudianteBean.estudianteSel}"/>
+                                </p:commandButton>
+                                
+                                 <p:commandButton id="btnEditarEstudiante" icon="ui-icon-pencil"  title="Editar Estudiante" 
+                                                 oncomplete="wdlgEditarEstudiante.show()" 
+                                                 process="@this" update=":dlgEditarEstudiante, @form">                                   
+                                    <f:setPropertyActionListener value="#{estudiantes}" 
+                                                                 target="#{estudianteBean.estudianteSel}"/>
+                                </p:commandButton>
 
 
-
-
+                                <p:commandButton id="btnEliminarEstudiante" icon="ui-icon-close"  title="Eliminar Estudiante"
+                                                 oncomplete="wdlgEliminarEstudiante.show()" 
+                                                 update=":dlgEliminarEstudiante">                                   
+                                    <f:setPropertyActionListener value="#{estudiantes}" 
+                                                                 target="#{estudianteBean.estudianteSel}"/>
+                                </p:commandButton>
+                                
+                            </p:column>
 
                             <f:facet name="footer">  
                                 <p:commandButton id="btnNuevoEstudiante" value="Nuevo" icon="ui-icon-newwin"
                                                  oncomplete="wdlgNuevoEstudiante.show()" title="Nuevo Estudiante"/>  
-
                                 <h:commandLink>
                                     <img src="../../resources/images/excel.png" alt=""/>
                                     <p:dataExporter type="xls" target="tblEstudiante" fileName="estudiante" pageOnly="true" />
@@ -170,7 +195,7 @@ and open the template in the editor.
                                 <f:selectItems value="#{estudianteBean.lstEscuelas}" var="escuelas" itemLabel="#{escuelas.nombre}"
                                                itemValue="#{escuelas.codigo}" />
                             </p:selectOneMenu>
-                         
+
                             <h:outputText id="txtNivel" value="Nivel:"/> 
                             <p:selectOneMenu id="cmdSemestres" value="#{estudianteBean.nivel}">
                                 <f:selectItem itemValue="#{null}" itemLabel="--Elija una opción--"/>
@@ -206,8 +231,173 @@ and open the template in the editor.
                     </h:form>
                 </p:dialog>
 
+                <p:dialog id="dlgEditarEstudiante" header="Editar Estudiante" widgetVar="wdlgEditarEstudiante" 
+                          modal="true" 
+                          closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEditarEstudiante">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:messages id="messages" autoUpdate="true"/>  
+                        <p:panelGrid id="pngEditarEstudiante" columns="2">
+                            <h:outputText value="Nombre:"/>
+                            <p:inputText value="#{estudianteBean.estudianteSel.nombres}" title="ej: Ángel Geovanny" 
+                                         required="true" requiredMessage="Ingrese los nombres" placeholder="Ingrese los nombres"/>
 
+                            <h:outputText value="Apellido:"/>
+                            <p:inputText value="#{estudianteBean.estudianteSel.apellidos}" title="ej: Cudco Pomagualli" 
+                                         required="true" requiredMessage="Ingrese los apellidos" placeholder="Ingrese los apellidos"/>
 
+                            <h:outputText value="Identificacion:"/>
+                            <p:inputText value="#{estudianteBean.estudianteSel.identificacion}" title="ej: 0600000000" 
+                                         required="true" requiredMessage="Ingrese la cédula de ciudadanía" placeholder="Ingrese la cédula de ciudadanía"/>
+
+                            <h:outputText value="Sexo:"/>                                                        
+                            <p:selectOneMenu value="#{estudianteBean.sexo}">
+                                <f:selectItem itemValue="#{null}" itemLabel="--Elija una opción--"/>
+                                <f:selectItem itemLabel="Masculino" itemValue="M" />
+                                <f:selectItem itemLabel="Femenino" itemValue="F" />
+                            </p:selectOneMenu>
+
+                            <h:outputText value="Fecha de Nacimiento:"/>
+                            <p:calendar id="fechaNacimiento" value="#{estudianteBean.fechaNacimiento}" locale="de" navigator="true" pattern="yyyy/MM/dd" placeholder="yyyy/MM/dd" />
+
+                            <h:outputText id="otxtFacultad" value="Facultad:"/>
+                            <p:selectOneMenu value="#{estudianteBean.valorFSeleccionada}">
+                                <f:selectItem itemValue="#{null}" itemLabel="--Elija una opción--"/>
+                                <f:selectItems value="#{estudianteBean.lstFacultades}" var="facultades" 
+                                               itemLabel="#{facultades.nombre}" itemValue="#{facultades.codigo}"/>
+                                <p:ajax event="change" listener="#{estudianteBean.obtenerEscuelasDadoCodigoFacultad()}" update="menuEscuelas"  />
+                            </p:selectOneMenu>
+
+                            <h:outputText id="otxtEscuela" value="Escuela" />
+                            <p:selectOneMenu id="menuEscuelas" value="#{estudianteBean.valorESeleccionada}">
+                                <f:selectItem itemLabel="--Escoja una escuela" itemValue="0"/>
+                                <f:selectItems value="#{estudianteBean.lstEscuelas}" var="escuelas" itemLabel="#{escuelas.nombre}"
+                                               itemValue="#{escuelas.codigo}" />
+                            </p:selectOneMenu>
+
+                            <h:outputText id="txtNivel" value="Nivel:"/> 
+                            <p:selectOneMenu id="cmdSemestres" value="#{estudianteBean.nivel}">
+                                <f:selectItem itemValue="#{null}" itemLabel="--Elija una opción--"/>
+                                <f:selectItem itemLabel="Primer Semestre" itemValue="#{1}" />
+                                <f:selectItem itemLabel="Segundo Semestre" itemValue="#{2}" />
+                                <f:selectItem itemLabel="Tercer Semestre" itemValue="#{3}" />
+                                <f:selectItem itemLabel="Cuarto Semestre" itemValue="#{4}" />
+                                <f:selectItem itemLabel="Quinto Semestre" itemValue="#{5}" />
+                                <f:selectItem itemLabel="Sexto Semestre" itemValue="#{6}" />
+                                <f:selectItem itemLabel="Septimo Semestre" itemValue="#{7}" />
+                                <f:selectItem itemLabel="Octavo Semestre" itemValue="#{8}" />
+                                <f:selectItem itemLabel="Noveno Semestre" itemValue="#{9}" />
+                                <f:selectItem itemLabel="Décimo Semestre" itemValue="#{1}" />                                                              
+                            </p:selectOneMenu>
+
+                            <h:outputText value="Fecha de Ingreso:"/>
+                            <p:calendar id="fechaIngreso" value="#{estudianteBean.fechaIngreso}" locale="de" navigator="true" pattern="yyyy/MM/dd" placeholder="yyyy/MM/dd" />
+
+                            <h:outputText value="Fecha de Salida:"/>
+                            <p:calendar id="fechaSalida" value="#{estudianteBean.fechaSalida}" locale="de" navigator="true" pattern="yyyy/MM/dd" placeholder="yyyy/MM/dd" />
+
+                            <h:outputText id="txtEstado" value="Estado:"/> 
+                            <p:selectOneMenu id="cmdEstado" value="#{estudianteBean.estado}">
+                                <f:selectItem itemLabel="--Elija una opción--" itemValue="#{null}"/>
+                                <f:selectItem itemLabel="Activo" itemValue="#{1}" />
+                                <f:selectItem itemLabel="Pasivo" itemValue="#{0}" />
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                        <p:commandButton value="Aceptar" action="#{estudianteControlador.actualizarEstudiante()}" 
+                                         update=":frmestudiante:pnlEstudiante"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgEditarEstudiante.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+
+                <p:dialog id="dlgEliminarEstudiante" header="Eliminar Estudiante" widgetVar="wdlgEliminarEstudiante" 
+                          modal="true" closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEliminarEstudiante">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <h:outputText value="¿Desea Eliminar el Estudiante?"/>
+                        <p:panelGrid id="pngEliminarEstudiante" columns="2">
+                            <h:outputText value="Nombre:"/>
+                            <p:inputText value="#{estudianteBean.estudianteSel.nombres}" disabled="true"/>
+
+                            <h:outputText value="Apellido:"/>
+                            <p:inputText value="#{estudianteBean.estudianteSel.apellidos}" disabled="true"/>
+
+                            <h:outputText value="Identificacion:"/>
+                            <p:inputText value="#{estudianteBean.estudianteSel.identificacion}" disabled="true"/>
+
+                            <h:outputText value="Sexo:"/>                                                        
+                            <p:inputText value="#{estudianteBean.estudianteSel.sexo}" disabled="true"/>
+
+                            <h:outputText value="Fecha de Nacimiento:"/>
+                            <p:inputText value="#{estudianteBean.estudianteSel.fecha_nacimiento}" disabled="true"/>
+
+                            <h:outputText id="otxtFacultad" value="Facultad:"/>
+                            <p:inputText value="#{estudianteBean.estudianteSel.id_facultad.nombre}" disabled="true"/>
+
+                            <h:outputText id="otxtEscuela" value="Escuela" />
+                            <p:inputText value="#{estudianteBean.estudianteSel.id_escuela.nombre}" disabled="true"/>
+
+                            <h:outputText id="txtNivel" value="Nivel:"/> 
+                            <p:inputText value="#{estudianteBean.estudianteSel.nivel}" disabled="true"/>
+
+                            <h:outputText value="Fecha de Ingreso:"/>
+                            <p:inputText value="#{estudianteBean.estudianteSel.fecha_ingreso}" disabled="true"/>
+
+                            <h:outputText value="Fecha de Salida:"/>
+                            <p:inputText value="#{estudianteBean.estudianteSel.fecha_salida}" disabled="true"/>
+
+                            <h:outputText id="txtEstado" value="Estado:"/> 
+                            <p:inputText value="#{estudianteBean.estudianteSel.estado}" disabled="true"/>
+
+                        </p:panelGrid>
+                        <p:commandButton value="Aceptar" action="#{estudianteBean.eliminarEstudiante()}" 
+                                         update=":frmestudiante:pnlEstudiante"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgEliminarEstudiante.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+
+                <p:dialog id="dlgVerEstudiante" header="Ver Estudiante" widgetVar="wdlgVerEstudiante" 
+                          modal="true" closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmVerEstudiante">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <h:outputText value="Información del Estudiante"/>
+                        <p:panelGrid id="pngVerEstudiante" columns="2">
+                            <h:outputText value="Nombre:"/>
+                            <p:inputText value="#{estudianteBean.estudianteSel.nombres}" disabled="true"/>
+
+                            <h:outputText value="Apellido:"/>
+                            <p:inputText value="#{estudianteBean.estudianteSel.apellidos}" disabled="true"/>
+
+                            <h:outputText value="Identificacion:"/>
+                            <p:inputText value="#{estudianteBean.estudianteSel.identificacion}" disabled="true"/>
+
+                            <h:outputText value="Sexo:"/>                                                        
+                            <p:inputText value="#{estudianteBean.estudianteSel.sexo}" disabled="true"/>
+
+                            <h:outputText value="Fecha de Nacimiento:"/>
+                            <p:inputText value="#{estudianteBean.estudianteSel.fecha_nacimiento}" disabled="true"/>
+
+                            <h:outputText id="otxtFacultad" value="Facultad:"/>
+                            <p:inputText value="#{estudianteBean.estudianteSel.id_facultad.nombre}" disabled="true"/>
+
+                            <h:outputText id="otxtEscuela" value="Escuela" />
+                            <p:inputText value="#{estudianteBean.estudianteSel.id_escuela.nombre}" disabled="true"/>
+
+                            <h:outputText id="txtNivel" value="Nivel:"/> 
+                            <p:inputText value="#{estudianteBean.estudianteSel.nivel}" disabled="true"/>
+
+                            <h:outputText value="Fecha de Ingreso:"/>
+                            <p:inputText value="#{estudianteBean.estudianteSel.fecha_ingreso}" disabled="true"/>
+
+                            <h:outputText value="Fecha de Salida:"/>
+                            <p:inputText value="#{estudianteBean.estudianteSel.fecha_salida}" disabled="true"/>
+
+                            <h:outputText id="txtEstado" value="Estado:"/> 
+                            <p:inputText value="#{estudianteBean.estudianteSel.estado}" disabled="true"/>
+
+                        </p:panelGrid>
+                        <p:commandButton value="Aceptar" onclick="wdlgVerEstudiante.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
 
                 <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
                           resizable="false"> 

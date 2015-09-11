@@ -45,6 +45,7 @@ public class EstudianteBean {
     private String txtFechaSalida;
     private int estado;
     private String sexo;
+    private String estadoStr;
 
     public ArrayList<Escuela> getListEscuelas() {
         return listEscuelas;
@@ -193,6 +194,15 @@ public class EstudianteBean {
         this.valorFSeleccionada = valorFSeleccionada;
     }
 
+    public String getEstadoStr() {
+
+        return estadoStr;
+    }
+
+    public void setEstadoStr(String estadoStr) {
+        this.estadoStr = estadoStr;
+    }
+
     /*
      * inicialización de las variables y métodos
      */
@@ -244,7 +254,7 @@ public class EstudianteBean {
 
     public void obtenerEscuelasDadoCodigoFacultad() {
         try {
-            //lstEscuelas.clear();
+            lstEscuelas.clear();
             this.lstEscuelas = FEscuela.ObtenerEscuelaDadoCodigoFacultad(valorFSeleccionada);
             System.out.println(lstEscuelas.get(0).getNombre());
         } catch (Exception e) {
@@ -296,7 +306,6 @@ public class EstudianteBean {
 
     public void actualizarEstudiante() {
         try {
-
             if (FEstudiante.actualizarEstudiante(estudianteSel)) {
                 estudianteSel = new Estudiante();
                 mostrarActualizar = false;
