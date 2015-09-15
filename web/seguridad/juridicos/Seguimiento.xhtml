@@ -29,7 +29,7 @@ and open the template in the editor.
                         <p:dataTable id="tblSeguimiento" value="#{seguimientoBean.lstSeguimientos}" 
                                      var="seguimiento" 
                                      paginator="true" rows="10" rowKey="#{seguimiento.id_seguimiento}" selectionMode="single" 
-                                     selection="#{seguimientoBean.seguimientoSel}">
+                                     selection="#{seguimientoBean.seguimientoSel}" >
 
                             <p:column headerText="Número Caso">
                                 <h:outputText value="#{seguimiento.id_caso.numero_caso}"/>
@@ -123,15 +123,18 @@ and open the template in the editor.
                             </p:selectOneMenu>
 
                             <h:outputText value="Descripción:" />
-                            <p:inputTextarea rows="6" cols="33" value="#{seguimientoBean.objSeguimiento.descripcion}" />
+                            <p:inputTextarea rows="6" cols="33" value="#{seguimientoBean.objSeguimiento.descripcion}" 
+                                             placeholder="Ingrese una descripción" />
 
 
                             <h:outputText value="Dependencia:" />
-                            <p:inputText size="30" value="#{seguimientoBean.objSeguimiento.dependencia}" />
+                            <p:inputText size="30" value="#{seguimientoBean.objSeguimiento.dependencia}" 
+                                         placeholder="Ingrese Dependencia" />
 
 
                             <h:outputText value="Responsable Dependencia:"/>
-                            <p:inputText size="30" value="#{seguimientoBean.objSeguimiento.responsable_dependencia}" />
+                            <p:inputText size="30" value="#{seguimientoBean.objSeguimiento.responsable_dependencia}" 
+                                         placeholder="Ingrese el Responsable de la Dependencia" />
 
                             <h:outputText value="Estado:"/>
                             <p:selectOneMenu id="cmbEstado" value="#{seguimientoBean.estado}"
