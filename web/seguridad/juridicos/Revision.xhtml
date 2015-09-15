@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>
+            <ui:define name="Estudiante">Gestión de Casos</ui:define>
+        </title>
+    </h:head>
+
+    <h:body>
+        <ui:composition template="../../templates/plantillaInternaCenter.xhtml">
+            <ui:define name="top">Seguimiento de Casos</ui:define>
+            <ui:define name="contenido">
+                <p:growl id="mensajes" autoUpdate="true" showDetail="true"/>
+                <h:form id="frmRevisiones">
+                    <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                    <p:panel id="pnlRevisiones">
+                        <p:dataTable id="tblRevisiones" value="#{revisionesBean.lstRevisiones}" 
+                                     var="revisiones" 
+                                     paginator="true" rows="10" rowKey="#{revisiones.id_revision}" selectionMode="single" 
+                                     selection="#{revisionesBean.revisionSel}">
+
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Fecha Realización" />
+                                </f:facet>
+                                <h:outputText value="#{revisiones.fecha_revision}"/>
+                            </p:column> 
+
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Observaciones realizadas" />
+                                </f:facet>
+                                <h:outputText value="#{revisiones.observaciones}"/>
+                            </p:column> 
+
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Número de Caso" />
+                                </f:facet>
+                                <h:outputText value="#{revisiones.id_seguimiento.id_caso.numero_caso}"/>
+                            </p:column> 
+
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Actividad de Seguimiento" />
+                                </f:facet>
+                                <h:outputText value="#{revisiones.id_seguimiento.descripcion}"/>
+                            </p:column> 
+
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Estado de la Actividad" />
+                                </f:facet>
+                                <h:outputText value="#{revisiones.estado_seguimiento}"/>
+                            </p:column> 
+
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Estudiante" />
+                                </f:facet>
+                                <h:outputText value="#{revisiones.id_seguimiento.id_caso.id_estudiante.nombres} #{revisiones.id_seguimiento.id_caso.id_estudiante.apellidos}"/>
+                            </p:column> 
+
+                            <f:facet name="footer">  
+
+                                <p:commandButton id="btnNuevaRevision" value="Nueva" icon="ui-icon-newwin"
+                                                 oncomplete="wdlgNuevaRevision.show()" title="Nueva Revision"/>  
+                                <h:commandLink>
+                                    <img src="../../resources/images/excel.png" alt=""/>
+                                    <p:dataExporter type="xls" target="tblRevisiones" fileName="Revisiones" pageOnly="true" />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <img src="../../resources/images/pdf.png" alt=""/>
+                                    <p:dataExporter type="pdf" target="tblRevisiones" fileName="Revisiones" pageOnly="true" />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <img src="../../resources/images/csv.png" alt=""/>
+                                    <p:dataExporter type="csv" target="tblRevisiones" fileName="Revisiones" pageOnly="true" />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <img src="../../resources/images/xml.png" alt=""/>
+                                    <p:dataExporter type="xml" target="tblRevisiones" fileName="Revisioneso" pageOnly="true" />
+                                </h:commandLink>
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="dialogos">
+
+                <p:dialog id="dlgNuevaRevision" header="Nueva Revision" widgetVar="wdlgNuevaRevision" 
+                          modal="true" closable="false" resizable="false" showEffect="clip" hideEffect="fold">
+                    <h:form id="frmNuevaRevision">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:panelGrid id="pngNuevaRevision" columns="2">
+                            <h:outputText id="txtFecha" value="Ingrese la fecha de realización"/>
+                            <p:calendar id="fechaRealizacion" value="#{revisionesBean.fechaInicio}" locale="de" 
+                                        navigator="true" pattern="yyyy/MM/dd" placeholder="yyyy/MM/dd" />
+
+                            <h:outputText id="otxtCaso" value="Caso:"/>
+                            <p:selectOneMenu value="#{revisionesBean.valorCSeleccionado}">
+                                <f:selectItem itemValue="#{null}" itemLabel="Seleccione el numero de caso"/>
+                                <f:selectItems value="#{revisionesBean.lstCasos}" var="casos" itemValue="#{casos.id_caso}"
+                                               itemLabel="#{casos.numero_caso}"/>
+                                <p:ajax event="change" listener="#{revisionesBean.obtenerSeguimientoDadoCodigoCaso()}" update=":frmSeguimientos:tblSeguimientos"/>
+                            </p:selectOneMenu>
+
+                            <h:outputText id="otxtActSeguimiento" value="Actividad de Seguimiento:"/>
+                            <p:commandButton value="Seleccionar..." icon="ui-icon-extlink" oncomplete="wdlgSeguimientos.show()">
+                                
+                            </p:commandButton>
+
+
+                        </p:panelGrid>
+                        <p:commandButton value="Aceptar" 
+                                         update=":frmRevisiones:pnlRevisiones"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgNuevaRevision.hide()" type="reset"/>
+                    </h:form>
+                </p:dialog>
+
+
+
+
+
+                <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
+                          resizable="false"> 
+                    <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
+                </p:dialog>
+
+                <p:dialog id="dlgSeguimientos" modal="true" closable="true" widgetVar="wdlgSeguimientos" 
+                          header="Actividades de Seguimiento">
+                    <h:form id="frmSeguimientos">
+                        <p:dataTable id="tblSeguimientos" var="seguimientos" value="#{revisionesBean.lstSeguimientoDadoCaso}">                            
+                            <p:column headerText="Fecha inicio">
+                                <h:outputText value="#{seguimientos.fecha_inicio}"/>
+                            </p:column>   
+                            <p:column headerText="Fecha fin">
+                                <h:outputText value="#{seguimientos.fecha_fin}"/>
+                            </p:column> 
+
+                            <p:column headerText="Descripción">
+                                <h:inputTextarea value="#{seguimientos.descripcion}" rows="6" cols="50" disabled="true"/>
+                            </p:column>   
+
+                            <p:column headerText="Dependencia">
+                                <h:outputText value="#{seguimientos.dependencia} "/>
+                            </p:column>
+
+                            <p:column headerText="Estado">
+                                <h:outputText value="#{seguimientos.estado} "/>
+                            </p:column>
+
+                            <p:column headerText="Seleccionar">
+                                <p:commandButton icon="ui-icon-search">
+                                    <f:setPropertyActionListener value="#{revisiones}" target="#{revisionesBean.seguimientoSel}"/>
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+                    </h:form>
+                </p:dialog>
+
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

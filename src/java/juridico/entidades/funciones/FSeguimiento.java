@@ -145,4 +145,37 @@ public class FSeguimiento {
         }
         return eje;
     }
+    
+    public static Seguimiento obtenerSeguimientoDadoIdCaso(int id) throws Exception {
+        Seguimiento lst;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from juridico.f_select_seguimiento_dado_codigo_caso(?)";
+            lstP.add(new Parametro(1, id));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = new Seguimiento();
+            lst = llenarDatos(rs).get(0);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+    
+     public static ArrayList<Seguimiento> obtenerLstSeguimientoDadoCodigoCaso(int codigo) throws Exception {
+        ArrayList<Seguimiento> lst = new ArrayList<Seguimiento>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from juridico.f_select_seguimiento_dado_codigo_caso(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenarDatos(rs);
+            rs = null;
+
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+    
 }
