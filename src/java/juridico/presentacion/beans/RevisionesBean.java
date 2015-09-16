@@ -19,10 +19,13 @@ import juridico.entidades.clases.RevisionDocente;
 import juridico.entidades.clases.Seguimiento;
 import juridico.entidades.clases.Victima;
 import juridico.entidades.funciones.FCaso;
+import juridico.entidades.funciones.FDocente;
 import juridico.entidades.funciones.FRevisionDocente;
 import juridico.entidades.funciones.FSeguimiento;
+import org.primefaces.context.DefaultRequestContext;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
+import recursos.StringToDate;
 import recursos.Util;
 
 /**
@@ -54,6 +57,15 @@ public class RevisionesBean {
     private ArrayList<Seguimiento> lstSeguimientoDadoCaso;
     private Seguimiento seguimientoSel;
     private int idSeguimientoSel;
+    private String estado;
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 
     public int getIdSeguimientoSel() {
         return idSeguimientoSel;
@@ -62,8 +74,6 @@ public class RevisionesBean {
     public void setIdSeguimientoSel(int idSeguimientoSel) {
         this.idSeguimientoSel = idSeguimientoSel;
     }
-    
-    
 
     public Seguimiento getSeguimientoSel() {
         return seguimientoSel;
@@ -212,8 +222,12 @@ public class RevisionesBean {
         this.lstVictima = new ArrayList<Victima>();
         this.lstAgresor = new ArrayList<Agresor>();
         this.lstCasos = new ArrayList<Caso>();
+        this.lstSeguimiento = new ArrayList<Seguimiento>();
+
         cargarRevisiones();
         cargarCasos();
+        cargarDocentes();
+        obtenerSeguimientos();
 
     }
 
@@ -227,6 +241,7 @@ public class RevisionesBean {
     public void cargarRevisiones() {
         try {
             this.lstRevisiones = FRevisionDocente.obtenerRevisiones();
+            this.revisionSel = lstRevisiones.get(0);
             System.out.println(lstRevisiones.get(0).getId_seguimiento() + "  " + lstRevisiones.get(0).getEstado_seguimiento());
         } catch (Exception e) {
             Util.addErrorMessage("public void cargarRevisiones dice: " + e.getMessage());
@@ -244,9 +259,31 @@ public class RevisionesBean {
         }
     }
 
+    public void cargarDocentes() {
+        try {
+            this.lstDocente = FDocente.ObtenerDocentes();
+            System.out.println(lstDocente.get(0).getId_docente());
+        } catch (Exception e) {
+            Util.addErrorMessage(" public void cargarDocente dice: " + e.getMessage());
+            System.out.println(" public void cargarDocente dice: " + e.getMessage());
+        }
+    }
+
     public void obtenerSeguimientos() {
         try {
             this.lstSeguimiento = FSeguimiento.obtenerSeguimientos();
+            this.seguimientoSel = lstSeguimiento.get(0);
+            System.out.println(lstSeguimiento.get(0).getDescripcion() + " id seguimiento: " + lstSeguimiento.get(0).getId_seguimiento());
+        } catch (Exception e) {
+            Util.addErrorMessage("public void obtenerSeguimientos dice: " + e.getMessage());
+            System.out.println("public void obtenerSeguimientos dice: " + e.getMessage());
+        }
+    }
+
+    public void obtenerSeguimientoDadoCodigoCaso() {
+        try {
+            lstSeguimiento.clear();
+            this.lstSeguimiento = FSeguimiento.obtenerLstSeguimientoDadoCodigoCaso(valorCSeleccionado);
             System.out.println(lstSeguimiento.get(0).getDescripcion() + " id seguimiento: " + lstSeguimiento.get(0).getId_seguimiento());
         } catch (Exception e) {
             Util.addErrorMessage("public void obtenerSeguimientoDadoCodigoCaso: " + e.getMessage());
@@ -254,15 +291,38 @@ public class RevisionesBean {
         }
     }
 
-    public void obtenerSeguimientoDadoCodigoCaso() {
+    public void insertarRevision() {
+//        System.out.println("Id Seguimiento" + seguimientoSel.getId_seguimiento());
+        System.out.println("Fecha" + StringToDate.devolverFecha(fechaInicio));
+        System.out.println("Estado" + estado);
+        System.out.println("Id Docente" + valorDSeleccionado);
+        
         try {
-            this.lstSeguimientoDadoCaso = FSeguimiento.obtenerLstSeguimientoDadoCodigoCaso(valorCSeleccionado);
-            System.out.println(lstSeguimientoDadoCaso.get(0).getDescripcion() + " id seguimiento: " + lstSeguimientoDadoCaso.get(0).getId_seguimiento());
+
+            Docente docente = new Docente();
+            docente.setId_docente(valorDSeleccionado);
+            objRevision.setId_docente(docente);
+            
+            Seguimiento seguimiento = new Seguimiento();
+            seguimiento.setId_seguimiento(valorVSeleccionada);
+            objRevision.setId_seguimiento(seguimiento);
+            
+            objRevision.setFecha_revision(StringToDate.devolverFecha(fechaInicio));
+            objRevision.setEstado_seguimiento(estado);
+
+            if (FRevisionDocente.insertarRevision(objRevision)) {
+                this.reinit();
+                DefaultRequestContext.getCurrentInstance().execute("wdlgNuevaRevision.hide()");
+                Util.addSuccessMessage("Información guardada con éxito");
+                System.out.println("public void insertarRevision dice: Error al guardar la información");
+            } else {
+                Util.addSuccessMessage("Error al guardar la información");
+                System.out.println("public void insertarRevision dice: Error al guardar la información");
+            }
         } catch (Exception e) {
-            Util.addErrorMessage("public void obtenerSeguimientoDadoCodigoCaso: " + e.getMessage());
-            System.out.println("public void obtenerSeguimientoDadoCodigoCaso: " + e.getMessage());
+            Util.addErrorMessage("private void insertarRevision dice: " + e.getMessage());
+            System.out.println("private void insertarRevision dice: " + e.getMessage());
         }
     }
-   
-    
+
 }

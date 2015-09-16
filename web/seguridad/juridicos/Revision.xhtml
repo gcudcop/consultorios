@@ -41,7 +41,7 @@ and open the template in the editor.
                                 <f:facet name="header">
                                     <h:outputText value="Observaciones realizadas" />
                                 </f:facet>
-                                <h:outputText value="#{revisiones.observaciones}"/>
+                                <h:inputTextarea value="#{revisiones.observaciones}" disabled="true" cols="40" rows="10"/>
                             </p:column> 
 
                             <p:column >
@@ -55,7 +55,7 @@ and open the template in the editor.
                                 <f:facet name="header">
                                     <h:outputText value="Actividad de Seguimiento" />
                                 </f:facet>
-                                <h:outputText value="#{revisiones.id_seguimiento.descripcion}"/>
+                                <h:inputTextarea value="#{revisiones.id_seguimiento.descripcion}" disabled="true" cols="40" rows="10"/>
                             </p:column> 
 
                             <p:column >
@@ -113,68 +113,61 @@ and open the template in the editor.
                                         navigator="true" pattern="yyyy/MM/dd" placeholder="yyyy/MM/dd" />
 
                             <h:outputText id="otxtCaso" value="Caso:"/>
-                            <p:selectOneMenu value="#{revisionesBean.valorCSeleccionado}">
-                                <f:selectItem itemValue="#{null}" itemLabel="Seleccione el numero de caso"/>
+                            <p:selectOneMenu value="#{revisionesBean.valorCSeleccionado}" filter="true" filterMatchMode="startsWith">
+                                <f:selectItem itemValue="#{null}" itemLabel="Seleccione el numero de caso" />
                                 <f:selectItems value="#{revisionesBean.lstCasos}" var="casos" itemValue="#{casos.id_caso}"
-                                               itemLabel="#{casos.numero_caso}"/>
-                                <p:ajax event="change" listener="#{revisionesBean.obtenerSeguimientoDadoCodigoCaso()}" update=":frmSeguimientos:tblSeguimientos"/>
+                                               itemLabel="#{casos.numero_caso}" />
+                                <p:ajax event="change" listener="#{revisionesBean.obtenerSeguimientoDadoCodigoCaso()}" 
+                                        update="menuActividades"/>
                             </p:selectOneMenu>
+                            
+                           
 
                             <h:outputText id="otxtActSeguimiento" value="Actividad de Seguimiento:"/>
-                            <p:commandButton value="Seleccionar..." icon="ui-icon-extlink" oncomplete="wdlgSeguimientos.show()">
+                            
+                            <p:selectOneMenu  id="menuActividades" value="#{revisionesBean.valorVSeleccionada}" 
+                                              style="height: 20px;width: 160px " panelStyle="width:180px" effect="fade"
+                                              >
+                                <f:selectItem itemValue="#{null}" itemLabel="Seleccione Actividad" />
+                                <f:selectItems value="#{revisionesBean.lstSeguimiento}" var="seguimiento" 
+                                               itemValue="#{seguimiento.id_seguimiento}"
+                                               itemLabel="#{seguimiento.descripcion}" />
                                 
-                            </p:commandButton>
+                            </p:selectOneMenu>
+                            
+                            
+                            <h:outputText id="otxtObservaciones" value="Observaciones:"/>
+                            <p:inputTextarea value="#{revisionesBean.objRevision.observaciones}" placeholder="Ingrese una Observación"/>
 
+                            <h:outputText value="Estado:"/>                                                        
+                            <p:selectOneMenu value="#{revisionesBean.estado}">
+                                <f:selectItem itemValue="#{null}" itemLabel="--Elija una opción--"/>
+                                <f:selectItem itemLabel="Aprobado" itemValue="Aprobado" />
+                                <f:selectItem itemLabel="No Aprobado" itemValue="No Aprobado" />
+                                <f:selectItem itemLabel="En Proceso" itemValue="En Proceso" />
+                            </p:selectOneMenu>
+                            
+                            <h:outputText id="otxtDocente" value="Docente:"/>
+                            <p:selectOneMenu value="#{revisionesBean.valorDSeleccionado}" filter="true" filterMatchMode="startsWith">
+                                <f:selectItem itemValue="#{null}" itemLabel="Seleccione un Docente" />
+                                <f:selectItems value="#{revisionesBean.lstDocente}" var="docente" itemValue="#{docente.id_docente}"
+                                               itemLabel="#{docente.apellidos} #{docente.nombres}"/>
+                                
+                            </p:selectOneMenu>
 
                         </p:panelGrid>
-                        <p:commandButton value="Aceptar" 
-                                         update=":frmRevisiones:pnlRevisiones"/>
+                        <p:commandButton value="Aceptar" action="#{revisionesBean.insertarRevision()}"
+                                         update=":frmRevisiones:pnlRevisiones">
+                            <f:setPropertyActionListener value="#{seguimiento}" target="#{revisionesBean.seguimientoSel}"/>
+                        </p:commandButton>
                         <p:commandButton value="Cancelar" onclick="wdlgNuevaRevision.hide()" type="reset"/>
                     </h:form>
                 </p:dialog>
-
-
-
-
 
                 <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
                           resizable="false"> 
                     <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
                 </p:dialog>
-
-                <p:dialog id="dlgSeguimientos" modal="true" closable="true" widgetVar="wdlgSeguimientos" 
-                          header="Actividades de Seguimiento">
-                    <h:form id="frmSeguimientos">
-                        <p:dataTable id="tblSeguimientos" var="seguimientos" value="#{revisionesBean.lstSeguimientoDadoCaso}">                            
-                            <p:column headerText="Fecha inicio">
-                                <h:outputText value="#{seguimientos.fecha_inicio}"/>
-                            </p:column>   
-                            <p:column headerText="Fecha fin">
-                                <h:outputText value="#{seguimientos.fecha_fin}"/>
-                            </p:column> 
-
-                            <p:column headerText="Descripción">
-                                <h:inputTextarea value="#{seguimientos.descripcion}" rows="6" cols="50" disabled="true"/>
-                            </p:column>   
-
-                            <p:column headerText="Dependencia">
-                                <h:outputText value="#{seguimientos.dependencia} "/>
-                            </p:column>
-
-                            <p:column headerText="Estado">
-                                <h:outputText value="#{seguimientos.estado} "/>
-                            </p:column>
-
-                            <p:column headerText="Seleccionar">
-                                <p:commandButton icon="ui-icon-search">
-                                    <f:setPropertyActionListener value="#{revisiones}" target="#{revisionesBean.seguimientoSel}"/>
-                                </p:commandButton>
-                            </p:column>
-
-                        </p:dataTable>
-                    </h:form>
-                </p:dialog>
-
 
             </ui:define>
         </ui:composition>
