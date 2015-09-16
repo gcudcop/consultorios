@@ -101,6 +101,22 @@ public class FEscuela {
         return lst;
     }
 
+    public static Escuela obtenerEscuelaDadoIdFacultad(int codigo) throws Exception {
+        Escuela lst = new Escuela();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from master.f_select_escuela_dado_codigo_facultad(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenarEscuela(rs).get(0);
+            rs = null;
+
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+    
     public static boolean actualizar(Escuela escuela) throws Exception {
         boolean eje = false;
         try {

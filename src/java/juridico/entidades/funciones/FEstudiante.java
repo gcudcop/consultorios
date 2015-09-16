@@ -101,7 +101,7 @@ public class FEstudiante {
         boolean eje = false;
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from juridico.f_update_estudiante(?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "select * from juridico.f_update_estudiante(?,?,?,?,?,?,?,?,?,?,?,?)";
             lstP.add(new Parametro(1, estudiante.getNombres()));
             lstP.add(new Parametro(2, estudiante.getApellidos()));
             lstP.add(new Parametro(3, estudiante.getIdentificacion()));

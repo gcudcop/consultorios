@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.validation.constraints.Pattern;
 
 /**
  *
@@ -25,7 +26,7 @@ public class Usuario {
     private String nombre_corto;
     private String clave;
     private String clave_pregunta;
-    private String clave_respuesta;
+    private String clave_respuesta;    
     private String mail;
     private int estado;
     private java.sql.Timestamp primer_acceso;

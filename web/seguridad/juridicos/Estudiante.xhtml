@@ -251,8 +251,8 @@ and open the template in the editor.
                                          required="true" requiredMessage="Ingrese la cédula de ciudadanía" placeholder="Ingrese la cédula de ciudadanía"/>
 
                             <h:outputText value="Sexo:"/>                                                        
-                            <p:selectOneMenu value="#{estudianteBean.sexo}">
-                                <f:selectItem itemValue="#{null}" itemLabel="--Elija una opción--"/>
+                            <p:selectOneMenu value="#{estudianteBean.estudianteSel.sexo}">
+                                <f:selectItem itemValue="#{null}" itemLabel="--Escoja una opcion --"/>
                                 <f:selectItem itemLabel="Masculino" itemValue="M" />
                                 <f:selectItem itemLabel="Femenino" itemValue="F" />
                             </p:selectOneMenu>
@@ -276,7 +276,7 @@ and open the template in the editor.
                             </p:selectOneMenu>
 
                             <h:outputText id="txtNivel" value="Nivel:"/> 
-                            <p:selectOneMenu id="cmdSemestres" value="#{estudianteBean.nivel}">
+                            <p:selectOneMenu id="cmdSemestres" value="#{estudianteBean.estudianteSel.nivel}">
                                 <f:selectItem itemValue="#{null}" itemLabel="--Elija una opción--"/>
                                 <f:selectItem itemLabel="Primer Semestre" itemValue="#{1}" />
                                 <f:selectItem itemLabel="Segundo Semestre" itemValue="#{2}" />
@@ -297,13 +297,13 @@ and open the template in the editor.
                             <p:calendar id="fechaSalida" value="#{estudianteBean.fechaSalida}" locale="de" navigator="true" pattern="yyyy/MM/dd" placeholder="yyyy/MM/dd" />
 
                             <h:outputText id="txtEstado" value="Estado:"/> 
-                            <p:selectOneMenu id="cmdEstado" value="#{estudianteBean.estado}">
+                            <p:selectOneMenu id="cmdEstado" value="#{estudianteBean.estudianteSel.estado}">
                                 <f:selectItem itemLabel="--Elija una opción--" itemValue="#{null}"/>
                                 <f:selectItem itemLabel="Activo" itemValue="#{1}" />
                                 <f:selectItem itemLabel="Pasivo" itemValue="#{0}" />
                             </p:selectOneMenu>
                         </p:panelGrid>
-                        <p:commandButton value="Aceptar" action="#{estudianteControlador.actualizarEstudiante()}" 
+                        <p:commandButton value="Aceptar" action="#{estudianteBean.actualizarEstudiante()}" 
                                          update=":frmestudiante:pnlEstudiante"/>
                         <p:commandButton value="Cancelar" onclick="wdlgEditarEstudiante.hide()" type="reset"/>
                     </h:form> 
