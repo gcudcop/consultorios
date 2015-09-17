@@ -141,6 +141,22 @@ public class FDocente {
         }
         return lst;
     }
+    
+    public static ArrayList<Docente> ObtenerDocenteDadoCedula(String cedula) throws Exception {
+        ArrayList<Docente> lst= new ArrayList<Docente>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from juridico.f_select_docente_dado_identificacion(?)";
+            lstP.add(new Parametro(1, cedula));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
+            //lst = new Docente();
+            lst = llenarDocente(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
 
     
 }

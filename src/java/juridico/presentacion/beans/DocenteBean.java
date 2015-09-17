@@ -45,6 +45,15 @@ public class DocenteBean {
     private int faculatadSeleccionana;
     private int estado;
     private String sexo;
+    private String cedulaBusqueda;
+
+    public String getCedulaBusqueda() {
+        return cedulaBusqueda;
+    }
+
+    public void setCedulaBusqueda(String cedulaBusqueda) {
+        this.cedulaBusqueda = cedulaBusqueda;
+    }
 
     public int getEstado() {
         return estado;
@@ -182,6 +191,17 @@ public class DocenteBean {
         } catch (Exception e) {
             Util.addErrorMessage("private void cargarDocente dice: " + e.getMessage());
             System.out.println("private void cargarDocente dice: " + e.getMessage());
+        }
+    }
+
+    public void obtenerDocenteDadoCedula() {
+        try {
+            this.lstDocentes = FDocente.ObtenerDocenteDadoCedula(cedulaBusqueda);
+            this.docenteSel = lstDocentes.get(0);
+            System.out.println(lstDocentes.get(0).getId_docente());
+        } catch (Exception e) {
+            Util.addErrorMessage("private void cargarDocenteDadoCedula dice: " + e.getMessage());
+            System.out.println("private void cargarDocenteDadoCedula dice: " + e.getMessage());
         }
     }
 

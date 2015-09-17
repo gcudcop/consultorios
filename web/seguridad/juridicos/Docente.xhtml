@@ -25,13 +25,28 @@ and open the template in the editor.
 
                 <h:form id="frmdocente">
                     <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                    <!--BUSCADOR-->
+                       <p:panel id="pnlBuscarDatos" style="margin-bottom:20px; " >
+                            <h:panelGrid columns="3" cellpadding="10" style="alignment-adjust: middle;"  >
+                                <p:outputLabel value="Busqueda: " style="font-style: initial"  />
+                                <p:inputText  size="40" id="globalFilter" value="#{docenteBean.cedulaBusqueda}"  
+                                              placeholder="Ingrese un Número de Cédula..."/>
+                                <p:commandButton id="btnBuscar" icon="ui-icon-search" style="width:64px"  
+                                                 title="Buscar "  
+                                                 action="#{docenteBean.obtenerDocenteDadoCedula()}" process="@form, @this" 
+                                                 update=":frmdocente:tblDocente, @form">                                   
+
+                                </p:commandButton>
+
+                            </h:panelGrid>
+                        </p:panel>
+                    <!--BUSCADOR-->
+                    
                     <p:panel id="pnlDocente">
                         <p:dataTable id="tblDocente" value="#{docenteBean.lstDocentes}" 
                                      var="tutor" 
                                      paginator="true" rows="10" rowKey="#{tutor.id_docente}" selectionMode="single" 
                                      selection="#{docenteBean.docenteSel}">
-
-
 
                             <p:column headerText="Facultad">
                                 <h:outputText value="#{tutor.id_facultad.nombre}"/>
@@ -101,8 +116,6 @@ and open the template in the editor.
                           modal="true" closable="false" resizable="false"
                           showEffect="clip" hideEffect="fold"> 
 
-
-
                     <h:form id="frmNuevoDocente">
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
 
@@ -110,15 +123,15 @@ and open the template in the editor.
 
 
                             <h:outputText id="txtIdentificacion" value="Cédula Nº:" />
-                            <p:inputText size="30" value="#{docenteBean.objDocente.identificacion}" />
+                            <p:inputText size="30" value="#{docenteBean.objDocente.identificacion}" placeholder="Ingrese C.I" />
 
 
                             <h:outputText id="txtApellidosDocente" value="Apellidos:" />
-                            <p:inputText id="txtApellidos" size="30" value="#{docenteBean.objDocente.apellidos}" />
+                            <p:inputText id="txtApellidos" size="30" value="#{docenteBean.objDocente.apellidos}" placeholder="Ingrese los Apellidos" />
 
 
                             <h:outputText id="txtNombresDocente" value="Nombres:"/>
-                            <p:inputText size="30" value="#{docenteBean.objDocente.nombres}" />
+                            <p:inputText size="30" value="#{docenteBean.objDocente.nombres}" placeholder="Ingrese los Nombres" />
 
                             <h:outputText value="Sexo:"/>
                             <p:selectOneMenu id="cmbSexo" value="#{docenteBean.sexo}"
@@ -130,10 +143,10 @@ and open the template in the editor.
 
 
                             <h:outputText id="txtTercerNivel" value="Título Tercer Nivel:"/>
-                            <p:inputText size="30" value="#{docenteBean.objDocente.tercer_nivel}"/>
+                            <p:inputText size="30" value="#{docenteBean.objDocente.tercer_nivel}" placeholder="Ingrese eL Titulo 3 Nivel"/>
 
                             <h:outputText id="txtCuartoNivel" value="Título Cuarto Nivel:"/>
-                            <p:inputText size="30" value="#{docenteBean.objDocente.cuarto_nivel}"/>
+                            <p:inputText size="30" value="#{docenteBean.objDocente.cuarto_nivel}" placeholder="Ingrese eL Titulo 4 Nivel"/>
 
                             <h:outputText value="Estado:"/>
                             <p:selectOneMenu id="cmbEstado" value="#{docenteBean.estado}"
