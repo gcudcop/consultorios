@@ -5,6 +5,7 @@
  */
 package juridico.entidades.clases;
 
+import com.cursojsf.validadores.Cedula;
 import java.util.Date;
 import master.logica.clases.Escuela;
 import master.logica.clases.Facultad;
@@ -18,6 +19,7 @@ public class Docente {
     private int id_docente;
     private String nombres;
     private String apellidos;
+    @Cedula (message = "La cédula ingresada es incorrecta")
     private String identificacion;
     private String sexo;
     private String tercer_nivel;
