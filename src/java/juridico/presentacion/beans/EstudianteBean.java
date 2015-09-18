@@ -5,6 +5,7 @@
  */
 package juridico.presentacion.beans;
 
+import com.cursojsf.validadores.Cedula;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.faces.bean.ManagedBean;
@@ -26,7 +27,7 @@ import recursos.StringToDate;
 @ManagedBean
 @RequestScoped
 public class EstudianteBean {
-    
+
     private Estudiante objEstudiante;
     private Estudiante estudianteSel;
     private ArrayList<Estudiante> lstEstudiantes;
@@ -46,159 +47,166 @@ public class EstudianteBean {
     private int estado;
     private String sexo;
     private String estadoStr;
-    
+    @Cedula (message = "Cédula Incorrecta")
+    private String busquedaCedula;
+
+    public String getBusquedaCedula() {
+        return busquedaCedula;
+    }
+
+    public void setBusquedaCedula(String busquedaCedula) {
+        this.busquedaCedula = busquedaCedula;
+    }
+
     public ArrayList<Escuela> getListEscuelas() {
         return listEscuelas;
     }
 
-    /*
-     * Métodos Get y Set
-     */
     public void setListEscuelas(ArrayList<Escuela> listEscuelas) {
         this.listEscuelas = listEscuelas;
     }
-    
+
     public String getSexo() {
         return sexo;
     }
-    
+
     public void setSexo(String sexo) {
         this.sexo = sexo;
     }
-    
+
     public int getEstado() {
         return estado;
     }
-    
+
     public void setEstado(int estado) {
         this.estado = estado;
     }
-    
+
     public Date getFechaIngreso() {
         return fechaIngreso;
     }
-    
+
     public void setFechaIngreso(Date fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
     }
-    
+
     public Date getFechaSalida() {
         return fechaSalida;
     }
-    
+
     public void setFechaSalida(Date fechaSalida) {
         this.fechaSalida = fechaSalida;
     }
-    
+
     public String getTxtFechaIngreso() {
         return txtFechaIngreso;
     }
-    
+
     public void setTxtFechaIngreso(String txtFechaIngreso) {
         this.txtFechaIngreso = txtFechaIngreso;
     }
-    
+
     public String getTxtFechaSalida() {
         return txtFechaSalida;
     }
-    
+
     public void setTxtFechaSalida(String txtFechaSalida) {
         this.txtFechaSalida = txtFechaSalida;
     }
-    
+
     public int getNivel() {
         return nivel;
     }
-    
+
     public void setNivel(int nivel) {
         this.nivel = nivel;
     }
-    
+
     public Date getFechaNacimiento() {
         return fechaNacimiento;
     }
-    
+
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
-    
+
     public String getTxtFechaNacimiento() {
         return txtFechaNacimiento;
     }
-    
+
     public void setTxtFechaNacimiento(String txtFechaNacimiento) {
         this.txtFechaNacimiento = txtFechaNacimiento;
     }
-    
+
     public Estudiante getObjEstudiante() {
         return objEstudiante;
     }
-    
+
     public void setObjEstudiante(Estudiante objEstudiante) {
         this.objEstudiante = objEstudiante;
     }
-    
+
     public Estudiante getEstudianteSel() {
         return estudianteSel;
     }
-    
+
     public void setEstudianteSel(Estudiante estudianteSel) {
         this.estudianteSel = estudianteSel;
     }
-    
+
     public ArrayList<Estudiante> getLstEstudiantes() {
         return lstEstudiantes;
     }
-    
+
     public void setLstEstudiantes(ArrayList<Estudiante> lstEstudiantes) {
         this.lstEstudiantes = lstEstudiantes;
     }
-    
+
     public ArrayList<Escuela> getLstEscuelas() {
         return lstEscuelas;
     }
-    
+
     public void setLstEscuelas(ArrayList<Escuela> lstEscuelas) {
         this.lstEscuelas = lstEscuelas;
     }
-    
+
     public ArrayList<Facultad> getLstFacultades() {
         return lstFacultades;
     }
-    
+
     public void setLstFacultades(ArrayList<Facultad> lstFacultades) {
         this.lstFacultades = lstFacultades;
     }
-    
+
     public boolean isMostrarActualizar() {
         return mostrarActualizar;
     }
-    
+
     public void setMostrarActualizar(boolean mostrarActualizar) {
         this.mostrarActualizar = mostrarActualizar;
     }
-    
+
     public int getValorESeleccionada() {
         return valorESeleccionada;
     }
-    
+
     public void setValorESeleccionada(int valorESeleccionada) {
         this.valorESeleccionada = valorESeleccionada;
     }
-    
+
     public int getValorFSeleccionada() {
         return valorFSeleccionada;
     }
-    
+
     public void setValorFSeleccionada(int valorFSeleccionada) {
         this.valorFSeleccionada = valorFSeleccionada;
     }
-    
+
     public String getEstadoStr() {
-        
+
         return estadoStr;
     }
-    
+
     public void setEstadoStr(String estadoStr) {
         this.estadoStr = estadoStr;
     }
@@ -209,7 +217,7 @@ public class EstudianteBean {
     public EstudianteBean() {
         this.reinit();
     }
-    
+
     private void reinit() {
         this.objEstudiante = new Estudiante();
         this.estudianteSel = new Estudiante();
@@ -221,7 +229,7 @@ public class EstudianteBean {
         this.obtenerEscuelas();
 //        this.obtenerEscuelasDadoCodigoFacultad();
     }
-    
+
     public void obtenerEscuelas() {
         try {
             this.lstEscuelas = FEscuela.ObtenerEscuelas();
@@ -230,7 +238,7 @@ public class EstudianteBean {
             System.out.println(e.getMessage());
         }
     }
-    
+
     public void cargarEstudiantes() {
         try {
             this.lstEstudiantes = FEstudiante.obtenerEstudiantes();
@@ -241,7 +249,7 @@ public class EstudianteBean {
             System.out.println("private void cargarEstudiante dice: " + e.getMessage());
         }
     }
-    
+
     public void cargarFacultad() {
         try {
             this.lstFacultades = FFacultad.ObtenerFacultades();
@@ -251,7 +259,7 @@ public class EstudianteBean {
             System.out.println("private void cargarFacultad dice: " + e.getMessage());
         }
     }
-    
+
     public void obtenerEscuelasDadoCodigoFacultad() {
         try {
             lstEscuelas.clear();
@@ -262,21 +270,21 @@ public class EstudianteBean {
             System.out.println("private void obtenerEscuelasDadoCodigoFacultad: " + e.getMessage());
         }
     }
-    
+
     public void insertarEstudiante() {
-        
+
         try {
             java.text.SimpleDateFormat sdf1 = new java.text.SimpleDateFormat("yyyy-MM-dd");
             txtFechaNacimiento = sdf1.format(fechaNacimiento);
             Date fecha = sdf1.parse(txtFechaNacimiento);
             java.sql.Date varFechaNacimiento = new java.sql.Date(fecha.getTime());
-            
+
             Escuela escuela = new Escuela();
             escuela.setCodigo(valorESeleccionada);
             objEstudiante.setId_escuela(escuela);
             Facultad facultad = new Facultad();
             facultad.setCodigo(valorFSeleccionada);
-            
+
             objEstudiante.setId_facultad(facultad);
             objEstudiante.setFecha_nacimiento(varFechaNacimiento);
             objEstudiante.setFecha_ingreso(StringToDate.devolverFecha(fechaIngreso));
@@ -284,7 +292,7 @@ public class EstudianteBean {
             objEstudiante.setNivel(nivel);
             objEstudiante.setSexo(sexo);
             objEstudiante.setEstado(estado);
-            
+
             if (FEstudiante.insertarEstudiante(objEstudiante)) {
                 this.reinit();
                 DefaultRequestContext.getCurrentInstance().execute("wdlgNuevoEstudiante.hide()");
@@ -299,33 +307,20 @@ public class EstudianteBean {
             System.out.println("private void insertarEstudiante dice: " + e.getMessage());
         }
     }
-    
+
     public void cambiarEstadoMostrarActualizar() {
         mostrarActualizar = true;
     }
-    
+
     public void actualizarEstudiante() {
-        
+
         try {
-//            estudianteSel.setNivel(nivel);
-//            estudianteSel.setSexo(sexo);
-//            estudianteSel.setEstado(estado);
-//            
-//            Escuela escuela = new Escuela();
-//            escuela.setCodigo(valorESeleccionada);
-//            estudianteSel.setId_escuela(escuela);
-//            
-//            Facultad facultad = new Facultad();
-//            facultad.setCodigo(valorFSeleccionada);            
-//            estudianteSel.setId_facultad(facultad);
-            
             estudianteSel.setId_escuela(FEscuela.ObtenerEscuelaDadoCodigo(estudianteSel.getId_escuela().getCodigo()));
             estudianteSel.setId_facultad(FFacultad.ObtenerFacultadDadoCodigo(estudianteSel.getId_facultad().getCodigo()));
             estudianteSel.setFecha_nacimiento(StringToDate.devolverFecha(fechaNacimiento));
             estudianteSel.setFecha_ingreso(StringToDate.devolverFecha(fechaIngreso));
             estudianteSel.setFecha_salida(StringToDate.devolverFecha(fechaSalida));
-            
-            
+
             if (FEstudiante.actualizarEstudiante(estudianteSel)) {
                 estudianteSel = new Estudiante();
                 mostrarActualizar = false;
@@ -342,7 +337,7 @@ public class EstudianteBean {
             System.out.println("private void actualizarEstudiante dice: " + e.getMessage());
         }
     }
-    
+
     public void eliminarEstudiante() {
         try {
             if (FEstudiante.eliminarEstudiante((int) estudianteSel.getId_estudiante())) {
@@ -358,7 +353,18 @@ public class EstudianteBean {
             Util.addErrorMessage("private void eliminarEstudiante dice: " + e.getMessage());
             System.out.println("private void eliminarEstudiante dice: " + e.getMessage());
         }
-        
+
     }
-    
+
+    public void obtenerEstudianteDadoCedula() {
+        try {
+            this.lstEstudiantes = FEstudiante.obtenerEstudianteDadoCedula(busquedaCedula);
+            this.estudianteSel = lstEstudiantes.get(0);
+            System.out.println(lstEstudiantes.get(0).getId_estudiante());
+        } catch (Exception e) {
+            Util.addErrorMessage("public void obtenerEstudianteDadoCedula dice: " + e.getMessage());
+            System.out.println("public void obtenerEstudianteDadoCedula dice: " + e.getMessage());
+        }
+    }
+
 }

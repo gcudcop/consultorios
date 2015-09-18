@@ -149,4 +149,19 @@ public class FAgresor {
         return lst;
     }
     
+    public static ArrayList<Agresor> obtenerAgresorDadoCedula(String cedula) throws Exception {
+        ArrayList<Agresor> lst = new ArrayList<Agresor>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from juridico.f_select_agresor_dado_cedula(?)";
+            lstP.add(new Parametro(1, cedula));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenarAgresor(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+    
 }

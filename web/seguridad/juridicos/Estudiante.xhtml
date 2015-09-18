@@ -22,6 +22,22 @@ and open the template in the editor.
                 <p:growl id="mensajes" autoUpdate="true" showDetail="true"/>
                 <h:form id="frmestudiante">
                     <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                    
+                    <!--BUSCADOR-->
+                       <p:panel id="pnlBuscarDatos" style="margin-bottom:20px; " >
+                            <h:panelGrid columns="3" cellpadding="10" style="alignment-adjust: middle;"  >
+                                <p:outputLabel value="Busqueda: " style="font-style: initial"  />                                
+                                <p:inputText  size="40" id="globalFilter" value="#{estudianteBean.busquedaCedula}"  
+                                              placeholder="Ingrese un Número de Cédula..."/>
+                                <p:commandButton id="btnBuscar" icon="ui-icon-search" style="width:64px"  
+                                                 title="Buscar " action="#{estudianteBean.obtenerEstudianteDadoCedula()}" 
+                                                 process="@form, @this" update=":frmestudiante:tblEstudiante, @form">                                   
+                                </p:commandButton>
+
+                            </h:panelGrid>
+                        </p:panel>
+                    <!--BUSCADOR-->   
+                    
                     <p:panel id="pnlEstudiante">
                         <p:dataTable id="tblEstudiante" value="#{estudianteBean.lstEstudiantes}" 
                                      var="estudiantes" 
