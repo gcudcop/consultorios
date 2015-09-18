@@ -22,6 +22,23 @@ and open the template in the editor.
                 <p:growl id="mensajes" autoUpdate="true" showDetail="true"/>
                 <h:form id="frmagresor">
                     <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                    
+                     <!--BUSCADOR-->
+                       <p:panel id="pnlBuscarDatos" style="margin-bottom:20px; " >
+                            <h:panelGrid columns="3" cellpadding="10" style="alignment-adjust: middle;"  >
+                                <p:outputLabel value="Busqueda: " style="font-style: initial"  />                                
+                                <p:inputText  size="40" id="globalFilter" value="#{agresorBeans.cedula}"  
+                                              placeholder="Ingrese un Número de Cédula..."/>
+                                <p:commandButton id="btnBuscar" icon="ui-icon-search" style="width:64px"  
+                                                 title="Buscar " action="#{agresorBeans.obtenerAgresorDadoCedula()}" 
+                                                 process="@form, @this" update=":frmagresor:tblAgresor, @form">                                   
+                                </p:commandButton>
+
+                            </h:panelGrid>
+                        </p:panel>
+                    <!--BUSCADOR-->   
+                    
+                    
                     <p:panel id="pnlAgresor" >
                         <p:dataTable id="tblAgresor" value="#{agresorBeans.lstAgresores}" 
                                      var="agresor" 

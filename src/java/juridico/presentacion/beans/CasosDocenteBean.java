@@ -20,10 +20,11 @@ import juridico.entidades.funciones.FCaso;
 import juridico.entidades.funciones.FDocente;
 import juridico.entidades.funciones.FEstudiante;
 import juridico.entidades.funciones.FVictima;
+import master.logica.funciones.FUsuario;
 import master.presentacion.beans.SesionUsuarioDataManager;
 import org.primefaces.context.DefaultRequestContext;
-import recursos.Util;
 import recursos.StringToDate;
+import recursos.Util;
 
 /**
  *
@@ -31,11 +32,8 @@ import recursos.StringToDate;
  */
 @ManagedBean
 @RequestScoped
-public class CasoBean {
+public class CasosDocenteBean {
 
-    /**
-     * Creates a new instance of CasoBean
-     */
     private Caso objCaso;
     private Caso casoSel;
     private ArrayList<Estudiante> lstEstudiante;
@@ -55,13 +53,41 @@ public class CasoBean {
     private String area;
     @ManagedProperty(value = "#{sesionUsuarioDataManager}")
     private SesionUsuarioDataManager dm;
+    private String criterioBusqueda;
+    private String cedulaSesion;
+    private String criterioBusqueda2;
+    private String criterioBusqueda3;
 
-    public SesionUsuarioDataManager getDm() {
-        return dm;
+    public String getCriterioBusqueda2() {
+        return criterioBusqueda2;
     }
 
-    public void setDm(SesionUsuarioDataManager dm) {
-        this.dm = dm;
+    public void setCriterioBusqueda2(String criterioBusqueda2) {
+        this.criterioBusqueda2 = criterioBusqueda2;
+    }
+
+    public String getCriterioBusqueda3() {
+        return criterioBusqueda3;
+    }
+
+    public void setCriterioBusqueda3(String criterioBusqueda3) {
+        this.criterioBusqueda3 = criterioBusqueda3;
+    }
+
+    public String getCedulaSesion() {
+        return cedulaSesion;
+    }
+
+    public void setCedulaSesion(String cedulaSesion) {
+        this.cedulaSesion = cedulaSesion;
+    }
+
+    public String getCriterioBusqueda() {
+        return criterioBusqueda;
+    }
+
+    public void setCriterioBusqueda(String criterioBusqueda) {
+        this.criterioBusqueda = criterioBusqueda;
     }
 
     public Caso getObjCaso() {
@@ -110,6 +136,14 @@ public class CasoBean {
 
     public void setLstAgresor(ArrayList<Agresor> lstAgresor) {
         this.lstAgresor = lstAgresor;
+    }
+
+    public ArrayList<Caso> getLstCasos() {
+        return lstCasos;
+    }
+
+    public void setLstCasos(ArrayList<Caso> lstCasos) {
+        this.lstCasos = lstCasos;
     }
 
     public boolean isMostrarActualizar() {
@@ -168,14 +202,6 @@ public class CasoBean {
         this.txtFechaInicio = txtFechaInicio;
     }
 
-    public ArrayList<Caso> getLstCasos() {
-        return lstCasos;
-    }
-
-    public void setLstCasos(ArrayList<Caso> lstCasos) {
-        this.lstCasos = lstCasos;
-    }
-
     public String getJuzgado() {
         return juzgado;
     }
@@ -200,30 +226,50 @@ public class CasoBean {
         this.area = area;
     }
 
-    /*
-     * inicializar las variables
-     */
+    public SesionUsuarioDataManager getDm() {
+        return dm;
+    }
+
+    public void setDm(SesionUsuarioDataManager dm) {
+        this.dm = dm;
+    }
+
     private void reinit() {
         this.objCaso = new Caso();
         this.casoSel = new Caso();
-        this.cargarCasos();
-        this.cargarDocentes();
+        this.cargarCasosSesionUsuario();
+//        this.cargarDocentes();
         this.cargarVictimas();
         this.cargarEstudiantes();
         this.cargarAgresores();
 
     }
-    /*
-     * constructor
-     */
 
-    public CasoBean() {
+    public void capturaCedulaSesion() {
+        try {
+            this.cedulaSesion = FUsuario.ObtenerUsuarioDadoCodigo(dm.getSesionUsuario().getCodigo()).getIdentificacion();
+        } catch (Exception e) {
+            Util.addErrorMessage("private void capturaCedulaSesion dice: " + e.getMessage());
+            System.out.println("private void capturaCedulaSesion dice: " + e.getMessage());
+        }
+    }
+
+    public CasosDocenteBean() {
         this.reinit();
     }
 
-    /*
-     * Métodos
-     */
+    public void cargarCasosSesionUsuario() {
+        try {
+            //this.lstCasos=FCaso.obtenerCasosDadoCedulaDocente(FUsuario.ObtenerUsuarioDadoCodigo(dm.getSesionUsuario().getCodigo()).getIdentificacion());
+            this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente("1803874310");
+            this.casoSel = lstCasos.get(0);
+            System.out.println(lstCasos.get(0).getId_caso());
+        } catch (Exception e) {
+            Util.addErrorMessage("public void cargarCasosSesionUsuario() dice: " + e.getMessage());
+            System.out.println("public void cargarCasosSesionUsuario() dice: " + e.getMessage());
+        }
+    }
+
     public void cargarEstudiantes() {
         try {
             this.lstEstudiante = FEstudiante.obtenerEstudiantes();
@@ -234,23 +280,23 @@ public class CasoBean {
         }
     }
 
-    public void cargarDocentes() {
-        try {
-            this.lstDocente = FDocente.ObtenerDocentes();
-            System.out.println(lstDocente.get(0).getId_docente());
-        } catch (Exception e) {
-            Util.addErrorMessage("private void cargarEstudiante dice: " + e.getMessage());
-            System.out.println("private void cargarEstudiante dice: " + e.getMessage());
-        }
-    }
-
+//    public void cargarDocentes() {
+//        try {
+//            this.lstDocente = FDocente.ObtenerDocentes();
+//            
+//            System.out.println(lstDocente.get(0).getId_docente());
+//        } catch (Exception e) {
+//            Util.addErrorMessage("public void cargarDocentes() dice: " + e.getMessage());
+//            System.out.println("public void cargarDocentes() dice: " + e.getMessage());
+//        }
+//    }
     public void cargarVictimas() {
         try {
             this.lstVictima = FVictima.ObtenerVictimas();
             System.out.println(lstVictima.get(0).getId_victima());
         } catch (Exception e) {
-            Util.addErrorMessage("private void cargarEstudiante dice: " + e.getMessage());
-            System.out.println("private void cargarEstudiante dice: " + e.getMessage());
+            Util.addErrorMessage("public void cargarVictimas() dice: " + e.getMessage());
+            System.out.println("public void cargarVictimas() dice: " + e.getMessage());
         }
     }
 
@@ -259,29 +305,8 @@ public class CasoBean {
             this.lstAgresor = FAgresor.ObtenerAgresors();
             System.out.println(lstAgresor.get(0).getId_agresor());
         } catch (Exception e) {
-            Util.addErrorMessage("private void cargarEstudiante dice: " + e.getMessage());
-            System.out.println("private void cargarEstudiante dice: " + e.getMessage());
-        }
-    }
-
-    public void cargarCasos() {
-        try {
-            this.lstCasos = FCaso.obtenerCasos();
-            this.casoSel=lstCasos.get(0);
-            System.out.println(lstCasos.get(0).getId_caso());
-        } catch (Exception e) {
-            Util.addErrorMessage("private void cargarEstudiante dice: " + e.getMessage());
-            System.out.println("private void cargarEstudiante dice: " + e.getMessage());
-        }
-    }
-    
-    public void cargarCasosSesionUsuario() {
-        try {
-            this.lstCasos = FCaso.obtenerCasos();
-            System.out.println(lstCasos.get(0).getId_caso());
-        } catch (Exception e) {
-            Util.addErrorMessage("private void cargarEstudiante dice: " + e.getMessage());
-            System.out.println("private void cargarEstudiante dice: " + e.getMessage());
+            Util.addErrorMessage(" public void cargarAgresores() dice: " + e.getMessage());
+            System.out.println(" public void cargarAgresores() dice: " + e.getMessage());
         }
     }
 
@@ -293,7 +318,7 @@ public class CasoBean {
         try {
 
             Docente docente = new Docente();
-            docente.setId_docente(valorDSeleccionada);
+            docente.setId_docente(lstCasos.get(0).getId_docente().getId_docente());
 
             Estudiante estudiante = new Estudiante();
             estudiante.setId_estudiante(valorESeleccionada);
@@ -335,8 +360,10 @@ public class CasoBean {
      */
     public void actualizarCaso() {
         try {
+
             if (FCaso.actualizarCaso(casoSel)) {
                 casoSel = new Caso();
+
                 mostrarActualizar = false;
                 this.reinit();
                 DefaultRequestContext.getCurrentInstance().execute("wdlgEditarCaso.hide()");
@@ -349,6 +376,34 @@ public class CasoBean {
         } catch (Exception e) {
             Util.addErrorMessage("public void actualizarCaso dice: " + e.getMessage());
             System.out.println("public void actualizarCaso dice: " + e.getMessage());
+        }
+    }
+
+    public void obtenerCasosPorNumero() {
+        try {
+            //this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente(cedulaSesion); //descomentar esta linea
+
+            //this.lstCasos=FCaso.obtenerCasosDadoCedulaDocenteNumero(cedulaSesion, criterioBusqueda); //descomentar esta linea
+            this.lstCasos = FCaso.obtenerCasosDadoCedulaDocenteNumero("1803874310", this.criterioBusqueda);
+            this.casoSel = lstCasos.get(0);
+            System.out.println(lstCasos.get(0).getId_caso());
+        } catch (Exception e) {
+            Util.addErrorMessage("public void obtenerCasosPorNumero() dice: " + e.getMessage());
+            System.out.println("public void obtenerCasosPorNumero() dice: " + e.getMessage());
+        }
+    }
+
+    public void obtenerCasosDadoCedulaDocenteCedulaVictima() {
+        try {
+            //this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente(cedulaSesion); //descomentar esta linea
+
+            //this.lstCasos=FCaso.obtenerCasosDadoCedulaDocenteCedulaVictima(cedulaSesion, criterioBusqueda); //descomentar esta linea
+            this.lstCasos = FCaso.obtenerCasosDadoCedulaDocenteCedulaVictima("1803874310", criterioBusqueda2);
+            this.casoSel = lstCasos.get(0);
+            System.out.println(lstCasos.get(0).getId_caso());
+        } catch (Exception e) {
+            Util.addErrorMessage("private void obtenerCasosDadoCedulaDocenteCedulaVictima dice: " + e.getMessage());
+            System.out.println("private void obtenerCasosDadoCedulaDocenteCedulaVictima dice: " + e.getMessage());
         }
     }
 
