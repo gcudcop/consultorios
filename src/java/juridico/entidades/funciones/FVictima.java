@@ -160,5 +160,20 @@ public class FVictima {
         }
         return lst;
     }
-
+    
+    public static ArrayList<Victima> ObtenerVictimaDadoCedula(String cedula) throws Exception {
+        ArrayList<Victima> lst = new ArrayList<Victima>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from juridico.f_select_victima_dado_identificacion(?)";
+            lstP.add(new Parametro(1, cedula));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            //lst = new Datos();
+            lst = llenarVictima(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
 }

@@ -41,6 +41,15 @@ public class ControladorVictima {
     private String hijosMujeres;
     private String salarioMensual;
     private String vivienda;
+    private String cedulaBusqueda;
+
+    public String getCedulaBusqueda() {
+        return cedulaBusqueda;
+    }
+
+    public void setCedulaBusqueda(String cedulaBusqueda) {
+        this.cedulaBusqueda = cedulaBusqueda;
+    }
 
     private int edadInt, hijosV, hijosM;
     private double salarioM;
@@ -234,6 +243,17 @@ public class ControladorVictima {
         } catch (Exception e) {
             Util.addErrorMessage("private void cargarVictima dice: " + e.getMessage());
             System.out.println("private void cargarVictima dice: " + e.getMessage());
+        }
+    }
+
+    public void obtenerVictimaDadoCedula() {
+        try {
+            this.lstVictimas = FVictima.ObtenerVictimaDadoCedula(cedulaBusqueda);
+            this.victimaSel = lstVictimas.get(0);
+            System.out.println(lstVictimas.get(0).getId_victima());
+        } catch (Exception e) {
+            Util.addErrorMessage("private void cargarVictimaDadoCedula dice: " + e.getMessage());
+            System.out.println("private void cargarVictimaDadoCedula dice: " + e.getMessage());
         }
     }
 
