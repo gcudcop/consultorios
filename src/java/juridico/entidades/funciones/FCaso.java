@@ -112,7 +112,7 @@ public class FCaso {
         ArrayList<Caso> lst = new ArrayList<Caso>();
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from juridico.f_select_caso_dado_cedula_docente_numero(?,?)";
+            String sql = "select * from juridico.f_select_caso_dado_cedula_docente_cedula_victima(?,?)";
             lstP.add(new Parametro(1, cedulaDocente));
             lstP.add(new Parametro(2, cedulaVictima));
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
@@ -123,9 +123,72 @@ public class FCaso {
         }
         return lst;
     }
-    
-    
-    
+       /* edwin maigua*/
+    public static ArrayList<Caso> obtenerCasosDadoCedulaDocenteCedulaAgresor(String cedulaDocente,String cedulaAgresor) throws Exception {
+        ArrayList<Caso> lst = new ArrayList<Caso>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * juridico.f_select_caso_dado_cedula_docente_cedula_agresor(?,?)";
+            lstP.add(new Parametro(1, cedulaDocente));
+            lstP.add(new Parametro(2, cedulaAgresor));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenarDatos(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+        public static ArrayList<Caso> obtenerCasosDadoCedulaEstudianteCedulaDocente(String cedulaEstudiante,String cedulaDocente) throws Exception {
+        ArrayList<Caso> lst = new ArrayList<Caso>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * juridico.f_select_caso_dado_cedula_estudiante_cedula_docente(?,?)";
+            lstP.add(new Parametro(1, cedulaEstudiante));
+            lstP.add(new Parametro(2, cedulaDocente));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenarDatos(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+          public static ArrayList<Caso> obtenerCasosDadoCedulaEstudianteCedulaAgreor(String cedulaEstudiante,String cedulaAgresor) throws Exception {
+        ArrayList<Caso> lst = new ArrayList<Caso>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * juridico.f_select_caso_dado_cedula_estudiante_cedula_agresor(?,?)";
+            lstP.add(new Parametro(1, cedulaEstudiante));
+            lstP.add(new Parametro(2, cedulaAgresor));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenarDatos(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+           public static ArrayList<Caso> obtenerCasosDadoCedulaEstudianteCedulaVictima(String cedulaEstudiante,String cedulaVictima) throws Exception {
+        ArrayList<Caso> lst = new ArrayList<Caso>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * juridico.f_select_caso_dado_cedula_estudiante_cedula_victima(?,?)";
+            lstP.add(new Parametro(1, cedulaEstudiante));
+            lstP.add(new Parametro(2, cedulaVictima));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenarDatos(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+          
+        
+        
+        
+        
     public static Caso obtenerCasoDadoCedulaDocente(String cedula) throws Exception {
         Caso lst;
         try {
