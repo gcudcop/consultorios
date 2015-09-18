@@ -158,6 +158,18 @@ public class FEstudiante {
         return lst;
     }
     
-    
-
+   public static ArrayList<Estudiante> obtenerEstudianteDadoCedula(String cedula) throws Exception {
+        ArrayList<Estudiante> lst = new ArrayList<Estudiante>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from juridico.f_select_estudiante_dado_cedula(?)";
+            lstP.add(new Parametro(1, cedula));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenarEstudiante(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
 }

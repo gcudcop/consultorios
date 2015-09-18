@@ -5,6 +5,7 @@
  */
 package juridico.presentacion.beans;
 
+import com.cursojsf.validadores.Cedula;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -36,9 +37,18 @@ public class AgresorBeans {
     private String ocupacion;
     private String trabajoRemunerado;
     private String salarioMensual;
-
+    @Cedula (message = "Cedula errónea")
+    private String cedula;
     private int edadInt;
     private double salarioM;
+
+    public String getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
+    }
 
     public int getEdadInt() {
         return edadInt;
@@ -253,5 +263,18 @@ public class AgresorBeans {
         }
 
     }
+    
+    public void obtenerAgresorDadoCedula() {
+        try {
+            this.lstAgresores=FAgresor.obtenerAgresorDadoCedula(cedula);
+            this.agresorSel=lstAgresores.get(0);            
+            System.out.println("codigo agresor "+lstAgresores.get(0).getCi_identidad());
+        } catch (Exception e) {
+            Util.addErrorMessage("public void obtenerAgresorDadoCedula dice: " + e.getMessage());
+            System.out.println("public void obtenerAgresorDadoCedula dice: " + e.getMessage());
+        }
+    }
+    
+    
 
 }

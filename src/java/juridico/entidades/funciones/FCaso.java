@@ -57,6 +57,93 @@ public class FCaso {
         }
         return lst;
     }
+    
+    public static ArrayList<Caso> obtenerCasosDadoCodigoDocente(int codigoDocente) throws Exception {
+        ArrayList<Caso> lst = new ArrayList<Caso>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from juridico.f_select_caso_dado_codigo_docente(?)";
+            lstP.add(new Parametro(1, codigoDocente));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenarDatos(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+    
+    /*
+    *** captura los casos a cargo del docente tutor
+    */
+    
+    public static ArrayList<Caso> obtenerCasosDadoCedulaDocente(String cedula) throws Exception {
+        ArrayList<Caso> lst = new ArrayList<Caso>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from juridico.f_select_caso_dado_cedula_docente(?)";
+            lstP.add(new Parametro(1, cedula));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenarDatos(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+    
+    public static ArrayList<Caso> obtenerCasosDadoCedulaDocenteNumero(String cedula,String numeroCaso) throws Exception {
+        ArrayList<Caso> lst = new ArrayList<Caso>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from juridico.f_select_caso_dado_cedula_docente_numero(?,?)";
+            lstP.add(new Parametro(1, cedula));
+            lstP.add(new Parametro(2, numeroCaso));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenarDatos(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+    
+    public static ArrayList<Caso> obtenerCasosDadoCedulaDocenteCedulaVictima(String cedulaDocente,String cedulaVictima) throws Exception {
+        ArrayList<Caso> lst = new ArrayList<Caso>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from juridico.f_select_caso_dado_cedula_docente_numero(?,?)";
+            lstP.add(new Parametro(1, cedulaDocente));
+            lstP.add(new Parametro(2, cedulaVictima));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenarDatos(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+    
+    
+    
+    public static Caso obtenerCasoDadoCedulaDocente(String cedula) throws Exception {
+        Caso lst;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from juridico.f_select_caso_dado_cedula_docente(?)";
+            lstP.add(new Parametro(1, cedula));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = new Caso();
+            lst = llenarDatos(rs).get(0);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+    
+    
+    
 
     public static Caso ObtenerCasoDadoId(int id) throws Exception {
         Caso lst;
@@ -129,7 +216,7 @@ public class FCaso {
         boolean eje = false;
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from juridico.f_update_caso(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "select * from juridico.f_update_caso(?,?,?,?,?,?,?,?,?,?,?,?,?)";
             lstP.add(new Parametro(1, caso.getFecha_inicio()));
             lstP.add(new Parametro(2, caso.getNumero_caso()));
             lstP.add(new Parametro(3, caso.getJuzgado()));
