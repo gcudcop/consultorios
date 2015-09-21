@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>
+            <ui:define name="Seguimiento de los Casos">Seguimiento de los Casos</ui:define>
+        </title>
+    </h:head>
+    <h:body>
+        <ui:composition template="../../templates/plantillaInternaCenter.xhtml">
+            <ui:define name="top">Seguimiento de los Casos</ui:define>
+            <ui:define name="contenido">
+                <p:growl id="mensajes" autoUpdate="true" showDetail="true"/>
+
+                <br></br>
+
+                <h:form id="frmseguimiento">
+                    <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                    <!--Busquedas-->
+                    <p:panel id="pnlBusquedas">      
+                        <h:outputText value="Busquedas por:   "/>
+                        <h:panelGrid columns="3" cellspacing="10">                            
+
+                            <p:panelGrid columns="3">
+                                <p:outputLabel value="Estudiante responsable: " />                                
+                                <p:inputText  size="35" id="filterEst" value="#{seguimientoDocenteBean.criterioBusqueda}"  
+                                              placeholder="Ingrese un número de Cédula..."/>
+                                <p:commandButton id="btnBuscarEstudiante" icon="ui-icon-search" style="width:40px"  
+                                                 title="Buscar " action="#{seguimientoDocenteBean.obtenerSeguimientosDadoCedulaDocenteCedulaEstudiante()}" 
+                                                 process="@form, @this" update=":frmseguimiento:tblSeguimiento, @form">                                   
+                                </p:commandButton>
+                            </p:panelGrid>
+                        </h:panelGrid>
+                    </p:panel>
+                    <!--Busquedas-->
+                    <p:panel id="pnlSeguimiento">
+                        <p:dataTable id="tblSeguimiento" value="#{seguimientoDocenteBean.lstSeguimientos}" 
+                                     var="seguimiento" 
+                                     paginator="true" rows="10" rowKey="#{seguimiento.id_seguimiento}" selectionMode="single" 
+                                     selection="#{seguimientoBean.seguimientoSel}" >
+
+                            <p:column headerText="Número Caso">
+                                <h:outputText value="#{seguimiento.id_caso.numero_caso}"/>
+                            </p:column>
+
+                            <p:column headerText="Nombres Victima">
+                                <h:outputText value="#{seguimiento.id_caso.id_victima.apellidos_victima} #{seguimiento.id_caso.id_victima.nombres_victima}"/>
+                            </p:column>
+
+                            <p:column headerText="Docente Responsable">
+                                <h:outputText value="#{seguimiento.id_docente.apellidos} #{seguimiento.id_docente.nombres}"/>
+                            </p:column>
+
+                            <p:column headerText="Estudiante Responsable">
+                                <h:outputText value="#{seguimiento.id_estudiante.apellidos} #{seguimiento.id_estudiante.nombres}"/>
+                            </p:column>
+
+                            <p:column headerText="Dependencia">
+                                <h:outputText value="#{seguimiento.dependencia} "/>
+                            </p:column>
+
+
+                            <p:column headerText="Responsable Dependencia">
+                                <h:outputText value="#{seguimiento.responsable_dependencia}"/>
+                            </p:column>
+
+                            <p:column headerText="Previsualización">
+                                <p:lightBox >  
+                                    <h:outputLink value="#" title="#{seguimiento.id_caso.numero_caso}">  
+                                        <h:outputText value="#{seguimiento.id_caso.numero_caso}"/>
+                                    </h:outputLink>
+                                    <f:facet name="inline">
+                                        <p:media value="#{seguimiento.path}" height="600" width="800" />                                    
+                                    </f:facet>
+                                </p:lightBox>
+                            </p:column>
+
+                            <p:column exportable="false">
+
+                                <!--<p:commandButton id="btnVerSeguimiento"  icon="ui-icon-circle-plus" 
+                                                 oncomplete="wdlgVerSeguimiento.show()" update=":dlgVerSeguimiento" > 
+                                    <f:setPropertyActionListener value="#{seguimiento}" 
+                                                                 target="#{seguimientoBean.seguimientoSel}"/>
+                                </p:commandButton>-->
+
+                                <p:commandButton id="btnEditarSeguimiento" icon="ui-icon-circle-plus"  title="Adjuntar Documento" 
+                                                 oncomplete="wdlgEditarSeguimiento.show()" 
+                                                 process="@this" update=":dlgEditarSeguimiento, @form">                                   
+                                    <f:setPropertyActionListener value="#{seguimiento}" 
+                                                                 target="#{seguimientoBean.seguimientoSel}"/>
+                                </p:commandButton>
+
+
+                                <!--<p:commandButton id="btnEliminarSeguimiento" icon="ui-icon-close"  title="Eliminar Seguimiento"
+                                                 oncomplete="wdlgEliminarSeguimiento.show()" 
+                                                 update=":dlgEliminarSeguimiento">                                   
+                                    <f:setPropertyActionListener value="#{seguimiento}" 
+                                                                 target="#{seguimientoBean.seguimientoSel}"/>
+                                </p:commandButton>-->
+                            </p:column>
+
+
+                            <f:facet name="footer">  
+                                <p:commandButton id="btnNuevoSeguimiento" value="Nuevo" icon="ui-icon-newwin"
+                                                 oncomplete="wdlgNuevoSeguimiento.show()" title="Usuario"/>  
+
+                                <h:commandLink>
+                                    <img src="../../resources/images/excel.png" alt=""/>
+                                    <p:dataExporter type="xls" target="tblSeguimiento" fileName="Seguimiento" pageOnly="true" />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <img src="../../resources/images/pdf.png" alt=""/>
+                                    <p:dataExporter type="pdf" target="tblSeguimiento" fileName="Seguimiento" pageOnly="true" />
+                                </h:commandLink>
+
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+
+
+            </ui:define>
+            <ui:define name="dialogos">
+                <p:dialog id="dlgNuevoSeguimiento" header="Nuevo Seguimiento" widgetVar="wdlgNuevoSeguimiento" 
+                          modal="true" closable="false" resizable="false"
+                          showEffect="clip" hideEffect="fold"> 
+
+
+
+                    <h:form id="frmNuevoSeguimiento">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+
+                        <p:panelGrid id="pngNuevoSeguimiento" columns="2" >
+
+                            <h:outputText id="otxtCaso" value="Número de Caso:"/>
+                            <p:selectOneMenu value="#{seguimientoDocenteBean.casoSeleccionado}"
+                                             effect="fade" style="width:160px" filter="true" filterMatchMode="startsWith">
+                                <f:selectItem itemValue="#{null}" itemLabel="--Elija una opción--"/>
+                                <f:selectItems value="#{seguimientoDocenteBean.lstCasos}" var="caso" 
+                                               itemLabel="#{caso.numero_caso}" itemValue="#{caso.id_caso}"/>
+
+                            </p:selectOneMenu>
+
+                            <h:outputText value="Descripción:" />
+                            <p:inputTextarea rows="6" cols="33" value="#{seguimientoDocenteBean.objSeguimiento.descripcion}" 
+                                             placeholder="Ingrese una descripción" />
+
+
+                            <h:outputText value="Dependencia:" />
+                            <p:inputText size="30" value="#{seguimientoDocenteBean.objSeguimiento.dependencia}" 
+                                         placeholder="Ingrese Dependencia" />
+
+
+                            <h:outputText value="Responsable Dependencia:"/>
+                            <p:inputText size="30" value="#{seguimientoDocenteBean.objSeguimiento.responsable_dependencia}" 
+                                         placeholder="Ingrese el Responsable de la Dependencia" />
+
+                            <h:outputText value="Estado:"/>
+                            <p:selectOneMenu id="cmbEstado" value="#{seguimientoDocenteBean.estado}"
+                                             required="true" requiredMessage="--Elija una opción--" >
+                                <f:selectItem itemLabel="Elija una opción" itemValue="#{null}"/>
+                                <f:selectItem itemLabel="Activo" itemValue="#{1}"/>
+                                <f:selectItem itemLabel="Inactivo" itemValue="#{0}"/>
+                            </p:selectOneMenu>
+
+                            <h:outputText id="otxtEstudiante" value="Estudiante Responsable:"/>                           
+                            <p:selectOneMenu id="cmdEstudiante" value="#{seguimientoDocenteBean.estudianteSeleccionada}"
+                                             effect="fade" style="width:160px" filter="true" filterMatchMode="startsWith">
+                                <f:selectItem itemValue="0" itemLabel="--Elija una opción--" />
+                                <f:selectItems value="#{seguimientoDocenteBean.lstEstudiante}" var="estudiante" 
+                                               itemLabel="#{estudiante.apellidos}  #{estudiante.nombres}" itemValue="#{estudiante.id_estudiante}" /> 
+                            </p:selectOneMenu>
+
+                            <h:outputText value="Fecha de Inicio:"/>
+                            <p:calendar id="fechaIngreso" value="#{seguimientoDocenteBean.fechaInicio}" locale="de" 
+                                        navigator="true" pattern="yyyy/MM/dd" placeholder="yyyy/MM/dd" />
+
+                            <h:outputText value="Fecha de Finalización:"/>
+                            <p:calendar id="fechaSalida" value="#{seguimientoDocenteBean.fechaFin}" locale="de" 
+                                        navigator="true" pattern="yyyy/MM/dd" placeholder="yyyy/MM/dd" />
+
+                        </p:panelGrid>
+
+                        <p:commandButton value="Aceptar" action="#{seguimientoDocenteBean.insertarSeguimiento()}" 
+                                         update=":frmseguimiento:pnlSeguimiento" process="@this, @form"/>
+                        <p:commandButton value="Cancelar" onclick="wdlgNuevoSeguimiento.hide()" type="reset"/>
+
+
+                    </h:form> 
+                </p:dialog>
+
+                <p:dialog id="dlgEditarSeguimiento" header="Adjuntar Documento" widgetVar="wdlgEditarSeguimiento" 
+                          modal="true" 
+                          closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmEditarSeguimiento">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:messages id="messages" autoUpdate="true"/>  
+                        <p:panel id="displayInsertarDocumento" >
+                            <h:panelGrid id="pngEditarSeguimiento" columns="2">
+                                <p:outputLabel value="Cargar Documento"/>
+                                <p:panelGrid id="pngSubirArchivo" columns="2" style="width: 510px;">
+
+                                    <p:fileUpload fileUploadListener="#{seguimientoDocenteBean.cargarArchivoDocumento}"
+                                                  allowTypes="/(\.|\/)(pdf|doc?x|odt)$/" label="Abrir" mode="advanced"  
+                                                  update="displayInsertarDocumento" uploadLabel="Subir" cancelLabel="Cancelar"   
+                                                  value="#{seguimientoDocenteBean.archivoDocumento}"
+                                                  required="true" requiredMessage="Cargar Documento!!" />
+                                </p:panelGrid>
+
+<!--<p:commandButton value="Aceptar" action="#{seguimientoDocenteBean.actualizarSeguimiento()}" 
+                 update=":frmseguimiento:pnlSeguimiento" process="@this"  />-->
+
+                            </h:panelGrid>
+
+                            <p:commandButton value="Cancelar" onclick="wdlgEditarSeguimiento.hide()" type="reset"
+                                             ajax="false"/>
+                        </p:panel>
+                    </h:form> 
+                </p:dialog>
+
+                <!--<p:dialog id="dlgVerSeguimiento" header="Ver Seguimiento" widgetVar="wdlgVerSeguimiento" 
+                          modal="true" closable="false" resizable="false" showEffect="clip" hideEffect="fold">  
+                    <h:form id="frmVerSeguimiento">
+                        <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <h:outputText value="Información del Seguimiento"/>
+                        <p:panelGrid id="pngVerSeguimiento" columns="2">
+
+                            
+                        </p:panelGrid>
+                        <p:commandButton value="Aceptar" onclick="wdlgVerSeguimiento.hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>-->
+
+                <p:dialog modal="true" widgetVar="dlgStatus" header="Procesando" draggable="false" closable="false" 
+                          resizable="false"> 
+                    <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />  
+                </p:dialog>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+
+

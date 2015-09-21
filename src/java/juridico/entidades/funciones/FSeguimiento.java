@@ -67,6 +67,37 @@ public class FSeguimiento {
         }
         return lst;
     }
+    
+    public static ArrayList<Seguimiento> obtenerSeguimientoDadoCedulaDocente(String cedula) throws Exception {
+        ArrayList<Seguimiento> lst = new ArrayList<Seguimiento>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from juridico.f_select_seguimiento_dado_cedula_docente(?)";
+            lstP.add(new Parametro(1, cedula));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenarDatos(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+    
+    public static ArrayList<Seguimiento> obtenerSeguimientoDadoCedulaDocenteCedulaEstudiante(String cedulaDocente,String cedulaEstudiante) throws Exception {
+        ArrayList<Seguimiento> lst = new ArrayList<Seguimiento>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from juridico.f_select_seguimiento_dado_cedula_docente_cedula_estudiante(?,?)";
+            lstP.add(new Parametro(1, cedulaDocente));
+            lstP.add(new Parametro(2, cedulaEstudiante));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenarDatos(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
 
     public static boolean eliminarSeguimiento(int codigo) throws Exception {
         boolean eje = false;
