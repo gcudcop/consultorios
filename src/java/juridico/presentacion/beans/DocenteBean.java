@@ -13,8 +13,12 @@ import juridico.entidades.clases.Docente;
 import juridico.entidades.funciones.FDocente;
 import master.logica.clases.Escuela;
 import master.logica.clases.Facultad;
+import master.logica.clases.Rol;
+import master.logica.clases.Usuario;
+import master.logica.clases.UsuarioRol;
 import master.logica.funciones.FEscuela;
 import master.logica.funciones.FFacultad;
+import master.logica.funciones.FUsuario;
 import org.primefaces.context.DefaultRequestContext;
 import recursos.StringToDate;
 import recursos.Tools;
@@ -33,10 +37,31 @@ public class DocenteBean {
      */
     private Docente objDocente;
     private Docente docenteSel;
+    private Usuario objUsuario;
+    private UsuarioRol objUsuarioRol;
     private ArrayList<Docente> lstDocentes;
     private ArrayList<Escuela> lstEscuelas;
     private ArrayList<Facultad> lstFacultades;
     private boolean mostrarActualizar;
+
+    private java.util.Date fechaModificacion;
+    private java.util.Date primerAcceso;
+    private java.util.Date ultimoAcceso;
+
+    private String nombresDocente;
+    private String apellidosDocente;
+    private String identificacionDocente;
+
+    private String nombresUsuario;
+    private String apellidosUsuario;
+    private String identificacionUsuario;
+
+    private String nombreCorto;
+    private String clave;
+    private String clavePregunta;
+    private String claveRespuesta;
+    private String mail;
+
     private Date fechaIngreso;
     private Date fechaSalida;
     private String txtFechaIngreso;
@@ -46,6 +71,134 @@ public class DocenteBean {
     private int estado;
     private String sexo;
     private String cedulaBusqueda;
+
+    public String getNombreCorto() {
+        return nombreCorto;
+    }
+
+    public void setNombreCorto(String nombreCorto) {
+        this.nombreCorto = nombreCorto;
+    }
+
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+
+    public String getClavePregunta() {
+        return clavePregunta;
+    }
+
+    public void setClavePregunta(String clavePregunta) {
+        this.clavePregunta = clavePregunta;
+    }
+
+    public String getClaveRespuesta() {
+        return claveRespuesta;
+    }
+
+    public void setClaveRespuesta(String claveRespuesta) {
+        this.claveRespuesta = claveRespuesta;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public UsuarioRol getObjUsuarioRol() {
+        return objUsuarioRol;
+    }
+
+    public void setObjUsuarioRol(UsuarioRol objUsuarioRol) {
+        this.objUsuarioRol = objUsuarioRol;
+    }
+
+    public Date getFechaModificacion() {
+        return fechaModificacion;
+    }
+
+    public void setFechaModificacion(Date fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
+    }
+
+    public Date getPrimerAcceso() {
+        return primerAcceso;
+    }
+
+    public void setPrimerAcceso(Date primerAcceso) {
+        this.primerAcceso = primerAcceso;
+    }
+
+    public Date getUltimoAcceso() {
+        return ultimoAcceso;
+    }
+
+    public void setUltimoAcceso(Date ultimoAcceso) {
+        this.ultimoAcceso = ultimoAcceso;
+    }
+
+    public String getNombresDocente() {
+        return nombresDocente;
+    }
+
+    public void setNombresDocente(String nombresDocente) {
+        this.nombresDocente = nombresDocente;
+    }
+
+    public String getApellidosDocente() {
+        return apellidosDocente;
+    }
+
+    public void setApellidosDocente(String apellidosDocente) {
+        this.apellidosDocente = apellidosDocente;
+    }
+
+    public String getIdentificacionDocente() {
+        return identificacionDocente;
+    }
+
+    public void setIdentificacionDocente(String identificacionDocente) {
+        this.identificacionDocente = identificacionDocente;
+    }
+
+    public String getNombresUsuario() {
+        return nombresUsuario;
+    }
+
+    public void setNombresUsuario(String nombresUsuario) {
+        this.nombresUsuario = nombresUsuario;
+    }
+
+    public String getApellidosUsuario() {
+        return apellidosUsuario;
+    }
+
+    public void setApellidosUsuario(String apellidosUsuario) {
+        this.apellidosUsuario = apellidosUsuario;
+    }
+
+    public String getIdentificacionUsuario() {
+        return identificacionUsuario;
+    }
+
+    public void setIdentificacionUsuario(String identificacionUsuario) {
+        this.identificacionUsuario = identificacionUsuario;
+    }
+
+    public Usuario getObjUsuario() {
+        return objUsuario;
+    }
+
+    public void setObjUsuario(Usuario objUsuario) {
+        this.objUsuario = objUsuario;
+    }
 
     public String getCedulaBusqueda() {
         return cedulaBusqueda;
@@ -173,7 +326,12 @@ public class DocenteBean {
 
     private void reinit() {
         this.objDocente = new Docente();
+        this.objUsuario = new Usuario();
+        this.objUsuarioRol = new UsuarioRol();
         this.docenteSel = new Docente();
+        fechaModificacion = new Date();
+        primerAcceso = new Date();
+        ultimoAcceso = new Date();
         this.lstDocentes = new ArrayList<Docente>();
         this.lstFacultades = new ArrayList<Facultad>();
         this.lstEscuelas = new ArrayList<Escuela>();
@@ -238,6 +396,7 @@ public class DocenteBean {
     public void insertarDocente() {
 
         try {
+            //Datos Docente
             Escuela escuela = new Escuela();
             escuela.setCodigo(escuelaSeleccionada);
             objDocente.setId_escuela(escuela);
@@ -248,12 +407,38 @@ public class DocenteBean {
             objDocente.setFecha_salida(StringToDate.devolverFecha(fechaSalida));
             objDocente.setSexo(sexo);
             objDocente.setEstado(estado);
+            objDocente.setApellidos(apellidosDocente);
+            objDocente.setNombres(nombresDocente);
+            objDocente.setIdentificacion(identificacionDocente);
 
-            if (FDocente.Insertar(objDocente)) {
+            //Datos Usuario
+            objUsuario.setUltima_ip("127.0.0.1");
+            objUsuario.setCodigo_salt("unach2014");
+            objUsuario.setRuta_firma("firma");
+            objUsuario.setFecha_modificacion(new java.sql.Timestamp(fechaModificacion.getTime()));
+            objUsuario.setPrimer_acceso(new java.sql.Timestamp(primerAcceso.getTime()));
+            objUsuario.setUtimo_acceso(new java.sql.Timestamp(ultimoAcceso.getTime()));
+            objUsuario.setEstado(1);
+            objUsuario.setApellidos(apellidosDocente);
+            objUsuario.setNombres(nombresDocente);
+            objUsuario.setIdentificacion(identificacionDocente);
+            objUsuario.setNombre_corto(nombreCorto);
+            objUsuario.setClave(clave);
+            objUsuario.setClave_pregunta(clavePregunta);
+            objUsuario.setClave_respuesta(claveRespuesta);
+            objUsuario.setMail(mail);
+            Rol rol = new Rol();
+            rol.setCodigo(18);
+            objUsuarioRol.setCodigo_rol(rol);
+            objUsuarioRol.setCodigo_usuario(objUsuario);
+            objUsuarioRol.setEstado(1);
+
+            if ((FDocente.Insertar(objDocente)) && (FUsuario.Insertar(objUsuario, objUsuarioRol) > 0)) {
                 this.reinit();
                 DefaultRequestContext.getCurrentInstance().execute("wdlgNuevoDocente.hide()");
                 Util.addSuccessMessage("Información guardada con éxito");
                 System.out.println("public void insertarDocente dice: Error al guardar la información");
+
             } else {
                 Util.addSuccessMessage("Error al guardar la información");
                 System.out.println("public void insertarDocente dice: Error al guardar la información");
@@ -262,6 +447,7 @@ public class DocenteBean {
             Util.addErrorMessage("private void insertarDocente dice: " + e.getMessage());
             System.out.println("private void insertarDocente dice: " + e.getMessage());
         }
+
     }
 
     public void cambiarEstadoMostrarActualizar() {

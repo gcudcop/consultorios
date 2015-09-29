@@ -14,8 +14,12 @@ import juridico.entidades.clases.Estudiante;
 import juridico.entidades.funciones.FEstudiante;
 import master.logica.clases.Escuela;
 import master.logica.clases.Facultad;
+import master.logica.clases.Rol;
+import master.logica.clases.Usuario;
+import master.logica.clases.UsuarioRol;
 import master.logica.funciones.FEscuela;
 import master.logica.funciones.FFacultad;
+import master.logica.funciones.FUsuario;
 import org.primefaces.context.DefaultRequestContext;
 import recursos.Util;
 import recursos.StringToDate;
@@ -30,6 +34,8 @@ public class EstudianteBean {
 
     private Estudiante objEstudiante;
     private Estudiante estudianteSel;
+    private Usuario objUsuario;
+    private UsuarioRol objUsuarioRol;
     private ArrayList<Estudiante> lstEstudiantes;
     private ArrayList<Escuela> lstEscuelas;
     private ArrayList<Escuela> listEscuelas;
@@ -37,6 +43,11 @@ public class EstudianteBean {
     private boolean mostrarActualizar;
     private int valorESeleccionada;
     private int valorFSeleccionada;
+
+    private java.util.Date fechaModificacion;
+    private java.util.Date primerAcceso;
+    private java.util.Date ultimoAcceso;
+
     private Date fechaNacimiento;
     private String txtFechaNacimiento;
     private int nivel;
@@ -47,8 +58,150 @@ public class EstudianteBean {
     private int estado;
     private String sexo;
     private String estadoStr;
-    @Cedula (message = "Cédula Incorrecta")
+    @Cedula(message = "Cédula Incorrecta")
     private String busquedaCedula;
+
+    private String nombresDocente;
+    private String apellidosDocente;
+    private String identificacionDocente;
+
+    private String nombresUsuario;
+    private String apellidosUsuario;
+    private String identificacionUsuario;
+
+    private String nombreCorto;
+    private String clave;
+    private String clavePregunta;
+    private String claveRespuesta;
+    private String mail;
+
+    public String getNombresDocente() {
+        return nombresDocente;
+    }
+
+    public void setNombresDocente(String nombresDocente) {
+        this.nombresDocente = nombresDocente;
+    }
+
+    public String getApellidosDocente() {
+        return apellidosDocente;
+    }
+
+    public void setApellidosDocente(String apellidosDocente) {
+        this.apellidosDocente = apellidosDocente;
+    }
+
+    public String getIdentificacionDocente() {
+        return identificacionDocente;
+    }
+
+    public void setIdentificacionDocente(String identificacionDocente) {
+        this.identificacionDocente = identificacionDocente;
+    }
+
+    public String getNombresUsuario() {
+        return nombresUsuario;
+    }
+
+    public void setNombresUsuario(String nombresUsuario) {
+        this.nombresUsuario = nombresUsuario;
+    }
+
+    public String getApellidosUsuario() {
+        return apellidosUsuario;
+    }
+
+    public void setApellidosUsuario(String apellidosUsuario) {
+        this.apellidosUsuario = apellidosUsuario;
+    }
+
+    public String getIdentificacionUsuario() {
+        return identificacionUsuario;
+    }
+
+    public void setIdentificacionUsuario(String identificacionUsuario) {
+        this.identificacionUsuario = identificacionUsuario;
+    }
+
+    public String getNombreCorto() {
+        return nombreCorto;
+    }
+
+    public void setNombreCorto(String nombreCorto) {
+        this.nombreCorto = nombreCorto;
+    }
+
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+
+    public String getClavePregunta() {
+        return clavePregunta;
+    }
+
+    public void setClavePregunta(String clavePregunta) {
+        this.clavePregunta = clavePregunta;
+    }
+
+    public String getClaveRespuesta() {
+        return claveRespuesta;
+    }
+
+    public void setClaveRespuesta(String claveRespuesta) {
+        this.claveRespuesta = claveRespuesta;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public Usuario getObjUsuario() {
+        return objUsuario;
+    }
+
+    public void setObjUsuario(Usuario objUsuario) {
+        this.objUsuario = objUsuario;
+    }
+
+    public UsuarioRol getObjUsuarioRol() {
+        return objUsuarioRol;
+    }
+
+    public void setObjUsuarioRol(UsuarioRol objUsuarioRol) {
+        this.objUsuarioRol = objUsuarioRol;
+    }
+
+    public Date getFechaModificacion() {
+        return fechaModificacion;
+    }
+
+    public void setFechaModificacion(Date fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
+    }
+
+    public Date getPrimerAcceso() {
+        return primerAcceso;
+    }
+
+    public void setPrimerAcceso(Date primerAcceso) {
+        this.primerAcceso = primerAcceso;
+    }
+
+    public Date getUltimoAcceso() {
+        return ultimoAcceso;
+    }
+
+    public void setUltimoAcceso(Date ultimoAcceso) {
+        this.ultimoAcceso = ultimoAcceso;
+    }
 
     public String getBusquedaCedula() {
         return busquedaCedula;
@@ -221,6 +374,11 @@ public class EstudianteBean {
     private void reinit() {
         this.objEstudiante = new Estudiante();
         this.estudianteSel = new Estudiante();
+        this.objUsuario = new Usuario();
+        this.objUsuarioRol = new UsuarioRol();
+        fechaModificacion = new Date();
+        primerAcceso = new Date();
+        ultimoAcceso = new Date();
         this.lstEstudiantes = new ArrayList<Estudiante>();
         this.lstFacultades = new ArrayList<Facultad>();
         this.lstEscuelas = new ArrayList<Escuela>();
@@ -274,6 +432,7 @@ public class EstudianteBean {
     public void insertarEstudiante() {
 
         try {
+
             java.text.SimpleDateFormat sdf1 = new java.text.SimpleDateFormat("yyyy-MM-dd");
             txtFechaNacimiento = sdf1.format(fechaNacimiento);
             Date fecha = sdf1.parse(txtFechaNacimiento);
@@ -292,8 +451,33 @@ public class EstudianteBean {
             objEstudiante.setNivel(nivel);
             objEstudiante.setSexo(sexo);
             objEstudiante.setEstado(estado);
+            objEstudiante.setApellidos(apellidosUsuario);
+            objEstudiante.setNombres(nombresUsuario);
+            objEstudiante.setIdentificacion(identificacionUsuario);
+            //Datos Usuario
+            objUsuario.setUltima_ip("127.0.0.1");
+            objUsuario.setCodigo_salt("unach2015");
+            objUsuario.setRuta_firma("firma");
+            objUsuario.setFecha_modificacion(new java.sql.Timestamp(fechaModificacion.getTime()));
+            objUsuario.setPrimer_acceso(new java.sql.Timestamp(primerAcceso.getTime()));
+            objUsuario.setUtimo_acceso(new java.sql.Timestamp(ultimoAcceso.getTime()));
+            objUsuario.setEstado(1);
+            objUsuario.setApellidos(apellidosUsuario);
+            objUsuario.setNombres(nombresUsuario);
+            objUsuario.setIdentificacion(identificacionUsuario);
+            objUsuario.setNombre_corto(nombreCorto);
+            objUsuario.setClave(clave);
+            objUsuario.setClave_pregunta(clavePregunta);
+            objUsuario.setClave_respuesta(claveRespuesta);
+            objUsuario.setMail(mail);
+            Rol rol = new Rol();
+            rol.setCodigo(19);
+            objUsuarioRol.setCodigo_rol(rol);
+            objUsuarioRol.setCodigo_usuario(objUsuario);
+            objUsuarioRol.setEstado(1);
+            
 
-            if (FEstudiante.insertarEstudiante(objEstudiante)) {
+            if ((FEstudiante.insertarEstudiante(objEstudiante)) && (FUsuario.Insertar(objUsuario, objUsuarioRol) > 0)) {
                 this.reinit();
                 DefaultRequestContext.getCurrentInstance().execute("wdlgNuevoEstudiante.hide()");
                 Util.addSuccessMessage("Información guardada con éxito");

@@ -92,6 +92,21 @@ public class FCaso {
         return lst;
     }
     
+    public static ArrayList<Caso> obtenerCasosDadoCedulaEstudiante(String cedula) throws Exception {
+        ArrayList<Caso> lst = new ArrayList<Caso>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from juridico.f_select_caso_dado_cedula_estudiante(?)";
+            lstP.add(new Parametro(1, cedula));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenarDatos(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+    
     public static ArrayList<Caso> obtenerCasosDadoCedulaDocenteNumero(String cedula,String numeroCaso) throws Exception {
         ArrayList<Caso> lst = new ArrayList<Caso>();
         try {

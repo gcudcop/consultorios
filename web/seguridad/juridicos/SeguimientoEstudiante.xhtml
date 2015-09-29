@@ -31,11 +31,11 @@ and open the template in the editor.
                         <h:panelGrid columns="3" cellspacing="10">                            
 
                             <p:panelGrid columns="3">
-                                <p:outputLabel value="Estudiante responsable: " />                                
+                                <p:outputLabel value="Docente responsable: " />                                
                                 <p:inputText  size="35" id="filterEst" value="#{seguimientoDocenteBean.criterioBusqueda}"  
                                               placeholder="Ingrese un número de Cédula..."/>
-                                <p:commandButton id="btnBuscarEstudiante" icon="ui-icon-search" style="width:40px"  
-                                                 title="Buscar " action="#{seguimientoDocenteBean.obtenerSeguimientosDadoCedulaDocenteCedulaEstudiante()}" 
+                                <p:commandButton id="btnBuscarDocente" icon="ui-icon-search" style="width:40px"  
+                                                 title="Buscar " action="#{seguimientoEstudianteBean.obtenerSeguimientosDadoCedulaDocenteCedulaEstudiante()}" 
                                                  process="@form, @this" update=":frmseguimiento:tblSeguimiento, @form">                                   
                                 </p:commandButton>
                             </p:panelGrid>
@@ -43,10 +43,10 @@ and open the template in the editor.
                     </p:panel>
                     <!--Busquedas-->
                     <p:panel id="pnlSeguimiento">
-                        <p:dataTable id="tblSeguimiento" value="#{seguimientoDocenteBean.lstSeguimientos}" 
+                        <p:dataTable id="tblSeguimiento" value="#{seguimientoEstudianteBean.lstSeguimientos}" 
                                      var="seguimiento" 
                                      paginator="true" rows="10" rowKey="#{seguimiento.id_seguimiento}" selectionMode="single" 
-                                     selection="#{seguimientoDocenteBean.seguimientoSel}" >
+                                     selection="#{seguimientoEstudianteBean.seguimientoSel}" >
 
                             <p:column headerText="Número Caso">
                                 <h:outputText value="#{seguimiento.id_caso.numero_caso}"/>
@@ -86,25 +86,14 @@ and open the template in the editor.
 
                             <p:column exportable="false">
 
-                                <!--<p:commandButton id="btnVerSeguimiento"  icon="ui-icon-circle-plus" 
-                                                 oncomplete="wdlgVerSeguimiento.show()" update=":dlgVerSeguimiento" > 
-                                    <f:setPropertyActionListener value="#{seguimiento}" 
-                                                                 target="#{seguimientoBean.seguimientoSel}"/>
-                                </p:commandButton>-->
-
                                 <p:commandButton id="btnEditarSeguimiento" icon="ui-icon-circle-plus"  title="Adjuntar Documento" 
                                                  oncomplete="wdlgEditarSeguimiento.show()" 
                                                  process="@this" update=":dlgEditarSeguimiento, @form">                                   
                                     <f:setPropertyActionListener value="#{seguimiento}" 
-                                                                 target="#{seguimientoBean.seguimientoSel}"/>
+                                                                 target="#{seguimientoEstudianteBean.seguimientoSel}"/>
                                 </p:commandButton>
 
-                                <!--<p:commandButton id="btnEliminarSeguimiento" icon="ui-icon-close"  title="Eliminar Seguimiento"
-                                                 oncomplete="wdlgEliminarSeguimiento.show()" 
-                                                 update=":dlgEliminarSeguimiento">                                   
-                                    <f:setPropertyActionListener value="#{seguimiento}" 
-                                                                 target="#{seguimientoBean.seguimientoSel}"/>
-                                </p:commandButton>-->
+                                
                             </p:column>
 
 
@@ -139,55 +128,55 @@ and open the template in the editor.
                         <p:panelGrid id="pngNuevoSeguimiento" columns="2" >
 
                             <h:outputText id="otxtCaso" value="Número de Caso:"/>
-                            <p:selectOneMenu value="#{seguimientoDocenteBean.casoSeleccionado}"
+                            <p:selectOneMenu value="#{seguimientoEstudianteBean.casoSeleccionado}"
                                              effect="fade" style="width:160px" filter="true" filterMatchMode="startsWith">
                                 <f:selectItem itemValue="#{null}" itemLabel="--Elija una opción--"/>
-                                <f:selectItems value="#{seguimientoDocenteBean.lstCasos}" var="caso" 
+                                <f:selectItems value="#{seguimientoEstudianteBean.lstCasos}" var="caso" 
                                                itemLabel="#{caso.numero_caso}" itemValue="#{caso.id_caso}"/>
 
                             </p:selectOneMenu>
 
                             <h:outputText value="Descripción:" />
-                            <p:inputTextarea rows="6" cols="33" value="#{seguimientoDocenteBean.objSeguimiento.descripcion}" 
+                            <p:inputTextarea rows="6" cols="33" value="#{seguimientoEstudianteBean.objSeguimiento.descripcion}" 
                                              placeholder="Ingrese una descripción" />
 
 
                             <h:outputText value="Dependencia:" />
-                            <p:inputText size="30" value="#{seguimientoDocenteBean.objSeguimiento.dependencia}" 
+                            <p:inputText size="30" value="#{seguimientoEstudianteBean.objSeguimiento.dependencia}" 
                                          placeholder="Ingrese Dependencia" />
 
 
                             <h:outputText value="Responsable Dependencia:"/>
-                            <p:inputText size="30" value="#{seguimientoDocenteBean.objSeguimiento.responsable_dependencia}" 
+                            <p:inputText size="30" value="#{seguimientoEstudianteBean.objSeguimiento.responsable_dependencia}" 
                                          placeholder="Ingrese el Responsable de la Dependencia" />
 
                             <h:outputText value="Estado:"/>
-                            <p:selectOneMenu id="cmbEstado" value="#{seguimientoDocenteBean.estado}"
+                            <p:selectOneMenu id="cmbEstado" value="#{seguimientoEstudianteBean.estado}"
                                              required="true" requiredMessage="--Elija una opción--" >
                                 <f:selectItem itemLabel="Elija una opción" itemValue="#{null}"/>
                                 <f:selectItem itemLabel="Activo" itemValue="#{1}"/>
                                 <f:selectItem itemLabel="Inactivo" itemValue="#{0}"/>
                             </p:selectOneMenu>
 
-                            <h:outputText id="otxtEstudiante" value="Estudiante Responsable:"/>                           
-                            <p:selectOneMenu id="cmdEstudiante" value="#{seguimientoDocenteBean.estudianteSeleccionada}"
+                            <h:outputText id="otxtEstudiante" value="Docente Responsable:"/>                           
+                            <p:selectOneMenu id="cmdEstudiante" value="#{seguimientoEstudianteBean.estudianteSeleccionada}"
                                              effect="fade" style="width:160px" filter="true" filterMatchMode="startsWith">
                                 <f:selectItem itemValue="0" itemLabel="--Elija una opción--" />
-                                <f:selectItems value="#{seguimientoDocenteBean.lstEstudiante}" var="estudiante" 
-                                               itemLabel="#{estudiante.apellidos}  #{estudiante.nombres}" itemValue="#{estudiante.id_estudiante}" /> 
+                                <f:selectItems value="#{seguimientoEstudianteBean.lstDocentes}" var="docente" 
+                                               itemLabel="#{docente.apellidos}  #{docente.nombres}" itemValue="#{docente.id_docente}" /> 
                             </p:selectOneMenu>
 
                             <h:outputText value="Fecha de Inicio:"/>
-                            <p:calendar id="fechaIngreso" value="#{seguimientoDocenteBean.fechaInicio}" locale="de" 
+                            <p:calendar id="fechaIngreso" value="#{seguimientoEstudianteBean.fechaInicio}" locale="de" 
                                         navigator="true" pattern="yyyy/MM/dd" placeholder="yyyy/MM/dd" />
 
                             <h:outputText value="Fecha de Finalización:"/>
-                            <p:calendar id="fechaSalida" value="#{seguimientoDocenteBean.fechaFin}" locale="de" 
+                            <p:calendar id="fechaSalida" value="#{seguimientoEstudianteBean.fechaFin}" locale="de" 
                                         navigator="true" pattern="yyyy/MM/dd" placeholder="yyyy/MM/dd" />
 
                         </p:panelGrid>
 
-                        <p:commandButton value="Aceptar" action="#{seguimientoDocenteBean.insertarSeguimiento()}" 
+                        <p:commandButton value="Aceptar" action="#{seguimientoEstudianteBean.insertarSeguimiento()}" 
                                          update=":frmseguimiento:pnlSeguimiento" process="@this, @form"/>
                         <p:commandButton value="Cancelar" onclick="wdlgNuevoSeguimiento.hide()" type="reset"/>
 
@@ -206,14 +195,14 @@ and open the template in the editor.
                                 <p:outputLabel value="Cargar Documento"/>
                                 <p:panelGrid id="pngSubirArchivo" columns="2" style="width: 510px;">
 
-                                    <p:fileUpload fileUploadListener="#{seguimientoDocenteBean.cargarArchivoDocumento}"
+                                    <p:fileUpload fileUploadListener="#{seguimientoEstudianteBean.cargarArchivoDocumento}"
                                                   allowTypes="/(\.|\/)(pdf|doc?x|odt)$/" label="Abrir" mode="advanced"  
                                                   update="displayInsertarDocumento" uploadLabel="Subir" cancelLabel="Cancelar"   
-                                                  value="#{seguimientoDocenteBean.archivoDocumento}"
+                                                  value="#{seguimientoEStudianteBean.archivoDocumento}"
                                                   required="true" requiredMessage="Cargar Documento!!" />
                                 </p:panelGrid>
 
-                               <!--<p:commandButton value="Aceptar" action="#{seguimientoDocenteBean.actualizarSeguimiento()}" 
+                               <!--<p:commandButton value="Aceptar" action="#{seguimientoEstudianteBean.actualizarSeguimiento()}" 
                                update=":frmseguimiento:pnlSeguimiento" process="@this"  />-->
 
                             </h:panelGrid>

@@ -41,10 +41,10 @@ import recursos.Util;
  */
 @ManagedBean
 @RequestScoped
-public class SeguimientoDocenteBean {
+public class SeguimientoEstudianteBean {
 
     /**
-     * Creates a new instance of SeguimientoDocenteBean
+     * Creates a new instance of SeguimientoEstudianteBean
      */
     private Seguimiento objSeguimiento;
     private Seguimiento seguimientoSel;
@@ -71,46 +71,6 @@ public class SeguimientoDocenteBean {
     private UploadedFile archivoDocumento;
     //cargar configuracion del path
     java.util.ResourceBundle Configuracion = java.util.ResourceBundle.getBundle("recursos.rutasMedia");
-
-    public String getCriterioBusqueda() {
-        return criterioBusqueda;
-    }
-
-    public void setCriterioBusqueda(String criterioBusqueda) {
-        this.criterioBusqueda = criterioBusqueda;
-    }
-
-    public String getCriterioBusqueda2() {
-        return criterioBusqueda2;
-    }
-
-    public void setCriterioBusqueda2(String criterioBusqueda2) {
-        this.criterioBusqueda2 = criterioBusqueda2;
-    }
-
-    public String getCriterioBusqueda3() {
-        return criterioBusqueda3;
-    }
-
-    public void setCriterioBusqueda3(String criterioBusqueda3) {
-        this.criterioBusqueda3 = criterioBusqueda3;
-    }
-
-    public String getCedulaSesion() {
-        return cedulaSesion;
-    }
-
-    public void setCedulaSesion(String cedulaSesion) {
-        this.cedulaSesion = cedulaSesion;
-    }
-
-    public SesionUsuarioDataManager getDm() {
-        return dm;
-    }
-
-    public void setDm(SesionUsuarioDataManager dm) {
-        this.dm = dm;
-    }
 
     public Seguimiento getObjSeguimiento() {
         return objSeguimiento;
@@ -224,6 +184,46 @@ public class SeguimientoDocenteBean {
         this.path = path;
     }
 
+    public String getCriterioBusqueda() {
+        return criterioBusqueda;
+    }
+
+    public void setCriterioBusqueda(String criterioBusqueda) {
+        this.criterioBusqueda = criterioBusqueda;
+    }
+
+    public String getCriterioBusqueda2() {
+        return criterioBusqueda2;
+    }
+
+    public void setCriterioBusqueda2(String criterioBusqueda2) {
+        this.criterioBusqueda2 = criterioBusqueda2;
+    }
+
+    public String getCriterioBusqueda3() {
+        return criterioBusqueda3;
+    }
+
+    public void setCriterioBusqueda3(String criterioBusqueda3) {
+        this.criterioBusqueda3 = criterioBusqueda3;
+    }
+
+    public SesionUsuarioDataManager getDm() {
+        return dm;
+    }
+
+    public void setDm(SesionUsuarioDataManager dm) {
+        this.dm = dm;
+    }
+
+    public String getCedulaSesion() {
+        return cedulaSesion;
+    }
+
+    public void setCedulaSesion(String cedulaSesion) {
+        this.cedulaSesion = cedulaSesion;
+    }
+
     public String getNombreDocumento() {
         return nombreDocumento;
     }
@@ -247,7 +247,7 @@ public class SeguimientoDocenteBean {
     public void setConfiguracion(ResourceBundle Configuracion) {
         this.Configuracion = Configuracion;
     }
-
+    
     public void capturaCedulaSesion() {
         try {
             this.cedulaSesion = FUsuario.ObtenerUsuarioDadoCodigo(dm.getSesionUsuario().getCodigo()).getIdentificacion();
@@ -256,11 +256,11 @@ public class SeguimientoDocenteBean {
             System.out.println("private void capturaCedulaSesion dice: " + e.getMessage());
         }
     }
-
-    public SeguimientoDocenteBean() {
+    
+    public SeguimientoEstudianteBean() {
         reinit();
     }
-
+    
     private void reinit() {
         this.objSeguimiento = new Seguimiento();
         this.seguimientoSel = new Seguimiento();
@@ -272,14 +272,14 @@ public class SeguimientoDocenteBean {
         this.cargarSeguimientoSesionUsuario();
         this.cargarCasosSesionUsuario();
 //        this.cargarDocente();
-        this.cargarEstudiante();
+        this.cargarDocente();
 
     }
 
     public void cargarSeguimientoSesionUsuario() {
         try {
             //this.lstSeguimiento=FSeguimiento.obtenerSeguimientoDadoCedulaDocente(FUsuario.ObtenerUsuarioDadoCodigo(dm.getSesionUsuario().getCodigo()).getIdentificacion());
-            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocente("1803874310");
+            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaEstudiante("0604792549");
             this.seguimientoSel = lstSeguimientos.get(0);
             System.out.println(lstSeguimientos.get(0).getId_seguimiento());
         } catch (Exception e) {
@@ -299,7 +299,7 @@ public class SeguimientoDocenteBean {
     public void cargarCasosSesionUsuario() {
         try {
             //this.lstCasos=FCaso.obtenerCasosDadoCedulaDocente(FUsuario.ObtenerUsuarioDadoCodigo(dm.getSesionUsuario().getCodigo()).getIdentificacion());
-            this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente("1803874310");
+            this.lstCasos = FCaso.obtenerCasosDadoCedulaEstudiante("0604792549");
             //this.casoSel = lstCasos.get(0);
             System.out.println(lstCasos.get(0).getId_caso());
         } catch (Exception e) {
@@ -330,13 +330,13 @@ public class SeguimientoDocenteBean {
 //            System.out.println("private void cargarDocente dice: " + e.getMessage());
 //        }
 //    }
-    public void cargarEstudiante() {
+    public void cargarDocente() {
         try {
-            this.lstEstudiante = FEstudiante.obtenerEstudiantes();
-            System.out.println(lstEstudiante.get(0).getNombres());
+            this.lstDocentes = FDocente.ObtenerDocentes();
+            System.out.println(lstDocentes.get(0).getNombres());
         } catch (Exception e) {
-            Util.addErrorMessage("private void cargarEscuelas dice: " + e.getMessage());
-            System.out.println("private void cargarEscuelas dice: " + e.getMessage());
+            Util.addErrorMessage("private void cargarDocente dice: " + e.getMessage());
+            System.out.println("private void cargarDocente dice: " + e.getMessage());
         }
     }
     
@@ -345,7 +345,7 @@ public class SeguimientoDocenteBean {
             //this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente(cedulaSesion); //descomentar esta linea
 
             //this.lstCasos=FSeguimiento.obtenerSeguimientoDadoCedulaDocenteCedulaEstudiante(cedulaSesion, criterioBusqueda); //descomentar esta linea
-            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocenteCedulaEstudiante("1803874310", criterioBusqueda);
+            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocenteCedulaEstudiante( criterioBusqueda,"0604792549");
             this.seguimientoSel = lstSeguimientos.get(0);
             System.out.println(lstSeguimientos.get(0).getId_seguimiento());
         } catch (Exception e) {
@@ -360,14 +360,23 @@ public class SeguimientoDocenteBean {
             Caso caso = new Caso();
             caso.setId_caso(casoSeleccionado);
             objSeguimiento.setId_caso(caso);
-
-            Docente docente = new Docente();
-            docente.setId_docente(seguimientoSel.getId_docente().getId_docente());
-            objSeguimiento.setId_docente(docente);
             
-            Estudiante estudiante = new Estudiante();
-            estudiante.setId_estudiante(estudianteSeleccionada);
+            Estudiante estudiante =new Estudiante();
+            estudiante.setId_estudiante(seguimientoSel.getId_estudiante().getId_estudiante());
             objSeguimiento.setId_estudiante(estudiante);
+            
+
+//            Docente docente = new Docente();
+//            docente.setId_docente(lstSeguimientos.get(0).getId_docente().getId_docente());
+            
+            Docente docente = new Docente();
+            docente.setId_docente(estudianteSeleccionada);
+            objSeguimiento.setId_docente(docente);
+
+//            Estudiante estudiante = new Estudiante();
+//            
+//            estudiante.setId_estudiante(estudianteSeleccionada);
+//            objSeguimiento.setId_estudiante(estudiante);
 
             objSeguimiento.setEstado(estado);
             objSeguimiento.setFecha_inicio(StringToDate.devolverFecha(fechaInicio));
@@ -509,5 +518,4 @@ public class SeguimientoDocenteBean {
         }
         return bytes;
     }
-
 }

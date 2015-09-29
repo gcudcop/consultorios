@@ -26,21 +26,21 @@ and open the template in the editor.
                 <h:form id="frmdocente">
                     <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                     <!--BUSCADOR-->
-                       <p:panel id="pnlBuscarDatos" style="margin-bottom:20px; " >
-                            <h:panelGrid columns="3" cellpadding="10" style="alignment-adjust: middle;"  >
-                                <p:outputLabel value="Busqueda: " style="font-style: initial"  />
-                                <p:inputText  size="40" id="globalFilter" value="#{docenteBean.cedulaBusqueda}"  
-                                              placeholder="Ingrese un Número de Cédula..."/>
-                                <p:commandButton id="btnBuscar" icon="ui-icon-search" style="width:64px"  
-                                                 title="Buscar "  
-                                                 action="#{docenteBean.obtenerDocenteDadoCedula()}" process="@form, @this" 
-                                                 update=":frmdocente:tblDocente, @form">                                   
-                                </p:commandButton>
+                    <p:panel id="pnlBuscarDatos" style="margin-bottom:20px; " >
+                        <h:panelGrid columns="3" cellpadding="10" style="alignment-adjust: middle;"  >
+                            <p:outputLabel value="Busqueda: " style="font-style: initial"  />
+                            <p:inputText  size="40" id="globalFilter" value="#{docenteBean.cedulaBusqueda}"  
+                                          placeholder="Ingrese un Número de Cédula..."/>
+                            <p:commandButton id="btnBuscar" icon="ui-icon-search" style="width:64px"  
+                                             title="Buscar "  
+                                             action="#{docenteBean.obtenerDocenteDadoCedula()}" process="@form, @this" 
+                                             update=":frmdocente:tblDocente, @form">                                   
+                            </p:commandButton>
 
-                            </h:panelGrid>
-                        </p:panel>
+                        </h:panelGrid>
+                    </p:panel>
                     <!--BUSCADOR-->
-                    
+
                     <p:panel id="pnlDocente">
                         <p:dataTable id="tblDocente" value="#{docenteBean.lstDocentes}" 
                                      var="tutor" 
@@ -111,74 +111,112 @@ and open the template in the editor.
 
             </ui:define>
             <ui:define name="dialogos">
-                <p:dialog id="dlgNuevoDocente" header="Nuevo Docente" widgetVar="wdlgNuevoDocente" 
+                <p:dialog id="dlgNuevoDocente" widgetVar="wdlgNuevoDocente" 
                           modal="true" closable="false" resizable="false"
                           showEffect="clip" hideEffect="fold"> 
 
                     <h:form id="frmNuevoDocente">
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
+                        <p:panel>
+                            <p:panelGrid id="pngNuevoDocente" columns="4" >
+                                <f:facet name="header">
+                                    Datos Generales Docente
+                                </f:facet>
 
-                        <p:panelGrid id="pngNuevoDocente" columns="2" >
+                                <h:outputText id="txtIdentificacion" value="Cédula Nº:" />
+                                <p:inputText size="30" value="#{docenteBean.identificacionDocente}"  
+                                             placeholder="Ingrese C.I" >
 
-
-                            <h:outputText id="txtIdentificacion" value="Cédula Nº:" />
-                            <p:inputText size="30" value="#{docenteBean.objDocente.identificacion}" placeholder="Ingrese C.I" />
-
-
-                            <h:outputText id="txtApellidosDocente" value="Apellidos:" />
-                            <p:inputText id="txtApellidos" size="30" value="#{docenteBean.objDocente.apellidos}" placeholder="Ingrese los Apellidos" />
-
-
-                            <h:outputText id="txtNombresDocente" value="Nombres:"/>
-                            <p:inputText size="30" value="#{docenteBean.objDocente.nombres}" placeholder="Ingrese los Nombres" />
-
-                            <h:outputText value="Sexo:"/>
-                            <p:selectOneMenu id="cmbSexo" value="#{docenteBean.sexo}"
-                                             required="true" requiredMessage="--Elija una opción--">
-                                <f:selectItem itemLabel="Elija una opción" itemValue="#{null}"/>
-                                <f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
-                                <f:selectItem itemLabel="Femenino" itemValue="Femenino"/>
-                            </p:selectOneMenu>
+                                </p:inputText>
 
 
-                            <h:outputText id="txtTercerNivel" value="Título Tercer Nivel:"/>
-                            <p:inputText size="30" value="#{docenteBean.objDocente.tercer_nivel}" placeholder="Ingrese eL Titulo 3 Nivel"/>
+                                <h:outputText id="txtApellidosDocente" value="Apellidos:" />
+                                <p:inputText  size="30" value="#{docenteBean.apellidosDocente}" 
+                                              placeholder="Ingrese los Apellidos" >
 
-                            <h:outputText id="txtCuartoNivel" value="Título Cuarto Nivel:"/>
-                            <p:inputText size="30" value="#{docenteBean.objDocente.cuarto_nivel}" placeholder="Ingrese eL Titulo 4 Nivel"/>
+                                </p:inputText>
 
-                            <h:outputText value="Estado:"/>
-                            <p:selectOneMenu id="cmbEstado" value="#{docenteBean.estado}"
-                                             required="true" requiredMessage="--Elija una opción--" >
-                                <f:selectItem itemLabel="Elija una opción" itemValue="#{null}"/>
-                                <f:selectItem itemLabel="Activo" itemValue="#{1}"/>
-                                <f:selectItem itemLabel="Inactivo" itemValue="#{0}"/>
-                            </p:selectOneMenu>
 
-                            <h:outputText id="otxtFacultad" value="Facultad:"/>
-                            <p:selectOneMenu value="#{docenteBean.faculatadSeleccionana}">
-                                <f:selectItem itemValue="#{null}" itemLabel="--Elija una opción--"/>
-                                <f:selectItems value="#{docenteBean.lstFacultades}" var="facultades" 
-                                               itemLabel="#{facultades.nombre}" itemValue="#{facultades.codigo}"/>
-                                <p:ajax event="change" listener="#{docenteBean.obtenerEscuelasDadoCodigoFacultad()}" update="cmdEscuelitas"/>
-                            </p:selectOneMenu>
+                                <h:outputText id="txtNombresDocente" value="Nombres:"/>
+                                <p:inputText size="30" value="#{docenteBean.nombresDocente}" 
+                                             placeholder="Ingrese los Nombres" >
 
-                            <h:outputText id="otxtEscuelas" value="Escuela:"/>                           
-                            <p:selectOneMenu id="cmdEscuelitas" value="#{docenteBean.escuelaSeleccionada}">
-                                <f:selectItem itemValue="0" itemLabel="--Elija una opción--" />
-                                <f:selectItems value="#{docenteBean.lstEscuelas}" var="escuelas" 
-                                               itemLabel="#{escuelas.nombre}" itemValue="#{escuelas.codigo}" /> 
-                            </p:selectOneMenu>
+                                </p:inputText>
 
-                            <h:outputText value="Fecha de Ingreso:"/>
-                            <p:calendar id="fechaIngreso" value="#{docenteBean.fechaIngreso}" locale="de" 
-                                        navigator="true" pattern="yyyy/MM/dd" placeholder="yyyy/MM/dd" />
+                                <h:outputText value="Sexo:"/>
+                                <p:selectOneMenu id="cmbSexo" value="#{docenteBean.sexo}"
+                                                 required="true" requiredMessage="--Elija una opción--">
+                                    <f:selectItem itemLabel="Elija una opción" itemValue="#{null}"/>
+                                    <f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
+                                    <f:selectItem itemLabel="Femenino" itemValue="Femenino"/>
+                                </p:selectOneMenu>
 
-                            <h:outputText value="Fecha de Salida:"/>
-                            <p:calendar id="fechaSalida" value="#{docenteBean.fechaSalida}" locale="de" 
-                                        navigator="true" pattern="yyyy/MM/dd" placeholder="yyyy/MM/dd" />
 
-                        </p:panelGrid>
+                                <h:outputText id="txtTercerNivel" value="Título Tercer Nivel:"/>
+                                <p:inputText size="30" value="#{docenteBean.objDocente.tercer_nivel}" placeholder="Ingrese eL Titulo 3 Nivel"/>
+
+                                <h:outputText id="txtCuartoNivel" value="Título Cuarto Nivel:"/>
+                                <p:inputText size="30" value="#{docenteBean.objDocente.cuarto_nivel}" placeholder="Ingrese eL Titulo 4 Nivel"/>
+
+                                <h:outputText value="Estado:"/>
+                                <p:selectOneMenu id="cmbEstado" value="#{docenteBean.estado}"
+                                                 required="true" requiredMessage="--Elija una opción--" >
+                                    <f:selectItem itemLabel="Elija una opción" itemValue="#{null}"/>
+                                    <f:selectItem itemLabel="Activo" itemValue="#{1}"/>
+                                    <f:selectItem itemLabel="Inactivo" itemValue="#{0}"/>
+                                </p:selectOneMenu>
+
+                                <h:outputText id="otxtFacultad" value="Facultad:"/>
+                                <p:selectOneMenu value="#{docenteBean.faculatadSeleccionana}">
+                                    <f:selectItem itemValue="#{null}" itemLabel="--Elija una opción--"/>
+                                    <f:selectItems value="#{docenteBean.lstFacultades}" var="facultades" 
+                                                   itemLabel="#{facultades.nombre}" itemValue="#{facultades.codigo}"/>
+                                    <p:ajax event="change" listener="#{docenteBean.obtenerEscuelasDadoCodigoFacultad()}" update="cmdEscuelitas"/>
+                                </p:selectOneMenu>
+
+                                <h:outputText id="otxtEscuelas" value="Escuela:"/>                           
+                                <p:selectOneMenu id="cmdEscuelitas" value="#{docenteBean.escuelaSeleccionada}" >
+                                    <f:selectItem itemValue="0" itemLabel="--Elija una opción--"  />
+                                    <f:selectItems value="#{docenteBean.lstEscuelas}" var="escuelas" 
+                                                   itemLabel="#{escuelas.nombre}" itemValue="#{escuelas.codigo}" /> 
+                                </p:selectOneMenu>
+
+                                <h:outputText value="Fecha de Ingreso:"/>
+                                <p:calendar id="fechaIngreso" value="#{docenteBean.fechaIngreso}" locale="de" 
+                                            navigator="true" pattern="yyyy/MM/dd" placeholder="yyyy/MM/dd" size="30" />
+
+                                <h:outputText value="Fecha de Salida:"/>
+                                <p:calendar id="fechaSalida" value="#{docenteBean.fechaSalida}" locale="de" 
+                                            navigator="true" pattern="yyyy/MM/dd" placeholder="yyyy/MM/dd" size="30" />
+
+                            </p:panelGrid> 
+                        </p:panel>
+
+                        <p:panel >
+                            <p:panelGrid id="pngNuevo" columns="4" >
+                                <f:facet name="header">
+                                    Datos Usuario Sistema
+                                </f:facet>
+
+                                <h:outputText value="Nombre Corto:"/>
+                                <p:inputText size="32" value="#{docenteBean.nombreCorto}" 
+                                             placeholder="Ingrese un Nombre Corto"/>
+                                <h:outputText value="Clave:"/>
+                                <p:inputText size="32" value="#{docenteBean.clave}" 
+                                             placeholder="Ingrese una clave"/>
+                                <h:outputText value="Clave Pregunta:"/>
+                                <p:inputText size="32" value="#{docenteBean.clavePregunta}" 
+                                             placeholder="Ingres una pregunta para recuperar su clave"/>
+                                <h:outputText value="Clave Respuesta:"/>
+                                <p:inputText size="32" value="#{docenteBean.claveRespuesta}"
+                                             placeholder="Ingrese una respuesta para su pregunta"/>
+                                <h:outputText value="Mail:"/>
+                                <p:inputText size="32" value="#{docenteBean.mail}"
+                                             placeholder="Ingrese un e-mail"/>                      
+
+                            </p:panelGrid>
+                        </p:panel>
+
 
                         <p:commandButton value="Aceptar" action="#{docenteBean.insertarDocente()}" 
                                          update=":frmdocente:pnlDocente" process="@this, @form"/>
