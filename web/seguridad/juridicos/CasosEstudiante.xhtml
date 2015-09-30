@@ -48,11 +48,12 @@ and open the template in the editor.
                         </h:panelGrid>
                     </p:panel>
                     <p:messages/>
+                    
                     <p:panel id="pnlCaso">
-
-                        <p:dataTable id="tblCasos" value="#{casosDocenteBean.lstCasos}" var="casos" 
+                        
+                        <p:dataTable id="tblCasos" value="#{casosEstudianteBean.lstCasos}" var="casos" 
                                      paginator="true" rows="10" rowKey="#{casos.id_caso}" selectionMode="single" 
-                                     selection="#{casosDocenteBean.casoSel}">
+                                     selection="#{casosEstudianteBean.casoSel}">
 
                             <p:column >
                                 <f:facet name="header">
