@@ -150,9 +150,9 @@ public class CasosEstudianteBean {
 
     public void cargarCasosUsuario() {
         try {
-            //this.lstCasos = FCaso.obtenerCasosDadoCedulaEstudiante(cedulaSesion);
+            this.lstCasos = FCaso.obtenerCasosDadoCedulaEstudiante(cedulaSesion);
 
-            this.lstCasos = FCaso.obtenerCasosDadoCedulaEstudiante("0604792549");
+            //this.lstCasos = FCaso.obtenerCasosDadoCedulaEstudiante("0604792549");
             this.casoSel = lstCasos.get(0);
             System.out.println(lstCasos.get(0).getId_caso());
         } catch (Exception e) {

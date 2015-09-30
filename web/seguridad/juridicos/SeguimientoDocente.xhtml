@@ -96,14 +96,14 @@ and open the template in the editor.
                                                  oncomplete="wdlgEditarSeguimiento.show()" 
                                                  process="@this" update=":dlgEditarSeguimiento, @form">                                   
                                     <f:setPropertyActionListener value="#{seguimiento}" 
-                                                                 target="#{seguimientoBean.seguimientoSel}"/>
+                                                                 target="#{seguimientoDocenteBean.seguimientoSel}"/>
                                 </p:commandButton>
 
                                 <!--<p:commandButton id="btnEliminarSeguimiento" icon="ui-icon-close"  title="Eliminar Seguimiento"
                                                  oncomplete="wdlgEliminarSeguimiento.show()" 
                                                  update=":dlgEliminarSeguimiento">                                   
                                     <f:setPropertyActionListener value="#{seguimiento}" 
-                                                                 target="#{seguimientoBean.seguimientoSel}"/>
+                                                                 target="#{seguimientoDocenteBean.seguimientoSel}"/>
                                 </p:commandButton>-->
                             </p:column>
 
@@ -212,9 +212,6 @@ and open the template in the editor.
                                                   value="#{seguimientoDocenteBean.archivoDocumento}"
                                                   required="true" requiredMessage="Cargar Documento!!" />
                                 </p:panelGrid>
-
-                               <!--<p:commandButton value="Aceptar" action="#{seguimientoDocenteBean.actualizarSeguimiento()}" 
-                               update=":frmseguimiento:pnlSeguimiento" process="@this"  />-->
 
                             </h:panelGrid>
 

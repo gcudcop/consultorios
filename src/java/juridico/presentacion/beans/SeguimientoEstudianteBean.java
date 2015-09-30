@@ -278,8 +278,8 @@ public class SeguimientoEstudianteBean {
 
     public void cargarSeguimientoSesionUsuario() {
         try {
-            //this.lstSeguimiento=FSeguimiento.obtenerSeguimientoDadoCedulaDocente(FUsuario.ObtenerUsuarioDadoCodigo(dm.getSesionUsuario().getCodigo()).getIdentificacion());
-            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaEstudiante("0604792549");
+            this.lstSeguimientos=FSeguimiento.obtenerSeguimientoDadoCedulaDocente(FUsuario.ObtenerUsuarioDadoCodigo(dm.getSesionUsuario().getCodigo()).getIdentificacion());
+            //this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaEstudiante("0604792549");
             this.seguimientoSel = lstSeguimientos.get(0);
             System.out.println(lstSeguimientos.get(0).getId_seguimiento());
         } catch (Exception e) {
@@ -298,8 +298,8 @@ public class SeguimientoEstudianteBean {
 //    }
     public void cargarCasosSesionUsuario() {
         try {
-            //this.lstCasos=FCaso.obtenerCasosDadoCedulaDocente(FUsuario.ObtenerUsuarioDadoCodigo(dm.getSesionUsuario().getCodigo()).getIdentificacion());
-            this.lstCasos = FCaso.obtenerCasosDadoCedulaEstudiante("0604792549");
+            this.lstCasos=FCaso.obtenerCasosDadoCedulaDocente(FUsuario.ObtenerUsuarioDadoCodigo(dm.getSesionUsuario().getCodigo()).getIdentificacion());
+            //this.lstCasos = FCaso.obtenerCasosDadoCedulaEstudiante("0604792549");
             //this.casoSel = lstCasos.get(0);
             System.out.println(lstCasos.get(0).getId_caso());
         } catch (Exception e) {
@@ -342,10 +342,10 @@ public class SeguimientoEstudianteBean {
     
     public void obtenerSeguimientosDadoCedulaDocenteCedulaEstudiante() {
         try {
-            //this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente(cedulaSesion); //descomentar esta linea
+            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaEstudiante(cedulaSesion); //descomentar esta linea
 
-            //this.lstCasos=FSeguimiento.obtenerSeguimientoDadoCedulaDocenteCedulaEstudiante(cedulaSesion, criterioBusqueda); //descomentar esta linea
-            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocenteCedulaEstudiante( criterioBusqueda,"0604792549");
+            this.lstSeguimientos=FSeguimiento.obtenerSeguimientoDadoCedulaDocenteCedulaEstudiante(cedulaSesion, criterioBusqueda); //descomentar esta linea
+            //this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocenteCedulaEstudiante( criterioBusqueda,"0604792549");
             this.seguimientoSel = lstSeguimientos.get(0);
             System.out.println(lstSeguimientos.get(0).getId_seguimiento());
         } catch (Exception e) {

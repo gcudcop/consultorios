@@ -66,7 +66,7 @@ public class CasosDocenteBean {
     public void setLstEstudianteDadoDocente(ArrayList<Estudiante> lstEstudianteDadoDocente) {
         this.lstEstudianteDadoDocente = lstEstudianteDadoDocente;
     }
-    
+
     public Estudiante getEstudianteCaso() {
         return estudianteCaso;
     }
@@ -279,8 +279,8 @@ public class CasosDocenteBean {
 
     public void cargarCasosSesionUsuario() {
         try {
-            //this.lstCasos=FCaso.obtenerCasosDadoCedulaDocente(FUsuario.ObtenerUsuarioDadoCodigo(dm.getSesionUsuario().getCodigo()).getIdentificacion());
-            this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente("1803874310");
+            this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente(FUsuario.ObtenerUsuarioDadoCodigo(dm.getSesionUsuario().getCodigo()).getIdentificacion());
+            //this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente("1803874310");
             this.casoSel = lstCasos.get(0);
             System.out.println(lstCasos.get(0).getId_caso());
         } catch (Exception e) {
@@ -301,8 +301,8 @@ public class CasosDocenteBean {
 
     public void cargarEstudiantesDadoSessionDocente() {
         try {
-//            this.lstEstudiante = FEstudiante.obtenerEstudianteDadoCedulaDocente(cedulaSesion);
-            this.lstEstudianteDadoDocente = FEstudiante.obtenerEstudianteDadoCedulaDocente("1803874310");
+            this.lstEstudianteDadoDocente = FEstudiante.obtenerEstudianteDadoCedulaDocente(cedulaSesion);
+            //this.lstEstudianteDadoDocente = FEstudiante.obtenerEstudianteDadoCedulaDocente("1803874310");
             System.out.println(lstEstudianteDadoDocente.get(0).getId_estudiante());
         } catch (Exception e) {
             Util.addErrorMessage("private void cargarEstudiante dice: " + e.getMessage());
@@ -411,10 +411,10 @@ public class CasosDocenteBean {
 
     public void obtenerCasosPorNumero() {
         try {
-            //this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente(cedulaSesion); //descomentar esta linea
+            this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente(cedulaSesion); //descomentar esta linea
 
-            //this.lstCasos=FCaso.obtenerCasosDadoCedulaDocenteNumero(cedulaSesion, criterioBusqueda); //descomentar esta linea
-            this.lstCasos = FCaso.obtenerCasosDadoCedulaDocenteNumero("1803874310", this.criterioBusqueda);
+            this.lstCasos=FCaso.obtenerCasosDadoCedulaDocenteNumero(cedulaSesion, criterioBusqueda); //descomentar esta linea
+            //this.lstCasos = FCaso.obtenerCasosDadoCedulaDocenteNumero("1803874310", this.criterioBusqueda);
             this.casoSel = lstCasos.get(0);
             System.out.println(lstCasos.get(0).getId_caso());
         } catch (Exception e) {
@@ -435,7 +435,6 @@ public class CasosDocenteBean {
 //            System.out.println("private void obtenerCasosDadoCedulaDocenteCedulaVictima dice: " + e.getMessage());
 //        }
 //    }
-
 //    public void obtenerCasosDadoCedulaDocenteCedulaEstudiante() {
 //        try {
 //            //this.lstCasos = FCaso.obtenerCasosDadoCedulaEstudianteCedulaDocente(estudiante.getIdentificacion(),cedulaSesion);//descomentar esta linea           
@@ -448,5 +447,4 @@ public class CasosDocenteBean {
 //            System.out.println("private void obtenerCasosDadoCedulaDocenteCedulaVictima dice: " + e.getMessage());
 //        }
 //    }
-
 }

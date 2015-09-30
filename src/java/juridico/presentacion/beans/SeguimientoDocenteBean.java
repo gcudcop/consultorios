@@ -26,7 +26,9 @@ import juridico.entidades.funciones.FCaso;
 import juridico.entidades.funciones.FDocente;
 import juridico.entidades.funciones.FEstudiante;
 import juridico.entidades.funciones.FSeguimiento;
+import master.logica.funciones.FFuncion;
 import master.logica.funciones.FUsuario;
+import master.logica.funciones.FUsuarioRol;
 import master.presentacion.beans.SesionUsuarioDataManager;
 import org.apache.taglibs.standard.functions.Functions;
 import org.primefaces.context.DefaultRequestContext;
@@ -248,15 +250,6 @@ public class SeguimientoDocenteBean {
         this.Configuracion = Configuracion;
     }
 
-    public void capturaCedulaSesion() {
-        try {
-            this.cedulaSesion = FUsuario.ObtenerUsuarioDadoCodigo(dm.getSesionUsuario().getCodigo()).getIdentificacion();
-        } catch (Exception e) {
-            Util.addErrorMessage("private void capturaCedulaSesion dice: " + e.getMessage());
-            System.out.println("private void capturaCedulaSesion dice: " + e.getMessage());
-        }
-    }
-
     public SeguimientoDocenteBean() {
         reinit();
     }
@@ -268,7 +261,10 @@ public class SeguimientoDocenteBean {
         this.lstDocentes = new ArrayList<Docente>();
         this.lstEstudiante = new ArrayList<Estudiante>();
         this.lstCasos = new ArrayList<Caso>();
-//        this.cargarSeguimiento();
+        this.dm=new SesionUsuarioDataManager();
+        //        this.cargarSeguimiento();
+
+        this.capturaCedulaSesion();
         this.cargarSeguimientoSesionUsuario();
         this.cargarCasosSesionUsuario();
 //        this.cargarDocente();
@@ -276,15 +272,28 @@ public class SeguimientoDocenteBean {
 
     }
 
-    public void cargarSeguimientoSesionUsuario() {
+    public void capturaCedulaSesion() {
         try {
-            //this.lstSeguimiento=FSeguimiento.obtenerSeguimientoDadoCedulaDocente(FUsuario.ObtenerUsuarioDadoCodigo(dm.getSesionUsuario().getCodigo()).getIdentificacion());
-            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocente("1803874310");
+
+            this.cedulaSesion = dm.getSesionUsuarioRolActual().getCodigo_usuario().getIdentificacion();
+        } catch (Exception e) {
+            Util.addErrorMessage("private void capturaCedulaSesion dice: " + e.getMessage());
+            System.out.println("private void capturaCedulaSesion dice: " + e.getMessage());
+        }
+    }
+
+    public void cargarSeguimientoSesionUsuario() {
+
+        try {
+            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocente(cedulaSesion);
+            // this.lstSeguimientos=FSeguimiento.obtenerSeguimientoDadoCedulaDocente(dm.getSesionUsuarioRolActual().getCodigo_usuario().getIdentificacion());
+            //this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocente("1803874310");
             this.seguimientoSel = lstSeguimientos.get(0);
+
             System.out.println(lstSeguimientos.get(0).getId_seguimiento());
         } catch (Exception e) {
-            Util.addErrorMessage("public void cargarCasosSesionUsuario() dice: " + e.getMessage());
-            System.out.println("public void cargarCasosSesionUsuario() dice: " + e.getMessage());
+            Util.addErrorMessage("public void cargarSeguimientoSesionUsuario() dice: " + e.getMessage());
+            System.out.println("public void cargarSeguimientoSesionUsuario() dice: " + e.getMessage());
         }
     }
 
@@ -298,8 +307,8 @@ public class SeguimientoDocenteBean {
 //    }
     public void cargarCasosSesionUsuario() {
         try {
-            //this.lstCasos=FCaso.obtenerCasosDadoCedulaDocente(FUsuario.ObtenerUsuarioDadoCodigo(dm.getSesionUsuario().getCodigo()).getIdentificacion());
-            this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente("1803874310");
+            this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente(cedulaSesion);
+            //this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente("1803874310");
             //this.casoSel = lstCasos.get(0);
             System.out.println(lstCasos.get(0).getId_caso());
         } catch (Exception e) {
@@ -339,13 +348,13 @@ public class SeguimientoDocenteBean {
             System.out.println("private void cargarEscuelas dice: " + e.getMessage());
         }
     }
-    
+
     public void obtenerSeguimientosDadoCedulaDocenteCedulaEstudiante() {
         try {
-            //this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente(cedulaSesion); //descomentar esta linea
+            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocente(cedulaSesion); //descomentar esta linea
 
-            //this.lstCasos=FSeguimiento.obtenerSeguimientoDadoCedulaDocenteCedulaEstudiante(cedulaSesion, criterioBusqueda); //descomentar esta linea
-            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocenteCedulaEstudiante("1803874310", criterioBusqueda);
+            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocenteCedulaEstudiante(cedulaSesion, criterioBusqueda); //descomentar esta linea
+            //this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocenteCedulaEstudiante("1803874310", criterioBusqueda);
             this.seguimientoSel = lstSeguimientos.get(0);
             System.out.println(lstSeguimientos.get(0).getId_seguimiento());
         } catch (Exception e) {
@@ -364,7 +373,7 @@ public class SeguimientoDocenteBean {
             Docente docente = new Docente();
             docente.setId_docente(seguimientoSel.getId_docente().getId_docente());
             objSeguimiento.setId_docente(docente);
-            
+
             Estudiante estudiante = new Estudiante();
             estudiante.setId_estudiante(estudianteSeleccionada);
             objSeguimiento.setId_estudiante(estudiante);
@@ -413,7 +422,7 @@ public class SeguimientoDocenteBean {
             }
         } catch (Exception e) {
             Util.addErrorMessage("private void actualizarSeguimiento dice: " + e.getMessage());
-            System.out.println("private void actualizarSEguimiento dice: " + e.getMessage());
+            System.out.println("private void actualizarSeguimiento dice: " + e.getMessage());
         }
     }
 
