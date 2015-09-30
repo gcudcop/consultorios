@@ -209,7 +209,7 @@ public class usuariorolControlador {
 //            usuariorol.setFecha_creacion(recursos.Tools.obtieneFechaActualenMiliseg());
 //            usuariorol.setFecha_modificacion(recursos.Tools.obtieneFechaActualenMiliseg());
             usuariorol.setCodigo_rol(FRoles.ObtenerRolDadoCodigo(valorRolSeleccionado));
-//            usuariorol.setCodigo_usuario(FUsuario.ObtenerUsuarioDadoCodigo(valorUsuarioSeleccionado));
+           usuariorol.setCodigo_usuario(FUsuario.ObtenerUsuarioDadoCodigo(valorUsuarioSeleccionado));
 //            usuariorol.setCodigo_usuario_trans(FUsuario.ObtenerUsuarioDadoCodigo(dm.getSesionUsuario().getCodigo()));
             //usuariorol.setCodigo_usuario_trans(FUsuario.ObtenerUsuarioDadoCodigo(3));
             FUsuarioRol.Insertar(usuariorol);
