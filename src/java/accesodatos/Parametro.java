@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package accesodatos;
 
 /**
@@ -10,6 +9,7 @@ package accesodatos;
  * @author DIEGO_PALACIOS
  */
 public class Parametro {
+
     private int posicion;
     private Object valor;
     private int tipo;
@@ -21,18 +21,15 @@ public class Parametro {
     public void setTipo(int tipo) {
         this.tipo = tipo;
     }
-    
-    
-    public Parametro()
-    {
-    posicion=0;
-    valor= null;
+
+    public Parametro() {
+        posicion = 0;
+        valor = null;
     }
 
-    public Parametro(int posicion, Object valor)
-    {
-    this.posicion=posicion;
-    this.valor= valor;
+    public Parametro(int posicion, Object valor) {
+        this.posicion = posicion;
+        this.valor = valor;
     }
 
     public Parametro(int posicion, Object valor, int tipo) {
@@ -41,8 +38,6 @@ public class Parametro {
         this.tipo = tipo;
     }
 
-    
-    
     /**
      * @return the posicion
      */
@@ -70,7 +65,5 @@ public class Parametro {
     public void setValor(Object valor) {
         this.valor = valor;
     }
-    
-
 
 }

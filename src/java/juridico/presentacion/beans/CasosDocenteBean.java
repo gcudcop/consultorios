@@ -17,7 +17,6 @@ import juridico.entidades.clases.Estudiante;
 import juridico.entidades.clases.Victima;
 import juridico.entidades.funciones.FAgresor;
 import juridico.entidades.funciones.FCaso;
-import juridico.entidades.funciones.FDocente;
 import juridico.entidades.funciones.FEstudiante;
 import juridico.entidades.funciones.FVictima;
 import master.logica.funciones.FUsuario;
@@ -37,6 +36,7 @@ public class CasosDocenteBean {
     private Caso objCaso;
     private Caso casoSel;
     private ArrayList<Estudiante> lstEstudiante;
+    private ArrayList<Estudiante> lstEstudianteDadoDocente;
     private ArrayList<Docente> lstDocente;
     private ArrayList<Victima> lstVictima;
     private ArrayList<Agresor> lstAgresor;
@@ -55,23 +55,40 @@ public class CasosDocenteBean {
     private SesionUsuarioDataManager dm;
     private String criterioBusqueda;
     private String cedulaSesion;
-    private String criterioBusqueda2;
-    private String criterioBusqueda3;
+    private String cedulaVictima;
+    private String cedulaEstudiante;
+    private Estudiante estudianteCaso;
 
-    public String getCriterioBusqueda2() {
-        return criterioBusqueda2;
+    public ArrayList<Estudiante> getLstEstudianteDadoDocente() {
+        return lstEstudianteDadoDocente;
     }
 
-    public void setCriterioBusqueda2(String criterioBusqueda2) {
-        this.criterioBusqueda2 = criterioBusqueda2;
+    public void setLstEstudianteDadoDocente(ArrayList<Estudiante> lstEstudianteDadoDocente) {
+        this.lstEstudianteDadoDocente = lstEstudianteDadoDocente;
+    }
+    
+    public Estudiante getEstudianteCaso() {
+        return estudianteCaso;
     }
 
-    public String getCriterioBusqueda3() {
-        return criterioBusqueda3;
+    public void setEstudianteCaso(Estudiante estudianteCaso) {
+        this.estudianteCaso = estudianteCaso;
     }
 
-    public void setCriterioBusqueda3(String criterioBusqueda3) {
-        this.criterioBusqueda3 = criterioBusqueda3;
+    public String getCedulaVictima() {
+        return cedulaVictima;
+    }
+
+    public void setCedulaVictima(String cedulaVictima) {
+        this.cedulaVictima = cedulaVictima;
+    }
+
+    public String getCedulaEstudiante() {
+        return cedulaEstudiante;
+    }
+
+    public void setCedulaEstudiante(String cedulaEstudiante) {
+        this.cedulaEstudiante = cedulaEstudiante;
     }
 
     public String getCedulaSesion() {
@@ -237,11 +254,13 @@ public class CasosDocenteBean {
     private void reinit() {
         this.objCaso = new Caso();
         this.casoSel = new Caso();
+        this.estudianteCaso = new Estudiante();
         this.cargarCasosSesionUsuario();
 //        this.cargarDocentes();
         this.cargarVictimas();
         this.cargarEstudiantes();
         this.cargarAgresores();
+        this.capturaCedulaSesion();
 
     }
 
@@ -274,6 +293,17 @@ public class CasosDocenteBean {
         try {
             this.lstEstudiante = FEstudiante.obtenerEstudiantes();
             System.out.println(lstEstudiante.get(0).getId_estudiante());
+        } catch (Exception e) {
+            Util.addErrorMessage("private void cargarEstudiante dice: " + e.getMessage());
+            System.out.println("private void cargarEstudiante dice: " + e.getMessage());
+        }
+    }
+
+    public void cargarEstudiantesDadoSessionDocente() {
+        try {
+//            this.lstEstudiante = FEstudiante.obtenerEstudianteDadoCedulaDocente(cedulaSesion);
+            this.lstEstudianteDadoDocente = FEstudiante.obtenerEstudianteDadoCedulaDocente("1803874310");
+            System.out.println(lstEstudianteDadoDocente.get(0).getId_estudiante());
         } catch (Exception e) {
             Util.addErrorMessage("private void cargarEstudiante dice: " + e.getMessage());
             System.out.println("private void cargarEstudiante dice: " + e.getMessage());
@@ -393,18 +423,30 @@ public class CasosDocenteBean {
         }
     }
 
-    public void obtenerCasosDadoCedulaDocenteCedulaVictima() {
-        try {
-            //this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente(cedulaSesion); //descomentar esta linea
+//    public void obtenerCasosDadoCedulaDocenteCedulaVictima() {
+//        try {
+//            //this.lstCasos=FCaso.obtenerCasosDadoCedulaDocenteCedulaVictima(cedulaSesion, criterioBusqueda); //descomentar esta linea
+//            lstCasos.clear();
+//            this.lstCasos = FCaso.obtenerCasosDadoCedulaDocenteCedulaVictima("1803874310", cedulaVictima);
+//            this.casoSel = lstCasos.get(0);
+//            System.out.println(lstCasos.get(0).getId_caso());
+//        } catch (Exception e) {
+//            Util.addErrorMessage("private void obtenerCasosDadoCedulaDocenteCedulaVictima dice: " + e.getMessage());
+//            System.out.println("private void obtenerCasosDadoCedulaDocenteCedulaVictima dice: " + e.getMessage());
+//        }
+//    }
 
-            //this.lstCasos=FCaso.obtenerCasosDadoCedulaDocenteCedulaVictima(cedulaSesion, criterioBusqueda); //descomentar esta linea
-            this.lstCasos = FCaso.obtenerCasosDadoCedulaDocenteCedulaVictima("1803874310", criterioBusqueda2);
-            this.casoSel = lstCasos.get(0);
-            System.out.println(lstCasos.get(0).getId_caso());
-        } catch (Exception e) {
-            Util.addErrorMessage("private void obtenerCasosDadoCedulaDocenteCedulaVictima dice: " + e.getMessage());
-            System.out.println("private void obtenerCasosDadoCedulaDocenteCedulaVictima dice: " + e.getMessage());
-        }
-    }
+//    public void obtenerCasosDadoCedulaDocenteCedulaEstudiante() {
+//        try {
+//            //this.lstCasos = FCaso.obtenerCasosDadoCedulaEstudianteCedulaDocente(estudiante.getIdentificacion(),cedulaSesion);//descomentar esta linea           
+//            lstCasos.clear();
+//            this.lstCasos = FCaso.obtenerCasosDadoCedulaEstudianteCedulaDocente(cedulaEstudiante, "1803874310");
+//            this.casoSel = lstCasos.get(0);
+//            System.out.println(lstCasos.get(0).getId_caso());
+//        } catch (Exception e) {
+//            Util.addErrorMessage("private void obtenerCasosDadoCedulaDocenteCedulaVictima dice: " + e.getMessage());
+//            System.out.println("private void obtenerCasosDadoCedulaDocenteCedulaVictima dice: " + e.getMessage());
+//        }
+//    }
 
 }

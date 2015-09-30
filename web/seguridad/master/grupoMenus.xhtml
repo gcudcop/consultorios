@@ -18,7 +18,7 @@
                 <h:form id="frmGrupoMenus">
                     <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                     <p:panel id="pnlGrupoMenus">
-                        <p:dataTable id="tblGrupoMenus" value="#{grupoMenusControlador.gruposMenus}" var="grupoMenus" paginator="true" rows="5" draggableColumns="false"
+                        <p:dataTable id="tblGrupoMenus" value="#{grupoMenusControlador.gruposMenus}" var="grupoMenus" paginator="true" rows="10" draggableColumns="false"
                                      rowKey="#{grupoMenus.codigo}" selectionMode="single" selection="#{grupoMenusControlador.seleccionarGrupoMenus}">
                             <p:column filterBy="#{grupoMenus.nombre}" filterMatchMode="startsWith" sortBy="#{grupoMenus.nombre}">
                                 <f:facet name="header">
