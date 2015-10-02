@@ -14,6 +14,8 @@ import javax.validation.constraints.Pattern;
  *
  * @author DiegoPalacios
  */
+@ManagedBean
+@ViewScoped
 
 public class Usuario {
     

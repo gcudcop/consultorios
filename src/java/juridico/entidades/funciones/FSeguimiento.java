@@ -77,6 +77,7 @@ public class FSeguimiento {
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             lst = llenarDatos(rs);
             rs = null;
+            System.out.println("El metodo llega hasta aqui");
         } catch (SQLException exConec) {
             throw new Exception(exConec.getMessage());
         }

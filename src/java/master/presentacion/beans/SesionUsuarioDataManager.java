@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import juridico.entidades.clases.Docente;
 import master.logica.clases.*;
 
 /**
@@ -17,11 +18,12 @@ import master.logica.clases.*;
  */
 @ManagedBean
 @SessionScoped
-public class SesionUsuarioDataManager implements Serializable{
+public class SesionUsuarioDataManager implements Serializable {
     //datos usuario actual
 
     private Usuario sesionUsuario;
     //datos del periodo actual
+    private Docente sesionDocente;
     private Periodos sesionPeriodoActual;
     //datos del tutor actual
     private Tutor sesionTutorActual;
@@ -52,7 +54,7 @@ public class SesionUsuarioDataManager implements Serializable{
     //constructor
     public SesionUsuarioDataManager() {
         this.sesionUsuario = new Usuario();
-//        this.sesionPersona = new UsuarioPersona();
+        this.sesionDocente = new Docente();
         this.sesionPeriodoActual = new Periodos();
         this.sesionTutorActual = new Tutor();
         this.validado = false;
@@ -76,7 +78,7 @@ public class SesionUsuarioDataManager implements Serializable{
         this.menu = null;
         this.paginaActual = "";
         this.sesionUsuario = null;
-//        this.sesionPersona = null;
+        this.sesionDocente = null;
         this.sesionUsuarioRolActual = null;
         this.sesionUsuarioRoles = null;
         this.sesionPeriodos = null;
@@ -85,12 +87,15 @@ public class SesionUsuarioDataManager implements Serializable{
         this.validado = Boolean.FALSE;
     }
 
-//    public UsuarioPersona getSesionPersona() {
-//        return sesionPersona;
-//    }
-//
-//    public void setSesionPersona(UsuarioPersona sesionPersona) {
-//        this.sesionPersona = sesionPersona;
+    public Docente getSesionDocente() {
+        return sesionDocente;
+    }
+
+    public void setSesionDocente(Docente sesionDocente) {
+        this.sesionDocente = sesionDocente;
+    }
+    
+    
     public Tutor getSesionTutor() {
         return sesionTutor;
     }
@@ -98,9 +103,6 @@ public class SesionUsuarioDataManager implements Serializable{
     public void setSesionTutor(Tutor sesionTutor) {
         this.sesionTutor = sesionTutor;
     }
-    
-    
-   
 
     public Tutor getSesionTutorActual() {
         return sesionTutorActual;
@@ -118,16 +120,13 @@ public class SesionUsuarioDataManager implements Serializable{
         this.intSesionTutor = intSesionTutor;
     }
 
-    
-
-       public Periodos getSesionPeriodoActual() {
+    public Periodos getSesionPeriodoActual() {
         return sesionPeriodoActual;
     }
 
     public void setSesionPeriodoActual(Periodos sesionPeriodoActual) {
         this.sesionPeriodoActual = sesionPeriodoActual;
     }
-
 
     public Integer getIntSesionPeriodo() {
         return intSesionPeriodo;

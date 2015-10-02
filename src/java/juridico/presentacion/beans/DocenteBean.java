@@ -435,6 +435,7 @@ public class DocenteBean {
 
             if ((FDocente.Insertar(objDocente)) && (FUsuario.Insertar(objUsuario, objUsuarioRol) > 0)) {
                 this.reinit();
+                
                 DefaultRequestContext.getCurrentInstance().execute("wdlgNuevoDocente.hide()");
                 Util.addSuccessMessage("Información guardada con éxito");
                 System.out.println("public void insertarDocente dice: Error al guardar la información");

@@ -5,19 +5,31 @@
  */
 package juridico.presentacion.beans;
 
+import com.sun.xml.rpc.processor.modeler.j2ee.xml.string;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.application.Application;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import juridico.entidades.clases.Caso;
 import juridico.entidades.clases.Docente;
 import juridico.entidades.clases.Estudiante;
@@ -26,7 +38,9 @@ import juridico.entidades.funciones.FCaso;
 import juridico.entidades.funciones.FDocente;
 import juridico.entidades.funciones.FEstudiante;
 import juridico.entidades.funciones.FSeguimiento;
+import master.logica.clases.Usuario;
 import master.logica.funciones.FFuncion;
+import master.logica.funciones.FNodoMenu;
 import master.logica.funciones.FUsuario;
 import master.logica.funciones.FUsuarioRol;
 import master.presentacion.beans.SesionUsuarioDataManager;
@@ -42,18 +56,21 @@ import recursos.Util;
  * @author servidor
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class SeguimientoDocenteBean {
 
     /**
      * Creates a new instance of SeguimientoDocenteBean
      */
+    @ManagedProperty(value = "#{sesionUsuarioDataManager}")
+    private SesionUsuarioDataManager dm;
     private Seguimiento objSeguimiento;
     private Seguimiento seguimientoSel;
     private ArrayList<Seguimiento> lstSeguimientos;
     private ArrayList<Estudiante> lstEstudiante;
     private ArrayList<Docente> lstDocentes;
     private ArrayList<Caso> lstCasos;
+    private Usuario UsuarioActual;
     private boolean mostrarActualizar;
     private Date fechaInicio;
     private Date fechaFin;
@@ -65,14 +82,21 @@ public class SeguimientoDocenteBean {
     private String criterioBusqueda;
     private String criterioBusqueda2;
     private String criterioBusqueda3;
-    @ManagedProperty(value = "#{sesionUsuarioDataManager}")
-    private SesionUsuarioDataManager dm;
     private String cedulaSesion;
+
     //manejo de imagenes
     private String nombreDocumento;
     private UploadedFile archivoDocumento;
     //cargar configuracion del path
     java.util.ResourceBundle Configuracion = java.util.ResourceBundle.getBundle("recursos.rutasMedia");
+
+    public Usuario getUsuarioActual() {
+        return UsuarioActual;
+    }
+
+    public void setUsuarioActual(Usuario UsuarioActual) {
+        this.UsuarioActual = UsuarioActual;
+    }
 
     public String getCriterioBusqueda() {
         return criterioBusqueda;
@@ -254,43 +278,57 @@ public class SeguimientoDocenteBean {
         reinit();
     }
 
+    
+
     private void reinit() {
         this.objSeguimiento = new Seguimiento();
         this.seguimientoSel = new Seguimiento();
+        this.UsuarioActual = new Usuario();
         this.lstSeguimientos = new ArrayList<Seguimiento>();
         this.lstDocentes = new ArrayList<Docente>();
         this.lstEstudiante = new ArrayList<Estudiante>();
         this.lstCasos = new ArrayList<Caso>();
-        this.dm=new SesionUsuarioDataManager();
-        //        this.cargarSeguimiento();
+        //this.dm =new SesionUsuarioDataManager();
 
-        this.capturaCedulaSesion();
+//        this.capturaCedulaSesion();
         this.cargarSeguimientoSesionUsuario();
         this.cargarCasosSesionUsuario();
 //        this.cargarDocente();
         this.cargarEstudiante();
 
     }
-
-    public void capturaCedulaSesion() {
-        try {
-
-            this.cedulaSesion = dm.getSesionUsuarioRolActual().getCodigo_usuario().getIdentificacion();
-        } catch (Exception e) {
-            Util.addErrorMessage("private void capturaCedulaSesion dice: " + e.getMessage());
-            System.out.println("private void capturaCedulaSesion dice: " + e.getMessage());
-        }
-    }
+    
+//    public void capturaCedulaSesion() {
+//        
+//        try {
+//           cedulaSesion = dm.getSesionUsuario().getIdentificacion();
+//        } catch (Exception e) {
+//            Util.addErrorMessage("public void capturaCedulaSesion() dice: " + e.getMessage());
+//            System.out.println("public void capturaCedulaSesion() dice: " + e.getMessage());
+//        }
+//
+//    }
+   
 
     public void cargarSeguimientoSesionUsuario() {
 
         try {
-            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocente(cedulaSesion);
+            //this.cedulaSesion = dm.getSesionUsuario().getIdentificacion();
+            //System.out.println(cedulaSesion);
+            //this.dm.setSesionUsuarioRolActual(this.dm.getSesionUsuarioRoles().get(0));
+            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocente(dm.getSesionDocente().getIdentificacion());
+
+            if (lstSeguimientos.isEmpty()) {
+                System.out.println("La Lista esta vacia");
+
+            } else {
+                this.seguimientoSel = lstSeguimientos.get(0);
+
+                System.out.println(lstSeguimientos.get(0).getId_seguimiento());
+            }
             // this.lstSeguimientos=FSeguimiento.obtenerSeguimientoDadoCedulaDocente(dm.getSesionUsuarioRolActual().getCodigo_usuario().getIdentificacion());
             //this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocente("1803874310");
-            this.seguimientoSel = lstSeguimientos.get(0);
 
-            System.out.println(lstSeguimientos.get(0).getId_seguimiento());
         } catch (Exception e) {
             Util.addErrorMessage("public void cargarSeguimientoSesionUsuario() dice: " + e.getMessage());
             System.out.println("public void cargarSeguimientoSesionUsuario() dice: " + e.getMessage());
@@ -307,7 +345,7 @@ public class SeguimientoDocenteBean {
 //    }
     public void cargarCasosSesionUsuario() {
         try {
-            this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente(cedulaSesion);
+            this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente(dm.getSesionUsuario().getIdentificacion());
             //this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente("1803874310");
             //this.casoSel = lstCasos.get(0);
             System.out.println(lstCasos.get(0).getId_caso());
@@ -329,16 +367,17 @@ public class SeguimientoDocenteBean {
 //
 //    }
 //
-//    public void cargarDocente() {
-//        try {
-//            this.lstDocentes = FDocente.ObtenerDocentes();
-//
-//            System.out.println(lstDocentes.get(0).getId_docente());
-//        } catch (Exception e) {
-//            Util.addErrorMessage("private void cargarDocente dice: " + e.getMessage());
-//            System.out.println("private void cargarDocente dice: " + e.getMessage());
-//        }
-//    }
+    public void cargarDocente() {
+        try {
+            this.lstDocentes = FDocente.ObtenerDocentes();
+
+            System.out.println(lstDocentes.get(0).getId_docente());
+        } catch (Exception e) {
+            Util.addErrorMessage("private void cargarDocente dice: " + e.getMessage());
+            System.out.println("private void cargarDocente dice: " + e.getMessage());
+        }
+    }
+
     public void cargarEstudiante() {
         try {
             this.lstEstudiante = FEstudiante.obtenerEstudiantes();

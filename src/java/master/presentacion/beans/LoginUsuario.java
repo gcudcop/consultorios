@@ -15,7 +15,9 @@ import master.logica.funciones.*;
 import recursos.Util;
 import java.util.Date;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import juridico.entidades.funciones.FDocente;
 import recursos.Tools;
 
 /**
@@ -23,18 +25,20 @@ import recursos.Tools;
  * @author User
  */
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class LoginUsuario {
 
     Usuario usuario;
     @ManagedProperty(value = "#{sesionUsuarioDataManager}")
     private SesionUsuarioDataManager dm;
+    
 
     public LoginUsuario() {
         usuario = new Usuario();
     }
 
-    public SesionUsuarioDataManager getDm() {
+    
+        public SesionUsuarioDataManager getDm() {
         return dm;
     }
 
@@ -60,7 +64,8 @@ public class LoginUsuario {
                 this.dm.setSesionPeriodos(FPeriodos.ObtenerPeriodoActual());
                 
                // this.dm.setIntSesionTutor(FTutor.ObtenerCodigoTutorDadoIdentificacionUsuario(this.dm.getSesionUsuario().getIdentificacion()));
-                //this.dm.setSesionTutor(FTutor.ObtenerCodigoTutorDadoIdentificacion(this.dm.getSesionUsuario().getIdentificacion()));
+                
+                //this.dm.setSesionDocente(FDocente.ObtenerDocenteDadoCodigo(this.dm.getSesionUsuario().getCodigo()));
                 
                 
                 this.dm.setValidado(Boolean.TRUE);
@@ -68,11 +73,7 @@ public class LoginUsuario {
                     Util.addErrorMessage("El usuario no tiene perfiles asignados, comuniquese con el administrador del sistema");
                     return "/login";
                 }
-                
-               
-                
-                
-                
+         
                 this.dm.setSesionUsuarioRolActual(this.dm.getSesionUsuarioRoles().get(0));
                 this.dm.setSesionPeriodoActual(this.dm.getSesionPeriodos().get(0));
                 this.dm.setSesionTutorActual(this.dm.getSesionTutor());
