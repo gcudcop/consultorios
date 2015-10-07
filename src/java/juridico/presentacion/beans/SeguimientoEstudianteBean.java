@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
@@ -247,7 +248,7 @@ public class SeguimientoEstudianteBean {
     public void setConfiguracion(ResourceBundle Configuracion) {
         this.Configuracion = Configuracion;
     }
-    
+
     public void capturaCedulaSesion() {
         try {
             this.cedulaSesion = FUsuario.ObtenerUsuarioDadoCodigo(dm.getSesionUsuario().getCodigo()).getIdentificacion();
@@ -256,11 +257,17 @@ public class SeguimientoEstudianteBean {
             System.out.println("private void capturaCedulaSesion dice: " + e.getMessage());
         }
     }
-    
+
     public SeguimientoEstudianteBean() {
         reinit();
     }
-    
+
+    @PostConstruct
+    public void postSeguimientoDocenteBean() {
+        this.cargarSeguimientoSesionUsuario();
+        this.cargarCasosSesionUsuario();
+    }
+
     private void reinit() {
         this.objSeguimiento = new Seguimiento();
         this.seguimientoSel = new Seguimiento();
@@ -278,7 +285,7 @@ public class SeguimientoEstudianteBean {
 
     public void cargarSeguimientoSesionUsuario() {
         try {
-            this.lstSeguimientos=FSeguimiento.obtenerSeguimientoDadoCedulaDocente(FUsuario.ObtenerUsuarioDadoCodigo(dm.getSesionUsuario().getCodigo()).getIdentificacion());
+            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaEstudiante(dm.getSesionEstudianteActual().getIdentificacion());
             //this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaEstudiante("0604792549");
             this.seguimientoSel = lstSeguimientos.get(0);
             System.out.println(lstSeguimientos.get(0).getId_seguimiento());
@@ -298,7 +305,7 @@ public class SeguimientoEstudianteBean {
 //    }
     public void cargarCasosSesionUsuario() {
         try {
-            this.lstCasos=FCaso.obtenerCasosDadoCedulaDocente(FUsuario.ObtenerUsuarioDadoCodigo(dm.getSesionUsuario().getCodigo()).getIdentificacion());
+            this.lstCasos = FCaso.obtenerCasosDadoCedulaEstudiante(dm.getSesionEstudianteActual().getIdentificacion());
             //this.lstCasos = FCaso.obtenerCasosDadoCedulaEstudiante("0604792549");
             //this.casoSel = lstCasos.get(0);
             System.out.println(lstCasos.get(0).getId_caso());
@@ -339,12 +346,12 @@ public class SeguimientoEstudianteBean {
             System.out.println("private void cargarDocente dice: " + e.getMessage());
         }
     }
-    
+
     public void obtenerSeguimientosDadoCedulaDocenteCedulaEstudiante() {
         try {
-            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaEstudiante(cedulaSesion); //descomentar esta linea
+            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaEstudiante(dm.getSesionEstudianteActual().getIdentificacion()); //descomentar esta linea
 
-            this.lstSeguimientos=FSeguimiento.obtenerSeguimientoDadoCedulaDocenteCedulaEstudiante(cedulaSesion, criterioBusqueda); //descomentar esta linea
+            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocenteCedulaEstudiante(dm.getSesionEstudianteActual().getIdentificacion(), criterioBusqueda); //descomentar esta linea
             //this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocenteCedulaEstudiante( criterioBusqueda,"0604792549");
             this.seguimientoSel = lstSeguimientos.get(0);
             System.out.println(lstSeguimientos.get(0).getId_seguimiento());
@@ -360,15 +367,13 @@ public class SeguimientoEstudianteBean {
             Caso caso = new Caso();
             caso.setId_caso(casoSeleccionado);
             objSeguimiento.setId_caso(caso);
-            
-            Estudiante estudiante =new Estudiante();
+
+            Estudiante estudiante = new Estudiante();
             estudiante.setId_estudiante(seguimientoSel.getId_estudiante().getId_estudiante());
             objSeguimiento.setId_estudiante(estudiante);
-            
 
 //            Docente docente = new Docente();
 //            docente.setId_docente(lstSeguimientos.get(0).getId_docente().getId_docente());
-            
             Docente docente = new Docente();
             docente.setId_docente(estudianteSeleccionada);
             objSeguimiento.setId_docente(docente);
@@ -377,7 +382,6 @@ public class SeguimientoEstudianteBean {
 //            
 //            estudiante.setId_estudiante(estudianteSeleccionada);
 //            objSeguimiento.setId_estudiante(estudiante);
-
             objSeguimiento.setEstado(estado);
             objSeguimiento.setFecha_inicio(StringToDate.devolverFecha(fechaInicio));
             objSeguimiento.setFecha_fin(StringToDate.devolverFecha(fechaFin));

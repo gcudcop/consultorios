@@ -157,6 +157,22 @@ public class FEstudiante {
         }
         return lst;
     }
+     
+      public static Estudiante ObtenerEstudianteDadoIdentificacion(String identificacion) throws Exception {
+        Estudiante lst;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from juridico.f_select_estudiante_dado_cedula(?)";
+            lstP.add(new Parametro(1, identificacion));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = new Estudiante();
+            lst = llenarEstudiante(rs).get(0);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
     
    public static ArrayList<Estudiante> obtenerEstudianteDadoCedula(String cedula) throws Exception {
         ArrayList<Estudiante> lst = new ArrayList<Estudiante>();

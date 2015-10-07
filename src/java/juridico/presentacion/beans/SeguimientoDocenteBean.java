@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.faces.application.Application;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
@@ -62,8 +63,7 @@ public class SeguimientoDocenteBean {
     /**
      * Creates a new instance of SeguimientoDocenteBean
      */
-    @ManagedProperty(value = "#{sesionUsuarioDataManager}")
-    private SesionUsuarioDataManager dm;
+    
     private Seguimiento objSeguimiento;
     private Seguimiento seguimientoSel;
     private ArrayList<Seguimiento> lstSeguimientos;
@@ -78,6 +78,8 @@ public class SeguimientoDocenteBean {
     private int docenteSeleccionado;
     private int casoSeleccionado;
     private int estado;
+    @ManagedProperty(value = "#{sesionUsuarioDataManager}")
+    private SesionUsuarioDataManager dm;
     private String path;
     private String criterioBusqueda;
     private String criterioBusqueda2;
@@ -278,7 +280,11 @@ public class SeguimientoDocenteBean {
         reinit();
     }
 
-    
+    @PostConstruct
+    public void postSeguimientoDocenteBean(){
+        this.cargarSeguimientoSesionUsuario();
+        this.cargarCasosSesionUsuario();
+    }
 
     private void reinit() {
         this.objSeguimiento = new Seguimiento();
@@ -291,8 +297,8 @@ public class SeguimientoDocenteBean {
         //this.dm =new SesionUsuarioDataManager();
 
 //        this.capturaCedulaSesion();
-        this.cargarSeguimientoSesionUsuario();
-        this.cargarCasosSesionUsuario();
+        
+        
 //        this.cargarDocente();
         this.cargarEstudiante();
 
@@ -316,7 +322,7 @@ public class SeguimientoDocenteBean {
             //this.cedulaSesion = dm.getSesionUsuario().getIdentificacion();
             //System.out.println(cedulaSesion);
             //this.dm.setSesionUsuarioRolActual(this.dm.getSesionUsuarioRoles().get(0));
-            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocente(dm.getSesionDocente().getIdentificacion());
+            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocente(dm.getSesionDocenteActual().getIdentificacion());
 
             if (lstSeguimientos.isEmpty()) {
                 System.out.println("La Lista esta vacia");
@@ -345,7 +351,7 @@ public class SeguimientoDocenteBean {
 //    }
     public void cargarCasosSesionUsuario() {
         try {
-            this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente(dm.getSesionUsuario().getIdentificacion());
+            this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente(dm.getSesionDocenteActual().getIdentificacion());
             //this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente("1803874310");
             //this.casoSel = lstCasos.get(0);
             System.out.println(lstCasos.get(0).getId_caso());
@@ -390,9 +396,9 @@ public class SeguimientoDocenteBean {
 
     public void obtenerSeguimientosDadoCedulaDocenteCedulaEstudiante() {
         try {
-            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocente(cedulaSesion); //descomentar esta linea
+            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocente(dm.getSesionDocenteActual().getIdentificacion()); //descomentar esta linea
 
-            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocenteCedulaEstudiante(cedulaSesion, criterioBusqueda); //descomentar esta linea
+            this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocenteCedulaEstudiante(dm.getSesionDocenteActual().getIdentificacion(), criterioBusqueda); //descomentar esta linea
             //this.lstSeguimientos = FSeguimiento.obtenerSeguimientoDadoCedulaDocenteCedulaEstudiante("1803874310", criterioBusqueda);
             this.seguimientoSel = lstSeguimientos.get(0);
             System.out.println(lstSeguimientos.get(0).getId_seguimiento());

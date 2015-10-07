@@ -141,7 +141,7 @@ public final class ActividadesPlanificadasControladorTutor implements Serializab
         try {  
            // this.codigoTutor = dm.getSesionTutorActual().getCodigo();
             
-          this.actividadesplanificadas = FActividadesPlanificadas.ObtenerActividadesPlanificadasDadoCodigoTutor(this.dm.getSesionTutorActual().getCodigo());
+          //this.actividadesplanificadas = FActividadesPlanificadas.ObtenerActividadesPlanificadasDadoCodigoTutor(this.dm.getSesionTutorActual().getCodigo());
             seleccionarAP = actividadesplanificadas.get(0);
             System.out.println(actividadesplanificadas.get(0).getCodigo());
         } catch (Exception e) {
@@ -166,7 +166,7 @@ public final class ActividadesPlanificadasControladorTutor implements Serializab
            // this.actividadplanificada.setCodigo_tutor(dm.getSesionTutorActual());
              
             Tutor tutor = new Tutor();
-            tutor.setCodigo(dm.getSesionTutorActual().getCodigo());
+            //tutor.setCodigo(dm.getSesionTutorActual().getCodigo());
             actividadplanificada.setCodigo_tutor(tutor);        
             
             
@@ -200,7 +200,7 @@ public final class ActividadesPlanificadasControladorTutor implements Serializab
 //            tutor.setCodigo(dm.getSesionTutorActual().getCodigo());
 //            seleccionarAP.setCodigo_tutor(tutor);  
             
-           seleccionarAP.setCodigo_tutor(FTutor.ObtenerTutorDadoCodigo(this.dm.getSesionTutorActual().getCodigo()));
+           //seleccionarAP.setCodigo_tutor(FTutor.ObtenerTutorDadoCodigo(this.dm.getSesionTutorActual().getCodigo()));
            
             if (FActividadesPlanificadas.actualizar(seleccionarAP)) {
                 seleccionarAP = new ActividadesPlanificadas();

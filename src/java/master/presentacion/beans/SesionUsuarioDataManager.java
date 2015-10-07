@@ -10,6 +10,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import juridico.entidades.clases.Docente;
+import juridico.entidades.clases.Estudiante;
 import master.logica.clases.*;
 
 /**
@@ -26,7 +27,9 @@ public class SesionUsuarioDataManager implements Serializable {
     private Docente sesionDocente;
     private Periodos sesionPeriodoActual;
     //datos del tutor actual
-    private Tutor sesionTutorActual;
+    private Docente sesionDocenteActual;
+    private Estudiante sesionEstudiante;
+    private Estudiante sesionEstudianteActual;
     //rol actual del usuario
     private UsuarioRol sesionUsuarioRolActual;
     private Integer intSesionUsuarioRolActual;
@@ -38,6 +41,7 @@ public class SesionUsuarioDataManager implements Serializable {
     private List<Periodos> sesionPeriodos;
     //lista de tutores vigentes
     private Tutor sesionTutor;
+    private Tutor sesionTutorActual;
     //controlar si hay sesion valida
     private Boolean validado;
     //pagina actual de la sesion
@@ -56,12 +60,15 @@ public class SesionUsuarioDataManager implements Serializable {
         this.sesionUsuario = new Usuario();
         this.sesionDocente = new Docente();
         this.sesionPeriodoActual = new Periodos();
-        this.sesionTutorActual = new Tutor();
+        this.sesionDocenteActual = new Docente();
+        this.sesionEstudiante = new Estudiante();
+        this.sesionEstudianteActual = new Estudiante();
         this.validado = false;
         this.paginaActual = "";
         this.codigoFuncionActual = 0;
         this.sesionUsuarioRolActual = new UsuarioRol();
         this.sesionTutor = new Tutor();
+        this.sesionTutorActual = new Tutor();
         this.intSesionUsuarioRolActual = 0;
         this.intSesionPeriodo = 0;
         this.intSesionTutor = 0;
@@ -87,21 +94,20 @@ public class SesionUsuarioDataManager implements Serializable {
         this.validado = Boolean.FALSE;
     }
 
-    public Docente getSesionDocente() {
-        return sesionDocente;
+    public Estudiante getSesionEstudiante() {
+        return sesionEstudiante;
     }
 
-    public void setSesionDocente(Docente sesionDocente) {
-        this.sesionDocente = sesionDocente;
-    }
-    
-    
-    public Tutor getSesionTutor() {
-        return sesionTutor;
+    public void setSesionEstudiante(Estudiante sesionEstudiante) {
+        this.sesionEstudiante = sesionEstudiante;
     }
 
-    public void setSesionTutor(Tutor sesionTutor) {
-        this.sesionTutor = sesionTutor;
+    public Estudiante getSesionEstudianteActual() {
+        return sesionEstudianteActual;
+    }
+
+    public void setSesionEstudianteActual(Estudiante sesionEstudianteActual) {
+        this.sesionEstudianteActual = sesionEstudianteActual;
     }
 
     public Tutor getSesionTutorActual() {
@@ -110,6 +116,30 @@ public class SesionUsuarioDataManager implements Serializable {
 
     public void setSesionTutorActual(Tutor sesionTutorActual) {
         this.sesionTutorActual = sesionTutorActual;
+    }
+
+    public Docente getSesionDocente() {
+        return sesionDocente;
+    }
+
+    public void setSesionDocente(Docente sesionDocente) {
+        this.sesionDocente = sesionDocente;
+    }
+
+    public Tutor getSesionTutor() {
+        return sesionTutor;
+    }
+
+    public void setSesionTutor(Tutor sesionTutor) {
+        this.sesionTutor = sesionTutor;
+    }
+
+    public Docente getSesionDocenteActual() {
+        return sesionDocenteActual;
+    }
+
+    public void setSesionDocenteActual(Docente sesionDocenteActual) {
+        this.sesionDocenteActual = sesionDocenteActual;
     }
 
     public long getIntSesionTutor() {

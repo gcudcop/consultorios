@@ -121,13 +121,13 @@ and open the template in the editor.
 
                                 <p:commandButton id="btnVerCaso" value="Ver" icon="ui-icon-circle-plus" 
                                                  oncomplete="wdlgVerCaso.show()" update=":dlgVerCaso" > 
-                                    <f:setPropertyActionListener value="#{casos}" target="#{casoBean.casoSel}"/>
+                                    <f:setPropertyActionListener value="#{casos}" target="#{casosDocenteBean.casoSel}"/>
                                 </p:commandButton>
 
                                 <p:commandButton id="btnEditarCaso" icon="ui-icon-pencil"  title="Editar Caso" 
                                                  oncomplete="wdlgEditarCaso.show()" 
                                                  process="@this" update=":dlgEditarCaso, @form">                                   
-                                    <f:setPropertyActionListener value="#{casos}"  target="#{casoBean.casoSel}"/>
+                                    <f:setPropertyActionListener value="#{casos}"  target="#{casosDocenteBean.casoSel}"/>
                                 </p:commandButton>
 
                             </p:column>

@@ -41,14 +41,6 @@ and open the template in the editor.
                             </p:panelGrid>
                         </h:panelGrid>
                     </p:panel>
-                    <br >
-                        
-                        <h:outputLabel value="#{seguimientoDocenteBean.dm.sesionDocente.identificacion}" />
-                        
-                        <p:ajax event="keyup" listener="#{seguimientoDocenteBean.dm.sesionUsuario.identificacion}" update="out" />
-                        
-                        <h:outputText id="out" value="#{seguimientoDocenteBean.cedulaSesion}"/>
-                    </br>
                     <!--Busquedas-->
                     <p:panel id="pnlSeguimiento">
                         <p:dataTable id="tblSeguimiento" value="#{seguimientoDocenteBean.lstSeguimientos}" 

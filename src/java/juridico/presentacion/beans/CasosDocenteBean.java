@@ -7,6 +7,7 @@ package juridico.presentacion.beans;
 
 import java.util.ArrayList;
 import java.util.Date;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
@@ -250,28 +251,37 @@ public class CasosDocenteBean {
     public void setDm(SesionUsuarioDataManager dm) {
         this.dm = dm;
     }
+    
+    @PostConstruct
+    public void postCasosDacenteBean(){
+        this.cargarCasosSesionUsuario();
+    }
 
     private void reinit() {
         this.objCaso = new Caso();
         this.casoSel = new Caso();
         this.estudianteCaso = new Estudiante();
-        this.cargarCasosSesionUsuario();
+        this.lstEstudiante = new ArrayList<Estudiante>();
+        this.lstVictima = new ArrayList<Victima>();
+        this.lstAgresor = new ArrayList<Agresor>();
+        this.lstCasos = new ArrayList<Caso>();
+        
 //        this.cargarDocentes();
         this.cargarVictimas();
         this.cargarEstudiantes();
         this.cargarAgresores();
-        this.capturaCedulaSesion();
+       // this.capturaCedulaSesion();
 
     }
 
-    public void capturaCedulaSesion() {
-        try {
-            this.cedulaSesion = FUsuario.ObtenerUsuarioDadoCodigo(dm.getSesionUsuario().getCodigo()).getIdentificacion();
-        } catch (Exception e) {
-            Util.addErrorMessage("private void capturaCedulaSesion dice: " + e.getMessage());
-            System.out.println("private void capturaCedulaSesion dice: " + e.getMessage());
-        }
-    }
+//    public void capturaCedulaSesion() {
+//        try {
+//            this.cedulaSesion = FUsuario.ObtenerUsuarioDadoCodigo(dm.getSesionUsuario().getCodigo()).getIdentificacion();
+//        } catch (Exception e) {
+//            Util.addErrorMessage("private void capturaCedulaSesion dice: " + e.getMessage());
+//            System.out.println("private void capturaCedulaSesion dice: " + e.getMessage());
+//        }
+//    }
 
     public CasosDocenteBean() {
         this.reinit();
@@ -279,7 +289,7 @@ public class CasosDocenteBean {
 
     public void cargarCasosSesionUsuario() {
         try {
-            this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente(FUsuario.ObtenerUsuarioDadoCodigo(dm.getSesionUsuario().getCodigo()).getIdentificacion());
+            this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente(dm.getSesionDocenteActual().getIdentificacion());
             //this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente("1803874310");
             this.casoSel = lstCasos.get(0);
             System.out.println(lstCasos.get(0).getId_caso());
@@ -301,7 +311,7 @@ public class CasosDocenteBean {
 
     public void cargarEstudiantesDadoSessionDocente() {
         try {
-            this.lstEstudianteDadoDocente = FEstudiante.obtenerEstudianteDadoCedulaDocente(cedulaSesion);
+            this.lstEstudianteDadoDocente = FEstudiante.obtenerEstudianteDadoCedulaDocente(dm.getSesionDocenteActual().getIdentificacion());
             //this.lstEstudianteDadoDocente = FEstudiante.obtenerEstudianteDadoCedulaDocente("1803874310");
             System.out.println(lstEstudianteDadoDocente.get(0).getId_estudiante());
         } catch (Exception e) {
@@ -411,9 +421,9 @@ public class CasosDocenteBean {
 
     public void obtenerCasosPorNumero() {
         try {
-            this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente(cedulaSesion); //descomentar esta linea
+            this.lstCasos = FCaso.obtenerCasosDadoCedulaDocente(dm.getSesionDocenteActual().getIdentificacion()); //descomentar esta linea
 
-            this.lstCasos=FCaso.obtenerCasosDadoCedulaDocenteNumero(cedulaSesion, criterioBusqueda); //descomentar esta linea
+            this.lstCasos=FCaso.obtenerCasosDadoCedulaDocenteNumero(dm.getSesionDocenteActual().getIdentificacion(), criterioBusqueda); //descomentar esta linea
             //this.lstCasos = FCaso.obtenerCasosDadoCedulaDocenteNumero("1803874310", this.criterioBusqueda);
             this.casoSel = lstCasos.get(0);
             System.out.println(lstCasos.get(0).getId_caso());

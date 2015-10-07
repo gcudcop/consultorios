@@ -30,17 +30,18 @@ and open the template in the editor.
                         <h:panelGrid cellspacing="10">                            
                             <p:panelGrid columns="4">
                                 <p:outputLabel value="Número Caso: " />                                                               
-                                <p:selectOneMenu id="menuCasos" value="#{casosDocenteBean.criterioBusqueda}" effect="fold" editable="true">
+                                <p:selectOneMenu id="menuCasos" value="#{casosEstudianteBean.criterioBusqueda}" effect="fold" editable="true">
                                     <f:selectItem itemLabel="Select One" itemValue="" />
-                                    <f:selectItems value="#{casosDocenteBean.lstCasos}" var="casos" itemLabel="#{casos.numero_caso}" itemValue="#{casos.numero_caso}"/>
+                                    <f:selectItems value="#{casosEstudianteBean.lstCasos}" var="casos" itemLabel="#{casos.numero_caso}" 
+                                                   itemValue="#{casos.numero_caso}"/>
                                 </p:selectOneMenu>
 
                                 <p:commandButton id="btnBuscarNumCaso" icon="ui-icon-search" style="width:50px"  
-                                                 title="Buscar " action="#{casosDocenteBean.obtenerCasosPorNumero()}" 
+                                                 title="Buscar " action="#{casosEstudianteBean.obtenerCasosPorNumero()}" 
                                                  process="@form, @this" update=":frmcaso:tblCasos, @form">                                   
                                 </p:commandButton>
                                 <p:commandButton id="btnLimpiar" icon="ui-icon-arrowrefresh-1-e" style="width:50px"  
-                                                 title="Limpiar " action="#{casosDocenteBean.cargarCasosSesionUsuario}" 
+                                                 title="Limpiar " action="#{casosEstudianteBean.cargarCasosUsuario()}" 
                                                  process="@form, @this" update=":frmcaso:tblCasos, @form">                                   
                                 </p:commandButton>
                             </p:panelGrid>
@@ -122,13 +123,13 @@ and open the template in the editor.
 
                                 <p:commandButton id="btnVerCaso" value="Ver" icon="ui-icon-circle-plus" 
                                                  oncomplete="wdlgVerCaso.show()" update=":dlgVerCaso" > 
-                                    <f:setPropertyActionListener value="#{casos}" target="#{casoBean.casoSel}"/>
+                                    <f:setPropertyActionListener value="#{casos}" target="#{casosEstudianteBean.casoSel}"/>
                                 </p:commandButton>
 
                                 <p:commandButton id="btnEditarCaso" icon="ui-icon-pencil"  title="Editar Caso" 
                                                  oncomplete="wdlgEditarCaso.show()" 
                                                  process="@this" update=":dlgEditarCaso, @form">                                   
-                                    <f:setPropertyActionListener value="#{casos}"  target="#{casoBean.casoSel}"/>
+                                    <f:setPropertyActionListener value="#{casos}"  target="#{casosEstudianteBean.casoSel}"/>
                                 </p:commandButton>
 
                             </p:column>
@@ -171,14 +172,14 @@ and open the template in the editor.
                         <p:ajaxStatus onstart="dlgStatus.show();" oncomplete="dlgStatus.hide();"/>
                         <p:panelGrid id="pngNuevoCaso" columns="4">                         
                             <h:outputText value="Fecha de Inicio:"/>
-                            <p:calendar id="fechaInicio" value="#{casosDocenteBean.fechaInicio}" locale="de" 
+                            <p:calendar id="fechaInicio" value="#{casosEstudianteBean.fechaInicio}" locale="de" 
                                         navigator="true" pattern="yyyy/MM/dd" placeholder="yyyy/MM/dd" />
 
                             <h:outputText value="Numero de Caso:"/>
-                            <p:inputText value="#{casosDocenteBean.objCaso.numero_caso}" title="ej: 060..." 
+                            <p:inputText value="#{casosEstudianteBean.objCaso.numero_caso}" title="ej: 060..." 
                                          required="true" requiredMessage="Ingrese el número de caso" placeholder="Ingrese el número de caso"/>
                             <h:outputText value="Ingrese el juzgado:"/>
-                            <p:selectOneMenu id="cmdJuzgado" value="#{casosDocenteBean.juzgado}">
+                            <p:selectOneMenu id="cmdJuzgado" value="#{casosEstudianteBean.juzgado}">
                                 <f:selectItem itemValue="#{null}" itemLabel="--Elija una opción--"/>
                                 <f:selectItem itemLabel="Primer" itemValue="Primer" />
                                 <f:selectItem itemLabel="Segundo" itemValue="Segundo" />
@@ -193,49 +194,49 @@ and open the template in the editor.
                             </p:selectOneMenu>
 
                             <h:outputText value="Area:"/>
-                            <p:inputText value="#{casosDocenteBean.objCaso.area}" title="ej: 060..." 
+                            <p:inputText value="#{casosEstudianteBean.objCaso.area}" title="ej: 060..." 
                                          required="true" requiredMessage="Ingrese el area" placeholder="Ingrese el area"/>                            
 
                             <h:outputText value="Seleccione el estudiante:"/>
-                            <p:selectOneMenu id="menuEstudiantes" value="#{casosDocenteBean.valorESeleccionada}">
+                            <p:selectOneMenu id="menuEstudiantes" value="#{casosEstudianteBean.valorESeleccionada}">
                                 <f:selectItem itemLabel="--Seleccione un estudiante" itemValue="0"/>
-                                <f:selectItems value="#{casosDocenteBean.lstEstudiante}" var="estudiante" itemLabel="#{estudiante.nombres} #{estudiante.apellidos}"
-                                               itemValue="#{estudiante.id_estudiante}" />
+                                <f:selectItems value="#{casosEstudianteBean.lstDocente}" var="docente" itemLabel="#{docente.nombres} #{docente.apellidos}"
+                                               itemValue="#{docente.id_docente}" />
                             </p:selectOneMenu>
 
                             <h:outputText value="Seleccione al agresor:"/>
-                            <p:selectOneMenu id="menuAgresor" value="#{casosDocenteBean.valorASeleccionada}">
+                            <p:selectOneMenu id="menuAgresor" value="#{casosEstudianteBean.valorASeleccionada}">
                                 <f:selectItem itemLabel="--Seleccione al agresor" itemValue="0"/>
-                                <f:selectItems value="#{casosDocenteBean.lstAgresor}" var="agresor" itemLabel="#{agresor.nombres_agresor} #{agresor.apellidos_agresor}"
+                                <f:selectItems value="#{casosEstudianteBean.lstAgresor}" var="agresor" itemLabel="#{agresor.nombres_agresor} #{agresor.apellidos_agresor}"
                                                itemValue="#{agresor.id_agresor}" />
                             </p:selectOneMenu>
 
                             <h:outputText value="Seleccione a la victima:"/>
-                            <p:selectOneMenu id="menuVictima" value="#{casosDocenteBean.valorVSeleccionada}">
+                            <p:selectOneMenu id="menuVictima" value="#{casosEstudianteBean.valorVSeleccionada}">
                                 <f:selectItem itemLabel="--Seleccione a la victima" itemValue="0"/>
-                                <f:selectItems value="#{casosDocenteBean.lstVictima}" var="victima" itemLabel="#{victima.nombres_victima} #{victima.apellidos_victima}"
+                                <f:selectItems value="#{casosEstudianteBean.lstVictima}" var="victima" itemLabel="#{victima.nombres_victima} #{victima.apellidos_victima}"
                                                itemValue="#{victima.id_victima}" />
                             </p:selectOneMenu>
 
                             <h:outputText value="Ingrese una breve descripción:"/>
-                            <p:inputTextarea rows="6" cols="33" value="#{casosDocenteBean.objCaso.descripcion}"
+                            <p:inputTextarea rows="6" cols="33" value="#{casosEstudianteBean.objCaso.descripcion}"
                                              required="true" requiredMessage="Ingrese la descripcion" placeholder="Ingrese la descripcion"/>
 
                             <h:outputText value="Ingrese el problema juridico:"/>
-                            <p:inputTextarea rows="6" cols="33" value="#{casosDocenteBean.objCaso.problema_juridico}"
+                            <p:inputTextarea rows="6" cols="33" value="#{casosEstudianteBean.objCaso.problema_juridico}"
                                              required="true" requiredMessage="Ingrese el problema juridico" placeholder="Ingrese el problema juridico"/>
 
                             <h:outputText value="Observaciones del Tutor:"/>
-                            <p:inputTextarea rows="6" cols="33" value="#{casosDocenteBean.objCaso.observaciones_tutor}"
+                            <p:inputTextarea rows="6" cols="33" value="#{casosEstudianteBean.objCaso.observaciones_tutor}"
                                              required="true" requiredMessage="Observaciones del Tutor" placeholder="Observaciones del Tutor"/>
 
                             <h:outputText value="Especifique el estado del caso:"/>
-                            <p:inputText value="#{casosDocenteBean.objCaso.estado}" title="ej: Iniciado" 
+                            <p:inputText value="#{casosEstudianteBean.objCaso.estado}" title="ej: Iniciado" 
                                          required="true" requiredMessage="Especifique el estado del caso" placeholder="Especifique el estado del caso"/>
 
                         </p:panelGrid>
 
-                        <p:commandButton value="Aceptar" action="#{casosDocenteBean.insertarCaso()}" 
+                        <p:commandButton value="Aceptar" action="#{casosEstudianteBean.insertarCaso()}" 
                                          update=":frmcaso:pnlCaso"/>
                         <p:commandButton value="Cancelar" onclick="wdlgNuevoCaso.hide()" type="reset"/>
 
@@ -251,42 +252,42 @@ and open the template in the editor.
                         <h:outputText value="Información del Caso"/>
                         <p:panelGrid id="pngVerCaso" columns="4">
                             <h:outputText value="Fecha de Inicio:"/>
-                            <p:inputText value="#{casosDocenteBean.casoSel.fecha_inicio}" disabled="true"/>
+                            <p:inputText value="#{casosEstudianteBean.casoSel.fecha_inicio}" disabled="true"/>
 
                             <h:outputText value="Numero de Caso:"/>
-                            <p:inputText value="#{casosDocenteBean.casoSel.numero_caso}" disabled="true"/>
+                            <p:inputText value="#{casosEstudianteBean.casoSel.numero_caso}" disabled="true"/>
 
-                            <h:outputText value="Ingrese el juzgado:"/>
-                            <p:inputText value="#{casosDocenteBean.casoSel.juzgado}" disabled="true"/>
+                            <h:outputText value="Juzgado:"/>
+                            <p:inputText value="#{casosEstudianteBean.casoSel.juzgado}" disabled="true"/>
 
                             <h:outputText value="Area:"/>
-                            <p:inputText value="#{casosDocenteBean.casoSel.area}" disabled="true"/>
+                            <p:inputText value="#{casosEstudianteBean.casoSel.area}" disabled="true"/>
 
-                            <h:outputText value="Seleccione el docente tutor:"/>
-                            <p:inputText value="#{casosDocenteBean.casoSel.id_docente.nombres} #{casosDocenteBean.casoSel.id_docente.apellidos}" disabled="true"/>
+                            <h:outputText value="Docente tutor:"/>
+                            <p:inputText value="#{casosEstudianteBean.casoSel.id_docente.nombres} #{casosEstudianteBean.casoSel.id_docente.apellidos}" disabled="true"/>
 
-                            <h:outputText value="Seleccione el estudiante:"/>
-                            <p:inputText value="#{casosDocenteBean.casoSel.id_estudiante.nombres} #{casosDocenteBean.casoSel.id_estudiante.apellidos}" disabled="true"/>
+                            <h:outputText value="Estudiante:"/>
+                            <p:inputText value="#{casosEstudianteBean.casoSel.id_estudiante.nombres} #{casosEstudianteBean.casoSel.id_estudiante.apellidos}" disabled="true"/>
 
-                            <h:outputText value="Seleccione a la victima:"/>
-                            <p:inputText value="#{casosDocenteBean.casoSel.id_victima.nombres_victima} #{casosDocenteBean.casoSel.id_victima.apellidos_victima}" 
+                            <h:outputText value="Victima:"/>
+                            <p:inputText value="#{casosEstudianteBean.casoSel.id_victima.nombres_victima} #{casosEstudianteBean.casoSel.id_victima.apellidos_victima}" 
                                          disabled="true"/>
 
                             <h:outputText value="Seleccione al agresor:"/>
-                            <p:inputText value="#{casosDocenteBean.casoSel.id_agresor.nombres_agresor} #{casosDocenteBean.casoSel.id_agresor.apellidos_agresor}" 
+                            <p:inputText value="#{casosEstudianteBean.casoSel.id_agresor.nombres_agresor} #{casosEstudianteBean.casoSel.id_agresor.apellidos_agresor}" 
                                          disabled="true"/>
 
-                            <h:outputText value="Ingrese una breve descripción:"/>
-                            <p:inputTextarea value="#{casosDocenteBean.casoSel.descripcion}" disabled="true"/>
+                            <h:outputText value="Descripción:"/>
+                            <p:inputTextarea value="#{casosEstudianteBean.casoSel.descripcion}" disabled="true"/>
 
-                            <h:outputText value="Ingrese el problema juridico:"/>
-                            <p:inputTextarea value="#{casosDocenteBean.casoSel.problema_juridico}" disabled="true"/>
+                            <h:outputText value="Problema juridico:"/>
+                            <p:inputTextarea value="#{casosEstudianteBean.casoSel.problema_juridico}" disabled="true"/>
 
                             <h:outputText value="Observaciones del Tutor:"/>
-                            <p:inputTextarea value="#{casosDocenteBean.casoSel.observaciones_tutor}" disabled="true"/>
+                            <p:inputTextarea value="#{casosEstudianteBean.casoSel.observaciones_tutor}" disabled="true"/>
 
-                            <h:outputText value="Especifique el estado del caso:"/>
-                            <p:inputText value="#{casosDocenteBean.casoSel.estado}" disabled="true"/>
+                            <h:outputText value="Estado del caso:"/>
+                            <p:inputText value="#{casosEstudianteBean.casoSel.estado}" disabled="true"/>
 
                         </p:panelGrid>
                         <p:commandButton value="Aceptar" onclick="wdlgVerCaso.hide()" type="reset"/>
@@ -301,14 +302,14 @@ and open the template in the editor.
                         <p:messages id="messages" autoUpdate="true"/>  
                         <p:panelGrid id="pngEditarCaso" columns="4">
                             <h:outputText value="Fecha de Inicio:"/>
-                            <p:calendar id="fechaInicio" value="#{casosDocenteBean.fechaInicio}" locale="de" 
+                            <p:calendar id="fechaInicio" value="#{casosEstudianteBean.fechaInicio}" locale="de" 
                                         navigator="true" pattern="yyyy/MM/dd" placeholder="yyyy/MM/dd" />
 
                             <h:outputText value="Numero de Caso:"/>
-                            <p:inputText value="#{casosDocenteBean.casoSel.numero_caso}" title="ej: 060..." 
+                            <p:inputText value="#{casosEstudianteBean.casoSel.numero_caso}" title="ej: 060..." 
                                          required="true" requiredMessage="Ingrese el número de caso" placeholder="Ingrese el número de caso"/>
                             <h:outputText value="Ingrese el juzgado:"/>
-                            <p:selectOneMenu id="cmdJuzgado" value="#{casosDocenteBean.juzgado}">
+                            <p:selectOneMenu id="cmdJuzgado" value="#{casosEstudianteBean.juzgado}">
                                 <f:selectItem itemValue="#{null}" itemLabel="--Elija una opción--"/>
                                 <f:selectItem itemLabel="Primer" itemValue="Primer" />
                                 <f:selectItem itemLabel="Segundo" itemValue="Segundo" />
@@ -323,47 +324,50 @@ and open the template in the editor.
                             </p:selectOneMenu>
 
                             <h:outputText value="Area:"/>
-                            <p:inputText value="#{casosDocenteBean.casoSel.area}" title="ej: 060..." 
+                            <p:inputText value="#{casosEstudianteBean.casoSel.area}" title="ej: 060..." 
                                          required="true" requiredMessage="Ingrese el area" placeholder="Ingrese el area"/>                            
 
                             <h:outputText value="Seleccione el estudiante:"/>
-                            <p:selectOneMenu id="menuEstudiantes" value="#{casosDocenteBean.valorESeleccionada}">
-                                <f:selectItem itemLabel="--Seleccione un estudiante" itemValue="0"/>
-                                <f:selectItems value="#{casosDocenteBean.lstEstudiante}" var="estudiante" itemLabel="#{estudiante.nombres} #{estudiante.apellidos}"
-                                               itemValue="#{estudiante.id_estudiante}" />
+                            <p:selectOneMenu id="menuEstudiantes" value="#{casosEstudianteBean.valorESeleccionada}">
+                                <f:selectItem itemLabel="--Seleccione un socente" itemValue="0"/>
+                                <f:selectItems value="#{casosEstudianteBean.lstDocente}" var="docente" 
+                                               itemLabel="#{docente.nombres} #{docente.apellidos}"
+                                               itemValue="#{docente.id_docente}" />
                             </p:selectOneMenu>
 
                             <h:outputText value="Seleccione a la victima:"/>
-                            <p:selectOneMenu id="menuVictima" value="#{casosDocenteBean.valorVSeleccionada}">
+                            <p:selectOneMenu id="menuVictima" value="#{casosEstudianteBean.valorVSeleccionada}">
                                 <f:selectItem itemLabel="--Seleccione a la victima" itemValue="0"/>
-                                <f:selectItems value="#{casosDocenteBean.lstVictima}" var="victima" itemLabel="#{victima.nombres_victima} #{victima.apellidos_victima}"
+                                <f:selectItems value="#{casosEstudianteBean.lstVictima}" var="victima" 
+                                               itemLabel="#{victima.nombres_victima} #{victima.apellidos_victima}"
                                                itemValue="#{victima.id_victima}" />
                             </p:selectOneMenu>
 
                             <h:outputText value="Seleccione al agresor:"/>
-                            <p:selectOneMenu id="menuAgresor" value="#{casosDocenteBean.valorASeleccionada}">
+                            <p:selectOneMenu id="menuAgresor" value="#{casosEstudianteBean.valorASeleccionada}">
                                 <f:selectItem itemLabel="--Seleccione al agresor" itemValue="0"/>
-                                <f:selectItems value="#{casosDocenteBean.lstAgresor}" var="agresor" itemLabel="#{agresor.nombres_agresor} #{agresor.apellidos_agresor}"
+                                <f:selectItems value="#{casosESTUDIANTEBean.lstAgresor}" var="agresor" 
+                                               itemLabel="#{agresor.nombres_agresor} #{agresor.apellidos_agresor}"
                                                itemValue="#{agresor.id_agresor}" />
                             </p:selectOneMenu>
 
                             <h:outputText value="Ingrese una breve descripción:"/>
-                            <p:inputTextarea rows="6" cols="33" value="#{casosDocenteBean.casoSel.descripcion}"
+                            <p:inputTextarea rows="6" cols="33" value="#{casosEstudianteBean.casoSel.descripcion}"
                                              required="true" requiredMessage="Ingrese la descripcion" placeholder="Ingrese la descripcion"/>
 
                             <h:outputText value="Ingrese el problema juridico:"/>
-                            <p:inputTextarea rows="6" cols="33" value="#{casosDocenteBean.casoSel.problema_juridico}"
+                            <p:inputTextarea rows="6" cols="33" value="#{casosEstudianteBean.casoSel.problema_juridico}"
                                              required="true" requiredMessage="Ingrese el problema juridico" placeholder="Ingrese el problema juridico"/>
 
                             <h:outputText value="Observaciones del Tutor:"/>
-                            <p:inputTextarea rows="6" cols="33" value="#{casosDocenteBean.casoSel.observaciones_tutor}"
+                            <p:inputTextarea rows="6" cols="33" value="#{casosEstudianteBean.casoSel.observaciones_tutor}"
                                              required="true" requiredMessage="Observaciones del Tutor" placeholder="Observaciones del Tutor"/>
 
                             <h:outputText value="Especifique el estado del caso:"/>
-                            <p:inputText value="#{casosDocenteBean.casoSel.estado}" title="ej: Iniciado" 
+                            <p:inputText value="#{casosEstudianteBean.casoSel.estado}" title="ej: Iniciado" 
                                          required="true" requiredMessage="Especifique el estado del caso" placeholder="Especifique el estado del caso"/>
                         </p:panelGrid>
-                        <p:commandButton value="Aceptar" action="#{casosDocenteBean.actualizarCaso()}" 
+                        <p:commandButton value="Aceptar" action="#{casosEstudianteBean.actualizarCaso()}" 
                                          update=":frmcaso:pnlCaso"/>
                         <p:commandButton value="Cancelar" onclick="wdlgEditarCaso.hide()" type="reset"/>
                     </h:form> 

@@ -163,7 +163,7 @@ public class EncabezadoTutoriaControladorTutor {
    
     private void cargarEncabezadoTutoria(){
         try {
-            this.lstEncabezadoTutoria = FEncabezadoTutoria.ObtenerEncabezadoTutoriaDadoCodigoTutor(this.dm.getSesionTutorActual().getCodigo());
+  //          this.lstEncabezadoTutoria = FEncabezadoTutoria.ObtenerEncabezadoTutoriaDadoCodigoTutor(this.dm.getSesionTutorActual().getCodigo());
             this.encabezadoTutoriaSel = lstEncabezadoTutoria.get(0);
             System.out.println(lstEncabezadoTutoria.get(0).getCodigo());
         } catch (Exception e) {
@@ -203,7 +203,7 @@ public class EncabezadoTutoriaControladorTutor {
             objEncabezadoTutoria.setCodigo_modalidad_tutoria(MTutoria);
             
             Tutor tutores = new Tutor();
-            tutores.setCodigo(dm.getSesionTutorActual().getCodigo());
+            //tutores.setCodigo(dm.getSesionTutorActual().getCodigo());
             objEncabezadoTutoria.setCodigo_tutor(tutores);
             
             this.objEncabezadoTutoria.setFecha(new java.sql.Date(this.FechaEncabezado.getTime()));
@@ -236,7 +236,7 @@ public class EncabezadoTutoriaControladorTutor {
     public void actualizarEncabezadoTutoria() {
         try {
     
-            encabezadoTutoriaSel.setCodigo_tutor(FTutor.ObtenerTutorDadoCodigo(this.dm.getSesionTutorActual().getCodigo()));
+            //encabezadoTutoriaSel.setCodigo_tutor(FTutor.ObtenerTutorDadoCodigo(this.dm.getSesionTutorActual().getCodigo()));
             encabezadoTutoriaSel.setCodigo_modalidad_tutoria(FModalidadTutoria.ObtenerModalidadTutoriaDadoCodigo(encabezadoTutoriaSel.getCodigo_modalidad_tutoria().getCodigo()));
            
             this.encabezadoTutoriaSel.setFecha(new java.sql.Date(this.FechaEncabezado.getTime()));   
